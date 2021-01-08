@@ -981,6 +981,10 @@ Route::group(['middleware' => ['XSS']], function ()
 
 		Route::group(['prefix' => 'goal-type'], function () {
 			Route::get('/index', 'PerformanceController@indexGoalType')->name('performance.goal-type.index');
+			Route::post('/store', 'PerformanceController@storeGoalType')->name('performance.goal-type.store');
+			Route::get('/edit', 'PerformanceController@editGoalType')->name('performance.goal-type.edit');
+			Route::post('/update', 'PerformanceController@updateGoalType')->name('performance.goal-type.update');
+			Route::get('/delete', 'PerformanceController@deleteGoalType')->name('performance.goal-type.delete');
 		});
 
 		Route::group(['prefix' => 'goal-tracking'], function () {

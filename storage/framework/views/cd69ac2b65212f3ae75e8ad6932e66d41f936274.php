@@ -1,5 +1,4 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <section>
     <div class="container-fluid"><span id="general_result"></span></div>
@@ -12,8 +11,8 @@
         </div>
         <br>
         
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Type')}}</button>
-        <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i><?php echo e(__(' Add New Type')); ?></button>
+        <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i><?php echo e(__(' Bulk Delete')); ?></button>
 
     </div>
 
@@ -22,11 +21,11 @@
             <table id="goalTypeTable" class="table">
                 <thead>
                     <tr>
-                        {{-- <th class="not-exported"></th> --}}
-                        {{-- <th><input type="checkbox"></th> --}}
+                        
+                        
                         <th>SL</th>
                         <th>Type</th>
-                        <th class="not-exported">{{trans('file.action')}}</th>
+                        <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                     </tr>
                 </thead>
             </table>
@@ -34,9 +33,9 @@
     </div>
 </section>
 
-@include('performance.goal-type.create-modal')
-@include('performance.goal-type.edit-modal')
-@include('performance.goal-type.delete-confirm-modal')
+<?php echo $__env->make('performance.goal-type.create-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('performance.goal-type.edit-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('performance.goal-type.delete-confirm-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 
 
@@ -53,7 +52,7 @@
         var table = $('#goalTypeTable').DataTable({
             processing: true,
             serverSide: true,
-            ajax: "{{ route('performance.goal-type.index') }}",
+            ajax: "<?php echo e(route('performance.goal-type.index')); ?>",
             columns: [
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
@@ -66,12 +65,12 @@
             ],
             "order": [],
                 'language': {
-                    'lengthMenu': '_MENU_ {{__("records per page")}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
+                    'lengthMenu': '_MENU_ <?php echo e(__("records per page")); ?>',
+                    "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                    "search": '<?php echo e(trans("file.Search")); ?>',
                     'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
+                        'previous': '<?php echo e(trans("file.Previous")); ?>',
+                        'next': '<?php echo e(trans("file.Next")); ?>'
                     }
                 },
 
@@ -116,7 +115,7 @@
             var goalType = $("#goalType").val();
             
             $.ajax({
-                url: "{{route('performance.goal-type.store')}}",
+                url: "<?php echo e(route('performance.goal-type.store')); ?>",
                 type: "POST",
                 data: {goal_type:goalType},
                 success: function(data){
@@ -148,7 +147,7 @@
             console.log(goalTypeId)
 
             $.ajax({
-                url: "{{route('performance.goal-type.edit')}}",
+                url: "<?php echo e(route('performance.goal-type.edit')); ?>",
                 type: "GET",
                 data: {goal_type_id:goalTypeId},
                 success: function(data){
@@ -166,7 +165,7 @@
             // console.log(goalTypeId);
 
             $.ajax({
-                url: "{{route('performance.goal-type.update')}}",
+                url: "<?php echo e(route('performance.goal-type.update')); ?>",
                 type: "POST",
                 data: {goal_type_id:goalTypeId, goal_type:goalEditType},
                 success: function(data){
@@ -201,7 +200,7 @@
 
             $("#deleteSubmit").on("click",function(e){
                 $.ajax({
-                    url: "{{route('performance.goal-type.delete')}}",
+                    url: "<?php echo e(route('performance.goal-type.delete')); ?>",
                     type: "GET",
                     data: {goal_type_id:goalTypeIdDelete},
                     success: function(data){
@@ -228,4 +227,6 @@
     });
 </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\Lion_Coders\08.01.2020\peoplepro\resources\views/performance/goal-type/index.blade.php ENDPATH**/ ?>

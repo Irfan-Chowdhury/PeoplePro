@@ -9,24 +9,19 @@
           </button>
         </div>
         <div class="modal-body">
-            <form method="POST" id="submit_form">
-              @csrf
-
+            <form action="" method="POST">
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Goal Type</b></label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" name="goal_type" id="goalType" placeholder="Goal Type">
-                      <div class="invalid-feedback">
-                          <p id="message"></p>
-                      </div>
+                      <input type="text" class="form-control" id="inputEmail3" placeholder="Goal Type">
                     </div>
                 </div>
             </form>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="save-button">Save</button>
+          <button type="button" class="btn btn-primary">Save</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
     </div>
-  </div>
+  </div><?php /**PATH D:\xampp\htdocs\Lion_Coders\07.01.2020\peoplepro\resources\views/performance/goal-type/create-modal.blade.php ENDPATH**/ ?>

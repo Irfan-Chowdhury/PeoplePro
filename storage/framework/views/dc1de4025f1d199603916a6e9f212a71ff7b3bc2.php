@@ -14,4 +14,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><?php /**PATH D:\xampp\htdocs\Lion_Coders\07.01.2020\peoplepro\resources\views/performance/goal-type/delete-modal.blade.php ENDPATH**/ ?>

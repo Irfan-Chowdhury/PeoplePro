@@ -5,7 +5,7 @@
         <div class="modal-content">
 
             <div class="modal-header">
-                <h5 id="exampleModalLabel" class="modal-title"><b>{{__('Edit Goal Type')}}</b></h5>
+                <h5 id="exampleModalLabel" class="modal-title"><b><?php echo e(__('Edit Goal Type')); ?></b></h5>
                 <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
             </div>  
 
@@ -21,3 +21,4 @@
           </div>
       </div>
   </div>
+<?php /**PATH D:\xampp\htdocs\Lion_Coders\08.01.2020\peoplepro\resources\views/performance/goal-type/edit-modal.blade.php ENDPATH**/ ?>

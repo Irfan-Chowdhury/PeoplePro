@@ -10,7 +10,7 @@
         </div>
         <div class="modal-body">
             <form method="POST" id="submit_form">
-              @csrf
+              <?php echo csrf_field(); ?>
 
                 <div class="form-group row">
                     <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Goal Type</b></label>
@@ -29,4 +29,4 @@
         </div>
       </div>
     </div>
-  </div>
+  </div><?php /**PATH D:\xampp\htdocs\Lion_Coders\08.01.2020\peoplepro\resources\views/performance/goal-type/create-modal.blade.php ENDPATH**/ ?>

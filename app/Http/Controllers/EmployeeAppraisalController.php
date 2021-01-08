@@ -11,8 +11,7 @@ use App\Employee;
 class EmployeeAppraisalController extends Controller
 {
     public function index(Request $request)
-    {
-        
+    {        
         if ($request->ajax()) {
             $data = EmployeeAppraisal::orderBy('id','DESC')->get();
             return Datatables::of($data)
