@@ -12,40 +12,7 @@ class EmployeeAppraisalController extends Controller
 {
     public function index(Request $request)
     {
-        // if ($request->ajax()) {
-        //     $data = EmployeeAppraisal::latest()->get();
-        //     return Datatables::of($data)
-        //             ->addIndexColumn()
-        //             ->addColumn('action', function($row){
-   
-        //                 $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editBook">Edit</a>';
-
-        //                 $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$row->id.'" data-original-title="Delete" class="btn btn-danger btn-sm .delete">Delete</a>';
-    
-        //                     return $btn;
-        //             })
-        //             ->rawColumns(['action'])
-        //             ->make(true);
-        // }
-
-
-
-        // if(request()->ajax())
-		// {
-        //     $data = EmployeeAppraisal::latest()->get();
-		// 	return datatables()->of($data)
-		// 		->addColumn('action', function($data){
-		// 			$button = '';
-		// 			$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-        //             $button .= '&nbsp;&nbsp;';
-        //             $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-
-		// 			return $button;
-		// 		})
-		// 		->rawColumns(['action'])
-		// 		->make(true);
-        // }
-
+        
         if ($request->ajax()) {
             $data = EmployeeAppraisal::orderBy('id','DESC')->get();
             return Datatables::of($data)
@@ -80,9 +47,10 @@ class EmployeeAppraisalController extends Controller
 
     public function store(Request $request)
     {
+        // return response()->json("Done");
 
-        if ($request->ajax()) //this way is better
-        {
+        // if ($request->ajax()) //this way is better
+        // {
             $company = company::find($request->company_id);
             $employee = Employee::find($request->employee_id);
 
@@ -104,15 +72,15 @@ class EmployeeAppraisalController extends Controller
             $employeeAppraisal->save();
 
             return response()->json("Done");
-        }
+        // }
         
     }
 
     public function delete(Request $request)
     {
         $employeeAppraisal = EmployeeAppraisal::find($request->id);
-        $employeeAppraisal->delete();
+        // $employeeAppraisal->delete();
 
-        return response()->json("Successfully Deleted");
+        return response()->json($request->id);
     }
 }

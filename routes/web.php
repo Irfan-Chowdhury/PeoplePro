@@ -970,12 +970,31 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::get('/client/tasks/{id}/edit', 'ClientTaskController@edit')->name('clientTask.edit');
 	Route::post('/client/tasks/update', 'ClientTaskController@update')->name('clientTask.update');
 
-
-	//Irfan
+	//Previus Task- By Irfan
 	Route::get('/employee-appraisal', 'EmployeeAppraisalController@index')->name('employee-appraisal.index');
 	Route::post('/employee-appraisal/store', 'EmployeeAppraisalController@store')->name('employee-appraisal.store');
 	Route::get('/employee-appraisal/getEmployee', 'EmployeeAppraisalController@getEmployee')->name('employee-appraisal.getEmployee');
 	Route::get('/employee-appraisal/delete', 'EmployeeAppraisalController@delete')->name('employee-appraisal.delete');
+
+
+	Route::group(['prefix' => 'performance'], function (){
+
+		Route::group(['prefix' => 'goal-type'], function () {
+			Route::get('/index', 'PerformanceController@indexGoalType')->name('performance.goal-type.index');
+		});
+
+		Route::group(['prefix' => 'goal-tracking'], function () {
+			Route::get('/index', 'PerformanceController@indexGoalTracking')->name('performance.goal-tracking.index');
+		});
+
+		Route::group(['prefix' => 'indicator'], function () {
+			Route::get('/index', 'PerformanceController@indexIndicator')->name('performance.indicator.index');
+		});
+
+		Route::group(['prefix' => 'appraisal'], function () {
+			Route::get('/index', 'PerformanceController@indexAppraisal')->name('performance.appraisal.index');
+		});
+	});
 
 });
 //

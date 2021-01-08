@@ -15,8 +15,8 @@ class CreateEmployeeAppraisalsTable extends Migration
     {
         Schema::create('employee_appraisals', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('company_id')->nullable();
-            $table->unsignedBigInteger('employee_id')->nullable();
+            // $table->unsignedBigInteger('company_id')->nullable();
+            // $table->unsignedBigInteger('employee_id')->nullable();
             $table->string('company')->nullable();
             $table->string('employee')->nullable();
             $table->string('department')->nullable();
@@ -27,9 +27,9 @@ class CreateEmployeeAppraisalsTable extends Migration
             $table->string('professionalism')->nullable();
             $table->string('integrity')->nullable();
             $table->string('attendance')->nullable();
-            // $table->string('remarks')->nullable();
+            $table->string('remarks')->nullable();
             $table->date('date')->nullable();
-            $table->timestamps();
+            // $table->timestamps();
         });
     }
 

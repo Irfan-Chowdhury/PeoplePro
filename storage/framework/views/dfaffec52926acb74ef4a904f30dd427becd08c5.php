@@ -721,10 +721,17 @@
                         </li>
                     <?php endif; ?>
 
-                    <li ><a href="<?php echo e(route('employee-appraisal.index')); ?>"> <i
-                        class="dripicons-ticket"></i><span><?php echo e(__('Employee Appraisal')); ?></span></a></li>
-
                     
+                    
+
+                    <li class="has-dropdown"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-ticket"></i><span>Performance</span></a>
+                        <ul id="performance" class="collapse list-unstyled ">
+                            <li id="goal-type"><a href="<?php echo e(route('performance.goal-type.index')); ?>"><?php echo e(__('Goal type')); ?></a></li>
+                            <li id="goal-type"><a href="<?php echo e(route('performance.goal-tracking.index')); ?>"><?php echo e(__('Goal Tracking')); ?></a></li>
+                            <li id="goal-type"><a href="<?php echo e(route('performance.indicator.index')); ?>"><?php echo e(__('Indicator')); ?></a></li>
+                            <li id="goal-type"><a href="<?php echo e(route('performance.appraisal.index')); ?>"><?php echo e(__('Appraisal')); ?></a></li>
+                        </ul>
+                    </li>
             </ul>
         </div>
     </div>
@@ -769,4 +776,4 @@
     })(jQuery); 
 </script>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\Lion-Coders\peoplepro\resources\views/layout/main.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\Lion-Coders\PeoplePro-Related\peoplepro\resources\views/layout/main.blade.php ENDPATH**/ ?>

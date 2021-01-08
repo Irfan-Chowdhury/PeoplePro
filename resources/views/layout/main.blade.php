@@ -717,10 +717,26 @@
                         </li>
                     @endcan
 
-                    <li ><a href="{{route('employee-appraisal.index')}}"> <i
-                        class="dripicons-ticket"></i><span>{{__('Employee Appraisal')}}</span></a></li>
+                    
+                    {{-- <li class="has-dropdown {{ (request()->is('staff*')) ? 'active' : '' }}"><a href="#employees" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user-group"></i><span>{{trans('file.Employees')}}</span></a>
+                        <ul id="employees" class="collapse list-unstyled ">
+                            <li id="employee_list"><a href="{{route('employees.index')}}">{{__('Employee Lists')}}</a>
+                            </li>
+                            @can('import-employee')
+                                <li id="user-import"><a href="{{route('employees.import')}}">{{__('Import Employees')}}</a>
+                                </li>
+                            @endcan   
+                        </ul>
+                    </li> --}}
 
-                    {{-- <li><a href="{{route('test')}}">{{__('Employee Test Performance')}}</a></li>                      --}}
+                    <li class="has-dropdown"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-ticket"></i><span>Performance</span></a>
+                        <ul id="performance" class="collapse list-unstyled ">
+                            <li id="goal-type"><a href="{{route('performance.goal-type.index')}}">{{__('Goal type')}}</a></li>
+                            <li id="goal-type"><a href="{{route('performance.goal-tracking.index')}}">{{__('Goal Tracking')}}</a></li>
+                            <li id="goal-type"><a href="{{route('performance.indicator.index')}}">{{__('Indicator')}}</a></li>
+                            <li id="goal-type"><a href="{{route('performance.appraisal.index')}}">{{__('Appraisal')}}</a></li>
+                        </ul>
+                    </li>
             </ul>
         </div>
     </div>

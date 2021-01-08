@@ -769,4 +769,4 @@
     })(jQuery); 
 </script>
 </body>
-</html><?php /**PATH C:\xampp\htdocs\Lion-Coders\peoplepro\resources\views/layout/main.blade.php ENDPATH**/ ?>
+</html><?php /**PATH C:\xampp\htdocs\Lion-Coders\06.01.2020\peoplepro\resources\views/layout/main.blade.php ENDPATH**/ ?>
