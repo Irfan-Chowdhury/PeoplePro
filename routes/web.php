@@ -970,7 +970,7 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::get('/client/tasks/{id}/edit', 'ClientTaskController@edit')->name('clientTask.edit');
 	Route::post('/client/tasks/update', 'ClientTaskController@update')->name('clientTask.update');
 
-	//Previus Task- By Irfan
+	//Previous Task- By Irfan
 	Route::get('/employee-appraisal', 'EmployeeAppraisalController@index')->name('employee-appraisal.index');
 	Route::post('/employee-appraisal/store', 'EmployeeAppraisalController@store')->name('employee-appraisal.store');
 	Route::get('/employee-appraisal/getEmployee', 'EmployeeAppraisalController@getEmployee')->name('employee-appraisal.getEmployee');
@@ -980,23 +980,41 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::group(['prefix' => 'performance'], function (){
 
 		Route::group(['prefix' => 'goal-type'], function () {
-			Route::get('/index', 'PerformanceController@indexGoalType')->name('performance.goal-type.index');
-			Route::post('/store', 'PerformanceController@storeGoalType')->name('performance.goal-type.store');
-			Route::get('/edit', 'PerformanceController@editGoalType')->name('performance.goal-type.edit');
-			Route::post('/update', 'PerformanceController@updateGoalType')->name('performance.goal-type.update');
-			Route::get('/delete', 'PerformanceController@deleteGoalType')->name('performance.goal-type.delete');
+			Route::get('/index', 'Performance\GoalTypeController@index')->name('performance.goal-type.index');
+			Route::post('/store', 'Performance\GoalTypeController@store')->name('performance.goal-type.store');
+			Route::get('/edit', 'Performance\GoalTypeController@edit')->name('performance.goal-type.edit');
+			Route::post('/update', 'Performance\GoalTypeController@update')->name('performance.goal-type.update');
+			Route::get('/delete', 'Performance\GoalTypeController@delete')->name('performance.goal-type.delete');
 		});
+
+		// Route::group(['prefix' => 'goal-type'], function () {
+		// 	Route::get('/index', 'PerformanceController@indexGoalType')->name('performance.goal-type.index');
+		// 	Route::post('/store', 'PerformanceController@storeGoalType')->name('performance.goal-type.store');
+		// 	Route::get('/edit', 'PerformanceController@editGoalType')->name('performance.goal-type.edit');
+		// 	Route::post('/update', 'PerformanceController@updateGoalType')->name('performance.goal-type.update');
+		// 	Route::get('/delete', 'PerformanceController@deleteGoalType')->name('performance.goal-type.delete');
+		// });
 
 		Route::group(['prefix' => 'goal-tracking'], function () {
 			Route::get('/index', 'PerformanceController@indexGoalTracking')->name('performance.goal-tracking.index');
 		});
 
 		Route::group(['prefix' => 'indicator'], function () {
-			Route::get('/index', 'PerformanceController@indexIndicator')->name('performance.indicator.index');
+			Route::get('/index', 'Performance\IndicatorController@index')->name('performance.indicator.index');
+			Route::get('/get-designation', 'Performance\IndicatorController@getDesignationByComapny')->name('performance.indicator.get-designation-by-company');
+			Route::post('/store', 'Performance\IndicatorController@store')->name('performance.indicator.store');
+			Route::get('/edit', 'Performance\IndicatorController@edit')->name('performance.indicator.edit');
+			Route::post('/update', 'Performance\IndicatorController@update')->name('performance.indicator.update');
+			Route::get('/delete', 'Performance\IndicatorController@delete')->name('performance.indicator.delete');
 		});
 
 		Route::group(['prefix' => 'appraisal'], function () {
-			Route::get('/index', 'PerformanceController@indexAppraisal')->name('performance.appraisal.index');
+			Route::get('/index', 'Performance\AppraisalController@index')->name('performance.appraisal.index');
+			Route::get('/get-employee','Performance\AppraisalController@getEmployee')->name('performance.appraisal.get-employee');
+			Route::post('/store','Performance\AppraisalController@store')->name('performance.appraisal.store');
+			Route::get('/edit','Performance\AppraisalController@edit')->name('performance.appraisal.edit');
+			Route::post('/update','Performance\AppraisalController@update')->name('performance.appraisal.update');
+			Route::get('/delete','Performance\AppraisalController@delete')->name('performance.appraisal.delete');
 		});
 	});
 

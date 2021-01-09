@@ -5,55 +5,241 @@
     <div class="container-fluid"><span id="general_result"></span></div>
     
     <div class="container-fluid mb-3">
-        <h4 class="font-weight-bold mt-3">Performance Indicator</h4><br>
+        <h4 class="font-weight-bold mt-3">Performance Indicator</h4>
+        <div id="success_alert" role="alert"></div>
+        <br>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Indicator')}}</button>
-        <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New Indicator')}}</button>
+        {{-- <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
     </div>
 
-    @include('performance.indicator.create-modal')
-    @include('performance.indicator.edit-modal')
-    @include('performance.indicator.delete-modal')
-
     <div class="table-responsive">
-        <table id="employee-table" class="table">
+        <table id="indicatorTable" class="table">
             <thead>
                 <tr>
                     {{-- <th class="not-exported"></th> --}}
-                    <th><input type="checkbox"></th>
+                    {{-- <th><input type="checkbox"></th> --}}
                     <th>SL</th>
-                    <th>Designation</th>
-                    <th>Company</th>
-                    <th>Department</th>
+                    <th>{{trans('file.Designation')}}</th>
+                    <th>{{trans('file.Company')}}</th>
+                    <th>{{trans('file.Department')}}</th>
                     <th>Added By</th>
                     <th>Created_At</th>
-                    <th>Action</th>
+                    <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td><input type="checkbox"></td>
-                    <td>1</td>
-                    <td>Software Developer</td>
-                    <td>HARSALE</td>
-                    <td>CSE</td>
-                    <td>Mainul Islam</td>
-                    <td>Jan-06-2021</td>
-                    <td>
-                        {{-- <button class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View Details"><i class="dripicons-preview"></i></button> --}}
-                        <button class="edit btn btn-primary btn-sm" data-toggle="modal" data-target="#editModal" data-placement="top" title="Edit"><i class="dripicons-pencil"></i></button>
-                        <button class="edit btn btn-danger btn-sm" data-toggle="modal" data-target="#deleteModal" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>
-                    </td>
-                </tr>
-            </tbody>
-
-
         </table>
     </div>
-    
-
-
-
 </section>
+
+@include('performance.indicator.create-modal')
+@include('performance.indicator.edit-modal')
+@include('performance.indicator.delete-modal')
+
+
+<script type="text/javascript">
+    $(document).ready(function(){
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+
+        var table = $('#indicatorTable').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: "{{ route('performance.indicator.index') }}",
+            columns: [
+                {data: 'DT_RowIndex', name: 'DT_RowIndex'},
+                {data: 'designation_name', name: 'designation_name'},
+                {data: 'company_name',     name: 'company_name'},
+                {data: 'department_name',  name: 'department_name'},
+                {data: 'added_by',    name: 'added_by'},
+                {data: 'created_at',  name: 'created_at'},
+                {
+                    data: 'action', 
+                    name: 'action', 
+                    orderable: true, 
+                    searchable: true
+                },
+            ],
+            "order": [],
+                'language': {
+                    'lengthMenu': '_MENU_ {{__("records per page")}}',
+                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                    "search": '{{trans("file.Search")}}',
+                    'paginate': {
+                        'previous': '{{trans("file.Previous")}}',
+                        'next': '{{trans("file.Next")}}'
+                    }
+                },
+
+                dom: '<"row"lfB>rtip',
+                buttons: [
+                    {
+                        extend: 'pdf',
+                        text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i title="print" class="fa fa-print"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i title="column visibility" class="fa fa-eye"></i>',
+                        columns: ':gt(0)'
+                    },
+                ]
+        });
+
+
+        //after selecting Company then Designation will be loaded
+        $('#companyId').change(function() {
+            var companyId = $(this).val();
+            if (companyId){
+                $.get("{{route('performance.indicator.get-designation-by-company')}}",{company_id:companyId}, function (data) {
+                    // console.log(data);
+                    $('#designationId').empty().html(data); //
+                });
+            }else{
+                $('#designationId').empty().html('<option>--Select --</option>');
+            }
+        });
+
+        //----------Insert Data----------------------
+        $("#save-button").on("click",function(e){
+            e.preventDefault();
+            var companyId = $("#companyId").val();
+            
+            $.ajax({
+                url: "{{route('performance.indicator.store')}}",
+                type: "POST",
+                data: $('#submitForm').serialize(),
+                success: function(data){
+                    console.log(data);
+                    if (data.errors) {
+                        $("#alertMessage").addClass('bg-danger text-center text-light p-1').html(data.errors) //Check in create modal
+                    }
+                    else if(data.success){
+                        table.draw();
+                        $('#submitForm').trigger("reset");
+                        $("#createModalForm").modal('hide');
+                        $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                        $('#success_alert').addClass('alert alert-success').html(data.success);
+                        setTimeout(function() {
+                            $('#success_alert').fadeOut("slow");
+                        }, 3000);
+                        ("#alertMessage").removeClass('bg-danger text-center text-light p-1');
+                    }
+                }
+            });
+        });
+
+
+        //---------- Edit Data ----------
+        $(document).on("click",".edit",function(e){
+            e.preventDefault();
+            $('#EditformModal').modal('show');
+            var indicatorId = $(this).data("id");
+            var element = this;
+            console.log(indicatorId)
+
+            $.ajax({
+                url: "{{route('performance.indicator.edit')}}",
+                type: "GET",
+                data: {indicator_id:indicatorId},
+                success: function(data){
+                    console.log(data)
+                    $('#edit-body').html(data);                   
+                }
+            });
+        });
+
+        // ---------- Update by Id----------
+        $("#update-button").on("click",function(e){
+            e.preventDefault();
+
+            $.ajax({
+                url: "{{route('performance.indicator.update')}}",
+                type: "POST",
+                data: $('#updatetForm').serialize(),
+                success: function(data){
+                    console.log(data);
+                    
+                    // if (data.errors) {
+                    //     $(".goal_type_edit").addClass('is-invalid');
+                    //     $("#error_edit_message").html(data.errors) //Check in edit modal
+                    // }
+                    if(data.success)
+                    {
+                        table.draw();
+                        $('#updatetForm').trigger("reset");
+                        $("#EditformModal").modal('hide');
+                        $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                        $('#success_alert').addClass('alert alert-success').html(data.success);
+                        setTimeout(function() {
+                            $('#success_alert').fadeOut("slow");
+                        }, 3000);
+                    } 
+                }
+            });
+        });
+
+        //---------- Delete Data ----------
+        $(document).on("click",".delete",function(e){
+
+            $('#confirmDeleteModal').modal('show');
+            var indicatorIdDelete = $(this).data("id");
+            var element = this;
+            // console.log(goalTypeIdDelete);
+
+            $("#deleteSubmit").on("click",function(e){
+                $.ajax({
+                    url: "{{route('performance.indicator.delete')}}",
+                    type: "GET",
+                    data: {indicator_id:indicatorIdDelete},
+                    success: function(data){
+                        console.log(data);
+                        if(data.success)
+                        {
+                            table.draw();
+                            $("#confirmDeleteModal").modal('hide');
+                            $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                            $('#success_alert').addClass('alert alert-success').html(data.success);
+                            setTimeout(function() {
+                                $('#success_alert').fadeOut("slow");
+                            }, 3000);
+                        }                        
+                    }
+                });
+
+            });
+
+        });
+
+        
+
+    });
+</script>
+
+
 
 @endsection

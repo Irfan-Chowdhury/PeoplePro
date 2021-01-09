@@ -8,7 +8,7 @@
         <h4 class="font-weight-bold mt-3">Goal Tracking</h4><br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Goal')}}</button>
-        <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        {{-- <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
     </div>
 
     @include('performance.goal-tracking.create-modal')

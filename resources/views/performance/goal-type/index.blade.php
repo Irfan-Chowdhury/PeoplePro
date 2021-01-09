@@ -7,13 +7,11 @@
     <div class="container-fluid mb-3">
 
         <h4 class="font-weight-bold mt-3">Goal Type</h4>
-        <div id="success_alert" role="alert">
-
-        </div>
+        <div id="success_alert" role="alert"></div>
         <br>
         
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Type')}}</button>
-        <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        {{-- <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
 
     </div>
 
@@ -22,9 +20,8 @@
             <table id="goalTypeTable" class="table">
                 <thead>
                     <tr>
-                        {{-- <th class="not-exported"></th> --}}
-                        {{-- <th><input type="checkbox"></th> --}}
-                        <th>SL</th>
+                        <th class="not-exported"></th>
+                        {{-- <th>SL</th> --}}
                         <th>Type</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
                     </tr>
@@ -64,50 +61,104 @@
                     searchable: true
                 },
             ],
-            "order": [],
-                'language': {
-                    'lengthMenu': '_MENU_ {{__("records per page")}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
-                    'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
-                    }
-                },
 
-                dom: '<"row"lfB>rtip',
-                buttons: [
-                    {
-                        extend: 'pdf',
-                        text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
+            // 'columnDefs': [
+            //     {
+            //         'targets': 0,
+            //         'checkboxes': {
+            //                 'selectRow': true
+            //             }
+            //     }
+            // ],
+            // 'select': {
+            //     'style': 'multi'
+            // },
+            // 'order': [[1, 'asc']],
+
+
+
+            // "order": [],
+            'language': {
+                'lengthMenu': '_MENU_ {{__("records per page")}}',
+                "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                "search": '{{trans("file.Search")}}',
+                'paginate': {
+                    'previous': '{{trans("file.Previous")}}',
+                    'next': '{{trans("file.Next")}}'
+                }
+            },
+
+            dom: '<"row"lfB>rtip',
+            buttons: [
+                {
+                    extend: 'pdf',
+                    text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
                     },
-                    {
-                        extend: 'csv',
-                        text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
+                },
+                {
+                    extend: 'csv',
+                    text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
                     },
-                    {
-                        extend: 'print',
-                        text: '<i title="print" class="fa fa-print"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
+                },
+                {
+                    extend: 'print',
+                    text: '<i title="print" class="fa fa-print"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
                     },
-                    {
-                        extend: 'colvis',
-                        text: '<i title="column visibility" class="fa fa-eye"></i>',
-                        columns: ':gt(0)'
-                    },
-                ]
+                },
+                {
+                    extend: 'colvis',
+                    text: '<i title="column visibility" class="fa fa-eye"></i>',
+                    columns: ':gt(0)'
+                },
+            ]
         });
+
+
+        $(document).on('click', '#bulk_delete', function () {
+
+            var id = [];
+            let table = $('#goalTypeTable').DataTable();
+            id = table.rows({selected: true}).ids().toArray();
+            console.log(id)
+            // if (id.length > 0) {
+            //     if (confirm('{{__('Delete Selection',['key'=>trans('file.Employee')])}}')) {
+            //         $.ajax({
+            //             url: '{{route('mass_delete_employees')}}',
+            //             method: 'POST',
+            //             data: {
+            //                 employeeIdArray: id
+            //             },
+            //             success: function (data) {
+            //                 if (data.success) {
+            //                     html = '<div class="alert alert-success">' + data.success + '</div>';
+            //                 }
+            //                 if (data.error) {
+            //                     html = '<div class="alert alert-danger">' + data.error + '</div>';
+            //                 }
+            //                 table.ajax.reload();
+            //                 table.rows('.selected').deselect();
+            //                 $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+
+            //             }
+
+            //         });
+            //     }
+            // }else {
+            //     alert('{{__('Please select atleast one checkbox')}}');
+            // }
+        });
+
+
+
 
 
         //----------Insert Data----------------------

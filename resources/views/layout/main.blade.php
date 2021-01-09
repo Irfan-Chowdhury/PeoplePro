@@ -173,7 +173,7 @@
                             </li>
                             @foreach(auth()->user()->notifications as $notification)
                                 <li><a class="unread-notification" 
-                                       href={{$notification->data['link']}}>{{$notification->data['data']}}</a></li>
+                                    href={{$notification->data['link']}}>{{$notification->data['data']}}</a></li>
                             @endforeach
                         </ul>
                     </li>
