@@ -28,13 +28,13 @@
                     <div class="form-group row">
                         <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Employee</b></label>
                         <div class="col-sm-6" id="designation-selection">
-                            {{-- <select name="designation_id" id="designationId" class="form-control selectpicker dynamic"
+                            <select name="employee_id" id="employeeId" class="form-control selectpicker"
                                 data-live-search="true" data-live-search-style="begins" data-first_name="first_name"
-                                data-last_name="last_name" title='{{__('Selecting',['key'=>trans('file.Designation')])}}'>
-                            </select> --}}
-                            <select name="employee_id" id="employeeId" class=" form-control">
-                                <option value="">-- Select Employee--</option>
+                                data-last_name="last_name" title='{{__('Selecting',['key'=>trans('file.Employee')])}}'>
                             </select>
+                            {{-- <select name="employee_id" id="employeeId" class=" form-control">
+                                <option value="">-- Select Employee--</option>
+                            </select> --}}
                         </div>
                     </div>
                     <div class="form-group row">

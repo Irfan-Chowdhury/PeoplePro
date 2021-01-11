@@ -729,7 +729,7 @@
                         </ul>
                     </li> --}}
 
-                    <li class="has-dropdown"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-ticket"></i><span>Performance</span></a>
+                    <li class="has-dropdown"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i><span>Performance</span></a>
                         <ul id="performance" class="collapse list-unstyled ">
                             <li id="goal-type"><a href="{{route('performance.goal-type.index')}}">{{__('Goal type')}}</a></li>
                             <li id="goal-type"><a href="{{route('performance.goal-tracking.index')}}">{{__('Goal Tracking')}}</a></li>

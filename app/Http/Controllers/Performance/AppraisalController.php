@@ -62,7 +62,7 @@ class AppraisalController extends Controller
                     ->select('id','first_name','last_name')
                     ->get();
 
-        return view('performance.appraisal.get-employee',compact('employees'));
+        return response()->json(['employees' => $employees]);
     }
 
     public function store(Request $request)
@@ -104,10 +104,10 @@ class AppraisalController extends Controller
     {
         if ($request->ajax()) 
         {
-            $appraisal = Appraisal::find($request->appraisal_id);
-            $companies = company::select('id','company_name')->orderBy('company_name','ASC')->get();
+            $appraisal = Appraisal::find($request->id);
+            $employees = Employee::select('id','first_name','last_name')->where('company_id',$appraisal->company_id)->get();
             
-            return view('performance.appraisal.update-form',compact('appraisal','companies'));
+            return response()->json(['appraisal' => $appraisal, 'employees'=> $employees]);
         }
     }
 
@@ -122,6 +122,7 @@ class AppraisalController extends Controller
             $appraisal->employee_id   = $request->employee_id;
             $appraisal->department_id = $employee->department_id;
             $appraisal->designation_id= $employee->designation_id;
+            $appraisal->date          = $request->date          ;
             $appraisal->customer_experience = $request->customer_experience;
             $appraisal->marketing     = $request->marketing;
             $appraisal->administration= $request->administration;

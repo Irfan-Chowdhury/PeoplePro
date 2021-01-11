@@ -26,7 +26,7 @@ class CreateAppraisalsTable extends Migration
             $table->string('integrity')->nullable();
             $table->string('attendance')->nullable();
             $table->string('remarks')->nullable();
-            $table->date('date')->nullable();
+            $table->string('date')->nullable();
             $table->timestamps();
 
             $table->foreign('company_id')->references('id')->on('companies');

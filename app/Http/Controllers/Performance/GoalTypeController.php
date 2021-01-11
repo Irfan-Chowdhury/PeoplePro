@@ -14,7 +14,6 @@ class GoalTypeController extends Controller
     {
         if ($request->ajax()) 
         {
-            // $goal_types = GoalType::select('id','goal_type')->orderBy('id','DESC')->get();
             $goal_types = GoalType::orderBy('id','DESC')->get();
             return DataTables::of($goal_types)
                 ->addIndexColumn()

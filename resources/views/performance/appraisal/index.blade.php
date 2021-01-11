@@ -6,7 +6,7 @@
     
     <div class="container-fluid mb-3">
         <h4 class="font-weight-bold mt-3">Performance Appraisal</h4>
-            <div id="success_alert" role="alert"></div>
+        <div id="success_alert" role="alert"></div>
         <br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New')}}</button>
@@ -111,15 +111,20 @@
 
     // });
 
-        //after selecting Company then Employee will be loaded
-        $('#companyId').change(function(){
+        //after selecting Company then Designation will be loaded
+        $('#companyId').change(function() {
             var companyId = $(this).val();
-            console.log(companyId);
-
             if (companyId){
                 $.get("{{route('performance.appraisal.get-employee')}}",{company_id:companyId}, function (data){
-                    console.log(data);
-                    $('#employeeId').empty().html(data); 
+                    // $('#designationId').empty().html(data); 
+                    
+                    let all_employees = '';
+                    $.each(data.employees, function (index, value) {
+                        all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';
+                    });
+                    $('#employeeId').selectpicker('refresh');
+                    $('#employeeId').empty().append(all_employees);
+                    $('#employeeId').selectpicker('refresh');
                 });
             }else{
                 $('#employeeId').empty().html('<option>--Select --</option>');
@@ -142,7 +147,8 @@
                     }
                     else if(data.success){
                         table.draw();
-                        $('#submitForm').trigger("reset");
+                        $('#submitForm')[0].reset();
+                        $('select').selectpicker('refresh');
                         $("#createModalForm").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -155,11 +161,10 @@
             });
         });
 
-
-        //---------- Edit Data ----------
+        // --------------------- Edit ------------------
         $(document).on("click",".edit",function(e){
             e.preventDefault();
-            $('#EditformModal').modal('show');
+            // $('#EditformModal').modal('show');
             var appraisalId = $(this).data("id");
             var element = this;
             console.log(appraisalId)
@@ -167,13 +172,39 @@
             $.ajax({
                 url: "{{route('performance.appraisal.edit')}}",
                 type: "GET",
-                data: {appraisal_id:appraisalId},
+                data: {id:appraisalId},
                 success: function(data){
                     console.log(data)
-                    $('#edit-body').html(data);                 
+                    $('#appraisalIdEdit').val(data.appraisal.id);
+                    $('#companyIdEdit').selectpicker('val', data.appraisal.company_id);
+                    
+                    let all_employees = '';
+                    $.each(data.employees, function (index, value) {
+                        all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + value['last_name'] + '</option>';
+                    });
+                    $('#employeeIdEdit').empty().append(all_employees);
+                    $('#employeeIdEdit').selectpicker('refresh');
+                    $('#employeeIdEdit').selectpicker('val', data.appraisal.employee_id);
+                    $('#employeeIdEdit').selectpicker('refresh');
+
+
+                    $('#dateEdit').val(data.appraisal.date);
+                    $('#customerExperienceEdit').selectpicker('val', data.appraisal.customer_experience);
+                    $('#marketingEdit').selectpicker('val', data.appraisal.marketing);
+                    $('#administrationEdit').selectpicker('val', data.appraisal.administration);
+                    $('#professionalismEdit').selectpicker('val', data.appraisal.professionalism);
+                    $('#integrityEdit').selectpicker('val', data.appraisal.integrity);
+                    $('#attendanceEdit').selectpicker('val', data.appraisal.attendance);
+                    $('#remarksEdit').selectpicker('val', data.appraisal.remarks);
+                    $('#EditformModal').modal('show');
                 }
             });
         });
+
+
+        // --------------------- EDit ------------------
+
+
 
         // ---------- Update by Id----------
         $("#update-button").on("click",function(e){
@@ -188,7 +219,8 @@
                     if(data.success)
                     {
                         table.draw();
-                        $('#updatetForm').trigger("reset");
+                        $('#updatetForm')[0].reset();
+                        $('select').selectpicker('refresh');
                         $("#EditformModal").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);

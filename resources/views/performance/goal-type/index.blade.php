@@ -20,8 +20,8 @@
             <table id="goalTypeTable" class="table">
                 <thead>
                     <tr>
-                        <th class="not-exported"></th>
-                        {{-- <th>SL</th> --}}
+                        {{-- <th class="not-exported"></th> --}}
+                        <th>SL</th>
                         <th>Type</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
                     </tr>

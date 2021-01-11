@@ -116,8 +116,15 @@
             var companyId = $(this).val();
             if (companyId){
                 $.get("{{route('performance.indicator.get-designation-by-company')}}",{company_id:companyId}, function (data) {
-                    // console.log(data);
-                    $('#designationId').empty().html(data); //
+                    // $('#designationId').empty().html(data); 
+                    
+                    let all_designations = '';
+                    $.each(data.designations, function (index, value) {
+                        all_designations += '<option value=' + value['id'] + '>' + value['designation_name'] + '</option>';
+                    });
+                    $('#designationId').selectpicker('refresh');
+                    $('#designationId').empty().append(all_designations);
+                    $('#designationId').selectpicker('refresh');
                 });
             }else{
                 $('#designationId').empty().html('<option>--Select --</option>');
@@ -140,7 +147,8 @@
                     }
                     else if(data.success){
                         table.draw();
-                        $('#submitForm').trigger("reset");
+                        $('#submitForm')[0].reset();
+                        $('select').selectpicker('refresh');
                         $("#createModalForm").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -155,23 +163,42 @@
 
 
         //---------- Edit Data ----------
+
         $(document).on("click",".edit",function(e){
             e.preventDefault();
-            $('#EditformModal').modal('show');
             var indicatorId = $(this).data("id");
             var element = this;
-            console.log(indicatorId)
 
             $.ajax({
                 url: "{{route('performance.indicator.edit')}}",
                 type: "GET",
-                data: {indicator_id:indicatorId},
+                data: {id:indicatorId},
                 success: function(data){
                     console.log(data)
-                    $('#edit-body').html(data);                   
+                    $('#indicatorHiddenIdEdit').val(data.indicator.id);
+                    $('#companyIdEdit').selectpicker('val', data.indicator.company_id);
+                    
+                    let all_designations = '';
+                    $.each(data.designations, function (index, value) {
+                        all_designations += '<option value=' + value['id'] + '>' + value['designation_name'] + '</option>';
+                    });
+                    $('#designationIdEdit').empty().append(all_designations);
+                    $('#designationIdEdit').selectpicker('refresh');
+                    $('#designationIdEdit').selectpicker('val', data.indicator.designation_id);
+                    $('#designationIdEdit').selectpicker('refresh');
+
+
+                    $('#customerExperienceEdit').selectpicker('val', data.indicator.customer_experience);
+                    $('#marketingEdit').selectpicker('val', data.indicator.marketing);
+                    $('#administratorEdit').selectpicker('val', data.indicator.administrator);
+                    $('#professionalismEdit').selectpicker('val', data.indicator.professionalism);
+                    $('#integrityEdit').selectpicker('val', data.indicator.integrity);
+                    $('#attendanceEdit').selectpicker('val', data.indicator.attendance);
+                    $('#EditformModal').modal('show');
                 }
             });
         });
+
 
         // ---------- Update by Id----------
         $("#update-button").on("click",function(e){
@@ -234,6 +261,27 @@
             });
 
         });
+
+
+        $('.dynamic').change(function () {
+                if ($(this).val() !== '') {
+                    let value = $(this).val();
+                    let dependent = $(this).data('dependent');
+                    let _token = $('input[name="_token"]').val();
+                    $.ajax({
+                        url: "{{ route('performance.indicator.dynamic_designation') }}",
+                        method: "POST",
+                        data: {value: value, _token: _token, dependent: dependent},
+                        success: function (result) {
+
+                            $('select').selectpicker("destroy");
+                            $('#department_id').html(result);
+                            $('select').selectpicker();
+
+                        }
+                    });
+                }
+            });
 
         
 

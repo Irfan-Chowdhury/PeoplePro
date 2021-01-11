@@ -57,9 +57,10 @@ class IndicatorController extends Controller
         if ($request->ajax()) 
         {
             $designations = designation::where('company_id',$request->company_id)
+                                        ->select('id','designation_name')
                                         ->orderBy('designation_name','ASC')
                                         ->get();
-            return view('performance.indicator.get-designation',compact('designations'));
+            return response()->json(['designations' => $designations]);
         }
     }
 
@@ -96,11 +97,12 @@ class IndicatorController extends Controller
 
     public function edit(Request $request)
     {
-        // return response()->json($request->indicator_id);
-        $indicator = Indicator::find($request->indicator_id);
-        $companies = company::all();
+        if ($request->ajax()) {
+            $indicator = Indicator::find($request->id);
+            $designations = designation::select('id','designation_name')->where('company_id',$indicator->company_id)->get();
 
-        return view('performance.indicator.show-data',compact('indicator','companies'));
+            return response()->json(['indicator' => $indicator, 'designations' => $designations]);
+        }
     }
 
     public function update(Request $request)
@@ -123,7 +125,6 @@ class IndicatorController extends Controller
 
             return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
         }
-        
     }
 
     public function delete(Request $request)
