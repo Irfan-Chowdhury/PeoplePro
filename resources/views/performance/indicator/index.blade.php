@@ -10,7 +10,7 @@
         <br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New Indicator')}}</button>
-        {{-- <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
     </div>
 
     <div class="table-responsive">
@@ -18,7 +18,7 @@
             <thead>
                 <tr>
                     {{-- <th class="not-exported"></th> --}}
-                    {{-- <th><input type="checkbox"></th> --}}
+                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
                     <th>SL</th>
                     <th>{{trans('file.Designation')}}</th>
                     <th>{{trans('file.Company')}}</th>
@@ -35,6 +35,8 @@
 @include('performance.indicator.create-modal')
 @include('performance.indicator.edit-modal')
 @include('performance.indicator.delete-modal')
+@include('performance.indicator.delete-checkbox-confirm-modal')
+
 
 
 <script type="text/javascript">
@@ -52,6 +54,7 @@
             serverSide: true,
             ajax: "{{ route('performance.indicator.index') }}",
             columns: [
+                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'designation_name', name: 'designation_name'},
                 {data: 'company_name',     name: 'company_name'},
@@ -263,25 +266,46 @@
         });
 
 
-        $('.dynamic').change(function () {
-                if ($(this).val() !== '') {
-                    let value = $(this).val();
-                    let dependent = $(this).data('dependent');
-                    let _token = $('input[name="_token"]').val();
+        // 
+
+
+        // Multiple Data Delete using checkbox
+        $("#bulk_delete").on("click",function(){
+            var allCheckboxId = [];
+
+            // Converted all checked checkbox's value into Array
+            $(":checkbox:checked").each(function(key){
+                allCheckboxId[key] =$(this).data("id");
+            });
+            console.log(allCheckboxId);
+
+            if(allCheckboxId.length === 0){
+                alert("Please Select at least one checkbox.");
+            }
+            else{
+                $('#confirmDeleteCheckboxModal').modal('show');
+                $("#deleteCheckboxSubmit").on("click",function(e){
                     $.ajax({
-                        url: "{{ route('performance.indicator.dynamic_designation') }}",
-                        method: "POST",
-                        data: {value: value, _token: _token, dependent: dependent},
-                        success: function (result) {
-
-                            $('select').selectpicker("destroy");
-                            $('#department_id').html(result);
-                            $('select').selectpicker();
-
+                        url : "{{route('performance.indicator.delete.checkbox')}}",
+                        type : "GET",
+                        data : {all_checkbox_id : allCheckboxId},
+                        success : function(data){
+                            console.log(data);
+                            if(data.success)
+                            {
+                                table.draw();
+                                $("#confirmDeleteCheckboxModal").modal('hide');
+                                $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                                $('#success_alert').addClass('alert alert-success').html(data.success);
+                                setTimeout(function() {
+                                    $('#success_alert').fadeOut("slow");
+                                }, 3000);
+                            }
                         }
                     });
-                }
-            });
+                });
+            }
+        });
 
         
 

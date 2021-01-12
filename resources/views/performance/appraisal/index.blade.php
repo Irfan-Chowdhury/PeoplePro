@@ -10,7 +10,7 @@
         <br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New')}}</button>
-        {{-- <button type="button" class="btn btn-danger"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
     </div>
 
     <div class="table-responsive">
@@ -18,7 +18,7 @@
             <thead>
                 <tr>
                     {{-- <th class="not-exported"></th> --}}
-                    {{-- <th><input type="checkbox"></th> --}}
+                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
                     <th>SL</th>
                     <th>{{trans('file.Company')}}</th>
                     <th>{{trans('file.Employee')}}</th>
@@ -36,6 +36,7 @@
 @include('performance.appraisal.create-modal')
 @include('performance.appraisal.edit-modal')
 @include('performance.indicator.delete-modal')
+@include('performance.goal-type.delete-checkbox-confirm-modal')
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -51,6 +52,7 @@
             serverSide: true,
             ajax: "{{ route('performance.appraisal.index') }}",
             columns: [
+                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'company_name', name: 'company_name'},
                 {data: 'employee_name', name: 'employee_name'},
@@ -235,33 +237,69 @@
         //---------- Delete Data ----------
         $(document).on("click",".delete",function(e){
 
-        $('#confirmDeleteModal').modal('show');
-        var appraisalIdDelete = $(this).data("id");
-        var element = this;
-        // console.log(goalTypeIdDelete);
+            $('#confirmDeleteModal').modal('show');
+            var appraisalIdDelete = $(this).data("id");
+            var element = this;
+            // console.log(goalTypeIdDelete);
 
-        $("#deleteSubmit").on("click",function(e){
-            $.ajax({
-                url: "{{route('performance.appraisal.delete')}}",
-                type: "GET",
-                data: {appraisal_id:appraisalIdDelete},
-                success: function(data){
-                    console.log(data);
-                    if(data.success)
-                    {
-                        table.draw();
-                        $("#confirmDeleteModal").modal('hide');
-                        $('#success_alert').fadeIn("slow"); //Check in top in this blade
-                        $('#success_alert').addClass('alert alert-success').html(data.success);
-                        setTimeout(function() {
-                            $('#success_alert').fadeOut("slow");
-                        }, 3000);
-                    }                        
-                }
+            $("#deleteSubmit").on("click",function(e){
+                $.ajax({
+                    url: "{{route('performance.appraisal.delete')}}",
+                    type: "GET",
+                    data: {appraisal_id:appraisalIdDelete},
+                    success: function(data){
+                        console.log(data);
+                        if(data.success)
+                        {
+                            table.draw();
+                            $("#confirmDeleteModal").modal('hide');
+                            $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                            $('#success_alert').addClass('alert alert-success').html(data.success);
+                            setTimeout(function() {
+                                $('#success_alert').fadeOut("slow");
+                            }, 3000);
+                        }                        
+                    }
+                });
             });
-
         });
 
+                // Multiple Data Delete using checkbox
+        $("#bulk_delete").on("click",function(){
+            var allCheckboxId = [];
+
+            // Converted all checked checkbox's value into Array
+            $(":checkbox:checked").each(function(key){
+                allCheckboxId[key] =$(this).data("id");
+            });
+            console.log(allCheckboxId);
+
+            if(allCheckboxId.length === 0){
+                alert("Please Select at least one checkbox.");
+            }
+            else{
+                $('#confirmDeleteCheckboxModal').modal('show');
+                $("#deleteCheckboxSubmit").on("click",function(e){
+                    $.ajax({
+                        url : "{{route('performance.appraisal.delete.checkbox')}}",
+                        type : "GET",
+                        data : {all_checkbox_id : allCheckboxId},
+                        success : function(data){
+                            console.log(data);
+                            if(data.success)
+                            {
+                                table.draw();
+                                $("#confirmDeleteCheckboxModal").modal('hide');
+                                $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                                $('#success_alert').addClass('alert alert-success').html(data.success);
+                                setTimeout(function() {
+                                    $('#success_alert').fadeOut("slow");
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+            }
         });
 
     });

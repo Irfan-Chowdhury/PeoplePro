@@ -20,6 +20,9 @@ class AppraisalController extends Controller
                         ->orderBy('id','DESC')->get();
 
             return DataTables::of($appraisals)
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                })
                 ->addIndexColumn()
                 ->addColumn('company_name', function ($row)
                 {
@@ -42,9 +45,9 @@ class AppraisalController extends Controller
                     return date("d M, Y", strtotime($row->date));;
                 })
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm">Edit</a> 
+                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm"><i class="dripicons-pencil"></i></a> 
                                 &nbsp;
-                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
+                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -141,6 +144,21 @@ class AppraisalController extends Controller
         if ($request->ajax()) {
             $appraisal = Appraisal::find($request->appraisal_id);
             $appraisal->delete();
+
+            return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+        }
+    }
+
+    public function deleteCheckbox(Request $request)
+    {
+        if ($request->ajax()) 
+        {
+            $all_id   = $request->all_checkbox_id;
+            $total_id = count($all_id);
+            for ($i=0; $i < $total_id; $i++) { 
+                $data = Appraisal::find($all_id[$i]);
+                $data->delete();
+            }
 
             return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
         }

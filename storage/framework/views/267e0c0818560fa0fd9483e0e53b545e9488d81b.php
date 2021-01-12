@@ -7,7 +7,8 @@
               <button type="button" class="close" data-dismiss="modal">&times;</button>
           </div>
           <div class="modal-body">
-              <h4 align="center"><?php echo e(__('Are you sure you want to remove this data?')); ?></h4>
+              <h4 align="center" id="confirmMessage"><?php echo e(__('Are you sure you want to remove this data?')); ?></h4>
+              <h4 align="center" id="confirmMessage"></h4>
           </div>
           <div class="modal-footer">
               <button type="submit" id="deleteSubmit" class="btn btn-danger"><?php echo e(trans('file.Yes')); ?></button>

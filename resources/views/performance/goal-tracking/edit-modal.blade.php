@@ -71,7 +71,7 @@
 
 
                 <div class="col-md-12 form-group show-edit">
-                    <label>{{__('Progress Bar')}} </label>
+                    <label><b>{{__('Progress Bar')}}</b></label>
                     <input type="text" name="progress" id="progressEdit"
                            class="form-control range-slider "
                            placeholder="{{__('Progress Bar')}}">

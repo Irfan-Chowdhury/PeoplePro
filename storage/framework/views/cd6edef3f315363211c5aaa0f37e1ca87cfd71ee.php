@@ -9,7 +9,7 @@
         <br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i><?php echo e(__(' Add New Indicator')); ?></button>
-        
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i><?php echo e(__(' Bulk Delete')); ?></button>
     </div>
 
     <div class="table-responsive">
@@ -17,7 +17,7 @@
             <thead>
                 <tr>
                     
-                    
+                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
                     <th>SL</th>
                     <th><?php echo e(trans('file.Designation')); ?></th>
                     <th><?php echo e(trans('file.Company')); ?></th>
@@ -34,6 +34,8 @@
 <?php echo $__env->make('performance.indicator.create-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('performance.indicator.edit-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('performance.indicator.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('performance.indicator.delete-checkbox-confirm-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
 
 
 <script type="text/javascript">
@@ -51,6 +53,7 @@
             serverSide: true,
             ajax: "<?php echo e(route('performance.indicator.index')); ?>",
             columns: [
+                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'designation_name', name: 'designation_name'},
                 {data: 'company_name',     name: 'company_name'},
@@ -262,25 +265,46 @@
         });
 
 
-        $('.dynamic').change(function () {
-                if ($(this).val() !== '') {
-                    let value = $(this).val();
-                    let dependent = $(this).data('dependent');
-                    let _token = $('input[name="_token"]').val();
+        // 
+
+
+        // Multiple Data Delete using checkbox
+        $("#bulk_delete").on("click",function(){
+            var allCheckboxId = [];
+
+            // Converted all checked checkbox's value into Array
+            $(":checkbox:checked").each(function(key){
+                allCheckboxId[key] =$(this).data("id");
+            });
+            console.log(allCheckboxId);
+
+            if(allCheckboxId.length === 0){
+                alert("Please Select at least one checkbox.");
+            }
+            else{
+                $('#confirmDeleteCheckboxModal').modal('show');
+                $("#deleteCheckboxSubmit").on("click",function(e){
                     $.ajax({
-                        url: "<?php echo e(route('performance.indicator.dynamic_designation')); ?>",
-                        method: "POST",
-                        data: {value: value, _token: _token, dependent: dependent},
-                        success: function (result) {
-
-                            $('select').selectpicker("destroy");
-                            $('#department_id').html(result);
-                            $('select').selectpicker();
-
+                        url : "<?php echo e(route('performance.indicator.delete.checkbox')); ?>",
+                        type : "GET",
+                        data : {all_checkbox_id : allCheckboxId},
+                        success : function(data){
+                            console.log(data);
+                            if(data.success)
+                            {
+                                table.draw();
+                                $("#confirmDeleteCheckboxModal").modal('hide');
+                                $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                                $('#success_alert').addClass('alert alert-success').html(data.success);
+                                setTimeout(function() {
+                                    $('#success_alert').fadeOut("slow");
+                                }, 3000);
+                            }
                         }
                     });
-                }
-            });
+                });
+            }
+        });
 
         
 

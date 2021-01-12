@@ -20,6 +20,9 @@ class IndicatorController extends Controller
             $indicators = Indicator::with('designation:id,designation_name','company:id,company_name','department:id,department_name')->get();
 
             return DataTables::of($indicators)
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                })
                 ->addIndexColumn()
                 ->addColumn('designation_name', function ($row)
                 {
@@ -38,9 +41,9 @@ class IndicatorController extends Controller
                     return date("d M, Y", strtotime($row->created_at));
                 })
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm">Edit</a> 
+                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm"><i class="dripicons-pencil"></i></a> 
                                 &nbsp;
-                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
+                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -133,6 +136,21 @@ class IndicatorController extends Controller
         {
             $data = Indicator::find($request->indicator_id);
             $data->delete();
+
+            return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+        }
+    }
+
+    public function deleteCheckbox(Request $request)
+    {
+        if ($request->ajax()) 
+        {
+            $all_id   = $request->all_checkbox_id;
+            $total_id = count($all_id);
+            for ($i=0; $i < $total_id; $i++) { 
+                $data = Indicator::find($all_id[$i]);
+                $data->delete();
+            }
 
             return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
         }

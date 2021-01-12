@@ -20,6 +20,9 @@ class GoalTrackingController extends Controller
             $goal_trackings = GoalTracking::with('company:id,company_name','goalType:id,goal_type')->orderBy('id','ASC')->get();
 
             return DataTables::of($goal_trackings)
+                ->addColumn('checkbox', function ($row) {
+                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                })
                 ->addIndexColumn()
                 ->addColumn('goal_type', function ($row)
                 {
@@ -38,9 +41,9 @@ class GoalTrackingController extends Controller
                     return date("d M, Y", strtotime($row->end_date));
                 })
                 ->addColumn('action', function($row){
-                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm">Edit</a> 
+                    $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm"><i class="dripicons-pencil"></i></a> 
                                 &nbsp;
-                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm">Delete</a>';
+                                <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></a>';
                     return $actionBtn;
                 })
                 ->rawColumns(['action'])
@@ -58,6 +61,7 @@ class GoalTrackingController extends Controller
     {
         if ($request->ajax()) 
         {
+        
             $validator = Validator::make($request->all(),[ 
                 'company_id'   => 'required',
                 'goal_type_id' => 'required',
@@ -67,23 +71,28 @@ class GoalTrackingController extends Controller
                 'end_date'     => 'required',
             ]);
 
+
             if ($validator->fails()){
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
 
-            if ($request->ajax()) {
-                $goal_tracking = new GoalTracking();
-                $goal_tracking->company_id   = $request->company_id;
-                $goal_tracking->goal_type_id = $request->goal_type_id;
-                $goal_tracking->subject      = $request->subject;   
-                $goal_tracking->target_achievement = $request->target_achievement;
-                $goal_tracking->description  = $request->description;
-                $goal_tracking->start_date   = $request->start_date;
-                $goal_tracking->end_date     = $request->end_date;
-                $goal_tracking->save();
-
-                return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
+            if($request->start_date > $request->end_date)
+            {
+                return response()->json(['date_errors' => '<p style="color:#FFFFFF"><b>Start-Date</b> can not be greater than <b>End-Date</b></p>']);
             }
+
+            $goal_tracking = new GoalTracking();
+            $goal_tracking->company_id   = $request->company_id;
+            $goal_tracking->goal_type_id = $request->goal_type_id;
+            $goal_tracking->subject      = $request->subject;   
+            $goal_tracking->target_achievement = $request->target_achievement;
+            $goal_tracking->description  = $request->description;
+            $goal_tracking->start_date   = $request->start_date;
+            $goal_tracking->end_date     = $request->end_date;
+            $goal_tracking->save();
+
+            return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
+            
         }
     }
 
@@ -107,7 +116,7 @@ class GoalTrackingController extends Controller
             if ($validator->fails()){
                 return response()->json(['errors' => $validator->errors()->all()]);
             }
-            
+
             $goal_tracking = GoalTracking::find($request->goal_tracking_id);
             $goal_tracking->company_id   = $request->company_id;
             $goal_tracking->goal_type_id = $request->goal_type_id;
@@ -119,7 +128,7 @@ class GoalTrackingController extends Controller
             $goal_tracking->status       = $request->status;
             $goal_tracking->update();
 
-            return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
+            return response()->json(['success' => '<p style="color:#FFFFFF"><b>Data Updated Successfully.</b></p>']);
         }        
     }
 
@@ -129,6 +138,21 @@ class GoalTrackingController extends Controller
         {
             $goal_tracking = GoalTracking::find($request->goal_tracking_id);
             $goal_tracking->delete();
+
+            return response()->json(['success' => '<p style="color:#FFFFFF"><b>Data Deleted Successfully.</b></p>']);
+        }
+    }
+
+    public function deleteCheckbox(Request $request)
+    {
+        if ($request->ajax()) 
+        {
+            $all_id   = $request->all_checkbox_id;
+            $total_id = count($all_id);
+            for ($i=0; $i < $total_id; $i++) { 
+                $data = GoalTracking::find($all_id[$i]);
+                $data->delete();
+            }
 
             return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
         }

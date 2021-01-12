@@ -981,6 +981,7 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('/edit', 'GoalTypeController@edit')->name('performance.goal-type.edit');
 			Route::post('/update', 'GoalTypeController@update')->name('performance.goal-type.update');
 			Route::get('/delete', 'GoalTypeController@delete')->name('performance.goal-type.delete');
+			Route::get('/delete-checkbox', 'GoalTypeController@deleteCheckbox')->name('performance.goal-type.delete.checkbox');
 		});
 
 		Route::group(['prefix' => 'goal-tracking'], function () {
@@ -989,6 +990,7 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('/edit', 'GoalTrackingController@edit')->name('performance.goal-tracking.edit');
 			Route::post('/update', 'GoalTrackingController@update')->name('performance.goal-tracking.update');
 			Route::get('/delete', 'GoalTrackingController@delete')->name('performance.goal-tracking.delete');
+			Route::get('/delete-checkbox', 'GoalTrackingController@deleteCheckbox')->name('performance.goal-tracking.delete.checkbox');
 		});
 
 		Route::group(['prefix' => 'indicator'], function () {
@@ -998,7 +1000,7 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('/edit', 'IndicatorController@edit')->name('performance.indicator.edit');
 			Route::post('/update', 'IndicatorController@update')->name('performance.indicator.update');
 			Route::get('/delete', 'IndicatorController@delete')->name('performance.indicator.delete');
-			Route::post('/dynamic_designation', 'IndicatorController@dynamic_designation')->name('performance.indicator.dynamic_designation');
+			Route::get('/delete-checkbox', 'IndicatorController@deleteCheckbox')->name('performance.indicator.delete.checkbox');
 		});
 
 		Route::group(['prefix' => 'appraisal'], function () {
@@ -1008,6 +1010,7 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('/edit','AppraisalController@edit')->name('performance.appraisal.edit');
 			Route::post('/update','AppraisalController@update')->name('performance.appraisal.update');
 			Route::get('/delete','AppraisalController@delete')->name('performance.appraisal.delete');
+			Route::get('/delete-checkbox', 'AppraisalController@deleteCheckbox')->name('performance.appraisal.delete.checkbox');
 		});
 	});
 

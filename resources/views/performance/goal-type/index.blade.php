@@ -11,7 +11,7 @@
         <br>
         
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Type')}}</button>
-        {{-- <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button> --}}
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
 
     </div>
 
@@ -21,6 +21,7 @@
                 <thead>
                     <tr>
                         {{-- <th class="not-exported"></th> --}}
+                        <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
                         <th>SL</th>
                         <th>Type</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
@@ -34,6 +35,7 @@
 @include('performance.goal-type.create-modal')
 @include('performance.goal-type.edit-modal')
 @include('performance.goal-type.delete-confirm-modal')
+@include('performance.goal-type.delete-checkbox-confirm-modal')
 
 
 
@@ -52,6 +54,7 @@
             serverSide: true,
             ajax: "{{ route('performance.goal-type.index') }}",
             columns: [
+                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
                 {
@@ -62,22 +65,6 @@
                 },
             ],
 
-            // 'columnDefs': [
-            //     {
-            //         'targets': 0,
-            //         'checkboxes': {
-            //                 'selectRow': true
-            //             }
-            //     }
-            // ],
-            // 'select': {
-            //     'style': 'multi'
-            // },
-            // 'order': [[1, 'asc']],
-
-
-
-            // "order": [],
             'language': {
                 'lengthMenu': '_MENU_ {{__("records per page")}}',
                 "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
@@ -123,44 +110,6 @@
         });
 
 
-        $(document).on('click', '#bulk_delete', function () {
-
-            var id = [];
-            let table = $('#goalTypeTable').DataTable();
-            id = table.rows({selected: true}).ids().toArray();
-            console.log(id)
-            // if (id.length > 0) {
-            //     if (confirm('{{__('Delete Selection',['key'=>trans('file.Employee')])}}')) {
-            //         $.ajax({
-            //             url: '{{route('mass_delete_employees')}}',
-            //             method: 'POST',
-            //             data: {
-            //                 employeeIdArray: id
-            //             },
-            //             success: function (data) {
-            //                 if (data.success) {
-            //                     html = '<div class="alert alert-success">' + data.success + '</div>';
-            //                 }
-            //                 if (data.error) {
-            //                     html = '<div class="alert alert-danger">' + data.error + '</div>';
-            //                 }
-            //                 table.ajax.reload();
-            //                 table.rows('.selected').deselect();
-            //                 $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-
-            //             }
-
-            //         });
-            //     }
-            // }else {
-            //     alert('{{__('Please select atleast one checkbox')}}');
-            // }
-        });
-
-
-
-
-
         //----------Insert Data----------------------
         $("#save-button").on("click",function(e){
             e.preventDefault();
@@ -193,7 +142,6 @@
 
         //---------- Edit Data ----------
         $(document).on("click",".edit",function(e){
-            $('#EditformModal').modal('show');
             var goalTypeId = $(this).data("id");
             var element = this;
             console.log(goalTypeId)
@@ -204,7 +152,8 @@
                 data: {goal_type_id:goalTypeId},
                 success: function(data){
                     // console.log(data);
-                    $('#edit-body').html(data);                    
+                    $('#edit-body').html(data);      
+                    $('#EditformModal').modal('show');              
                 }
             });
         });
@@ -271,8 +220,60 @@
                 });
 
             });
-
         });
+
+
+        // $("#checkedAll").change(function() {
+        //     if (this.checked) {
+        //         $(".checkbox").each(function() {
+        //             this.checked=true;
+        //         });
+        //     } else {
+        //         $(".checkbox").each(function() {
+        //             this.checked=false;
+        //         });
+        //     }
+        // });
+
+
+        // Multiple Data Delete using checkbox
+        $("#bulk_delete").on("click",function(){
+            var allCheckboxId = [];
+
+            // Converted all checked checkbox's value into Array
+            $(":checkbox:checked").each(function(key){
+                allCheckboxId[key] =$(this).data("id");
+            });
+            console.log(allCheckboxId);
+
+            if(allCheckboxId.length === 0){
+                alert("Please Select at least one checkbox.");
+            }
+            else{
+                $('#confirmDeleteCheckboxModal').modal('show');
+                $("#deleteCheckboxSubmit").on("click",function(e){
+                    $.ajax({
+                        url : "{{route('performance.goal-type.delete.checkbox')}}",
+                        type : "GET",
+                        data : {all_checkbox_id : allCheckboxId},
+                        success : function(data){
+                            console.log(data);
+                            if(data.success)
+                            {
+                                table.draw();
+                                $("#confirmDeleteCheckboxModal").modal('hide');
+                                $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                                $('#success_alert').addClass('alert alert-success').html(data.success);
+                                setTimeout(function() {
+                                    $('#success_alert').fadeOut("slow");
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+            }
+        });
+        
 
         
 

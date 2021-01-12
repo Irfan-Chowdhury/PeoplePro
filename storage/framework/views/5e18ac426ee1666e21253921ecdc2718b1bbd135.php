@@ -9,7 +9,7 @@
         <br>
 
         <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i><?php echo e(__(' Add New Goal')); ?></button>
-        
+        <button type="button" class="btn btn-danger" id="bulk_delete"><i class="fa fa-minus-circle"></i><?php echo e(__(' Bulk Delete')); ?></button>
     </div>
 
     <div class="table-responsive">
@@ -17,7 +17,7 @@
             <thead>
                 <tr>
                     
-                    
+                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
                     <th>SL</th>
                     <th>Goal Type</th>
                     <th>Company</th>
@@ -38,6 +38,7 @@
 <?php echo $__env->make('performance.goal-tracking.create-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('performance.goal-tracking.edit-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 <?php echo $__env->make('performance.goal-tracking.delete-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php echo $__env->make('performance.goal-tracking.delete-checkbox-confirm-modal', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
 <script>
     $(document).ready(function(){
@@ -53,6 +54,7 @@
             serverSide: true,
             ajax: "<?php echo e(route('performance.goal-tracking.index')); ?>",
             columns: [
+                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
                 {data: 'company_name', name: 'company_name'},
@@ -152,6 +154,10 @@
                         }
                         $("#alertMessage").html(html)
                     }
+                    else if (data.date_errors) {
+                        $("#alertMessageBox").addClass('bg-danger text-center p-1')
+                        $("#alertMessage").html(data.date_errors)
+                    }
                     else if(data.success){
                         console.log(data.success);
 
@@ -245,15 +251,6 @@
         });
 
 
-        // ======================== Test  ==============================
-
-
-
-
-
-
-
-
 
 
         //---------- Delete Data ----------
@@ -286,6 +283,44 @@
             });
         });
 
+
+        // Multiple Data Delete using checkbox
+        $("#bulk_delete").on("click",function(){
+            var allCheckboxId = [];
+
+            // Converted all checked checkbox's value into Array
+            $(":checkbox:checked").each(function(key){
+                allCheckboxId[key] =$(this).data("id");
+            });
+            console.log(allCheckboxId);
+
+            if(allCheckboxId.length === 0){
+                alert("Please Select at least one checkbox.");
+            }
+            else{
+                $('#confirmDeleteCheckboxModal').modal('show');
+                $("#deleteCheckboxSubmit").on("click",function(e){
+                    $.ajax({
+                        url : "<?php echo e(route('performance.goal-tracking.delete.checkbox')); ?>",
+                        type : "GET",
+                        data : {all_checkbox_id : allCheckboxId},
+                        success : function(data){
+                            console.log(data);
+                            if(data.success)
+                            {
+                                table.draw();
+                                $("#confirmDeleteCheckboxModal").modal('hide');
+                                $('#success_alert').fadeIn("slow"); //Check in top in this blade
+                                $('#success_alert').addClass('alert alert-success').html(data.success);
+                                setTimeout(function() {
+                                    $('#success_alert').fadeOut("slow");
+                                }, 3000);
+                            }
+                        }
+                    });
+                });
+            }
+        });
 
 
     });
