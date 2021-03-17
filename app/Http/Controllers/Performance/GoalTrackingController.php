@@ -14,23 +14,23 @@ class GoalTrackingController extends Controller
 {
     public function index(Request $request)
     {
-
         if ($request->ajax())
         {
             $goal_trackings = GoalTracking::with('company:id,company_name','goalType:id,goal_type')->orderBy('id','ASC')->get();
 
             return DataTables::of($goal_trackings)
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                ->setRowId(function ($row)
+                {
+                    return $row->id;
                 })
                 ->addIndexColumn()
                 ->addColumn('goal_type', function ($row)
                 {
-                    return $row->goalType->goal_type ?? ' ' ;
+                    return $row->goalType->goal_type ?? '' ;
                 })
                 ->addColumn('company_name', function ($row)
                 {
-                    return $row->company->company_name ?? ' ' ;
+                    return $row->company->company_name ?? '' ;
                 })
                 ->addColumn('start_date', function ($row)
                 {
@@ -59,40 +59,45 @@ class GoalTrackingController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->ajax()) 
-        {
-        
-            $validator = Validator::make($request->all(),[ 
-                'company_id'   => 'required',
-                'goal_type_id' => 'required',
-                'subject'      => 'required',
-                'target_achievement' => 'required',
-                'start_date'   => 'required',
-                'end_date'     => 'required',
-            ]);
+        $logged_user = auth()->user();
 
-
-            if ($validator->fails()){
-                return response()->json(['errors' => $validator->errors()->all()]);
-            }
-
-            if($request->start_date > $request->end_date)
+        if ($logged_user->can('store-goal-tracking'))
+		{
+            if ($request->ajax()) 
             {
-                return response()->json(['date_errors' => '<p style="color:#FFFFFF"><b>Start-Date</b> can not be greater than <b>End-Date</b></p>']);
-            }
-
-            $goal_tracking = new GoalTracking();
-            $goal_tracking->company_id   = $request->company_id;
-            $goal_tracking->goal_type_id = $request->goal_type_id;
-            $goal_tracking->subject      = $request->subject;   
-            $goal_tracking->target_achievement = $request->target_achievement;
-            $goal_tracking->description  = $request->description;
-            $goal_tracking->start_date   = $request->start_date;
-            $goal_tracking->end_date     = $request->end_date;
-            $goal_tracking->save();
-
-            return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
             
+                $validator = Validator::make($request->all(),[ 
+                    'company_id'   => 'required',
+                    'goal_type_id' => 'required',
+                    'subject'      => 'required',
+                    'target_achievement' => 'required',
+                    'start_date'   => 'required',
+                    'end_date'     => 'required',
+                ]);
+
+
+                if ($validator->fails()){
+                    return response()->json(['errors' => $validator->errors()->all()]);
+                }
+
+                if($request->start_date > $request->end_date)
+                {
+                    return response()->json(['date_errors' => '<p style="color:#FFFFFF"><b>Start-Date</b> can not be greater than <b>End-Date</b></p>']);
+                }
+
+                $goal_tracking = new GoalTracking();
+                $goal_tracking->company_id   = $request->company_id;
+                $goal_tracking->goal_type_id = $request->goal_type_id;
+                $goal_tracking->subject      = $request->subject;   
+                $goal_tracking->target_achievement = $request->target_achievement;
+                $goal_tracking->description  = $request->description;
+                $goal_tracking->start_date   = $request->start_date;
+                $goal_tracking->end_date     = $request->end_date;
+                $goal_tracking->save();
+
+                return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
+                
+            }
         }
     }
 
@@ -106,40 +111,50 @@ class GoalTrackingController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->ajax())
-        {
-            $validator = Validator::make($request->only('subject','target_achievement'),[ 
-                'subject'      => 'required',
-                'target_achievement' => 'required',
-            ]);
+        $logged_user = auth()->user();
 
-            if ($validator->fails()){
-                return response()->json(['errors' => $validator->errors()->all()]);
+        if ($logged_user->can('edit-goal-tracking'))
+		{
+            if ($request->ajax())
+            {
+                $validator = Validator::make($request->only('subject','target_achievement'),[ 
+                    'subject'      => 'required',
+                    'target_achievement' => 'required',
+                ]);
+
+                if ($validator->fails()){
+                    return response()->json(['errors' => $validator->errors()->all()]);
+                }
+
+                $goal_tracking = GoalTracking::find($request->goal_tracking_id);
+                $goal_tracking->company_id   = $request->company_id;
+                $goal_tracking->goal_type_id = $request->goal_type_id;
+                $goal_tracking->subject      = $request->subject;   
+                $goal_tracking->target_achievement = $request->target_achievement;
+                $goal_tracking->description  = $request->description;
+                $goal_tracking->start_date   = $request->start_date;
+                $goal_tracking->progress     = $request->progress;
+                $goal_tracking->status       = $request->status;
+                $goal_tracking->update();
+
+                return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
             }
-
-            $goal_tracking = GoalTracking::find($request->goal_tracking_id);
-            $goal_tracking->company_id   = $request->company_id;
-            $goal_tracking->goal_type_id = $request->goal_type_id;
-            $goal_tracking->subject      = $request->subject;   
-            $goal_tracking->target_achievement = $request->target_achievement;
-            $goal_tracking->description  = $request->description;
-            $goal_tracking->start_date   = $request->start_date;
-            $goal_tracking->progress     = $request->progress;
-            $goal_tracking->status       = $request->status;
-            $goal_tracking->update();
-
-            return response()->json(['success' => '<p style="color:#FFFFFF"><b>Data Updated Successfully.</b></p>']);
         }        
     }
 
     public function delete(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $goal_tracking = GoalTracking::find($request->goal_tracking_id);
-            $goal_tracking->delete();
+        $logged_user = auth()->user();
 
-            return response()->json(['success' => '<p style="color:#FFFFFF"><b>Data Deleted Successfully.</b></p>']);
+        if ($logged_user->can('delete-goal-tracking'))
+		{
+            if ($request->ajax()) 
+            {
+                $goal_tracking = GoalTracking::find($request->goal_tracking_id);
+                $goal_tracking->delete();
+
+                return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+            }
         }
     }
 

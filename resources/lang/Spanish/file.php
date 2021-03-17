@@ -10,6 +10,7 @@ return array (
   'Address' => 'Habla a',
   'Admin' => 'Administración',
   'All' => '',
+  'All_Department' => 'Todo Departamento',
   'Allowances' => 'Subsidios',
   'Amount' => 'Cantidad',
   'Announcement' => 'Anuncio',

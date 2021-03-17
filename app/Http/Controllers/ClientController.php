@@ -127,9 +127,12 @@ class ClientController extends Controller {
 			$data['is_active'] = 1;
 
 			$user = User::create($user_data);
+			$user->syncRoles(3);
+
 			$data['id'] = $user->id;
 
 			client::create($data);
+			
 
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}

@@ -44,7 +44,7 @@ class PolicyController extends Controller {
 						$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 						$button .= '&nbsp;&nbsp;';
 					}
-					if (auth()->user()->can('edit-policy'))
+					if (auth()->user()->can('delete-policy'))
 					{
 						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
 					}

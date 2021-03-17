@@ -10,6 +10,7 @@ return array (
   'Address' => 'Abordare',
   'Admin' => 'Admin',
   'All' => '',
+  'All_Department' => 'Toate Departamentul',
   'Allowances' => 'Indemnizații',
   'Amount' => 'Cantitate',
   'Announcement' => 'Anunţ',

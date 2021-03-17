@@ -10,6 +10,7 @@ return array (
   'Address' => 'Adresse',
   'Admin' => 'Administrator',
   'All' => '',
+  'All_Department' => 'Todo o Departamento',
   'Allowances' => 'Zulagen',
   'Amount' => 'Menge',
   'Announcement' => 'Ankündigung',

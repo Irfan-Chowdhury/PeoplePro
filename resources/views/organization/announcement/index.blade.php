@@ -427,6 +427,8 @@
                         processData: false,
                         dataType: "json",
                         success: function (data) {
+                            console.log(data);
+
                             var html = '';
                             if (data.errors) {
                                 html = '<div class="alert alert-danger">';
@@ -500,7 +502,12 @@
                         $('#summary_id').html(result.data.summary);
                         $('#description_id').html(result.data.description);
                         $('#company_id_show').html(result.company_name);
-                        $('#department_id_show').html(result.department_name);
+                        if (result.department_name=='') {
+                            // $('#department_id_show').html('All Department');
+                            $('#department_id_show').html('{{trans('file.All_Department')}}');
+                        }else{
+                            $('#department_id_show').html(result.department_name);
+                        }
                         $('#added_by_id').html(result.data.added_by);
                         $('#start_date_id').html(result.data.start_date);
                         $('#end_date_id').html(result.data.end_date);
@@ -541,13 +548,19 @@
                         $('#description').val(html.data.description);
                         $('#company_id').selectpicker('val', html.data.company_id);
 
-                        let all_departments = '';
+                        let all_departments = '<option value="0">All Department</option>';
                         $.each(html.departments, function (index, value) {
                             all_departments += '<option value=' + value['id'] + '>' + value['department_name'] + '</option>';
                         });
                         $('#department_id').empty().append(all_departments);
                         $('#department_id').selectpicker('refresh');
-                        $('#department_id').selectpicker('val', html.data.department_id);
+                        if (html.data.department_id==null) {
+                            $('#department_id').selectpicker('val', '0');   
+                        }
+                        else{
+                            $('#department_id').selectpicker('val', html.data.department_id);
+                        }
+                        
                         $('#department_id').selectpicker('refresh');
 
                         if (html.data.is_notify === 1) {
@@ -657,7 +670,7 @@
                         method: "POST",
                         data: {value: value, _token: _token, dependent: dependent},
                         success: function (result) {
-
+                            result = '<option value="0">All Department</option>' + result;
                             $('select').selectpicker("destroy");
                             $('#department_id').html(result);
                             $('select').selectpicker();

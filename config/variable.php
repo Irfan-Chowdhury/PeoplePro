@@ -5,7 +5,7 @@ return [
 //	'date_format' => '',
 
 	'currency' => '$',
-	'currency_format' => 'suffix',
+	'currency_format' => 'prefix',
 	'account_id' => 1,
 
 ];

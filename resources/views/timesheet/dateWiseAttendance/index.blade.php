@@ -13,26 +13,33 @@
                             <form method="post" id="filter_form" class="form-horizontal">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>{{trans('file.Company')}} *</label>
-                                            <select name="company_id" id="company_id"  class="form-control selectpicker dynamic" required
-                                                    data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
-                                                    title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
-                                                @foreach($companies as $company)
-                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                                @endforeach
-                                                
+
+
+                                    @if ((Auth::user()->can('view-attendance')))
+                                    {{-- @if (Auth::user()->role_users_id==1) --}}
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>{{trans('file.Company')}} *</label>
+                                                <select name="company_id" id="company_id"  class="form-control selectpicker dynamic" required
+                                                        data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                                        title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
+                                                    @foreach($companies as $company)
+                                                        <option value="{{$company->id}}">{{$company->company_name}}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 form-group">
+                                            <label>{{trans('file.Employee')}} *</label>
+                                            <select name="employee_id" id="employee_id"  class="selectpicker form-control" required
+                                                    data-live-search="true" data-live-search-style="begins"
+                                                    title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                                             </select>
                                         </div>
-                                    </div>
-                                    <div class="col-md-6 form-group">
-                                        <label>{{trans('file.Employee')}} *</label>
-                                        <select name="employee_id" id="employee_id"  class="selectpicker form-control" required
-                                                data-live-search="true" data-live-search-style="begins"
-                                                title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
-                                        </select>
-                                    </div>
+                                    @else 
+                                        <input type="hidden" name="employee_id" id="employee_id" value="{{Auth::user()->id}}"> {{-- users.id == employees.id  are same in this system--}}
+                                    @endif
 
                                     <div class="col-md-6">
                                         <div class="form-group">

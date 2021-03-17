@@ -10,6 +10,7 @@ return array (
   'Address' => 'Alamat',
   'Admin' => 'Admin',
   'All' => '',
+  'All_Department' => 'Semua Departemen',
   'Allowances' => 'Tunjangan',
   'Amount' => 'Jumlah',
   'Announcement' => 'Pengumuman',

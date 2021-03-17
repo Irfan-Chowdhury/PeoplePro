@@ -10,6 +10,7 @@ return array (
   'Address' => 'Địa chỉ',
   'Admin' => 'Quản trị viên',
   'All' => '',
+  'All_Department' => 'Tất cả các bộ phận',
   'Allowances' => 'Phụ cấp',
   'Amount' => 'Số tiền',
   'Announcement' => 'Sự thông báo',

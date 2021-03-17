@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\Request;
+use App\Employee;
 
 class AssignRoleController extends Controller {
 
@@ -12,11 +13,23 @@ class AssignRoleController extends Controller {
 		$logged_user = auth()->user();
 		if ($logged_user->can('assign-role'))
 		{
+
 			$role_id = $request->only('roleId');
-			if (!$role_id)
-			{
-				return response()->json(['success' => trans('Please assign a role')]);
-			}
+
+			// if (!$role_id)
+			// {
+			// 	return response()->json(['success' => trans('Please assign a role')]);
+			// }
+
+			$employee = Employee::find($user->id);
+			$employee->role_users_id = $role_id['roleId'];
+			$employee->update();
+			
+			
+			$user = User::find($user->id);
+			$user->role_users_id = $role_id['roleId'];
+			$user->update();
+
 			$user->syncRoles($role_id);
 
 			return response()->json(['success' => trans('Role assigned  successfully')]);

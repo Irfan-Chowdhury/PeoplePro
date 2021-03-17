@@ -91,7 +91,9 @@ Route::group(['middleware' => ['XSS']], function ()
 
 			Route::get('employees/page/import', 'EmployeeController@import')->name('employees.import');
 			Route::post('employees/page/import', 'EmployeeController@importPost')->name('employees.importPost');
-			// Route::get('employees/test', 'EmployeeController@test')->name('employees.test');
+
+			//Irfan
+			Route::get('employees/filter', 'EmployeeController@employeesFilter')->name('employees.filter');
 
 		}
 		{
@@ -969,8 +971,7 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::post('/client/tasks', 'ClientTaskController@store')->name('clientTask.store');
 	Route::get('/client/tasks/{id}/edit', 'ClientTaskController@edit')->name('clientTask.edit');
 	Route::post('/client/tasks/update', 'ClientTaskController@update')->name('clientTask.update');
-
-
+	
 	//Performance Feature By - Md Irfan Chowdhury
 
 	Route::group(['prefix' => 'performance','namespace'=>'Performance'], function (){
@@ -1030,6 +1031,12 @@ Route::group(['middleware' => ['XSS']], function ()
 //		return json_encode($names);
 //	})->name('api.names');
 //});
+
+
+//Employeer
+//Set Null
+
+
 
 
 

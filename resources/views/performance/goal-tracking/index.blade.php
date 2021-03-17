@@ -17,9 +17,7 @@
         <table id="goalTrackingTable" class="table">
             <thead>
                 <tr>
-                    {{-- <th class="not-exported"></th> --}}
-                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
-                    <th>SL</th>
+                    <th class="not-exported"></th>
                     <th>Goal Type</th>
                     <th>Company</th>
                     <th>Target Achievement</th>
@@ -27,7 +25,6 @@
                     <th>End Date</th>
                     <th>Progress</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
-                    {{-- <th>Action</th> --}}
                 </tr>
             </thead>
         </table>
@@ -55,14 +52,12 @@
             serverSide: true,
             ajax: "{{ route('performance.goal-tracking.index') }}",
             columns: [
-                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
                 {data: 'company_name', name: 'company_name'},
                 {data: 'target_achievement', name: 'target_achievement'},
                 {data: 'start_date', name: 'start_date'},
                 {data: 'end_date', name: 'end_date'},
-                // {data: 'progress', name: 'progress'},
                 {
                     data: 'progress',
                     name: 'progress',
@@ -87,6 +82,31 @@
                     searchable: true
                 },
             ],
+
+            //----- Start Checkbox ----
+            'columnDefs': [
+                {
+                    "orderable": false,
+                    'targets': [0]
+                },
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true,
+                        'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
+                    },
+                    'render': function (data, type, row, meta) {
+                        if (type === 'display') {
+                            data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                        }
+
+                        return data;
+                    },
+                }
+            ],
+            'select': {style: 'multi', selector: 'td:first-child'},
+            'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            //------ End Checkbox ------            
 
 
             "order": [],
@@ -163,7 +183,9 @@
                         console.log(data.success);
 
                         table.draw();
-                        $('#submitForm').trigger("reset");
+                        // $('#submitForm').trigger("reset");
+                        $('#submitForm')[0].reset();
+                        $('select').selectpicker('refresh');
                         $("#createModalForm").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -200,7 +222,7 @@
                     $('#descriptionEdit').val(data.goalTracking.description);
                     $('#startDateEdit').val(data.goalTracking.start_date);
                     $('#endDateEdit').val(data.goalTracking.end_date);
-                    $('#progressEdit').val(data.goalTracking.progress);
+                    // $('#progressEdit').val(data.goalTracking.progress);
                     if (data.goalTracking.progress) {
                         var instance = $('#progressEdit').data("ionRangeSlider");
                         instance.update({
@@ -239,14 +261,16 @@
                     else if(data.success)
                     {
                         table.draw();
-                        $('#updatetEditForm').trigger("reset");
+                        // $('#updatetEditForm').trigger("reset");
+                        $('#updatetEditForm')[0].reset();
+                        $('select').selectpicker('refresh');
                         $("#EditformModal").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
                         setTimeout(function() {
                             $('#success_alert').fadeOut("slow");
                         }, 3000);
-                    } 
+                    }
                 }
             });
         });
@@ -288,11 +312,8 @@
         // Multiple Data Delete using checkbox
         $("#bulk_delete").on("click",function(){
             var allCheckboxId = [];
-
-            // Converted all checked checkbox's value into Array
-            $(":checkbox:checked").each(function(key){
-                allCheckboxId[key] =$(this).data("id");
-            });
+            let table = $('#goalTrackingTable').DataTable();
+            allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
 
             if(allCheckboxId.length === 0){
@@ -309,7 +330,8 @@
                             console.log(data);
                             if(data.success)
                             {
-                                table.draw();
+                                table.ajax.reload();
+                                table.rows('.selected').deselect();
                                 $("#confirmDeleteCheckboxModal").modal('hide');
                                 $('#success_alert').fadeIn("slow"); //Check in top in this blade
                                 $('#success_alert').addClass('alert alert-success').html(data.success);

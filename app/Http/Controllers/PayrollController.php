@@ -126,7 +126,7 @@ class PayrollController extends Controller {
 								$payslip_key = $payslip->payslip_key;
 								$status = $payslip->status;
 							}
-							if ($status === 1)
+							if ($status == 1)
 							{
 								$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
 								$button .= '&nbsp;&nbsp;';
@@ -263,6 +263,7 @@ class PayrollController extends Controller {
 
 					$data = [];
 					$data['payslip_key'] = Str::random('20');
+					$data['payslip_number'] = mt_rand(1000000000,9999999999);
 					$data['payment_type'] = $employee->payslip_type;
 					$data['basic_salary'] = $employee->basic_salary;
 					$data['allowances'] = $employee->allowances;
@@ -276,7 +277,9 @@ class PayrollController extends Controller {
 					$data['status'] = 1;
 					$data['employee_id'] = $employee->id;
 
-
+					if ($data['payment_type'] == NULL) {
+						return response()->json(['payment_type_error' => __('Please select a payslip-type for this employee.')]);
+					}
 
 
 					$account_balance = DB::table('finance_bank_cashes')->where('id', config('variable.account_id'))->pluck('account_balance')->first();
@@ -349,6 +352,8 @@ class PayrollController extends Controller {
 
 	}
 
+
+	//--- Updated ----
 	public function payBulk(Request $request)
 	{
 		$logged_user = auth()->user();
@@ -357,9 +362,11 @@ class PayrollController extends Controller {
 			if (request()->ajax())
 			{
 
-				$paid_employee = Payslip::where('month_year', $request->month_year)->pluck('employee_id');
+				$employeeArrayId = $request->all_checkbox_id;
+				$paid_employee = Payslip::where('month_year', $request->month_year)->whereIn('employee_id',$employeeArrayId)->pluck('employee_id');
+				$employeesId = Employee::whereIn('id',$employeeArrayId)->whereNotIn('id',$paid_employee)->pluck('id');
 
-				if (!empty($request->filter_company && $request->filter_department))
+				if (!empty($request->filter_company && $request->filter_department)) //No Need
 				{
 					$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
 						'loans:id,employee_id,loan_title,loan_amount',
@@ -371,9 +378,9 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
 						->where('department_id', $request->filter_department)
-						->whereNotIn('id', $paid_employee)
+						->whereIn('id', $employeesId)
 						->get();
-				} elseif (!empty($request->filter_company))
+				} elseif (!empty($request->filter_company)) //No Need
 				{
 					$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
 						'loans:id,employee_id,loan_title,loan_amount',
@@ -384,7 +391,7 @@ class PayrollController extends Controller {
 					)
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
-						->whereNotIn('id', $paid_employee)
+						->whereIn('id', $employeesId)
 						->get();
 				} else
 				{
@@ -396,14 +403,13 @@ class PayrollController extends Controller {
 						'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
 					)
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-						->whereNotIn('id', $paid_employee)
+						->whereIn('id', $employeesId)
 						->get();
 				}
 
-
 				if ($employees->isEmpty())
 				{
-					return response()->json(['error' => 'Selected Employees are already Paid']);
+					return response()->json(['error' => 'Selected employees are already Paid']);
 				}
 
 
@@ -427,6 +433,7 @@ class PayrollController extends Controller {
 							}
 							$data = [];
 							$data['payslip_key'] = Str::random('20');
+							$data['payslip_number'] = mt_rand(1000000000,9999999999);//Added
 							$data['payment_type'] = $employee->payslip_type;
 							$data['basic_salary'] = $employee->basic_salary;
 							$data['allowances'] = $employee->allowances;
@@ -465,6 +472,10 @@ class PayrollController extends Controller {
 									->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 									->findOrFail($employee->id);
 								$data['loans'] = $employee_loan->loans;
+							}
+
+							if ($data['payment_type'] == NULL) { //New
+								return response()->json(['payment_type_error' => __('Please select payslip-type for the employees.')]);
 							}
 
 							Payslip::create($data);
@@ -513,4 +524,170 @@ class PayrollController extends Controller {
 
 		return response()->json(['error' => __('Error')]);
 	}
+
+	// //----Old----
+	// public function payBulk(Request $request)
+	// {
+	// 	$logged_user = auth()->user();
+	// 	if ($logged_user->can('make-bulk_payment'))
+	// 	{
+	// 		if (request()->ajax())
+	// 		{
+
+	// 			$paid_employee = Payslip::where('month_year', $request->month_year)->pluck('employee_id');
+
+	// 			if (!empty($request->filter_company && $request->filter_department))
+	// 			{
+	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
+	// 					'loans:id,employee_id,loan_title,loan_amount',
+	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
+	// 					'commissions:id,employee_id,commission_title,commission_amount',
+	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
+	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
+	// 				)
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->where('company_id', $request->filter_company)
+	// 					->where('department_id', $request->filter_department)
+	// 					->whereNotIn('id', $paid_employee)
+	// 					->get();
+	// 			} elseif (!empty($request->filter_company))
+	// 			{
+	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
+	// 					'loans:id,employee_id,loan_title,loan_amount',
+	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
+	// 					'commissions:id,employee_id,commission_title,commission_amount',
+	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
+	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
+	// 				)
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->where('company_id', $request->filter_company)
+	// 					->whereNotIn('id', $paid_employee)
+	// 					->get();
+	// 			} else
+	// 			{
+	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
+	// 					'loans:id,employee_id,loan_title,loan_amount',
+	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
+	// 					'commissions:id,employee_id,commission_title,commission_amount',
+	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
+	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
+	// 				)
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->whereNotIn('id', $paid_employee)
+	// 					->get();
+	// 			}
+
+
+	// 			if ($employees->isEmpty())
+	// 			{
+	// 				return response()->json(['error' => 'Selected Employees are already Paid']);
+	// 			}
+
+
+	// 			DB::beginTransaction();
+	// 				try
+	// 				{
+	// 					$total_sum = 0;
+	// 					foreach ($employees as $employee)
+	// 					{
+	// 						if ($employee->payslip_type == 'Monthly')
+	// 						{
+	// 							$net_salary = $this->totalSalary($employee);
+	// 						} else
+	// 						{
+	// 							$total = 0;
+	// 							$total_hours = $this->totalWorkedHours($employee);
+	// 							sscanf($total_hours, '%d:%d', $hour, $min);
+	// 							//converting in minute
+	// 							$total += $hour * 60 + $min;
+	// 							$net_salary = $this->totalSalary($employee, $total);
+	// 						}
+	// 						$data = [];
+	// 						$data['payslip_key'] = Str::random('20');
+	// 						$data['payment_type'] = $employee->payslip_type;
+	// 						$data['basic_salary'] = $employee->basic_salary;
+	// 						$data['allowances'] = $employee->allowances;
+	// 						$data['commissions'] = $employee->commissions;
+	// 						$data['loans'] = $employee->loans;
+	// 						$data['deductions'] = $employee->deductions;
+	// 						$data['overtimes'] = $employee->overtimes;
+	// 						$data['other_payments'] = $employee->otherPayments;
+	// 						$data['month_year'] = $request->month_year;
+	// 						$data['net_salary'] = $net_salary;
+	// 						$data['status'] = 1;
+	// 						$data['employee_id'] = $employee->id;
+
+	// 						$total_sum = $total_sum + $net_salary;
+
+	// 						if ($employee->loans)
+	// 						{
+	// 							foreach ($employee->loans as $loan)
+	// 							{
+	// 								if($loan->time_remaining === '0')
+	// 								{
+	// 									$amount_remaining = 0;
+	// 									$time_remaining = 0;
+	// 									$monthly_payable = 0;
+	// 								}
+	// 								else
+	// 								{
+	// 									$amount_remaining = $loan->amount_remaining - $loan->monthly_payable;
+	// 									$time_remaining = $loan->time_remaining - 1;
+	// 									$monthly_payable = $loan->monthly_payable;
+	// 								}
+	// 								SalaryLoan::whereId($loan->id)->update(['amount_remaining' => $amount_remaining, 'time_remaining' => $time_remaining,
+	// 									'monthly_payable' => $monthly_payable]);
+	// 							}
+	// 							$employee_loan = Employee::with('loans:id,employee_id,loan_title,loan_amount,time_remaining,amount_remaining,monthly_payable')
+	// 								->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 								->findOrFail($employee->id);
+	// 							$data['loans'] = $employee_loan->loans;
+	// 						}
+
+	// 						Payslip::create($data);
+
+	// 					}
+
+	// 					$account_balance = DB::table('finance_bank_cashes')->where('id', config('variable.account_id'))->pluck('account_balance')->first();
+
+	// 					if ((int)$account_balance < $total_sum)
+	// 					{
+	// 						throw new Exception("requested balance is less then available balance");
+	// 					}
+
+	// 					$new_balance = (int)$account_balance - (int)$total_sum;
+
+	// 					$finance_data = [];
+
+	// 					$finance_data['account_id'] = config('variable.account_id');
+	// 					$finance_data['amount'] = $total_sum;
+	// 					$finance_data ['expense_date'] = now()->format(env('Date_Format'));
+	// 					$finance_data ['expense_reference'] = trans('file.Payroll');
+
+
+	// 					FinanceBankCash::whereId($finance_data['account_id'])->update(['account_balance' => $new_balance]);
+
+	// 					$Expense = FinanceTransaction::create($finance_data);
+
+	// 					$finance_data['id'] = $Expense->id;
+
+	// 					FinanceExpense::create($finance_data);
+
+	// 					DB::commit();
+	// 				} catch (Exception $e)
+	// 				{
+	// 					DB::rollback();
+	// 					return response()->json(['error' =>  $e->getMessage()]);
+	// 				} catch (Throwable $e)
+	// 				{
+	// 					DB::rollback();
+	// 					return response()->json(['error' => $e->getMessage()]);
+	// 				}
+
+	// 				return response()->json(['success' => __('Paid Successfully')]);
+	// 		}
+	// 	}
+
+	// 	return response()->json(['error' => __('Error')]);
+	// }
 }

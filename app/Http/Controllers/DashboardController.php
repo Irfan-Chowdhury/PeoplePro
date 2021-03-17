@@ -37,9 +37,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
-use Psr\Http\Client\ClientInterface;
 use Throwable;
-
 
 class DashboardController extends Controller {
 
@@ -60,7 +58,6 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
-
 
 
 		$employees = Employee::with('department:id,department_name', 'designation:id,designation_name')
@@ -454,6 +451,7 @@ class DashboardController extends Controller {
 		//checking if emoloyee has attendance on current day
 		$employee_attendance = Attendance::where('attendance_date', now()->format('Y-m-d'))
 				->where('employee_id', $employee->id)->orderBy('id', 'desc')->first() ?? null;
+		
 
 		return view('dashboard.employee_dashboard', compact('user', 'employee', 'employee_attendance',
 			'shift_in', 'shift_out', 'shift_name', 'announcements',

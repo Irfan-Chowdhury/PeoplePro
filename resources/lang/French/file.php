@@ -10,6 +10,7 @@ return array (
   'Address' => 'Adresse',
   'Admin' => 'Admin',
   'All' => '',
+  'All_Department' => 'Tous les départements',
   'Allowances' => 'Indemnités',
   'Amount' => 'Montant',
   'Announcement' => 'Annonce',

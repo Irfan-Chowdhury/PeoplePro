@@ -48,7 +48,7 @@
 
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             var checkedNodes;
@@ -135,6 +135,11 @@
                                             text: '{{__('Modify Employee Details')}}',
                                             checked: ($.inArray('modify-details-employee', result) >= 0) ? true : false
                                         },
+                                        {
+                                            id: 'import-employee',
+                                            text: '{{__('Import Employee')}}',
+                                            checked: ($.inArray('import-employee', result) >= 0) ? true : false
+                                        },
                                     ]
                                 },
 
@@ -145,10 +150,39 @@
                                     checked: ($.inArray('customize-setting', result) >= 0) ? true : false,
                                     items: [
                                         {
-                                            id: 'role-access',
-                                            text: '{{__('Roles and Access')}}',
-                                            checked: ($.inArray('role-access', result) >= 0) ? true : false,
+                                            id: 'role',
+                                            text: "{{trans('Role')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('role', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-role',
+                                                    text: '{{__('View Role')}}',
+                                                    checked: ($.inArray('view-role', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-role',
+                                                    text: '{{__('Add Role')}}',
+                                                    checked: ($.inArray('store-role', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-role',
+                                                    text: '{{__('Edit Role')}}',
+                                                    checked: ($.inArray('edit-role', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-role',
+                                                    text: "{{__('Delete Role')}}",
+                                                    checked: ($.inArray('delete-role', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'assign-role',
+                                                    text: '{{__('Assign Role')}}',
+                                                    checked: ($.inArray('assign-role', result) >= 0) ? true : false
+                                                },
+                                            ]
                                         },
+
                                         {
                                             id: 'general-setting',
                                             text: "{{__('General Setting')}}",
@@ -186,10 +220,20 @@
                                             ]
                                         },
                                         {
-                                            id: 'language-setting',
-                                            text: "{{__('Language Setting')}}",
-                                            checked: ($.inArray('language-setting', result) >= 0) ? true : false
-                                        }
+                                            id: 'access-variable_type',
+                                            text: '{{__('Access Variable Type')}}',
+                                            checked: ($.inArray('access-variable_type', result) >= 0) ? true : false
+                                        },
+                                        {
+                                            id: 'access-variable_method',
+                                            text: '{{__('Access Variable Method')}}',
+                                            checked: ($.inArray('access-variable_method', result) >= 0) ? true : false
+                                        },
+                                        {
+                                            id: 'access-language',
+                                            text: '{{__('Access Language')}}',
+                                            checked: ($.inArray('access-language', result) >= 0) ? true : false
+                                        },
                                     ]
                                 },
 
@@ -467,11 +511,10 @@
                                                     checked: ($.inArray('delete-attendance', result) >= 0) ? true : false
                                                 },
                                                 {
-                                                    id: 'timesheet',
-                                                    text: '{{__('Access TimeSheet')}}',
-                                                    checked: ($.inArray('timesheet', result) >= 0) ? true : false
+                                                    id: 'import-attendance',
+                                                    text: '{{__('Import Attendance')}}',
+                                                    checked: ($.inArray('import-attendance', result) >= 0) ? true : false
                                                 },
-
                                             ]
                                         },
                                         {
@@ -674,34 +717,6 @@
                                     checked: ($.inArray('recruitment', result) >= 0) ? true : false,
                                     items: [
                                         {
-                                            id: 'job_employer',
-                                            text: "{{trans('Job Employer')}}",
-                                            expanded: true,
-                                            checked: ($.inArray('job_employer', result) >= 0) ? true : false,
-                                            items: [
-                                                {
-                                                    id: 'view-job_employer',
-                                                    text: '{{__('View Job Employer')}}',
-                                                    checked: ($.inArray('view-job_employer', result) >= 0) ? true : false
-                                                },
-                                                {
-                                                    id: 'store-job_employer',
-                                                    text: '{{__('Add Job Employer')}}',
-                                                    checked: ($.inArray('store-job_employer', result) >= 0) ? true : false
-                                                },
-                                                {
-                                                    id: 'edit-job_employer',
-                                                    text: '{{__('Edit Job Employer')}}',
-                                                    checked: ($.inArray('edit-job_employer', result) >= 0) ? true : false
-                                                },
-                                                {
-                                                    id: 'delete-job_employer',
-                                                    text: "{{__('Delete Job Employer')}}",
-                                                    checked: ($.inArray('delete-job_employer', result) >= 0) ? true : false
-                                                },
-                                            ]
-                                        },
-                                        {
                                             id: 'job_post',
                                             text: "{{trans('Job Post')}}",
                                             expanded: true,
@@ -823,6 +838,11 @@
                                                     text: "{{__('Delete Project')}}",
                                                     checked: ($.inArray('delete-project', result) >= 0) ? true : false
                                                 },
+                                                {
+                                                    id: 'assign-project',
+                                                    text: '{{__('Assign Project')}}',
+                                                    checked: ($.inArray('assign-project', result) >= 0) ? true : false
+                                                },
                                             ]
                                         },
                                         {
@@ -851,6 +871,11 @@
                                                     text: "{{__('Delete Task')}}",
                                                     checked: ($.inArray('delete-task', result) >= 0) ? true : false
                                                 },
+                                                {
+                                                    id: 'assign-task',
+                                                    text: "{{__('Assign Task')}}",
+                                                    checked: ($.inArray('assign-task', result) >= 0) ? true : false
+                                                },
                                             ]
                                         },
                                         {
@@ -872,7 +897,7 @@
                                                 {
                                                     id: 'edit-client',
                                                     text: '{{__('Edit Client')}}',
-                                                    checked: ($.inArray('edit-award', result) >= 0) ? true : false
+                                                    checked: ($.inArray('edit-client', result) >= 0) ? true : false
                                                 },
                                                 {
                                                     id: 'delete-client',
@@ -939,29 +964,13 @@
                                             text: "{{__('Delete Ticket')}}",
                                             checked: ($.inArray('delete-ticket', result) >= 0) ? true : false
                                         },
-                                    ]
-                                },
-
-
-                                {
-                                    id: 'import-module',
-                                    text: "{{trans('Import Module')}}",
-                                    expanded: true,
-                                    checked: ($.inArray('import-module', result) >= 0) ? true : false,
-                                    items: [
                                         {
-                                            id: 'import-attendance',
-                                            text: '{{__('Import Attendance')}}',
-                                            checked: ($.inArray('import-attendance', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'import-employee',
-                                            text: '{{__('Import Employee')}}',
-                                            checked: ($.inArray('import-employee', result) >= 0) ? true : false
+                                            id: 'assign-ticket',
+                                            text: '{{__('Assign Ticket')}}',
+                                            checked: ($.inArray('assign-ticket', result) >= 0) ? true : false
                                         },
                                     ]
                                 },
-
 
                                 {
                                     id: 'file_module',
@@ -1100,8 +1109,73 @@
                                             ]
                                         },
                                     ]
-                                }
+                                },
 
+                                {
+                                    id: 'assets-and-category',
+                                    text: "{{trans('Assets And Category')}}",
+                                    expanded: true,
+                                    checked: ($.inArray('assets-and-category', result) >= 0) ? true : false,
+                                    items: [
+                                        {
+                                            id: 'category',
+                                            text: "{{__('Category')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('category', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-assets-category',
+                                                    text: '{{__('View Category')}}',
+                                                    checked: ($.inArray('view-assets-category', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-assets-category',
+                                                    text: '{{__('Add Category')}}',
+                                                    checked: ($.inArray('store-assets-category', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-assets-category',
+                                                    text: '{{__('Edit Category')}}',
+                                                    checked: ($.inArray('edit-assets-category', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-assets-category',
+                                                    text: "{{__('Delete Category')}}",
+                                                    checked: ($.inArray('delete-assets-category', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+
+                                        {
+                                            id: 'assets',
+                                            text: "{{trans('Asset')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('assets', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-assets',
+                                                    text: '{{__('View Asset')}}',
+                                                    checked: ($.inArray('view-assets', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-assets',
+                                                    text: '{{__('Add Asset')}}',
+                                                    checked: ($.inArray('store-assets', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-assets',
+                                                    text: '{{__('Edit Asset')}}',
+                                                    checked: ($.inArray('edit-assets', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-assets',
+                                                    text: "{{__('Delete Asset')}}",
+                                                    checked: ($.inArray('delete-assets', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+                                    ]
+                                },
                             ]
                         });
 
@@ -1114,62 +1188,6 @@
                             check: onCheck,
 
                             dataSource: [
-                                {
-                                    id: 'role',
-                                    text: "{{trans('Role')}}",
-                                    expanded: true,
-                                    checked: ($.inArray('role', result) >= 0) ? true : false,
-                                    items: [
-                                        {
-                                            id: 'view-role',
-                                            text: '{{__('View Role')}}',
-                                            checked: ($.inArray('view-role', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'store-role',
-                                            text: '{{__('Add Role')}}',
-                                            checked: ($.inArray('store-role', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'edit-role',
-                                            text: '{{__('Edit Role')}}',
-                                            checked: ($.inArray('edit-role', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'delete-role',
-                                            text: "{{__('Delete Role')}}",
-                                            checked: ($.inArray('delete-role', result) >= 0) ? true : false
-                                        },
-                                    ]
-                                },
-                                {
-                                    id: 'assign-module',
-                                    text: "{{trans('Assign Module')}}",
-                                    expanded: true,
-                                    checked: ($.inArray('assign-module', result) >= 0) ? true : false,
-                                    items: [
-                                        {
-                                            id: 'assign-role',
-                                            text: '{{__('Assign Role')}}',
-                                            checked: ($.inArray('assign-role', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'assign-ticket',
-                                            text: '{{__('Assign Ticket')}}',
-                                            checked: ($.inArray('assign-ticket', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'assign-project',
-                                            text: '{{__('Assign Project')}}',
-                                            checked: ($.inArray('assign-project', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'assign-task',
-                                            text: "{{__('Assign Task')}}",
-                                            checked: ($.inArray('assign-task', result) >= 0) ? true : false
-                                        },
-                                    ]
-                                },
                                 {
                                     id: 'finance',
                                     text: "{{trans('Finance')}}",
@@ -1403,32 +1421,6 @@
                                     ]
                                 },
 
-
-                                {
-                                    id: 'access-module',
-                                    text: "{{trans('Access Module')}}",
-                                    expanded: true,
-                                    checked: ($.inArray('access-module', result) >= 0) ? true : false,
-                                    items: [
-                                        {
-                                            id: 'access-variable_type',
-                                            text: '{{__('Access Variable Type')}}',
-                                            checked: ($.inArray('access-variable_type', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'access-variable_method',
-                                            text: '{{__('Access Variable Method')}}',
-                                            checked: ($.inArray('access-variable_method', result) >= 0) ? true : false
-                                        },
-                                        {
-                                            id: 'access-language',
-                                            text: '{{__('Access Language')}}',
-                                            checked: ($.inArray('access-language', result) >= 0) ? true : false
-                                        },
-                                    ]
-                                },
-
-
                                 {
                                     id: 'announcement',
                                     text: "{{trans('Announcement')}}",
@@ -1589,7 +1581,126 @@
                                         },
                                     ]
                                 },
-
+                                {
+                                    id: 'performance',
+                                    text: "{{trans('Performance')}}",
+                                    expanded: true,
+                                    checked: ($.inArray('performance', result) >= 0) ? true : false,
+                                    items: [
+                                        {
+                                            id: 'goal-type',
+                                            text: "{{trans('Goal Type')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('goal-type', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-goal-type',
+                                                    text: '{{__('View Goal Type')}}',
+                                                    checked: ($.inArray('view-goal-type', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-goal-type',
+                                                    text: '{{__('Add Goal Type')}}',
+                                                    checked: ($.inArray('store-goal-type', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-goal-type',
+                                                    text: '{{__('Edit Goal Type')}}',
+                                                    checked: ($.inArray('edit-goal-type', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-goal-type',
+                                                    text: "{{__('Delete Goal Type')}}",
+                                                    checked: ($.inArray('delete-goal-type', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+                                        {
+                                            id: 'goal-tracking',
+                                            text: "{{trans('Goal Tracking')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('goal-tracking', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-goal-tracking',
+                                                    text: '{{__('View Goal Tracking')}}',
+                                                    checked: ($.inArray('view-goal-tracking', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-goal-tracking',
+                                                    text: '{{__('Add Goal Tracking')}}',
+                                                    checked: ($.inArray('store-goal-tracking', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-goal-tracking',
+                                                    text: '{{__('Edit Goal Tracking')}}',
+                                                    checked: ($.inArray('edit-goal-tracking', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-goal-tracking',
+                                                    text: "{{__('Delete Goal Tracking')}}",
+                                                    checked: ($.inArray('delete-goal-tracking', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+                                        {
+                                            id: 'indicator',
+                                            text: "{{trans('Indicator')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('indicator', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-indicator',
+                                                    text: '{{__('View Indicator')}}',
+                                                    checked: ($.inArray('view-indicator', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-indicator',
+                                                    text: '{{__('Add Indicator')}}',
+                                                    checked: ($.inArray('store-indicator', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-indicator',
+                                                    text: '{{__('Edit Indicator')}}',
+                                                    checked: ($.inArray('edit-indicator', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-indicator',
+                                                    text: "{{__('Delete Indicator')}}",
+                                                    checked: ($.inArray('delete-indicator', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+                                        {
+                                            id: 'appraisal',
+                                            text: "{{trans('Appraisal')}}",
+                                            expanded: true,
+                                            checked: ($.inArray('appraisal', result) >= 0) ? true : false,
+                                            items: [
+                                                {
+                                                    id: 'view-appraisal',
+                                                    text: '{{__('View Appraisal')}}',
+                                                    checked: ($.inArray('view-appraisal', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'store-appraisal',
+                                                    text: '{{__('Add Appraisal')}}',
+                                                    checked: ($.inArray('store-appraisal', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'edit-appraisal',
+                                                    text: '{{__('Edit Appraisal')}}',
+                                                    checked: ($.inArray('edit-appraisal', result) >= 0) ? true : false
+                                                },
+                                                {
+                                                    id: 'delete-appraisal',
+                                                    text: "{{__('Delete Appraisal')}}",
+                                                    checked: ($.inArray('delete-appraisal', result) >= 0) ? true : false
+                                                },
+                                            ]
+                                        },
+                                    ]
+                                },
                             ]
                         });
 
@@ -1599,12 +1710,20 @@
 
                             for (var i = 0; i < nodes.length; i++) {
                                 if (nodes[i].checked) {
+                                    getParentIds(nodes[i], checkedNodes);
                                     checkedNodes.push(nodes[i].id);
                                 }
 
                                 if (nodes[i].hasChildren) {
                                     checkedNodeIds(nodes[i].children.view(), checkedNodes);
                                 }
+                            }
+                        }
+
+                        function getParentIds(node, checkedNodes) {
+                            if (node.parent() && node.parent().parent() && checkedNodes.indexOf(node.parent().parent().id) == -1) {
+                                getParentIds(node.parent().parent(), checkedNodes);
+                                checkedNodes.push(node.parent().parent().id);
                             }
                         }
 

@@ -26,9 +26,9 @@ class CreateIndicatorsTable extends Migration
             $table->string('attendance');
             $table->string('added_by');
             
-            $table->foreign('company_id')->references('id')->on('companies');
-            $table->foreign('designation_id')->references('id')->on('designations');
-            $table->foreign('department_id')->references('id')->on('departments');
+            // $table->foreign('company_id')->references('id')->on('companies');
+            // $table->foreign('designation_id')->references('id')->on('designations');
+            // $table->foreign('department_id')->references('id')->on('departments');
 
             $table->timestamps();
         });

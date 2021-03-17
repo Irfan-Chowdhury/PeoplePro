@@ -10,6 +10,7 @@ return array (
   'Address' => 'ঠিকানা',
   'Admin' => 'অ্যাডমিন',
   'All' => 'সব',
+  'All_Department' => 'সকল বিভাগ',
   'Allowances' => 'ভাতা',
   'Amount' => 'পরিমাণ',
   'Announcement' => 'ঘোষণা',

@@ -17,9 +17,7 @@
         <table id="appraisalTable" class="table">
             <thead>
                 <tr>
-                    {{-- <th class="not-exported"></th> --}}
-                    <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
-                    <th>SL</th>
+                    <th class="not-exported"></th>
                     <th>{{trans('file.Company')}}</th>
                     <th>{{trans('file.Employee')}}</th>
                     <th>{{trans('file.Department')}}</th>
@@ -52,7 +50,6 @@
             serverSide: true,
             ajax: "{{ route('performance.appraisal.index') }}",
             columns: [
-                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'company_name', name: 'company_name'},
                 {data: 'employee_name', name: 'employee_name'},
@@ -66,6 +63,33 @@
                     searchable: true
                 },
             ],
+
+            //----- Start Checkbox ----
+            'columnDefs': [
+                {
+                    "orderable": false,
+                    'targets': [0]
+                },
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true,
+                        'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
+                    },
+                    'render': function (data, type, row, meta) {
+                        if (type === 'display') {
+                            data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                        }
+
+                        return data;
+                    },
+                }
+            ],
+            'select': {style: 'multi', selector: 'td:first-child'},
+            'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            //------ End Checkbox ------
+
+
             "order": [],
             'language': {
                 'lengthMenu': '_MENU_ {{__("records per page")}}',
@@ -197,7 +221,8 @@
                     $('#professionalismEdit').selectpicker('val', data.appraisal.professionalism);
                     $('#integrityEdit').selectpicker('val', data.appraisal.integrity);
                     $('#attendanceEdit').selectpicker('val', data.appraisal.attendance);
-                    $('#remarksEdit').selectpicker('val', data.appraisal.remarks);
+                    // $('#remarksEdit').selectpicker('val', data.appraisal.remarks);
+                    $('#remarksEdit').val(data.appraisal.remarks);
                     $('#EditformModal').modal('show');
                 }
             });
@@ -264,15 +289,13 @@
             });
         });
 
-                // Multiple Data Delete using checkbox
+        // Multiple Data Delete using checkbox
         $("#bulk_delete").on("click",function(){
             var allCheckboxId = [];
-
-            // Converted all checked checkbox's value into Array
-            $(":checkbox:checked").each(function(key){
-                allCheckboxId[key] =$(this).data("id");
-            });
+            let table = $('#appraisalTable').DataTable();
+            allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
+
 
             if(allCheckboxId.length === 0){
                 alert("Please Select at least one checkbox.");
@@ -288,7 +311,8 @@
                             console.log(data);
                             if(data.success)
                             {
-                                table.draw();
+                                table.ajax.reload();
+                                table.rows('.selected').deselect();
                                 $("#confirmDeleteCheckboxModal").modal('hide');
                                 $('#success_alert').fadeIn("slow"); //Check in top in this blade
                                 $('#success_alert').addClass('alert alert-success').html(data.success);

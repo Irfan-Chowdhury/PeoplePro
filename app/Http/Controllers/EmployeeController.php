@@ -36,56 +36,111 @@ class EmployeeController extends Controller {
 	 *
 	 * @return Response
 	 */
-	public function index()
+	public function index(Request $request)
 	{
-
-
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
+		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
 
 		if (request()->ajax())
 		{
-			return datatables()->of(Employee::with('department', 'designation')->orderBy('company_id'))
-				->setRowId(function ($employee)
+			if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id){
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+							->where('company_id','=',$request->company_id)
+							->where('department_id','=',$request->department_id)
+							->where('designation_id','=',$request->designation_id)
+							->where('office_shift_id','=',$request->office_shift_id)
+							->get();
+			}elseif ($request->company_id && $request->department_id && $request->designation_id) {
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+							->where('company_id','=',$request->company_id)
+							->where('department_id','=',$request->department_id)
+							->where('designation_id','=',$request->designation_id)
+							->get();
+			}elseif ($request->company_id && $request->department_id) {
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+							->where('company_id','=',$request->company_id)
+							->where('department_id','=',$request->department_id)
+							->get();
+			}elseif ($request->company_id && $request->office_shift_id) {
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+							->where('company_id','=',$request->company_id)
+							->where('office_shift_id','=',$request->office_shift_id)
+							->get();
+			}elseif ($request->company_id) {
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+							->where('company_id','=',$request->company_id)
+							->get();	
+			}else {
+				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+					->orderBy('company_id')
+					->get();
+			}
+			
+			return datatables()->of($employees)
+				->setRowId(function ($row)
 				{
-					return $employee->id;
+					return $row->id;
 				})
 				->addColumn('name', function ($row)
 				{
-					return $row->full_name;
+					if ($row->user->profile_photo) 
+					{
+						$url = url("public/uploads/profile_photos/".$row->user->profile_photo);        
+						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>'; 
+					}
+					else {
+						$url = url("public//logo/avatar.jpg");        
+						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+					}
+					$name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->full_name."</a></span>";
+					$gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
+					$shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
+					$salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')."</span>";
+					$payslip_type = "<span>Payslip Type: &nbsp;".($row->payslip_type ?? '')."</span>";
+
+					return "<div class='d-flex'>
+									<div class='mr-2'>".$profile_photo."</div>
+									<div>" 
+										.$name.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
+									"</div>
+								</div>";
 				})
 				->addColumn('company', function ($row)
 				{
-					return $row->company->company_name ?? '';
+					$company     = "<span class='text-bold'>".strtoupper($row->company->company_name ?? '')."</span>";
+					$department  = "<span>Department : ".($row->department->department_name ?? '')."</span>";
+					$designation = "<span>Designation : ".($row->designation->designation_name ?? '')."</span>";
+
+					return $company.'</br>'.$department.'</br>'.$designation;
 				})
-				->addColumn('department', function ($row)
+				->addColumn('contacts', function ($row)
 				{
-					return $row->department->department_name ?? '';
-				})
-				->addColumn('designation', function ($row)
-				{
-					return $row->designation->designation_name ?? '';
+					$email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+					$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+					
+					return $email.'</br>'.$contact_no;
 				})
 				->addColumn('action', function ($data)
 				{
 					$button = '';
-					if (auth()->user()->can('edit-employee'))
+					if (auth()->user()->can('view-details-employee'))
 					{
 						$button .= '<a href="employees/' . $data->id . '"  class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View Details"><i class="dripicons-preview"></i></button></a>';
 						$button .= '&nbsp;&nbsp;&nbsp;';
 					}
-					if (auth()->user()->can('delete-employee'))
+					if (auth()->user()->can('modify-details-employee'))
 					{
 						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
 					}
 
 					return $button;
 				})
-				->rawColumns(['action'])
+				->rawColumns(['name','company','contacts','action',])
 				->make(true);
 		}
 
-		return view('employee.index', compact('companies'));
+		return view('employee.index', compact('companies','roles'));
 	}
 
 
@@ -107,14 +162,16 @@ class EmployeeController extends Controller {
 	 */
 	public function store(Request $request)
 	{
+		// return response()->json($request->role_users_id);
+
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('store-employee'))
+		if ($logged_user->can('store-details-employee'))
 		{
 			if (request()->ajax())
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
-					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id', 'office_shift_id'),
+					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id'),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
@@ -124,9 +181,13 @@ class EmployeeController extends Controller {
 						'username' => 'required|unique:users,username',
 						'role_users_id' => 'required',
 						'password' => 'required|min:4|confirmed',
+						'company_id' => 'required',
+						'department_id' => 'required',
+						'designation_id' => 'required',
+						'office_shift_id' => 'required',
+						'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
 					]
 				);
-
 
 				if ($validator->fails())
 				{
@@ -157,10 +218,26 @@ class EmployeeController extends Controller {
 				$user['contact_no'] = $request->contact_no;
 				$user['is_active'] = 1;
 
+				$photo = $request->profile_photo;
+				$file_name = null;
+
+				if (isset($photo))
+				{
+					$new_user = $request->username;
+					if ($photo->isValid())
+					{
+						$file_name = preg_replace('/\s+/', '', $new_user) . '_' . time() . '.' . $photo->getClientOriginalExtension();
+						$photo->storeAs('profile_photos', $file_name);
+						$user['profile_photo'] = $file_name;
+					}
+				}
+
 				DB::beginTransaction();
 				try
 				{
 					$created_user = User::create($user);
+					// $created_user->syncRoles(5);
+					$created_user->syncRoles($request->role_users_id); //new
 
 					$data['id'] = $created_user->id;
 
@@ -212,7 +289,7 @@ class EmployeeController extends Controller {
 				->get();
 
 			$statuses = status::select('id', 'status_title')->get();
-			$roles = Role::select('id', 'name')->get();
+			// $roles = Role::select('id', 'name')->get();
 			$countries = DB::table('countries')->select('id', 'name')->get();
 			$document_types = DocumentType::select('id', 'document_type')->get();
 
@@ -220,8 +297,11 @@ class EmployeeController extends Controller {
 			$language_skills = QualificationLanguage::select('id', 'name')->get();
 			$general_skills = QualificationSkill::select('id', 'name')->get();
 
+			$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get(); //--new--
+
+
 			return view('employee.dashboard', compact('employee', 'countries', 'companies',
-				'departments', 'designations', 'statuses', 'office_shifts', 'document_types', 'education_levels', 'language_skills', 'general_skills'));
+				'departments', 'designations', 'statuses', 'office_shifts', 'document_types', 'education_levels', 'language_skills', 'general_skills','roles'));
 		} else
 		{
 			return response()->json(['success' => __('You are not authorized')]);
@@ -238,7 +318,7 @@ class EmployeeController extends Controller {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('delete-employee'))
+		if ($logged_user->can('modify-details-employee'))
 		{
 			DB::beginTransaction();
 			try
@@ -292,16 +372,15 @@ class EmployeeController extends Controller {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('delete-employee'))
+		if ($logged_user->can('modify-details-employee'))
 		{
-
 			$employee_id = $request['employeeIdArray'];
-			$employees = Employee::whereIn('id', $employee_id);
 
-			foreach ($employees as $employee)
+			$user = User::whereIn('id', $employee_id);
+
+			if ($user->delete())
 			{
-				$this->unlink($employee);
-				User::whereId($employee)->delete();
+				return response()->json(['success' => __('Data is successfully deleted')]);
 			}
 		}
 
@@ -324,7 +403,7 @@ class EmployeeController extends Controller {
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
-						'email' => 'required|email|unique:users,email,' . $employee,
+						'email' => 'required|email|unique:users,email,' . $employee,  
 						'contact_no' => 'required|numeric|unique:users,contact_no,' . $employee,
 						'date_of_birth' => 'required',
 						'username' => 'required|unique:users,username,' . $employee,
@@ -383,9 +462,15 @@ class EmployeeController extends Controller {
 				try
 				{
 
+					
 					User::whereId($employee)->update($user);
-
 					employee::find($employee)->update($data);
+
+
+					$usertest = User::find($employee); //--new--
+					$usertest->syncRoles($data['role_users_id']); //--new--
+
+
 
 					DB::commit();
 				} catch (Exception $e)
@@ -580,11 +665,6 @@ class EmployeeController extends Controller {
 		return back();
 
 	}
-
-	// public function test()
-	// {
-	// 	return "OK";
-	// }
 
 
 }

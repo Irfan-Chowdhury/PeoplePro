@@ -10,6 +10,7 @@ return array (
   'Address' => '地址',
   'Admin' => '管理员',
   'All' => '',
+  'All_Department' => '所有部门',
   'Allowances' => '津贴',
   'Amount' => '量',
   'Announcement' => '公告',

@@ -20,9 +20,7 @@
             <table id="goalTypeTable" class="table">
                 <thead>
                     <tr>
-                        {{-- <th class="not-exported"></th> --}}
-                        <th><input type="checkbox" name="checkedAll" id="checkedAll"/></th>
-                        <th>SL</th>
+                        <th class="not-exported"></th>
                         <th>Type</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
                     </tr>
@@ -54,7 +52,6 @@
             serverSide: true,
             ajax: "{{ route('performance.goal-type.index') }}",
             columns: [
-                {data: 'checkbox', name: 'checkbox', orderable: true, searchable: true},
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
                 {
@@ -64,6 +61,32 @@
                     searchable: true
                 },
             ],
+
+            //----- Start Checkbox ----
+            'columnDefs': [
+                {
+                    "orderable": false,
+                    'targets': [0]
+                },
+                {
+                    'targets': 0,
+                    'checkboxes': {
+                        'selectRow': true,
+                        'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
+                    },
+                    'render': function (data, type, row, meta) {
+                        if (type === 'display') {
+                            data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                        }
+
+                        return data;
+                    },
+                }
+            ],
+            'select': {style: 'multi', selector: 'td:first-child'},
+            'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            //------ End Checkbox ------
+
 
             'language': {
                 'lengthMenu': '_MENU_ {{__("records per page")}}',
@@ -127,7 +150,8 @@
                     }
                     else if(data.success){
                         table.draw();
-                        $('#submit_form').trigger("reset");
+                        // $('#submit_form').trigger("reset");
+                        $('#submit_form')[0].reset();
                         $("#createModal").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -179,7 +203,8 @@
                     else if(data.success)
                     {
                         table.draw();
-                        $('#submitEditForm').trigger("reset");
+                        // $('#submitEditForm').trigger("reset");
+                        $('#submitEditForm')[0].reset();
                         $("#EditformModal").modal('hide');
                         $('#success_alert').fadeIn("slow"); //Check in top in this blade
                         $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -223,27 +248,11 @@
         });
 
 
-        // $("#checkedAll").change(function() {
-        //     if (this.checked) {
-        //         $(".checkbox").each(function() {
-        //             this.checked=true;
-        //         });
-        //     } else {
-        //         $(".checkbox").each(function() {
-        //             this.checked=false;
-        //         });
-        //     }
-        // });
-
-
-        // Multiple Data Delete using checkbox
+         // Multiple Data Delete using checkbox
         $("#bulk_delete").on("click",function(){
             var allCheckboxId = [];
-
-            // Converted all checked checkbox's value into Array
-            $(":checkbox:checked").each(function(key){
-                allCheckboxId[key] =$(this).data("id");
-            });
+            let table = $('#goalTypeTable').DataTable();
+            allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
 
             if(allCheckboxId.length === 0){
@@ -260,7 +269,8 @@
                             console.log(data);
                             if(data.success)
                             {
-                                table.draw();
+                                table.ajax.reload();
+                                .rows('.selected').detableselect();
                                 $("#confirmDeleteCheckboxModal").modal('hide');
                                 $('#success_alert').fadeIn("slow"); //Check in top in this blade
                                 $('#success_alert').addClass('alert alert-success').html(data.success);
@@ -273,8 +283,6 @@
                 });
             }
         });
-        
-
         
 
     });

@@ -25,7 +25,7 @@
                 <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>{{__('Contact Person')}}</th>
+                    <th>{{__('Name')}}</th>
                     <th>{{trans('file.Company')}}</th>
                     <th>{{trans('file.Website')}}</th>
                     <th>{{trans('file.Phone')}}</th>
@@ -57,8 +57,8 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>{{__('Contact Person')}} *</label>
-                                <input type="text" name="name" id="name" placeholder={{__('Contact Person')}}
+                                <label>{{__('Name')}} *</label>
+                                <input type="text" name="name" id="name" placeholder={{__('Name')}}
                                         required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
@@ -212,6 +212,9 @@
 
             $(document).ready(function () {
 
+                if (window.location.href.indexOf('#formModal') != -1) {
+                    $('#formModal').modal('show');   
+                }
 
                 let table_table = $('#client-table').DataTable({
                     initComplete: function () {

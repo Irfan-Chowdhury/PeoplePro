@@ -298,8 +298,6 @@
                         {
                             data: 'name',
                             name: 'name',
-
-
                         },
                         {
                             data: 'description',

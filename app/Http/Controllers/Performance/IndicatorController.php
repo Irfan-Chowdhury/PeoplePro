@@ -20,17 +20,18 @@ class IndicatorController extends Controller
             $indicators = Indicator::with('designation:id,designation_name','company:id,company_name','department:id,department_name')->get();
 
             return DataTables::of($indicators)
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                ->setRowId(function ($row)
+                {
+                    return $row->id;
                 })
                 ->addIndexColumn()
                 ->addColumn('designation_name', function ($row)
                 {
-                    return $row->designation->designation_name ?? ' ' ;
+                    return $row->designation->designation_name ?? '' ;
                 })
                 ->addColumn('company_name', function ($row)
                 {
-                    return $row->company->company_name ?? ' ' ;
+                    return $row->company->company_name ?? '' ;
                 })
                 ->addColumn('department_name', function ($row)
                 {
@@ -69,32 +70,37 @@ class IndicatorController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->ajax()){
+        $logged_user = auth()->user();
 
-            $validator = Validator::make($request->only('company_id','designation_id'),[ 
-                            'company_id' => 'required',
-                            'designation_id' => 'required'
-                        ]);
-            if ($validator->fails()){
-                return response()->json(['errors' => "<b>Please fill the required Option</b>"]);
+        if ($logged_user->can('store-indicator'))
+		{
+            if ($request->ajax()){
+
+                $validator = Validator::make($request->only('company_id','designation_id'),[ 
+                                'company_id' => 'required',
+                                'designation_id' => 'required'
+                            ]);
+                if ($validator->fails()){
+                    return response()->json(['errors' => "<b>Please fill the required Option</b>"]);
+                }
+    
+                $designation = designation::find($request->designation_id);
+    
+                $indicator = new Indicator();
+                $indicator->company_id     = $request->company_id;
+                $indicator->designation_id = $designation->id;
+                $indicator->department_id  = $designation->department->id;
+                $indicator->customer_experience  = $request->customer_experience;
+                $indicator->marketing      = $request->marketing;
+                $indicator->administrator  = $request->administrator;
+                $indicator->professionalism= $request->professionalism;
+                $indicator->integrity      = $request->integrity;
+                $indicator->attendance     = $request->attendance;
+                $indicator->added_by       = Auth::user()->username;
+                $indicator->save();
+    
+                return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
             }
-
-            $designation = designation::find($request->designation_id);
-
-            $indicator = new Indicator();
-            $indicator->company_id     = $request->company_id;
-            $indicator->designation_id = $designation->id;
-            $indicator->department_id  = $designation->department->id;
-            $indicator->customer_experience  = $request->customer_experience;
-            $indicator->marketing      = $request->marketing;
-            $indicator->administrator  = $request->administrator;
-            $indicator->professionalism= $request->professionalism;
-            $indicator->integrity      = $request->integrity;
-            $indicator->attendance     = $request->attendance;
-            $indicator->added_by       = Auth::user()->username;
-            $indicator->save();
-
-            return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
         }
     }
 
@@ -110,34 +116,44 @@ class IndicatorController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->ajax()) {
+        $logged_user = auth()->user();
 
-            $designation = designation::find($request->designation_id);
+        if ($logged_user->can('edit-indicator'))
+		{
+            if ($request->ajax()) {
 
-            $indicator = Indicator::find($request->indicator_id);
-            $indicator->company_id     = $request->company_id;
-            $indicator->designation_id = $request->designation_id;
-            $indicator->department_id  = $designation->department_id; //If Designation is changed, then the department Id also be changed.
-            $indicator->customer_experience = $request->customer_experience;
-            $indicator->marketing      = $request->marketing;
-            $indicator->administrator  = $request->administrator;
-            $indicator->professionalism= $request->professionalism;
-            $indicator->integrity      = $request->integrity;
-            $indicator->attendance     = $request->attendance;
-            $indicator->update();
-
-            return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
+                $designation = designation::find($request->designation_id);
+    
+                $indicator = Indicator::find($request->indicator_id);
+                $indicator->company_id     = $request->company_id;
+                $indicator->designation_id = $request->designation_id;
+                $indicator->department_id  = $designation->department_id; //If Designation is changed, then the department Id also be changed.
+                $indicator->customer_experience = $request->customer_experience;
+                $indicator->marketing      = $request->marketing;
+                $indicator->administrator  = $request->administrator;
+                $indicator->professionalism= $request->professionalism;
+                $indicator->integrity      = $request->integrity;
+                $indicator->attendance     = $request->attendance;
+                $indicator->update();
+    
+                return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
+            }
         }
     }
 
     public function delete(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $data = Indicator::find($request->indicator_id);
-            $data->delete();
+        $logged_user = auth()->user();
 
-            return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+        if ($logged_user->can('delete-indicator'))
+		{
+            if ($request->ajax()) 
+            {
+                $data = Indicator::find($request->indicator_id);
+                $data->delete();
+
+                return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+            }
         }
     }
 

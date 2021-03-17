@@ -6,13 +6,16 @@
 
         <div class="container-fluid"><span id="general_result"></span></div>
 
-
         <div class="container-fluid">
-            <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
-                        class="fa fa-plus"></i> {{__('Add Assets')}}</button>
+            @if (Auth::user()->can('store-assets'))
+                <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
+                    class="fa fa-plus"></i> {{__('Add Assets')}}</button>            
+            @endif
 
-            <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
-                        class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
+            @if (Auth::user()->can('delete-assets'))
+                <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
+                    class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
+            @endcan
         </div>
 
 
@@ -29,6 +32,9 @@
                     <th>{{trans('file.Company')}}</th>
                     <th>{{trans('file.Warranty')}} {{trans('file.Date')}}</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
+                    {{-- @if (Auth::user()->can('delete-assets'))
+                        
+                    @endcan --}}
                 </tr>
                 </thead>
 
@@ -418,7 +424,8 @@
                     'columnDefs': [
                         {
                             "orderable": false,
-                            'targets': [0, 7],
+                            // 'targets': [0, 7],
+                            'targets': [0],
                         },
                         {
                             'render': function (data, type, row, meta) {

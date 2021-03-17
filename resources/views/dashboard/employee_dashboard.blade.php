@@ -192,7 +192,7 @@
                                     @foreach($assigned_tasks as $task)
                                     <tr>
                                         <td>
-                                            <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$project->assignedTasks[0]->title}}</h5></a>
+                                            <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$task->assignedTasks[0]->title}}</h5></a>
                                         </td>
                                     </tr>
                                     @endforeach         

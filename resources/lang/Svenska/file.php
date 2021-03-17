@@ -10,6 +10,7 @@ return array (
   'Address' => 'Adress',
   'Admin' => 'Administration',
   'All' => '',
+  'All_Department' => 'Vsi oddelki',
   'Allowances' => 'Ersättningar',
   'Amount' => 'Belopp',
   'Announcement' => 'Meddelande',

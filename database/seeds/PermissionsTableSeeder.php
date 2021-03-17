@@ -1311,6 +1311,63 @@ class PermissionsTableSeeder extends Seeder
 				'guard_name' => 'web',
 				'name' => 'cms'
 			),
+
+			//test
+			array(
+				'id' => 281,
+				'guard_name' => 'web',
+				'name' => 'assets-and-category'
+			),
+			array(
+				'id' => 282,
+				'guard_name' => 'web',
+				'name' => 'category'
+			),
+			array(
+				'id' => 283,
+				'guard_name' => 'web',
+				'name' => 'view-assets-category'
+			),
+			array(
+				'id' => 284,
+				'guard_name' => 'web',
+				'name' => 'store-assets-category'
+			),
+			array(
+				'id' => 285,
+				'guard_name' => 'web',
+				'name' => 'edit-assets-category'
+			),
+			array(
+				'id' => 286,
+				'guard_name' => 'web',
+				'name' => 'delete-assets-category'
+			),
+			array(
+				'id' => 287,
+				'guard_name' => 'web',
+				'name' => 'assets'
+			),
+			array(
+				'id' => 288,
+				'guard_name' => 'web',
+				'name' => 'view-assets'
+			),
+			array(
+				'id' => 289,
+				'guard_name' => 'web',
+				'name' => 'store-assets'
+			),
+			array(
+				'id' => 290,
+				'guard_name' => 'web',
+				'name' => 'edit-assets'
+			),
+			array(
+				'id' => 291,
+				'guard_name' => 'web',
+				'name' => 'delete-assets'
+			),
 		);
 
 		DB::table('permissions')->insert($permissions);

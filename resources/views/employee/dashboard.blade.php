@@ -257,6 +257,8 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>{{trans('file.Company')}}</label>
+                                                            <input type="hidden" name="company_id_hidden"
+                                                               value="{{ $employee->company_id }}"/>
                                                             <select name="company_id" id="company_id"
                                                                     class="form-control selectpicker dynamic"
                                                                     data-live-search="true"
@@ -265,7 +267,7 @@
                                                                     data-shift_name="shift_name"
                                                                     title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
                                                                 @foreach($companies as $company)
-                                                                    <option value="{{$company->id}}" {{ ($employee->company_id === $company->id) ? "selected" : '' }}>{{$company->company_name}}</option>
+                                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
                                                                 @endforeach
                                                                 
                                                             </select>
@@ -275,6 +277,8 @@
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>{{trans('file.Department')}}</label>
+                                                            <input type="hidden" name="department_id_hidden"
+                                                               value="{{ $employee->department_id }}"/>
                                                             <select name="department_id" id="department_id"
                                                                     class="selectpicker form-control designation"
                                                                     data-live-search="true"
@@ -282,8 +286,7 @@
                                                                     data-designation_name="designation_name"
                                                                     title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
                                                                 @foreach($departments as $department)
-                                                                    <option value="{{$department->id}}"
-                                                                            {{($department->id === $employee->department_id) ? 'selected':''}}>{{$department->department_name}}</option>
+                                                                    <option value="{{$department->id}}">{{$department->department_name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -291,14 +294,15 @@
 
                                                     <div class="col-md-4 form-group">
                                                         <label>{{trans('file.Designation')}}</label>
+                                                        <input type="hidden" name="designation_id_hidden"
+                                                               value="{{ $employee->designation_id }}"/>
                                                         <select name="designation_id" id="designation_id"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
                                                                 title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
                                                             @foreach($designations as $designation)
-                                                                <option value="{{$designation->id}}"
-                                                                        {{($designation->id === $employee->designation_id) ? 'selected':''}}>{{$designation->designation_name}}</option>
+                                                                <option value="{{$designation->id}}">{{$designation->designation_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -307,26 +311,31 @@
                                                         <label>{{trans('file.Role')}} *</label>
                                                         <input type="hidden" name="role_user_hidden"
                                                                value="{{ $employee->role_users_id }}"/>
-                                                        <select name="role_users_id" id="role_users_id" required
+                                                        <select name="role_users_id" id="role_users_id" required @if($employee->role_users_id==1) disabled  @endif 
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
                                                                 title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
-                                                            <option value="1">Admin</option>
-                                                            <option value="2">Employee</option>
+                                                            {{-- <option value="1">Admin</option>
+                                                            <option value="2">Employee</option> --}}
+                                                            @foreach($roles as $item)
+                                                                <option value="{{$item->id}}">{{$item->name}}</option>
+                                                            @endforeach
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
                                                             <label>{{trans('file.Status')}}</label>
+                                                            <input type="hidden" name="status_id_hidden"
+                                                               value="{{ $employee->status_id }}"/>
                                                             <select name="status_id" id="status_id"
                                                                     class="form-control selectpicker"
                                                                     data-live-search="true"
                                                                     data-live-search-style="begins"
                                                                     title="{{__('Selecting',['key'=>trans('file.Status')])}}...">
                                                                 @foreach($statuses as $status)
-                                                                    <option value="{{$status->id}}" {{ ($employee->status_id === $status->id) ? "selected" : '' }}>{{$status->status_title}}</option>
+                                                                    <option value="{{$status->id}}">{{$status->status_title}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
@@ -334,14 +343,15 @@
 
                                                     <div class="col-md-4 form-group">
                                                         <label>{{trans('file.Office Shift')}}</label>
+                                                        <input type="hidden" name="office_shift_id_hidden"
+                                                               value="{{ $employee->office_shift_id }}"/>
                                                         <select name="office_shift_id" id="office_shift_id"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
                                                                 title="{{__('Selecting',['key'=>trans('file.Office Shift')])}}...">
                                                             @foreach($office_shifts as $office_shift)
-                                                                <option value="{{$office_shift->id}}"
-                                                                        {{($office_shift->id === $employee->office_shift_id) ? 'selected':''}}>{{$office_shift->shift_name}}</option>
+                                                                <option value="{{$office_shift->id}}">{{$office_shift->shift_name}}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -502,10 +512,16 @@
         $('select[name="gender"]').val($('input[name="gender_hidden"]').val());
         $('#role_users_id').selectpicker('val', $('input[name="role_user_hidden"]').val());
         $('#marital_status').selectpicker('val', $('input[name="marital_status_hidden"]').val());
+        
+        $('#company_id').selectpicker('val', $('input[name="company_id_hidden"]').val());
+        $('#department_id').selectpicker('val', $('input[name="department_id_hidden"]').val());
+        $('#designation_id').selectpicker('val', $('input[name="designation_id_hidden"]').val());
+        
+        $('#status_id').selectpicker('val', $('input[name="status_id_hidden"]').val());
+        $('#office_shift_id').selectpicker('val', $('input[name="office_shift_id_hidden"]').val());
 
 
         $(document).ready(function () {
-
 
             let date = $('.date');
             date.datepicker({

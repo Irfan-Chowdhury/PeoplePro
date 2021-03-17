@@ -199,12 +199,12 @@
                             @else
                             <img class="profile-photo sm mr-1" src="{{ asset('public/uploads/profile_photos/avatar.jpg')}}">
                             @endif
-                            <span> {{auth()->user()->username}}</span> 
+                            <span> {{auth()->user()->username}}</span>
                         </a>
                         <ul class="right-sidebar">
                             <li>
                                 <a href="{{route('profile')}}">
-                                    <i class="dripicons-user"></i> 
+                                    <i class="dripicons-user"></i>
                                     {{trans('file.Profile')}}
                                 </a>
                             </li>
@@ -246,21 +246,25 @@
         <div class="main-menu">
             <ul id="side-main-menu" class="side-menu list-unstyled">
                 @if(auth()->user()->role_users_id ==1)
-                    <li><a href="{{url('/admin/dashboard')}}"> <i class="dripicons-meter"></i><span>Dashboard</span></a>
+                    <li class="{{ (request()->is('admin/dashboard*')) ? 'active' : '' }}"><a
+                                href="{{url('/admin/dashboard')}}"> <i
+                                    class="dripicons-meter"></i><span>{{trans('file.Dashboard')}}</span></a>
                     </li>
                 @else
-                    <li><a href="{{url('/employee/dashboard')}}"> <i class="dripicons-meter"></i><span>Dashboard</span></a>
+                    <li class="{{ (request()->is('employee/dashboard*')) ? 'active' : '' }}"><a
+                                href="{{url('/employee/dashboard')}}"> <i
+                                    class="dripicons-meter"></i><span>{{trans('file.Dashboard')}}</span></a>
                     </li>
                 @endif
 
                 @can('user')
-                    <li><a href="#users" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown @if(request()->is('user*')){{ (request()->is('user*')) ? 'active' : '' }}@elseif(request()->is('add-user*')){{ (request()->is('add-user*')) ? 'active' : '' }}@endif">
+                        <a href="#users" aria-expanded="false" data-toggle="collapse"> <i
                                     class="dripicons-user"></i><span>{{trans('file.User')}}</span></a>
                         <ul id="users" class="collapse list-unstyled ">
                             @can('view-user')
                                 <li id="users-menu"><a href="{{route('users-list')}}">{{__('Users List')}}</a></li>
                             @endcan
-
                             @can('role-access-user')
                                 <li id="user-roles"><a
                                             href={{route('user-roles')}}>{{__('User Roles and Access')}}</a></li>
@@ -275,7 +279,9 @@
                     </li>
                 @endcan
 
-                <li><a href="#employees" aria-expanded="false" data-toggle="collapse"> <i
+                <li class="has-dropdown {{ (request()->is('staff*')) ? 'active' : '' }}"><a href="#employees"
+                                                                                            aria-expanded="false"
+                                                                                            data-toggle="collapse"> <i
                                 class="dripicons-user-group"></i><span>{{trans('file.Employees')}}</span></a>
                     <ul id="employees" class="collapse list-unstyled ">
                         <li id="employee_list"><a href="{{route('employees.index')}}">{{__('Employee Lists')}}</a>
@@ -288,9 +294,11 @@
                 </li>
 
                 @can('customize-setting')
-                    <li><a href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span></a>
+                    <li class="has-dropdown {{ (request()->is('settings*')) ? 'active' : '' }}"><a
+                                href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> <i
+                                    class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span></a>
                         <ul id="Customize_settings" class="collapse list-unstyled ">
-                            @can('role-access-user')
+                            @can('view-role')
                                 <li id="roles"><a href="{{route('roles.index')}}">{{__('Roles and Access')}}</a></li>
                             @endcan
                             @can('view-general-setting')
@@ -327,8 +335,10 @@
                 @endcan
 
                 @can('core_hr')
-                    <li><a href="#Core_hr" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span></a>
+                    <li class="has-dropdown {{ (request()->is('core_hr*')) ? 'active' : '' }}"><a href="#Core_hr"
+                                                                                                  aria-expanded="false"
+                                                                                                  data-toggle="collapse">
+                            <i class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span></a>
                         <ul id="Core_hr" class="collapse list-unstyled ">
 
                             @can('view-promotion')
@@ -351,7 +361,7 @@
                                             href="{{route('resignations.index')}}">{{trans('file.Resignations')}}</a>
                                 </li>
                             @endcan
-                            @can('view-promotion')
+                            @can('view-complaint')
                                 <li id="complaint"><a
                                             href="{{route('complaints.index')}}">{{trans('file.Complaints')}}</a>
                                 </li>
@@ -371,7 +381,10 @@
                 @endcan
 
 
-                <li><a href="#Organization" aria-expanded="false" data-toggle="collapse"> <i
+                <li class="has-dropdown {{ (request()->is('organization*')) ? 'active' : '' }}"><a href="#Organization"
+                                                                                                   aria-expanded="false"
+                                                                                                   data-toggle="collapse">
+                        <i
                                 class="dripicons-view-thumb"></i><span>{{trans('file.Organization')}}</span></a>
                     <ul id="Organization" class="collapse list-unstyled ">
                         @can('view-company')
@@ -403,7 +416,10 @@
 
 
                 @can('timesheet')
-                    <li><a href="#Timesheets" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown {{ (request()->is('timesheet*')) ? 'active' : '' }}"><a href="#Timesheets"
+                                                                                                    aria-expanded="false"
+                                                                                                    data-toggle="collapse">
+                            <i
                                     class="dripicons-clock"></i><span>{{trans('file.Timesheets')}}</span></a>
                         <ul id="Timesheets" class="collapse list-unstyled ">
                             @can('view-attendance')
@@ -440,7 +456,7 @@
                             @can('view-holiday')
                                 <li id="holiday"><a href="{{route('holidays.index')}}">{{__('Manage Holiday')}}</a></li>
                             @endcan
-                            @can('view-office_shift')
+                            @can('view-leave')
                                 <li id="leave"><a href="{{route('leaves.index')}}">{{__('Manage Leaves')}}</a></li>
                             @endcan
                         </ul>
@@ -448,7 +464,10 @@
                 @endcan
 
                 @can('payment-module')
-                    <li><a href="#Payroll" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown {{ (request()->is('payroll*')) ? 'active' : '' }}"><a href="#Payroll"
+                                                                                                  aria-expanded="false"
+                                                                                                  data-toggle="collapse">
+                            <i
                                     class="dripicons-wallet"></i><span>{{trans('file.Payroll')}}</span></a>
                         <ul id="Payroll" class="collapse list-unstyled ">
                             @can('view-payslip')
@@ -464,13 +483,17 @@
                 @endcan
 
                 @can('view-calendar')
-                    <li><a href="{{route('calendar.index')}}"> <i
+                    <li class="{{ (request()->is('calendar*')) ? 'active' : '' }}"><a
+                                href="{{route('calendar.index')}}"> <i
                                     class="dripicons-calendar"></i><span>{{__('HR Calendar')}}</span></a>
                     </li>
                 @endcan
 
                 @can('hr_report')
-                    <li><a href="#HR_Reports" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown {{ (request()->is('report*')) ? 'active' : '' }}"><a href="#HR_Reports"
+                                                                                                 aria-expanded="false"
+                                                                                                 data-toggle="collapse">
+                            <i
                                     class="dripicons-document"></i><span>{{__('HR Reports')}}</span></a>
                         <ul id="HR_Reports" class="collapse list-unstyled ">
                             @can('report-payslip')
@@ -527,7 +550,8 @@
                 @endcan
 
                 @can('recruitment')
-                    <li><a href="#Recruitment" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown {{ (request()->is('recruitment*')) ? 'active' : '' }}"><a
+                                href="#Recruitment" aria-expanded="false" data-toggle="collapse"> <i
                                     class="dripicons-user-id"></i><span>{{trans('file.Recruitment')}}</span></a>
                         <ul id="Recruitment" class="collapse list-unstyled ">
 
@@ -545,12 +569,18 @@
                                             href="{{route('job_interviews.index')}}">{{__('Job Interview')}}</a>
                                 </li>
                             @endcan
+                            @can('view-cms')
+                                <li id="cms"><a
+                                            href="{{route('cms.index')}}">{{__('CMS')}}</a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
                 @endcan
 
                 @can('training_module')
-                    <li><a href="#Training" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown @if(request()->is('training*')){{ (request()->is('training*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/training_type*')){{ (request()->is('dynamic_variable/training_type*')) ? 'active' : '' }}@endif">
+                        <a href="#Training" aria-expanded="false" data-toggle="collapse"> <i
                                     class="dripicons-trophy"></i><span>{{trans('file.Training')}}</span></a>
                         <ul id="Training" class="collapse list-unstyled ">
                             @can('view-training')
@@ -573,7 +603,8 @@
                 @endcan
 
                 @can('event-meeting')
-                    <li><a href="#Events_Meetings" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown @if(request()->is('events*')){{ (request()->is('events*')) ? 'active' : '' }}@elseif(request()->is('meetings*')){{ (request()->is('meetings*')) ? 'active' : '' }}@endif">
+                        <a href="#Events_Meetings" aria-expanded="false" data-toggle="collapse"> <i
                                     class="dripicons-to-do"></i><span>{{trans('file.Events')}} & {{trans('file.Meetings')}}</span></a>
                         <ul id="Events_Meetings" class="collapse list-unstyled ">
                             @can('view-event')
@@ -591,7 +622,8 @@
                     </li>
 
                     @can('project-management')
-                        <li><a href="#Project_Management" aria-expanded="false" data-toggle="collapse"> <i
+                        <li class="has-dropdown {{ (request()->is('project-management*')) ? 'active' : '' }}"><a
+                                    href="#Project_Management" aria-expanded="false" data-toggle="collapse"> <i
                                         class="dripicons-checklist"></i><span>{{__('Project Management')}}</span></a>
                             <ul id="Project_Management" class="collapse list-unstyled ">
                                 @can('view-project')
@@ -603,6 +635,8 @@
                                     <li id="tasks"><a
                                                 href="{{route('tasks.index')}}">{{trans(('file.Tasks'))}}</a>
                                     </li>
+                                @endcan
+                                @can('client')
                                     <li id="clients"><a
                                                 href="{{route('clients.index')}}">{{trans(('file.Client'))}}</a>
                                     </li>
@@ -622,12 +656,16 @@
                     @endcan
 
                     @can('view-ticket')
-                        <li><a href="{{route('tickets.index')}}"> <i
+                        <li class="{{ (request()->is('tickets*')) ? 'active' : '' }}"><a
+                                    href="{{route('tickets.index')}}"> <i
                                         class="dripicons-ticket"></i><span>{{__('Support Tickets')}}</span></a>
                         </li>
                     @endcan
                     @can('finance')
-                        <li><a href="#Finance" aria-expanded="false" data-toggle="collapse"> <i
+                        <li class="has-dropdown {{ (request()->is('accounting*')) ? 'active' : '' }}"><a href="#Finance"
+                                                                                                         aria-expanded="false"
+                                                                                                         data-toggle="collapse">
+                                <i
                                         class="dripicons-graph-pie"></i><span>{{trans('file.Finance')}}</span></a>
                             <ul id="Finance" class="collapse list-unstyled ">
                                 @can('view-account')
@@ -674,7 +712,8 @@
                         </li>
                     @endcan
 
-                    <li><a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
+                    <li class="has-dropdown @if(request()->is('assets*')){{ (request()->is('assets*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/assets_category*')){{ (request()->is('dynamic_variable/assets_category*')) ? 'active' : '' }}@endif">
+                        <a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
                                     class="dripicons-box"></i><span>{{trans(('file.Assets'))}}</span></a>
                         <ul id="assets" class="collapse list-unstyled ">
                             <li id="assets"><a
@@ -686,7 +725,8 @@
                     </li>
 
                     @can('file_module')
-                        <li><a href="#file_manager" aria-expanded="false" data-toggle="collapse"> <i
+                        <li class="has-dropdown {{ (request()->is('file_manager*')) ? 'active' : '' }}"><a
+                                    href="#file_manager" aria-expanded="false" data-toggle="collapse"> <i
                                         class="dripicons-archive"></i><span>{{__('File Manager')}}</span></a>
                             <ul id="file_manager" class="collapse list-unstyled ">
 
@@ -716,11 +756,11 @@
 </nav>
 <div class="page">
     <div id="app">
-        
+
         @include('translation::notifications')
 
         @yield('body')
-        
+
     </div>
 
     <footer class="main-footer">

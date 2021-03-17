@@ -24,10 +24,14 @@ class RoleController extends Controller {
 					{
 						return $role->id;
 					})
+					->addColumn('name', function ($data)
+					{
+						return ucfirst ($data->name);
+					})
 					->addColumn('action', function ($data)
 					{
 						$button = '';
-						if($data->name != 'admin')
+						if($data->name != 'admin' && $data->name != 'employee' && $data->name != 'client' )
 						{
 							if (auth()->user()->can('set-permission'))
 							{

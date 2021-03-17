@@ -21,28 +21,30 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
-                                                    data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
-                                                    title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
-                                                @foreach($companies as $company)
-                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                                @endforeach
-                                                
-                                            </select>
+                                    {{-- @if (Auth::user()->role_users_id==1) --}}
+                                    @if ((Auth::user()->can('view-attendance')))
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
+                                                        data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                                        title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
+                                                    @foreach($companies as $company)
+                                                        <option value="{{$company->id}}">{{$company->company_name}}</option>
+                                                    @endforeach
+                                                    
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
 
-
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <select name="employee_id" id="employee_id"   class="selectpicker form-control"
-                                                    data-live-search="true" data-live-search-style="begins"
-                                                    title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
-                                            </select>
+                                        <div class="col-md-4">
+                                            <div class="form-group">
+                                                <select name="employee_id" id="employee_id"   class="selectpicker form-control"
+                                                        data-live-search="true" data-live-search-style="begins"
+                                                        title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
+                                    @endif
 
 
                                     <div class="col-md-3">
@@ -398,7 +400,8 @@
                     if (filter_company !== '' && filter_month_year !== '') {
                         $('#month_wise_attendance-table').DataTable().destroy();
                         fill_datatable(filter_company, filter_employee, filter_month_year);
-                    } else {
+                    } 
+                    else {
                         alert('{{__('Select at least one filter option')}}');
                     }
                 });

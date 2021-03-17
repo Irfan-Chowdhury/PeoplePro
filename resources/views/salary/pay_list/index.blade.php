@@ -260,7 +260,7 @@
                                <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="name">{{__('Monthly Payslip')}}</label>
+                                        <label for="name">{{__('Monthly Payslip')}}</label> &nbsp;&nbsp;&nbsp;&nbsp; <span id="payment_type_error"></span>
                                         <input type="text" name="basic_salary" id="basic_salary_payment" class="form-control" value="0" readonly="readonly">
                                         <input type="hidden" value="0" name="month_year" id="hidden_month_year">
                                         <input type="hidden" value="" name="employee_id" id="employee_id">
@@ -463,7 +463,7 @@
                                 data: 'status',
                                 name: 'status',
                                 render: function (data) {
-                                    if (data === 1) {
+                                    if (data == 1) {
                                         return "<td><div class = 'badge badge-success'>{{trans('file.Paid')}}</div>"
                                     } else {
                                         return "<td><div class = 'badge badge-danger'>{{trans('file.Unpaid')}}</div>"
@@ -756,6 +756,10 @@
                     dataType: "json",
                     success: function (data) {
                         let html = '';
+                        if (data.payment_type_error) {
+                            html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';
+                            $('#payment_type_error').html(html).slideDown(300).delay(5000).slideUp(300);
+                        }
                         if (data.error) {
                             html = '<div class="alert alert-danger">' + data.error + '</div>';
                         }
@@ -774,18 +778,33 @@
             $('#bulk_payment').on('click', function(event) {
                 event.preventDefault();
 
+                // var filter_company = $("#filter_company").val();
+                // var filter_department = $("#filter_department").val();
+                var month_year = $("#month_year").val();
+
+                var allCheckboxId = [];
+                let table = $('#pay_list-table').DataTable();
+                allCheckboxId = table.rows({selected: true}).ids().toArray();
+
+                //console.log(allCheckboxId);
+
                 let target = '{{route('paySlip.bulk_pay')}}' ;
 
                 $.ajax({
                     url: target,
                     method: "POST",
-                    data: new FormData(document.getElementById("filter_form")),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    dataType: "json",
+                    data : {all_checkbox_id : allCheckboxId, month_year:month_year},
+                    // data: new FormData(document.getElementById("filter_form")),
+                    // contentType: false,
+                    // cache: false,
+                    // processData: false,
+                    // dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         let html = '';
+                        if (data.payment_type_error) {
+                            html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';
+                        }
                         if (data.error) {
                             html = '<div class="alert alert-danger">' + data.error + '</div>';
                         }
@@ -793,6 +812,7 @@
                             html = '<div class="alert alert-success">' + data.success + '</div>';
                         }
                         $('#bulk_payment_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                        $('#pay_list-table').DataTable().rows('.selected').deselect();
                         $('#pay_list-table').DataTable().ajax.reload();
                     }
                 });

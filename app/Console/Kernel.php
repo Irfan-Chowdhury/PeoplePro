@@ -17,7 +17,8 @@ class Kernel extends ConsoleKernel
     protected $commands = [
         //
 		Commands\DocumentExpiryReminder::class,
-		Commands\OfficialDocumentExpiryReminder::class,
+        Commands\OfficialDocumentExpiryReminder::class,
+        Commands\EmployeeImmigrationExpiryReminder::class,
 
 	];
 
@@ -30,7 +31,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 		$schedule->command('document:expiry')->daily();
-		$schedule->command('officialDocument:expiry')->daily();
+        $schedule->command('officialDocument:expiry')->daily();
+        $schedule->command('employeeImmigration:expiry')->daily();
 	}
 
     /**

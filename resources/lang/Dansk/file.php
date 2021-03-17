@@ -10,6 +10,7 @@ return array (
   'Address' => 'Adresse',
   'Admin' => 'Admin',
   'All' => '',
+  'All_Department' => 'Alle afdelinger',
   'Allowances' => 'Godtgørelse',
   'Amount' => 'Beløb',
   'Announcement' => 'Bekendtgørelse',

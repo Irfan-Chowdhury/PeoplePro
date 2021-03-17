@@ -1,0 +1,31 @@
+=============== Upcoming Fetures ===========
+
+1.User-List: User Full Name.
+2.Employee list: 
+    1.User-name show
+    2.Skype whats-app show
+    3.Role (Done)
+    4.PDF
+
+3.User List
+    -Add User  (Done)
+        1.Add Admin
+        2.Add Employee
+        3.Add Client
+
+
+=============== Remeber ===============
+1.Modified file- 
+    1. EmployeeController@ - index(),store(),infoUpdate()
+    2. AllUserController@ - user_roles() [all_user.user_roles.blade.php]
+    3. AssignRoleController@ - update()  
+    4. Forign key relation updated- using 'roles' instead of 'role_users' (users.role_users_id == roles.id && employees.role_users_id == roles.id)  
+    5. In employee details by view -  Employee's Role will be disabled when he is admin.
+
+2.Have to Update for client's DB -
+    table(roles) - 
+            1. Admin
+            2. Employee
+            3. Client
+
+3. 'role_users' table will be deleted.

@@ -1,7 +1,7 @@
 <?php
 
 return array (
-	'About' => 'About',
+	'About' => 'حول',
 	'Absent' => 'Absent',
 	'Account' => 'Account',
 	'Accounts' => 'Accounts',
@@ -10,6 +10,7 @@ return array (
   'Address' => 'عنوان',
   'Admin' => 'مشرف',
   'All' => '',
+  'All_Department' => 'كل الاقسام',
   'Allowances' => 'البدلات',
   'Amount' => 'كمية',
   'Announcement' => 'إعلان',

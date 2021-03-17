@@ -8,6 +8,7 @@ use App\company;
 use App\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class AssetController extends Controller {
@@ -25,10 +26,17 @@ class AssetController extends Controller {
 
 		if (request()->ajax())
 		{
-			return datatables()->of(Asset::with('company', 'employee', 'Category')->get())
-				->setRowId(function ($asset)
+			if(!(auth()->user()->can('view-assets')))
+			{
+				$assets = Asset::with('company', 'employee', 'Category')->where('employee_id',auth()->user()->id)->get();
+			}else{
+				$assets = Asset::with('company', 'employee', 'Category')->get();
+			}
+			
+			return datatables()->of($assets)
+				->setRowId(function ($row)
 				{
-					return $asset->id;
+					return $row->id;
 				})
 				->addColumn('company', function ($row)
 				{
@@ -44,13 +52,14 @@ class AssetController extends Controller {
 				})
 				->addColumn('action', function ($data)
 				{
-
-					$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-					$button .= '&nbsp;&nbsp;';
-					$button .= '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
-					$button .= '&nbsp;&nbsp;';
-					$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-
+					$button = '';
+					if ((Auth::user()->can('edit-assets')) && (Auth::user()->can('delete-assets'))){
+						$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+						$button .= '&nbsp;&nbsp;';
+						$button .= '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
+						$button .= '&nbsp;&nbsp;';
+						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+					}
 					return $button;
 
 				})

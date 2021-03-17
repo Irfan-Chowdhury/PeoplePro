@@ -22,24 +22,177 @@ class PayslipController extends Controller {
 			if (request()->ajax())
 			{
 				return datatables()->of(Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])->latest('created_at'))
+				// return datatables()->of(Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])->orderBy('id','DESC'))
 					->setRowId(function ($payslip)
 					{
 						return $payslip->id;
 					})
+					->addColumn('bank_account', function ($row)
+					{
+						return $row->employeeBankAccount->account_number ?? '';
+					})
 					->addColumn('employee_name', function ($row)
 					{
-						return $row->employee->full_name;
-					})
-					->addColumn('company', function ($row)
-					{
+						$employee_name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2;'>".$row->employee->full_name."</a></span>";
 						$company_name = $row->employee->company->company_name ?? '';
 						$department_name = $row->employee->department->department_name ?? '';
-						return $company_name . ' (' . $department_name . ')';
+
+						return $employee_name.'</br><b>Comapny :</b> '.$company_name.'</br><b>Department :</b> '.$department_name;
 					})
-					->addColumn('net_payable', function ($row)
+					->addColumn('salary_details', function ($row)
 					{
-						return $row->net_salary;
-					})
+						//basic salary
+						// $basic_salary = $row->basic_salary;
+
+						//-----------basic salary---------
+						if($row->payment_type == 'Hourly') { //Basic Salary (Total)
+							$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
+									->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
+									->where('id',$row->employee_id)->first();
+							$total_minutes = 0 ;
+							$total_hours = $this->totalWorkedHours($employee);
+							sscanf($total_hours, '%d:%d', $hour, $min);
+							//converting in minute
+							$total_minutes += $hour * 60 + $min;
+							$amount_hours = ($row->basic_salary / 60 ) * $total_minutes;
+						}
+						else { //Basic Salary
+							$basic_salary = $row->basic_salary;
+						}
+
+						//----------- basic salary ----------
+
+
+						//allowances
+						if($row->allowances){
+							$allowance_total = 0;
+							foreach($row->allowances as $allowance)
+							{
+								$allowance_total += $allowance['allowance_amount'];
+							}
+						}
+						else{
+							$allowance_total = 0;
+						}
+
+						//Total Salary 
+						// $total_salary = $basic_salary + $allowance_total;
+
+						//Total Salary
+						if($row->payment_type == 'Hourly') {
+							$total_salary = $amount_hours + $allowance_total;
+						}else {
+							$total_salary = $basic_salary + $allowance_total;
+						}
+
+
+						//Commision
+						if($row->commissions){
+							$commission_total = 0;
+							foreach($row->commissions as $commission)
+							{
+								$commission_total += $commission['commission_amount'];
+							}
+						}
+						//Loan
+						if($row->loans){
+							$loan_total=0;
+							foreach($row->loans as $loan)
+							{
+								$loan_total += $loan['monthly_payable'];
+							}
+						}
+						//Other Payments
+						if($row->other_payments){
+							$other_payment_total = 0;
+							foreach($row->other_payments as $other_payment)
+							{
+								$other_payment_total += $other_payment['other_payment_amount'];
+							}
+						}
+						//Overtime
+						if($row->overtimes){
+							$overtime_total = 0;
+							foreach($row->overtimes as $overtime)
+							{
+								$overtime_total += $overtime['overtime_amount'];
+							}
+						}
+						//Deduction
+						if($row->deductions){
+							$deduction_total = 0.00;
+							foreach($row->deductions as $deduction)
+							{
+								$deduction_total += $deduction['deduction_amount'];
+							}
+						}
+
+						//Basic Salary(Total)
+						if($row->payment_type == 'Hourly') {
+							$data = "<div class='d-flex'>
+									<div class='ml-auto'> Basic Salary (Total) :</div>
+									<div class='ml-auto'>".$amount_hours."</div>
+								</div>";
+
+						} //Basic Salary
+						else { 
+							$data = "<div class='d-flex'>
+									<div class='ml-auto'> Basic Salary :</div>
+									<div class='ml-auto'>".$basic_salary."</div>
+								</div>";
+						}
+
+						
+						if ($row->allowances) {
+							$data .= "<div class='d-flex'>
+									<div class='ml-auto'>(+) Allowance:</div>
+									<div class='ml-auto'>".$allowance_total."</div>
+								</div>";
+						}
+						//Total Salary
+						$data .= "<div class='d-flex'>
+									<div class='ml-auto'> <b>Total Salary</b> :</div>
+									<div class='ml-auto'><b>".config('variable.currency')." ".$total_salary."</b></div>
+								</div>";
+
+						if($row->commissions) {
+							$data .= "<div class='d-flex'>
+									<div class='ml-auto'>(+) Commision:</div>
+									<div class='ml-auto'>".$commission_total."</div>
+								</div>";
+						}
+						if($row->other_payments){
+							$data .= "<div class='d-flex'>
+										<div class='ml-auto'> Other Payment &nbsp:</div>
+										<div class='ml-auto'>".$other_payment_total."</div>
+									</div>";
+						}
+						if($row->overtimes){
+							$data .= "<div class='d-flex'>
+										<div class='ml-auto'>(+) Overtime &nbsp:</div>
+										<div class='ml-auto'>".$overtime_total."</div>
+									</div>";
+						}
+						if($row->loans){
+							$data .= "<div class='d-flex'>
+									<div class='ml-auto'>(-) Loan:</div>
+									<div class='ml-auto'>".$loan_total."</div>
+								</div>";
+						}
+						if($row->deductions){
+							$data .= "<div class='d-flex'>
+										<div class='ml-auto'>(-) Deduction &nbsp:</div>
+										<div class='ml-auto'>".$deduction_total."</div>
+									</div>";
+						}
+						//Net Payable
+						$data .= "<div class='d-flex'>
+									<div class='ml-auto'><b>Net Payable</b> :</div>
+									<div class='ml-auto'><b>".config('variable.currency')." ".$row->net_salary."</b></div>
+								</div>";
+
+						return $data;
+					})					
 					->addColumn('action', function ($data)
 					{
 							$button  = '<a id="' . $data->payslip_key . '" class="show btn btn-primary btn-sm" href="' . route('payslip_details.show', $data->payslip_key) . '"><i class="dripicons-preview"></i></a>';
@@ -47,7 +200,7 @@ class PayslipController extends Controller {
 							$button .= '<a id="' . $data->payslip_key . '" class="download btn btn-info btn-sm" href="' . route('payslip.pdf', $data->payslip_key) . '"><i class="dripicons-download"></i></a>';
 							return $button;
 					})
-					->rawColumns(['action'])
+					->rawColumns(['action','employee_name','salary_details'])
 					->make(true);
 			}
 

@@ -20,13 +20,14 @@ class AppraisalController extends Controller
                         ->orderBy('id','DESC')->get();
 
             return DataTables::of($appraisals)
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                ->setRowId(function ($row)
+                {
+                    return $row->id;
                 })
                 ->addIndexColumn()
                 ->addColumn('company_name', function ($row)
                 {
-                    return $row->company->company_name ?? ' ' ;
+                    return $row->company->company_name ?? '' ;
                 })
                 ->addColumn('employee_name', function ($row)
                 {
@@ -38,7 +39,7 @@ class AppraisalController extends Controller
                 })
                 ->addColumn('designation_name', function ($row)
                 {
-                    return $row->designation->designation_name ?? ' ' ;
+                    return $row->designation->designation_name ?? '' ;
                 })
                 ->addColumn('date', function ($row)
                 {
@@ -70,36 +71,41 @@ class AppraisalController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $validator = Validator::make($request->only('company_id','employee_id'),[ 
-                'company_id' => 'required',
-                'employee_id' => 'required'
-            ]);
+        $logged_user = auth()->user();
 
-            if ($validator->fails())
+        if ($logged_user->can('store-appraisal'))
+		{
+            if ($request->ajax())
             {
-                return response()->json(['errors' => "<h3>Please fill the required option</h3>"]);
+                $validator = Validator::make($request->only('company_id','employee_id'),[ 
+                    'company_id' => 'required',
+                    'employee_id' => 'required'
+                ]);
+    
+                if ($validator->fails())
+                {
+                    return response()->json(['errors' => "<h3>Please fill the required option</h3>"]);
+                }
+    
+                $employee = Employee::find($request->employee_id);
+                
+                $appraisal                = new Appraisal();
+                $appraisal->company_id    = $request->company_id;
+                $appraisal->employee_id   = $request->employee_id;
+                $appraisal->department_id = $employee->department_id;
+                $appraisal->designation_id= $employee->designation_id;
+                $appraisal->customer_experience = $request->customer_experience;
+                $appraisal->marketing     = $request->marketing;
+                $appraisal->administration= $request->administration;
+                $appraisal->professionalism = $request->professionalism;
+                $appraisal->integrity     = $request->integrity;
+                $appraisal->attendance    = $request->attendance;
+                $appraisal->remarks       = $request->remarks;
+                $appraisal->date          = $request->date;
+                $appraisal->save();
+                
+                return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
             }
-
-            $employee = Employee::find($request->employee_id);
-            
-            $appraisal                = new Appraisal();
-            $appraisal->company_id    = $request->company_id;
-            $appraisal->employee_id   = $request->employee_id;
-            $appraisal->department_id = $employee->department_id;
-            $appraisal->designation_id= $employee->designation_id;
-            $appraisal->customer_experience = $request->customer_experience;
-            $appraisal->marketing     = $request->marketing;
-            $appraisal->administration= $request->administration;
-            $appraisal->professionalism = $request->professionalism;
-            $appraisal->integrity     = $request->integrity;
-            $appraisal->attendance    = $request->attendance;
-            $appraisal->remarks       = $request->remarks;
-            $appraisal->date          = $request->date;
-            $appraisal->save();
-            
-            return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
         }
     }
 
@@ -116,36 +122,46 @@ class AppraisalController extends Controller
 
     public function update(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $appraisal = Appraisal::find($request->appraisal_id);
-            $employee  = Employee::find($request->employee_id); 
+        $logged_user = auth()->user();
 
-            $appraisal->company_id    = $request->company_id;
-            $appraisal->employee_id   = $request->employee_id;
-            $appraisal->department_id = $employee->department_id;
-            $appraisal->designation_id= $employee->designation_id;
-            $appraisal->date          = $request->date          ;
-            $appraisal->customer_experience = $request->customer_experience;
-            $appraisal->marketing     = $request->marketing;
-            $appraisal->administration= $request->administration;
-            $appraisal->professionalism = $request->professionalism;
-            $appraisal->integrity     = $request->integrity;
-            $appraisal->attendance    = $request->attendance;
-            $appraisal->remarks       = $request->remarks;
-            $appraisal->update();
-
-            return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
+        if ($logged_user->can('edit-appraisal'))
+		{
+            if ($request->ajax())
+            {
+                $appraisal = Appraisal::find($request->appraisal_id);
+                $employee  = Employee::find($request->employee_id); 
+    
+                $appraisal->company_id    = $request->company_id;
+                $appraisal->employee_id   = $request->employee_id;
+                $appraisal->department_id = $employee->department_id;
+                $appraisal->designation_id= $employee->designation_id;
+                $appraisal->date          = $request->date          ;
+                $appraisal->customer_experience = $request->customer_experience;
+                $appraisal->marketing     = $request->marketing;
+                $appraisal->administration= $request->administration;
+                $appraisal->professionalism = $request->professionalism;
+                $appraisal->integrity     = $request->integrity;
+                $appraisal->attendance    = $request->attendance;
+                $appraisal->remarks       = $request->remarks;
+                $appraisal->update();
+    
+                return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
+            }
         }
     }
 
     public function delete(Request $request)
     {
-        if ($request->ajax()) {
-            $appraisal = Appraisal::find($request->appraisal_id);
-            $appraisal->delete();
+        $logged_user = auth()->user();
 
-            return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+        if ($logged_user->can('delete-appraisal'))
+		{
+            if ($request->ajax()) {
+                $appraisal = Appraisal::find($request->appraisal_id);
+                $appraisal->delete();
+    
+                return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+            }
         }
     }
 

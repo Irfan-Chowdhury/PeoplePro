@@ -16,8 +16,9 @@ class GoalTypeController extends Controller
         {
             $goal_types = GoalType::orderBy('id','DESC')->get();
             return DataTables::of($goal_types)
-                ->addColumn('checkbox', function ($row) {
-                    return '<input type="checkbox" class="checkSingle" data-id="'.$row->id.'" " />';
+                ->setRowId(function ($row)
+                {
+                    return $row->id;
                 })
                 ->addIndexColumn()
                 ->addColumn('action', function($row){
@@ -35,21 +36,26 @@ class GoalTypeController extends Controller
 
     public function store(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $validator = Validator::make($request->only('goal_type'),
-                            [ 'goal_type' => 'required|unique:goal_types']
-                        );
-            if ($validator->fails())
+        $logged_user = auth()->user();
+
+        if ($logged_user->can('store-goal-type'))
+		{
+            if ($request->ajax()) 
             {
-                return response()->json(['errors' => $validator->errors()->all()]);
+                $validator = Validator::make($request->only('goal_type'),
+                                [ 'goal_type' => 'required|unique:goal_types']
+                            );
+                if ($validator->fails())
+                {
+                    return response()->json(['errors' => $validator->errors()->all()]);
+                }
+
+                $goal_type = new GoalType();
+                $goal_type->goal_type = $request->goal_type;
+                $goal_type->save();
+
+                return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
             }
-
-            $goal_type = new GoalType();
-            $goal_type->goal_type = $request->goal_type;
-            $goal_type->save();
-
-            return response()->json(['success' => '<p><b>Data Saved Successfully.</b></p>']);
         }
     }
 
@@ -66,35 +72,43 @@ class GoalTypeController extends Controller
 
     public function update(Request $request)
     {
+        $logged_user = auth()->user();
 
-        if ($request->ajax()) 
-        {
-            $data = GoalType::find($request->goal_type_id);
-
-            $validator = Validator::make($request->only('goal_type'),[ 
-                            'goal_type' => 'required|unique:goal_types,goal_type,'.$data->id
-                        ]);
-            if ($validator->fails())
+        if ($logged_user->can('edit-goal-type'))
+		{
+            if ($request->ajax()) 
             {
-                return response()->json(['errors' => $validator->errors()->all()]);
+                $data = GoalType::find($request->goal_type_id);
+
+                $validator = Validator::make($request->only('goal_type'),[ 
+                                'goal_type' => 'required|unique:goal_types,goal_type,'.$data->id
+                            ]);
+                if ($validator->fails())
+                {
+                    return response()->json(['errors' => $validator->errors()->all()]);
+                }
+
+                
+                $data->goal_type = $request->goal_type;
+                $data->update();
+
+                return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
             }
-
-            
-            $data->goal_type = $request->goal_type;
-            $data->update();
-
-            return response()->json(['success' => '<p><b>Data Updated Successfully.</b></p>']);
         }
     }
 
     public function delete(Request $request)
     {
-        if ($request->ajax()) 
-        {
-            $data = GoalType::find($request->goal_type_id);
-            $data->delete();
+        $logged_user = auth()->user();
+        if ($logged_user->can('delete-goal-type'))
+		{
+            if ($request->ajax()) 
+            {
+                $data = GoalType::find($request->goal_type_id);
+                $data->delete();
 
-            return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+                return response()->json(['success' => '<p><b>Data Deleted Successfully.</b></p>']);
+            }
         }
     }
 

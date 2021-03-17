@@ -114,11 +114,18 @@
                             data: 'assign_role',
                             name: 'assign_role',
                             render: function (data,type,row) {
-                                if (row.role_name !== 'admin') {
+
+                                if (row.role_name == 'admin' ) {
+                                    return 'Admin role can not be changed';
+                                }
+                                else if (row.role_name == 'client') {
+                                    return 'Client role can not be changed';
+                                }
+                                else {
                                     return '<div class="btn-group"><button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assign Role &nbsp;</button><div class="dropdown-menu">@foreach($roles as $role)<li data-employee_id="'+row.id+'" data-role_id="{{$role->id}}" class="assign-role">{{$role->name}}</li>@endforeach</div></div>';
                                 }
-                                return '';
-                                }
+                                
+                            }
                         }
 
                     ],

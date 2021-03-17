@@ -11,12 +11,11 @@ use Spatie\Permission\Models\Role;
 
 
 class AllUserController extends Controller {
-
+	
 	public function index()
 	{
-
 		$logged_user = auth()->user();
-		$roles = Role_User::select('id', 'role_name')->limit(2)->get();
+		// $roles = Role_User::select('id', 'role_name')->limit(2)->get();
 
 		if ($logged_user->can('view-user'))
 		{
@@ -27,35 +26,64 @@ class AllUserController extends Controller {
 					{
 						return $user->id;
 					})
-					->addColumn('role_name', function ($row)
+					->addColumn('contacts', function ($row)
 					{
-						return $row->RoleUser->role_name;
+						$email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+						$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+						
+						return $email.'</br>'.$contact_no;
+					})
+					->addColumn('username', function ($row)
+					{
+						if ($row->profile_photo) 
+						{
+							$url = url("public/uploads/profile_photos/".$row->profile_photo);        
+							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>'; 
+						}
+						else {
+							$url = url("public//logo/avatar.jpg");        
+							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+						}
+						
+						$username  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->username."</a></span>";
+						return "<div class='d-flex'>
+									<div class='mr-2'>".$profile_photo."</div>
+									<div>" 
+										.$username.'</br>'.
+										// '<b>Role :</b> '.$row->RoleUser->role_name;
+										'<b>Role :</b> '.$row->RoleUser->name;
+									"</div>
+								</div>";
+						
+					})
+					->addColumn('login_info', function ($row)
+					{
+						return '<b>Last Login Date :</b> '.$row->last_login_date.'</br>'.'<b>Last Login IP :</b> '.$row->last_login_ip;
 					})
 					->addColumn('action', function ($data)
 					{
 						$button = '';
-						if (auth()->user()->can('edit-user'))
-						{
-							$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
-							$button .= '&nbsp;&nbsp;';
-						}
-						if (auth()->user()->can('delete-user') && $data->id != 1)
-						{
-							$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-cross"></i></button>';
-						}
+							if (auth()->user()->can('edit-user'))
+							{
+								$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
+								$button .= '&nbsp;&nbsp;';
+							}
+							if (auth()->user()->can('delete-user') && $data->id != 1)
+							{
+								$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-cross"></i></button>';
+							}
 
-						return $button;
+							return $button;
 					})
-					->rawColumns(['action'])
+					->rawColumns(['action','contacts','username','login_info'])
 					->make(true);
 			}
 
-			return view('all_user.index', compact('roles'));
+			// return view('all_user.index', compact('roles'));
+			return view('all_user.index');
 		}
 
 		return abort('403', __('You are not authorized'));
-
-
 	}
 
 	public function edit($id)
@@ -247,12 +275,14 @@ class AllUserController extends Controller {
 
 
 		$logged_user = auth()->user();
-		$roles = Role::where('id', '!=', 1)->where('is_active',1)->select('id', 'name')->get();
+		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
 
 
 		if ($logged_user->can('role-access-user'))
 		{
 			$users = User::with('roles')->get();
+
+			//return $users;
 
 			if (request()->ajax())
 			{
@@ -336,8 +366,10 @@ class AllUserController extends Controller {
 
 			$user_id = $request['userIdArray'];
 
-
 			$user = User::whereIn('id', $user_id);
+			// $filepaths= $user->pluck('profile_photo');
+
+
 			if ($user->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.User')])]);

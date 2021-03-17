@@ -10,10 +10,11 @@
             <table id="payslips-table" class="table ">
                 <thead>
                 <tr>
+                    <th>Payslip Number</th>
+                    <th>Bank Account</th>
                     <th>{{trans('file.Employee')}}</th>
-                    <th>{{trans('file.Company')}}</th>
-                    <th>{{__('Paid Amount')}}</th>
-                    <th>{{__('Salary Month')}}</th>
+                    <th class="text-center" >Salary Details</th>
+                    <th class="text-center" >Salary Month</th>
                     <th>{{__('Payment Date')}}</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
@@ -63,30 +64,42 @@
                     },
 
                     columns: [
+                        // {
+                        //     data: 'id',
+                        //     name: 'id',
+                        // },
+                        {
+                            data: 'payslip_number',
+                            name: 'payslip_number',
+                        },
+                        {
+                            data: 'bank_account',
+                            name: 'bank_account',
+                        },
                         {
                             data: 'employee_name',
                             name: 'employee_name',
                         },
                         {
-                            data: 'company',
-                            name: 'company',
-                        },
-                        {
-                            data: 'net_payable',
-                            name: 'net_payable',
-                            render: function (data) {
-                                if ('{{config('variable.currency_format') ==='suffix'}}') {
-                                    return data + ' {{config('variable.currency')}}';
-                                } else {
-                                    return '{{config('variable.currency')}} ' + data;
-
-                                }
-                            }
+                            data: 'salary_details',
+                            name: 'salary_details',
                         },
                         {
                             data: 'month_year',
                             name: 'month_year',
                         },
+                        // {
+                        //     data: 'net_payable',
+                        //     name: 'net_payable',
+                        //     render: function (data) {
+                        //         if ("{{config('variable.currency_format') ==='suffix'}}") {
+                        //             return data + " {{config('variable.currency')}}";
+                        //         } else {
+                        //             return "{{config('variable.currency')}} " + data;
+
+                        //         }
+                        //     }
+                        // },
                         {
                             data: 'created_at',
                             name: 'created_at',
@@ -113,7 +126,8 @@
                     'columnDefs': [
                         {
                             "orderable": false,
-                            'targets': [0, 5],
+                            'targets': [0,3,4,5],
+                            "className": "text-center"
                         },
                     ],
 

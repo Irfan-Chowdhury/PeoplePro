@@ -10,6 +10,7 @@ return array (
   'Address' => 'ที่อยู่',
   'Admin' => 'ผู้ดูแลระบบ',
   'All' => '',
+  'All_Department' => 'ทุกแผนก',
   'Allowances' => 'เผื่อ',
   'Amount' => 'จำนวน',
   'Announcement' => 'ประกาศ',

@@ -55,7 +55,8 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Department')}} *</label>
-                                <input type="text" name="department_name" id="department_name" required class="form-control"
+                                <input type="text" name="department_name" id="department_name" required
+                                       class="form-control"
                                        placeholder="{{__('Unique Value',['key'=>trans('file.Department')])}}">
                             </div>
                             <div class="col-md-6">

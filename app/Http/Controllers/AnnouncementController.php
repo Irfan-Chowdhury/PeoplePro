@@ -37,7 +37,9 @@ class AnnouncementController extends Controller {
 				$employee = Employee::findOrFail($logged_user->id);
 				$announcements = Announcement::with('company', 'department')
 					->where('company_id',$employee->company_id)
-					->orWhere('department_id',$employee->department_id)->get();
+					->where('department_id',$employee->department_id)
+					->orWhere('department_id','=',NULL)
+					->get();
 			}
 
 			return datatables()->of($announcements)
@@ -51,7 +53,8 @@ class AnnouncementController extends Controller {
 				})
 				->addColumn('department', function ($row)
 				{
-					return empty($row->department->department_name) ? '' : $row->department->department_name;
+					// return empty($row->department->department_name) ? 'All Department' : $row->department->department_name;
+					return empty($row->department->department_name) ? __(trans('file.All_Department')) : $row->department->department_name;
 				})
 				->addColumn('action', function ($data)
 				{
@@ -96,6 +99,7 @@ class AnnouncementController extends Controller {
 					'start_date' => 'required',
 					'end_date' => 'required',
 					'company_id' => 'required',
+					'department_id' => 'required',
 
 				]);
 
@@ -114,7 +118,7 @@ class AnnouncementController extends Controller {
 			$data['summary'] = $request->summary;
 			$data['description'] = $request->description;
 			$data['company_id'] = $request->company_id;
-			if($request->department_id)
+			if($request->department_id != 0)
 			{
 				$data ['department_id'] = $request->department_id;
 			}

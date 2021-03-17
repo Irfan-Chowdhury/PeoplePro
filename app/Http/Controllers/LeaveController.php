@@ -11,10 +11,18 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
+//Notification
+use App\Notifications\EmployeeLeaveNotification; //Mail
+use App\Notifications\LeaveNotification; //Database
+use App\Notifications\LeaveNotificationToAdmin; //Database
+use App\User;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Auth;
 class LeaveController extends Controller {
 
 	public function index()
 	{
+		
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$leave_types = LeaveType::select('id', 'leave_type', 'allocated_day')->get();
@@ -140,11 +148,33 @@ class LeaveController extends Controller {
 			$data ['start_date'] = $request->start_date;
 			$data ['end_date'] = $request->end_date;
 			$data['total_days'] = $request->diff_date_hidden;
+			$leave = leave::create($data);
+			
+			if($leave->is_notify==1)
+			{
+				$text = "A new leave-notification has been published";
+				$notifiable = User::findOrFail($data['employee_id']);
+				$notifiable->notify(new LeaveNotification($text)); //To Employee
+			}
+			elseif ((Auth::user()->role_users_id !=1 ) && ($leave->is_notify==NULL))
+			{
+				$notifiable = User::where('role_users_id',1)->get();
+				foreach ($notifiable as $item) {
+					$item->notify(new LeaveNotificationToAdmin());
+				}
 
-
-			leave::create($data);
-
-
+				//Mail
+				// $department = department::with('DepartmentHead:id,email')->where('id',$request->department_id)->first();
+				// Notification::route('mail', $department->DepartmentHead->email)
+				// 				->notify(new EmployeeLeaveNotification(
+				// 					$leave->employee->full_name,
+				// 					$leave->total_days,
+				// 					$leave->start_date,
+				// 					$leave->end_date,
+				// 					$leave->leave_reason,
+				// 				));
+			}
+				
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
@@ -337,6 +367,13 @@ class LeaveController extends Controller {
 			}
 
 			leave::find($id)->update($data);
+
+			if ($data['is_notify']!=NULL)
+			{
+				$text = "A leave-notification has been updated";
+				$notifiable = User::findOrFail($data['employee_id']);
+				$notifiable->notify(new LeaveNotification($text)); //To Employee
+			}
 
 			return response()->json(['success' => __('Data is successfully updated')]);
 		}

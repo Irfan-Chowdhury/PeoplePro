@@ -24,7 +24,6 @@ class CreateGoalTrackingsTable extends Migration
             $table->string('end_date');
             $table->integer('progress')->defaul(0);
             $table->string('status')->nullable();
-            // $table->tinyInteger('is_active')->defaul(1);
             $table->timestamps();
         });
     }

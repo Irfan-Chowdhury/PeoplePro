@@ -25,14 +25,14 @@ class CreateAppraisalsTable extends Migration
             $table->string('professionalism')->nullable();
             $table->string('integrity')->nullable();
             $table->string('attendance')->nullable();
-            $table->string('remarks')->nullable();
+            $table->text('remarks')->nullable();
             $table->string('date')->nullable();
             $table->timestamps();
 
-            $table->foreign('company_id')->references('id')->on('companies');
-            $table->foreign('employee_id')->references('id')->on('employees');
-            $table->foreign('department_id')->references('id')->on('departments');
-            $table->foreign('designation_id')->references('id')->on('designations');
+            // $table->foreign('company_id')->references('id')->on('companies');
+            // $table->foreign('employee_id')->references('id')->on('employees');
+            // $table->foreign('department_id')->references('id')->on('departments');
+            // $table->foreign('designation_id')->references('id')->on('designations');
         });
     }
 
