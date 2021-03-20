@@ -18,6 +18,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 
 use App\Http\traits\MonthlyWorkedHours;
+use Illuminate\Support\Facades\DB;
 
 class AttendanceController extends Controller {
 
@@ -495,9 +496,6 @@ class AttendanceController extends Controller {
 					$shift = null;
 				}
 
-
-
-
 				return datatables()->of($date_range)
 					->setRowId(function ($row) use ($employee)
 					{
@@ -717,7 +715,6 @@ class AttendanceController extends Controller {
 		// {
 			if (request()->ajax())
 			{
-				// if($logged_user->role_users_id != 1) //New
 				if(!($logged_user->can('view-attendance'))) //Correction
 				{
 					$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($first_date, $last_date)
@@ -824,7 +821,6 @@ class AttendanceController extends Controller {
 							},
 						])
 							->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
-							// ->where('id','=',9) //extra
 							->get();
 					}
 				}
@@ -973,9 +969,18 @@ class AttendanceController extends Controller {
 					{
 						return $this->work_days;
 					})
-					->addColumn('total_worked_hours', function ($row)
+					// ->addColumn('total_worked_hours', function ($row)
+					// {
+					// 	return $this->totalWorkedHours($row);
+					// })
+					->addColumn('total_worked_hours', function ($row) use ($month_year)
 					{
-						return $this->totalWorkedHours($row);
+						if ($month_year) {
+							return $this->MonthlyTotalWorked($month_year,$row->id);
+						}
+						else{
+							return $this->totalWorkedHours($row);
+						}
 					})
 					->with([
 						'date_range' => $this->date_range,
@@ -1036,7 +1041,6 @@ class AttendanceController extends Controller {
 		{
 			if (request()->ajax())
 			{
-
 
 				$employee_attendance = Attendance::where('employee_id', $request->employee_id)
 					->where('attendance_date', Carbon::parse($request->attendance_date)->format('Y-m-d'))->get();
@@ -1278,6 +1282,41 @@ class AttendanceController extends Controller {
 		$this->setSuccessMessage(__('Imported Successfully'));
 
 		return back();
+	}
+
+
+	protected function MonthlyTotalWorked($month_year,$employeeId)
+	{
+		$year = date('Y',strtotime($month_year));
+		$month = date('m',strtotime($month_year));
+
+		$total = 0;
+
+		$att = Employee::with(['employeeAttendance' => function ($query) use ($year,$month){
+				$query->whereYear('attendance_date',$year)->whereMonth('attendance_date',$month);
+			}])
+			->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
+			->whereId($employeeId)
+			->get();
+								
+		//$count = count($att[0]->employeeAttendance);
+		// return $att[0]->employeeAttendance[0]->total_work;
+
+		foreach ($att[0]->employeeAttendance as $key => $a)
+		{
+			// return $att[0]->employeeAttendance[1]->total_work;
+			// return $a->total_work;
+			sscanf($a->total_work, '%d:%d', $hour, $min);
+			$total += $hour * 60 + $min;
+		}
+
+		if ($h = floor($total / 60))
+		{
+			$total %= 60;
+		}
+		$sum_total = sprintf('%02d:%02d', $h, $total);
+
+		return $sum_total;
 	}
 
 }

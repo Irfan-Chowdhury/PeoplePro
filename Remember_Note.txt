@@ -3,7 +3,7 @@
 1.User-List: User Full Name.
 2.Employee list: 
     1.User-name show
-    2.Skype whats-app show
+    2.Skype whats-app show [Done]
     3.Role (Done)
     4.PDF
 
@@ -26,9 +26,8 @@
 1. Employee Dashboard - Task - [Done]
 2. Bulk Payment Issue - [Done]
 3. Full Screen
-4. Monthly Attendance (total Work Hour)
-
-
+4. Monthly Attendance (total Work Hour) [Done]
+5. Payment 
 
 
 

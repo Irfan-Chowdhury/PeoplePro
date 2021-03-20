@@ -38,6 +38,13 @@ class EmployeeController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+		// $employee = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+		// 					->where('company_id',1)
+		// 					->where('id',9)
+		// 					->first();
+		
+		// return $employee;
+
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
@@ -45,34 +52,34 @@ class EmployeeController extends Controller {
 		if (request()->ajax())
 		{
 			if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id){
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->where('designation_id','=',$request->designation_id)
 							->where('office_shift_id','=',$request->office_shift_id)
 							->get();
 			}elseif ($request->company_id && $request->department_id && $request->designation_id) {
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->where('designation_id','=',$request->designation_id)
 							->get();
 			}elseif ($request->company_id && $request->department_id) {
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->get();
 			}elseif ($request->company_id && $request->office_shift_id) {
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 							->where('company_id','=',$request->company_id)
 							->where('office_shift_id','=',$request->office_shift_id)
 							->get();
 			}elseif ($request->company_id) {
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 							->where('company_id','=',$request->company_id)
 							->get();	
 			}else {
-				$employees = Employee::with('user:id,profile_photo','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
 					->orderBy('company_id')
 					->get();
 			}
@@ -94,6 +101,7 @@ class EmployeeController extends Controller {
 						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
 					}
 					$name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->full_name."</a></span>";
+					$username = "<span>Username: &nbsp;".($row->user->username ?? '')."</span>";
 					$gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
 					$shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
 					$salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')."</span>";
@@ -102,7 +110,7 @@ class EmployeeController extends Controller {
 					return "<div class='d-flex'>
 									<div class='mr-2'>".$profile_photo."</div>
 									<div>" 
-										.$name.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
+										.$name.'</br>'.$username.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
 									"</div>
 								</div>";
 				})

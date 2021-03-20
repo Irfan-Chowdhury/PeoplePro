@@ -36,5 +36,4 @@ Trait MonthlyWorkedHours {
 
 		return $sum_total;
 	}
-
 }
