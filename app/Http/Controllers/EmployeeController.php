@@ -118,8 +118,10 @@ class EmployeeController extends Controller {
 				{
 					$email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
 					$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+					$skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i>&nbsp;".$row->skype_id;
+					$whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i>&nbsp;".$row->whatsapp_id;
 					
-					return $email.'</br>'.$contact_no;
+					return $email.'</br>'.$contact_no.'</br>'.$skype_id.'</br>'.$whatsapp_id;
 				})
 				->addColumn('action', function ($data)
 				{
@@ -509,7 +511,7 @@ class EmployeeController extends Controller {
 			$data['fb_id'] = $request->fb_id;
 			$data['twitter_id'] = $request->twitter_id;
 			$data['linkedIn_id'] = $request->linkedIn_id;
-			$data['blogger_id'] = $request->blogger_id;
+			$data['whatsapp_id'] = $request->whatsapp_id;
 			$data ['skype_id'] = $request->skype_id;
 
 			Employee::whereId($employee)->update($data);

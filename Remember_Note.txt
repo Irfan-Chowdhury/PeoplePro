@@ -8,10 +8,28 @@
     4.PDF
 
 3.User List
-    -Add User  (Done)
+    -Add User  - [Done]
         1.Add Admin
         2.Add Employee
         3.Add Client
+
+4. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
+5. Add Job Apply - 
+    i.   Contact Number (Required) & 
+    ii.  Address Optional  - 
+    iii. Short Description (Correction- Laravel Developer)
+6. One Company has multiple locatin - (less priority)
+
+
+=============== BUG ===============
+
+1. Employee Dashboard - Task - [Done]
+2. Bulk Payment Issue - [Done]
+3. Full Screen
+4. Monthly Attendance (total Work Hour)
+
+
+
 
 
 =============== Remeber ===============

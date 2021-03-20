@@ -34,10 +34,11 @@
                             class="form-control" value="<?php echo e($employee->twitter_id); ?>">
                 </div>
 
+                
                 <div class="col-md-12 form-group">
-                    <label><?php echo e(__('Blogger Profile')); ?></label>
-                    <input type="text" name="blogger_id" id="blogger_id" placeholder="<?php echo e(__('Blogger Profile')); ?>"
-                            class="form-control" value="<?php echo e($employee->blogger_id); ?>">
+                    <label><?php echo e(__('Whats App Profile')); ?></label>
+                    <input type="text" name="whatsapp_id" id="whatsapp_id" placeholder="<?php echo e(__('Whats App Profile')); ?>"
+                            class="form-control" value="<?php echo e($employee->whatsapp_id); ?>">
                 </div>
 
                 <div class="form-group row">
