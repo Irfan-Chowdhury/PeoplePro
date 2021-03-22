@@ -210,12 +210,20 @@ class PayslipController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
-	public function show(Payslip $payslip){
+	public function show(Payslip $payslip)
+	{	
+		$month_year = $payslip->month_year;
+		$first_date = date('Y-m-d', strtotime('first day of ' . $month_year));
+		$last_date  = date('Y-m-d', strtotime('last day of ' . $month_year));
 
-
-		$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
-			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
-			->where('id',$payslip->employee_id)->first();
+		$employee = Employee::with(['user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name',
+				'employeeAttendance' => function ($query) use ($first_date, $last_date){
+					$query->whereBetween('attendance_date', [$first_date, $last_date]);
+				}])
+				->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
+				->where('id',$payslip->employee_id)
+				->first();
+				
 		$total_minutes = 0 ;
 		$total_hours = $this->totalWorkedHours($employee);
 		sscanf($total_hours, '%d:%d', $hour, $min);
@@ -225,6 +233,21 @@ class PayslipController extends Controller {
 
 		return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
 	}
+	// public function show(Payslip $payslip)
+	// {	
+
+	// 	$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
+	// 		->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
+	// 		->where('id',$payslip->employee_id)->first();
+	// 	$total_minutes = 0 ;
+	// 	$total_hours = $this->totalWorkedHours($employee);
+	// 	sscanf($total_hours, '%d:%d', $hour, $min);
+	// 	//converting in minute
+	// 	$total_minutes += $hour * 60 + $min;
+	// 	$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
+
+	// 	return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
+	// }
 
 
 
@@ -239,12 +262,21 @@ class PayslipController extends Controller {
 	}
 
 
-	public function printPdf(Payslip $payslip){
+	public function printPdf(Payslip $payslip)
+	{
+		$month_year = $payslip->month_year;
+		$first_date = date('Y-m-d', strtotime('first day of ' . $month_year));
+		$last_date  = date('Y-m-d', strtotime('last day of ' . $month_year));
 
-		$employee = Employee::with('user:id,username','company.Location.country',
-			'department:id,department_name','designation:id,designation_name')
+		$employee = Employee::with(['user:id,username','company.Location.country',
+			'department:id,department_name','designation:id,designation_name',
+			'employeeAttendance' => function ($query) use ($first_date, $last_date){
+				$query->whereBetween('attendance_date', [$first_date, $last_date]);
+			}])
 			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id','payslip_type')
 			->where('id',$payslip->employee_id)->first()->toArray();
+
+		//return $employee[3]['employeeAttendance'];
 
 		$employee_new = Employee::findOrFail($payslip->employee_id);
 
@@ -256,10 +288,35 @@ class PayslipController extends Controller {
 		$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
 		$employee['hours_amount'] = $amount_hours;
 
+		//return $total_hours;
+		//return view('salary.payslip.pdf',compact('payslip','employee'));
+
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
         $pdf = PDF::loadView('salary.payslip.pdf', $payslip,$employee);
         return $pdf->stream();
 	}
+
+	// public function printPdf(Payslip $payslip){
+
+	// 	$employee = Employee::with('user:id,username','company.Location.country',
+	// 		'department:id,department_name','designation:id,designation_name')
+	// 		->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id','payslip_type')
+	// 		->where('id',$payslip->employee_id)->first()->toArray();
+
+	// 	$employee_new = Employee::findOrFail($payslip->employee_id);
+
+	// 	$total_minutes = 0 ;
+	// 	$total_hours = $this->totalWorkedHours($employee_new);
+	// 	sscanf($total_hours, '%d:%d', $hour, $min);
+	// 	//converting in minute
+	// 	$total_minutes += $hour * 60 + $min;
+	// 	$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
+	// 	$employee['hours_amount'] = $amount_hours;
+
+	// 	PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
+    //     $pdf = PDF::loadView('salary.payslip.pdf', $payslip,$employee);
+    //     return $pdf->stream();
+	// }
 
 }
 

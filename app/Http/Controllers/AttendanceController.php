@@ -825,10 +825,6 @@ class AttendanceController extends Controller {
 					}
 				}
 
-				// return response()->json($employee);
-				// return 
-
-
 				return datatables()->of($employee)
 					->setRowId(function ($row)
 					{

@@ -32,7 +32,10 @@ class PayrollController extends Controller {
 		$logged_user = auth()->user();
 		$companies = company::all();
 
-		$selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year ;
+		$selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year;
+		
+		$first_date = date('Y-m-d', strtotime('first day of ' . $selected_date));
+		$last_date = date('Y-m-d', strtotime('last day of ' . $selected_date));
 
 
 		if ($logged_user->can('view-paylist'))
@@ -47,6 +50,9 @@ class PayrollController extends Controller {
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
+						},
+						'employeeAttendance' => function ($query) use ($first_date, $last_date){
+							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
@@ -59,6 +65,9 @@ class PayrollController extends Controller {
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
+						},
+						'employeeAttendance' => function ($query) use ($first_date, $last_date){
+							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
@@ -70,10 +79,13 @@ class PayrollController extends Controller {
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
+						},
+						'employeeAttendance' => function ($query) use ($first_date, $last_date){
+							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						}])
-						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')->get();
+						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+						->get();
 				}
-
 
 
 				return datatables()->of($employees)
@@ -117,8 +129,6 @@ class PayrollController extends Controller {
 					{
 						if (auth()->user()->can('view-paylist'))
 						{
-							$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
-							$button .= '&nbsp;&nbsp;';
 							$status = 0;
 							$payslip_key = 0;
 							foreach ($data->payslips as $payslip)
@@ -128,13 +138,15 @@ class PayrollController extends Controller {
 							}
 							if ($status == 1)
 							{
-								$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+								$button = '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
 								$button .= '&nbsp;&nbsp;';
-								$button .= '<a id="' . $payslip_key . '" class="download btn btn-info btn-sm" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+								$button .= '<a id="' . $payslip_key . '" class="download btn-sm" style="background:#FF7588; color:#fff" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
 							} else
 							{
 								if (auth()->user()->can('make-payment'))
 								{
+									$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
+									$button .= '&nbsp;&nbsp;';
 									$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
 								} else
 								{
@@ -148,6 +160,41 @@ class PayrollController extends Controller {
 							return '';
 						}
 					})
+					// ->addColumn('action', function ($data)
+					// {
+					// 	if (auth()->user()->can('view-paylist'))
+					// 	{
+					// 		$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
+					// 		$button .= '&nbsp;&nbsp;';
+					// 		$status = 0;
+					// 		$payslip_key = 0;
+					// 		foreach ($data->payslips as $payslip)
+					// 		{
+					// 			$payslip_key = $payslip->payslip_key;
+					// 			$status = $payslip->status;
+					// 		}
+					// 		if ($status == 1)
+					// 		{
+					// 			$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+					// 			$button .= '&nbsp;&nbsp;';
+					// 			$button .= '<a id="' . $payslip_key . '" class="download btn btn-info btn-sm" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+					// 		} else
+					// 		{
+					// 			if (auth()->user()->can('make-payment'))
+					// 			{
+					// 				$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
+					// 			} else
+					// 			{
+					// 				$button = '';
+					// 			}
+					// 		}
+
+					// 		return $button;
+					// 	} else
+					// 	{
+					// 		return '';
+					// 	}
+					// })
 					->rawColumns(['action'])
 					->make(true);
 			}

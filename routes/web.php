@@ -22,6 +22,9 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['XSS']], function ()
 {
+	Route::get('/pdf', function () {
+		return view('pdf');
+	});
 
 	Route::get('/', 'RouteClosureHandlerController@redirectToLogin')->name('redirectToLogin');
 	Route::get('help', 'RouteClosureHandlerController@help')->name('help');
@@ -548,9 +551,10 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::prefix('payroll')->group(function ()
 	{
 		Route::get('list', 'PayrollController@index')->name('payroll.index');
-		Route::get('payslip_index', 'PayrollController@dummy')->name('paySlip.index');
+		Route::get('payslip', 'PayrollController@dummy')->name('paySlip.index');
+
 		// Route::get('payslip/{id}', 'PayrollController@paySlip')->name('paySlip.show');
-		Route::get('payslip', 'PayrollController@paySlip')->name('paySlip.show');
+		Route::get('payslip_show', 'PayrollController@paySlip')->name('paySlip.show');
 
 		Route::post('payslip/pay/{id}', 'PayrollController@payEmployee')->name('paySlip.pay');
 		Route::post('payslip/payment/bulk', 'PayrollController@payBulk')->name('paySlip.bulk_pay');

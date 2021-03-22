@@ -161,7 +161,7 @@
 
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
-                    <li class="nav-item"><a id="btnFullscreen" href="" data-toggle="tooltip"
+                    <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip"
                                             title="{{__('Full Screen')}}"><i class="dripicons-expand"></i></a></li>
                     <li class="nav-item">
                         <a rel="nofollow" id="notify-btn" href="#" class="nav-link dropdown-item" data-toggle="tooltip"
