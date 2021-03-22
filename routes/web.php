@@ -548,11 +548,16 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::prefix('payroll')->group(function ()
 	{
 		Route::get('list', 'PayrollController@index')->name('payroll.index');
-		Route::get('payslip', 'PayrollController@dummy')->name('paySlip.index');
-		Route::get('payslip/{id}', 'PayrollController@paySlip')->name('paySlip.show');
+		Route::get('payslip_index', 'PayrollController@dummy')->name('paySlip.index');
+		// Route::get('payslip/{id}', 'PayrollController@paySlip')->name('paySlip.show');
+		Route::get('payslip', 'PayrollController@paySlip')->name('paySlip.show');
+
 		Route::post('payslip/pay/{id}', 'PayrollController@payEmployee')->name('paySlip.pay');
 		Route::post('payslip/payment/bulk', 'PayrollController@payBulk')->name('paySlip.bulk_pay');
-		Route::get('payslip/generate/{id}', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
+		
+		// Route::get('payslip/generate/{id}', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
+		Route::get('payslip/generate', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
+
 		Route::get('payment_history', 'PayslipController@index')->name('payment_history.index');
 		Route::get('payslip/delete/{payslip}', 'PayslipController@delete')->name('payslip.destroy');
 		Route::get('payslip/id/{payslip}', 'PayslipController@show')->name('payslip_details.show');

@@ -566,16 +566,20 @@
             $(document).on('click', '.details', function () {
                 //individual salary id from pay_list table
                 let id = $(this).attr('id');
-
+                let filter_month_year = $('#month_year').val();
                 let currency_format = '{{config('variable.currency_format')}}';
 
                 //target contains payslip.show
-                let target = '{{route('paySlip.index')}}/' + id;
+                // let target = '{{route('paySlip.index')}}/' + id;
+                let target = '{{route('paySlip.show')}}';
 
                 $.ajax({
                     url: target,
-                    dataType: "json",
+                    // dataType: "json",
+                    type: "GET",
+                    data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
+                        // console.log(result);
                         $('#employee_username').html(result.data.employee_username);
                         $('#employee_full_name').html(result.data.employee_full_name);
                         $('#employee_designation').html(result.data.employee_designation);
@@ -588,10 +592,6 @@
                         else {
                             $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/" + result.data.employee_pp + " width='100'  class='rounded-circle' />");
                         }
-
-
-
-
 
                         let total_allowance = 0;
                         (result.data.allowances).forEach(function (a) {
@@ -699,14 +699,17 @@
                 //individual salary id from pay_list table
                 let id = $(this).attr('id');
                 $('#payment_month_year_show').html($('#month_year').val());
-
+                let filter_month_year = $('#month_year').val();
 
                 //target contains payslip.show
-                let target = '{{route('paySlip.index')}}/generate/' + id;
+                // let target = '{{route('paySlip.index')}}/generate/' + id;
+                let target = '{{route('paySlip.generate')}}';
 
                 $.ajax({
                     url: target,
-                    dataType: "json",
+                    // dataType: "json",
+                    type: "GET",
+                    data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
                         if (result.data.payslip_type === 'Hourly') {
                                 $('.hide-element').show();

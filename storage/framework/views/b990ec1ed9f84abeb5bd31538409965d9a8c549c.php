@@ -1,18 +1,17 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <section>
         <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header with-border">
-                    <h3 class="card-title text-center">{{__('Monthly Attendance Info')}} <hr><span
+                    <h3 class="card-title text-center"><?php echo e(__('Monthly Attendance Info')); ?> <hr><span
                                         id="details_month_year" class="thin-text"></span></h3>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <form method="post" id="filter_form" class="form-horizontal">
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="row">
 
                                     <div class="col-md-2">
@@ -21,16 +20,16 @@
                                         </div>
                                     </div>
 
-                                    {{-- @if (Auth::user()->role_users_id==1) --}}
-                                    @if ((Auth::user()->can('view-attendance')))
+                                    
+                                    <?php if((Auth::user()->can('view-attendance'))): ?>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
                                                         data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
-                                                        title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
-                                                    @foreach($companies as $company)
-                                                        <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                                    @endforeach
+                                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Company')])); ?>...'>
+                                                    <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                        <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                     
                                                 </select>
                                             </div>
@@ -40,16 +39,16 @@
                                             <div class="form-group">
                                                 <select name="employee_id" id="employee_id"   class="selectpicker form-control"
                                                         data-live-search="true" data-live-search-style="begins"
-                                                        title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
+                                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Employee')])); ?>...'>
                                                 </select>
                                             </div>
                                         </div>
-                                    @endif
+                                    <?php endif; ?>
 
 
                                     <div class="col-md-3">
                                         <div class="form-group">
-                                            <button name="submit_form" id="submit_form" type="submit" class="btn btn-primary"><i class="fa fa fa-check-square-o"></i> {{trans('file.Get')}}</button>
+                                            <button name="submit_form" id="submit_form" type="submit" class="btn btn-primary"><i class="fa fa fa-check-square-o"></i> <?php echo e(trans('file.Get')); ?></button>
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +58,7 @@
                 </div>
             </div>
             <span class="attendace_mark_info mb-3">
-                <small>{{trans('file.present')}} = P  , {{trans('file.Absent')}} = A  ,{{trans('file.Leave')}} = L  , {{trans('file.Holiday')}} = H  ,{{__('Off Day')}} = O</small>
+                <small><?php echo e(trans('file.present')); ?> = P  , <?php echo e(trans('file.Absent')); ?> = A  ,<?php echo e(trans('file.Leave')); ?> = L  , <?php echo e(trans('file.Holiday')); ?> = H  ,<?php echo e(__('Off Day')); ?> = O</small>
             </span>      
         </div>
         <div class="table-responsive">
@@ -67,7 +66,7 @@
                 <thead>
                 <tr>
                     <th></th>
-                    <th>{{trans('file.Employee')}} </th>
+                    <th><?php echo e(trans('file.Employee')); ?> </th>
                     <th></th>
                     <th></th>
                     <th></th>
@@ -99,8 +98,8 @@
                     <th></th>
                     <th></th>
                     <th></th>
-                    <th>{{__('Worked Days')}}</th>
-                    <th>{{__('Total Worked Hours')}}</th>
+                    <th><?php echo e(__('Worked Days')); ?></th>
+                    <th><?php echo e(__('Total Worked Hours')); ?></th>
                 </tr>
 
                 </thead>
@@ -158,12 +157,12 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('monthly_attendances.index') }}",
+                            url: "<?php echo e(route('monthly_attendances.index')); ?>",
                             data: {
                                 filter_company: filter_company,
                                 filter_employee: filter_employee,
                                 filter_month_year: filter_month_year,
-                                "_token": "{{ csrf_token()}}"
+                                "_token": "<?php echo e(csrf_token()); ?>"
                             },
                             // success: function (data) {
                             //     console.log(data);
@@ -327,12 +326,12 @@
 
                         "order": [],
                         'language': {
-                            'lengthMenu': '_MENU_ {{__("records per page")}}',
-                            "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                            "search": '{{trans("file.Search")}}',
+                            'lengthMenu': '_MENU_ <?php echo e(__("records per page")); ?>',
+                            "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                            "search": '<?php echo e(trans("file.Search")); ?>',
                             'paginate': {
-                                'previous': '{{trans("file.Previous")}}',
-                                'next': '{{trans("file.Next")}}'
+                                'previous': '<?php echo e(trans("file.Previous")); ?>',
+                                'next': '<?php echo e(trans("file.Next")); ?>'
                             }
                         },
                         'columnDefs': [
@@ -405,7 +404,7 @@
                         fill_datatable(filter_company, filter_employee, filter_month_year);
                     } 
                     else {
-                        alert('{{__('Select at least one filter option')}}');
+                        alert('<?php echo e(__('Select at least one filter option')); ?>');
                     }
                 });
             });
@@ -418,7 +417,7 @@
                     let last_name = $(this).data('last_name');
                     let _token = $('input[name="_token"]').val();
                     $.ajax({
-                        url:"{{ route('dynamic_employee') }}",
+                        url:"<?php echo e(route('dynamic_employee')); ?>",
                         method:"POST",
                         data:{ value:value, _token:_token, first_name:first_name,last_name:last_name},
                         success:function(result)
@@ -434,4 +433,5 @@
         })(jQuery); 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\xampp\htdocs\Lion-Coders\Peoplepro\Running_File\peoplepro\resources\views/timesheet/monthlyAttendance/index.blade.php ENDPATH**/ ?>

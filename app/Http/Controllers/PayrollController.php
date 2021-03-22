@@ -117,7 +117,7 @@ class PayrollController extends Controller {
 					{
 						if (auth()->user()->can('view-paylist'))
 						{
-							$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm"><i class="dripicons-preview"></i></button>';
+							$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
 							$button .= '&nbsp;&nbsp;';
 							$status = 0;
 							$payslip_key = 0;
@@ -128,14 +128,14 @@ class PayrollController extends Controller {
 							}
 							if ($status == 1)
 							{
-								$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+								$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
 								$button .= '&nbsp;&nbsp;';
-								$button .= '<a id="' . $payslip_key . '" class="download btn btn-info btn-sm" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+								$button .= '<a id="' . $payslip_key . '" class="download btn btn-info btn-sm" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
 							} else
 							{
 								if (auth()->user()->can('make-payment'))
 								{
-									$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm"><i class="fa fa-money"></i></button>';
+									$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
 								} else
 								{
 									$button = '';
@@ -158,12 +158,19 @@ class PayrollController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
-	public function paySlip($id)
+	public function paySlip(Request $request)
 	{
+		$month_year = $request->filter_month_year;
+		$first_date = date('Y-m-d', strtotime('first day of ' . $month_year));
+		$last_date = date('Y-m-d', strtotime('last day of ' . $month_year));
 
-		$employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user')
+		$employee = Employee::with(['allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
+			'employeeAttendance' => function ($query) use ($first_date, $last_date){
+				$query->whereBetween('attendance_date', [$first_date, $last_date]);
+			}])
 			->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type', 'designation_id', 'department_id', 'joining_date')
-			->findOrFail($id);
+			->findOrFail($request->id);
+
 
 		$data = [];
 		$data['basic_salary'] = $employee->basic_salary;
@@ -200,19 +207,70 @@ class PayrollController extends Controller {
 			$data['basic_total'] = $data['monthly_worked_amount'];
 		}
 
-
 		return response()->json(['data' => $data]);
-
 	}
 
+	// public function paySlip($id)
+	// {
 
-	public function paySlipGenerate($id)
+	// 	$employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user')
+	// 		->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type', 'designation_id', 'department_id', 'joining_date')
+	// 		->findOrFail($id);
+
+	// 	$data = [];
+	// 	$data['basic_salary'] = $employee->basic_salary;
+	// 	$data['basic_total'] = $employee->basic_salary;
+	// 	$data['allowances'] = $employee->allowances;
+	// 	$data['commissions'] = $employee->commissions;
+	// 	$data['loans'] = $employee->loans;
+	// 	$data['deductions'] = $employee->deductions;
+	// 	$data['overtimes'] = $employee->overtimes;
+	// 	$data['other_payments'] = $employee->otherPayments;
+
+	// 	$data['employee_id'] = $employee->id;
+	// 	$data['employee_full_name'] = $employee->full_name;
+	// 	$data['employee_designation'] = $employee->designation->designation_name;
+	// 	$data['employee_department'] = $employee->department->department_name;
+	// 	$data['employee_join_date'] = $employee->joining_date;
+	// 	$data['employee_username'] = $employee->user->username;
+	// 	$data['employee_pp'] = $employee->user->profile_photo ?? '';
+
+	// 	$data['payslip_type'] = $employee->payslip_type;
+
+	// 	if ($employee->payslip_type === 'Hourly')
+	// 	{
+	// 		$total = 0;
+	// 		$total_hours_worked = $this->totalWorkedHours($employee);
+	// 		$data['monthly_worked_hours'] = $total_hours_worked;
+	// 		//formatting in hour:min and separating them
+	// 		sscanf($total_hours_worked, '%d:%d', $hour, $min);
+	// 		//converting in minute
+	// 		$total += $hour * 60 + $min;
+
+	// 		$data['monthly_worked_amount'] = ($employee->basic_salary / 60) * $total;
+
+	// 		$data['basic_total'] = $data['monthly_worked_amount'];
+	// 	}
+
+	// 	return response()->json(['data' => $data]);
+	// }
+
+
+	public function paySlipGenerate(Request $request)
 	{
-		$employee = $employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'payslips')
-			->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-			->findOrFail($id);
-		$data = [];
+		$month_year = $request->filter_month_year;
+		$first_date = date('Y-m-d', strtotime('first day of ' . $month_year));
+		$last_date = date('Y-m-d', strtotime('last day of ' . $month_year));
 
+		$employee = Employee::with(['allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
+			'employeeAttendance' => function ($query) use ($first_date, $last_date){
+				$query->whereBetween('attendance_date', [$first_date, $last_date]);
+			}])
+			->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type', 'designation_id', 'department_id', 'joining_date')
+			->findOrFail($request->id);
+
+
+		$data = [];
 		$data['employee'] = $employee->id;
 		$data['basic_salary'] = $employee->basic_salary;
 		$data['total_allowance'] = $employee->allowances->sum('allowance_amount');
@@ -241,6 +299,41 @@ class PayrollController extends Controller {
 
 		return response()->json(['data' => $data]);
 	}
+	// public function paySlipGenerate($id)
+	// {
+	// 	$employee = $employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'payslips')
+	// 		->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 		->findOrFail($id);
+	// 	$data = [];
+
+	// 	$data['employee'] = $employee->id;
+	// 	$data['basic_salary'] = $employee->basic_salary;
+	// 	$data['total_allowance'] = $employee->allowances->sum('allowance_amount');
+	// 	$data['total_commission'] = $employee->commissions->sum('commission_amount');
+	// 	$data['monthly_payable'] = $employee->loans->sum('monthly_payable');
+	// 	$data['amount_remaining'] = $employee->loans->sum('amount_remaining');
+	// 	$data['total_deduction'] = $employee->deductions->sum('deduction_amount');
+	// 	$data['total_overtime'] = $employee->overtimes->sum('overtime_amount');
+	// 	$data['total_other_payment'] = $employee->otherPayments->sum('other_payment_amount');
+	// 	$data['payslip_type'] = $employee->payslip_type;
+
+	// 	if ($employee->payslip_type == 'Monthly')
+	// 	{
+	// 		$data['total_salary'] = $this->totalSalary($employee);
+	// 	} else
+	// 	{
+	// 		$total = 0;
+	// 		$total_hours = $this->totalWorkedHours($employee);
+	// 		sscanf($total_hours, '%d:%d', $hour, $min);
+	// 		//converting in minute
+	// 		$total += $hour * 60 + $min;
+	// 		$data['total_hours'] = $total_hours;
+	// 		$data['worked_amount'] = ($data['basic_salary'] / 60) * $total;
+	// 		$data['total_salary'] = $this->totalSalary($employee, $total);
+	// 	}
+
+	// 	return response()->json(['data' => $data]);
+	// }
 
 	public function payEmployee($id, Request $request)
 	{

@@ -825,6 +825,9 @@ class AttendanceController extends Controller {
 					}
 				}
 
+				// return response()->json($employee);
+				// return 
+
 
 				return datatables()->of($employee)
 					->setRowId(function ($row)
@@ -969,19 +972,19 @@ class AttendanceController extends Controller {
 					{
 						return $this->work_days;
 					})
-					// ->addColumn('total_worked_hours', function ($row)
-					// {
-					// 	return $this->totalWorkedHours($row);
-					// })
-					->addColumn('total_worked_hours', function ($row) use ($month_year)
+					->addColumn('total_worked_hours', function ($row)
 					{
-						if ($month_year) {
-							return $this->MonthlyTotalWorked($month_year,$row->id);
-						}
-						else{
-							return $this->totalWorkedHours($row);
-						}
+						return $this->totalWorkedHours($row);
 					})
+					// ->addColumn('total_worked_hours', function ($row) use ($month_year)
+					// {
+					// 	if ($month_year) {
+					// 		return $this->MonthlyTotalWorked($month_year,$row->id);
+					// 	}
+					// 	else{
+					// 		return $this->totalWorkedHours($row);
+					// 	}
+					// })
 					->with([
 						'date_range' => $this->date_range,
 					])
