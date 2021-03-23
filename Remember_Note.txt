@@ -48,3 +48,5 @@
             3. Client
 
 3. 'role_users' table will be deleted.
+4. payslips.hours_worked - type chenge
+5. payEmployee() - hours_worked added for hourly based employee

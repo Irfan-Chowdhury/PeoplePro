@@ -28,7 +28,6 @@ class PayrollController extends Controller {
 
 	public function index(Request $request)
 	{
-
 		$logged_user = auth()->user();
 		$companies = company::all();
 
@@ -416,6 +415,7 @@ class PayrollController extends Controller {
 					$data['net_salary'] = $request->net_salary;
 					$data['status'] = 1;
 					$data['employee_id'] = $employee->id;
+					$data['hours_worked'] = $request->worked_hours;
 
 					if ($data['payment_type'] == NULL) {
 						return response()->json(['payment_type_error' => __('Please select a payslip-type for this employee.')]);
@@ -831,3 +831,31 @@ class PayrollController extends Controller {
 	// 	return response()->json(['error' => __('Error')]);
 	// }
 }
+
+
+
+// $ip_server = $_SERVER['REMOTE_ADDR'];
+		// $ip_server = $_SERVER['HTTP_CLIENT_IP'];
+		// $ip_server = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		// $ip_server = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+		// $ip_server = gethostbyaddr($_SERVER['REMOTE_HOST']);
+		// $myPublicIP = trim(shell_exec("dig +short myip.opendns.REMOTE_HOSTcom @resolver1.opendns.com"));
+		// return "Server IP Address is: ". $ip_server; 
+
+		// $ipaddress = '';
+		// if (isset($_SERVER['HTTP_CLIENT_IP']))
+		// 	$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+		// else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		// else if(isset($_SERVER['HTTP_X_FORWARDED']))
+		// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+		// else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+		// 	$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+		// else if(isset($_SERVER['HTTP_FORWARDED']))
+		// 	$ipaddress = $_SERVER['HTTP_FORWARDED'];
+		// else if(isset($_SERVER['REMOTE_ADDR']))
+		// 	$ipaddress = $_SERVER['REMOTE_ADDR'];
+		// else
+		// 	$ipaddress = 'UNKNOWN';
+		// return $ipaddress;
+
