@@ -1,49 +1,74 @@
+    
     =============== Upcoming Features Add/Modify ===========
 
     A.User-List: 
-        1.User Full Name [Done]
+        1.User Full Name ------------------------[Done]
 
     B.Employee list: 
-        2.User-name show [Done]
-        3.Skype whats-app show [Done]
-        4.Role [Done]
-        5.Employee Details with PDF [Done]
+        2.User-name show ------------------------[Done]
+        3.Skype whats-app show ------------------[Done]
+        4.Role ----------------------------------[Done]
+        5.Employee Details with PDF -------------[Done]
+    
+    C. User Roles and Access
+        6. Update Role and DB -------------------[Done]
 
-    C.User List
-        6.Add User  - [Done]
-        7.Add Admin - [Done]
-        8.Add Employee - [Done]
-        9.Add Client - [Done]
+    D.User List
+        7.Add Admin -----------------------------[Done]
+        8.Add Employee(Redirect with modal)------[Done]
+        9.Add Client (Redirect) -----------------[Done]
 
-    D. Add Job Apply - 
-        10. Contact Number (Required) & Address Optional [Done]    
+    E. Add Job Apply - 
+        10. Contact Number (Required)------------[Done] 
+        11. Address (Optional) ------------------[Done]    
 
-    E. Others
-        11. PDF Alignment
-        12. Button visibility in "New Payment" [Done]
-        13. Aleart message show for salary,allowance,loan......[Done]
-        14. IP Based Login.
+    F. Others
+        12. Payslip PDF Formate -----------------[Done]
+        13. Button visibility in "New Payment" --[Done]
+        14. Aleart message show for salary,allowance,loan......[Done]
+        15. IP Based Login.---------------------- [Incomplete]
+
+    G. Later
+        16. One Company has multiple locatin - (less priority)
+        17. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
 
 
-        15. One Company has multiple locatin - (less priority)
-        16. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
+                =============== BUG ===============
 
 
-    =============== BUG ===============
+        1. Employee Dashboard - Task - -------------[Done]
 
-        1. Employee Dashboard - Task - [Done]
-        2. Bulk Payment Issue - [Done]
-        3. Full Screen [Done]
-        4. Monthly Attendance (total Work Hour) [Done]
-        5. (Payment Hourly) Details show - [Done] 
+        2. Bulk Payment Issue - --------------------[Done]
+
+        3. Full Screen -----------------------------[Done]
+
+        4. Monthly Attendance (total Work Hour) ----[Done]
+
+        5. (Payment Hourly) Details show -----------[Done] 
+
         6. (Payment Hourly) payment Details before generate - [Done] 
-        7. (Payment Hourly) payment generate - [Done] 
-        8. (Payment Hourly) payslips - [Done] 
-        9. (Payment Hourly) payslips pdf - [Done] 
-        10. Assets Permission Role [Done]
+
+        7. (Payment Hourly) payment generate -------[Done] 
+
+        8. (Payment Hourly) payslips ---------------[Done] 
+
+        9. (Payment Hourly) payslips pdf -----------[Done] 
+
+        10. Assets Permission Role -----------------[Done]
+
         11. Short Description (Correction- Short Description) [Done]
 
     
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -8,17 +8,43 @@
 </head>
 
 <style>
+    h4 {
+        font-size: 80%;
+    }
+    h5 {
+        font-size: 80%;
+    }
     h6 {
-        font-size: 100%;
+        font-size: 80%;
     }
 
     tbody {
         font-size: 80%;
+        margin:0px;
+        padding: 5px;
     }
 
-    .table th, .table td {
+    .table thead tr th, {
         border: 1px solid #000;
-        font-size: smaller;
+        font-size: 80%;
+        margin:0px;
+        padding: 5px;
+
+    }
+    .table tr td {
+        border: 1px solid #000;
+        font-size: 80%;
+        margin:0px;
+        padding: 5px;
+    }
+    #heading{
+        font-size: 80%;
+        color: #CE7749;
+        text-align: center;
+    }
+    #normal-heading{
+        font-size: 70%;
+        color: #000
     }
 </style>
 
@@ -30,11 +56,11 @@
 <hr>
 
 <div class="center">
-    <h4>{{trans('file.Payslip')}}: {{$month_year}}</h4>
+    <h5>{{trans('file.Payslip')}}: {{$month_year}}</h5>
 </div>
-<hr>
+<br>
 <div class="table-responsive">
-    <table class="table  table-bordered">
+    <table class="table table-bordered">
         <tbody>
         <tr>
             <td><strong class="help-split">{{__('Employee ID')}}: </strong>{{$user['username'] ?? ''}}</td>
@@ -63,17 +89,17 @@
 
 <div class="row">
     <div class="col-xs-12 table-responsive">
-        <table class="table  table-bordered">
+        <table class="table table-bordered text-center">
 
             <thead>
             <tr>
-                <th colspan="2">{{trans('file.Earnings')}}</th>
+                <th id="heading" colspan="2">{{trans('file.Earnings')}}</th>
             </tr>
             </thead>
             <thead>
             <tr>
-                <th>{{trans('file.Description')}}</th>
-                <th>{{trans('file.Amount')}}</th>
+                <th id="normal-heading">{{trans('file.Description')}}</th>
+                <th id="normal-heading">{{trans('file.Amount')}}</th>
             </tr>
             </thead>
             @php
@@ -88,17 +114,17 @@
             @endphp
             <tr>
                 @if($payment_type == 'Monthly')
-                    <td class="py-3"><strong>{{__('Basic Salary')}}</strong></td>
+                    <td class="py-3">{{__('Basic Salary')}}</td>
                     <td>{{$basic_salary}}</td>
                 @else
-                    <td class="py-3"><strong>{{__('Basic Salary')}} ({{__('Total')}})</strong></td>
+                    <td class="py-3">{{__('Basic Salary')}} ({{__('Total')}})</td>
                     <td>{{$total_earnings}}</td>
                 @endif
             </tr>
             @if($allowances)
                 @foreach($allowances as $allowance)
                     <tr>
-                        <td class="py-3"><strong>{{$allowance['allowance_title']}}</strong></td>
+                        <td class="py-3">{{$allowance['allowance_title']}}</td>
                         <td>{{$allowance['allowance_amount']}}</td>
                     </tr>
                     @php
@@ -110,7 +136,7 @@
             @if($commissions)
                 @foreach($commissions as $commission)
                     <tr>
-                        <td class="py-3"><strong>{{$commission['commission_title']}}</strong></td>
+                        <td class="py-3">{{$commission['commission_title']}}</td>
                         <td>{{$commission['commission_amount']}}</td>
                     </tr>
                     @php
@@ -122,7 +148,7 @@
             @if($other_payments)
                 @foreach($other_payments as $other_payment)
                     <tr>
-                        <td class="py-3"><strong>{{$other_payment['other_payment_title']}}</strong></td>
+                        <td class="py-3">{{$other_payment['other_payment_title']}}</td>
                         <td>{{$other_payment['other_payment_amount']}}</td>
                     </tr>
                     @php
@@ -134,7 +160,7 @@
             @if($overtimes)
                 @foreach($overtimes as $overtime)
                     <tr>
-                        <td class="py-3"><strong>{{$overtime['overtime_title']}}</strong></td>
+                        <td class="py-3">{{$overtime['overtime_title']}}</td>
                         <td>{{$overtime['overtime_amount']}}</td>
                     </tr>
                     @php
@@ -144,7 +170,7 @@
             @endif
 
             <tr>
-                <td class="py-3"><strong>Total</strong></td>
+                <td class="py-3">Total</td>
                 @if(config('variable.currency_format') ==='suffix')
                     <td id="total_earnings">{{$total_earnings}} {{config('variable.currency')}}</td>
                 @else
@@ -157,19 +183,20 @@
     <!-- /.col -->
 </div>
 
+<hr>
 <div class="row">
     <div class="col-xs-12 table-responsive">
-        <table class="table  table-bordered">
+        <table class="table table-bordered text-center">
 
             <thead>
             <tr>
-                <th colspan="2">{{trans('file.Deductions')}}</th>
+                <th id="heading" colspan="2">{{trans('file.Deductions')}}</th>
             </tr>
             </thead>
             <thead>
             <tr>
-                <th>{{trans('file.Description')}}</th>
-                <th>{{trans('file.Amount')}}</th>
+                <th id="normal-heading">{{trans('file.Description')}}</th>
+                <th id="normal-heading">{{trans('file.Amount')}}</th>
             </tr>
             </thead>
 
@@ -180,7 +207,7 @@
             @if($loans)
                 @foreach($loans as $loan)
                     <tr>
-                        <td class="py-3"><strong>{{$loan['loan_title']}}</strong></td>
+                        <td class="py-3">{{$loan['loan_title']}}</td>
                         <td>{{$loan['monthly_payable']}}</td>
                     </tr>
                     @php
@@ -192,7 +219,7 @@
             @if($deductions)
                 @foreach($deductions as $deduction)
                     <tr>
-                        <td class="py-3"><strong>{{$deduction['deduction_title']}}</strong></td>
+                        <td class="py-3">{{$deduction['deduction_title']}}</td>
                         <td>{{$deduction['deduction_amount']}}</td>
                     </tr>
                     @php
@@ -202,7 +229,7 @@
             @endif
 
             <tr>
-                <td class="py-3"><strong>{{trans('file.Total')}}</strong></td>
+                <td class="py-3">{{trans('file.Total')}}</td>
                 @if(config('variable.currency_format') ==='suffix')
                     <td id="total_deductions">{{$total_deductions}} {{config('variable.currency')}}</td>
                 @else
@@ -216,9 +243,9 @@
     <!-- /.col -->
 </div>
 @if(config('variable.currency_format') ==='suffix')
-    <h4>{{__('Total Paid')}} : <strong>{{$net_salary}} {{config('variable.currency')}}</strong></h4>
+    <h4 class="text-danger">{{__('Total Paid')}} : <strong>{{$net_salary}} {{config('variable.currency')}}</strong></h4>
 @else
-    <h4>{{__('Total Paid')}} :{{config('variable.currency')}} <strong>{{$net_salary}}</strong></h4>
+    <h4 class="text-danger">{{__('Total Paid')}} :{{config('variable.currency')}} <strong>{{$net_salary}}</strong></h4>
 @endif
 
 

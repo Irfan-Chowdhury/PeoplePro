@@ -8,17 +8,43 @@
 </head>
 
 <style>
+    h4 {
+        font-size: 80%;
+    }
+    h5 {
+        font-size: 80%;
+    }
     h6 {
-        font-size: 100%;
+        font-size: 80%;
     }
 
     tbody {
         font-size: 80%;
+        margin:0px;
+        padding: 5px;
     }
 
-    .table th, .table td {
+    .table thead tr th, {
         border: 1px solid #000;
-        font-size: smaller;
+        font-size: 80%;
+        margin:0px;
+        padding: 5px;
+
+    }
+    .table tr td {
+        border: 1px solid #000;
+        font-size: 80%;
+        margin:0px;
+        padding: 5px;
+    }
+    #heading{
+        font-size: 80%;
+        color: #CE7749;
+        text-align: center;
+    }
+    #normal-heading{
+        font-size: 70%;
+        color: #000
     }
 </style>
 
@@ -30,11 +56,11 @@
 <hr>
 
 <div class="center">
-    <h4><?php echo e(trans('file.Payslip')); ?>: <?php echo e($month_year); ?></h4>
+    <h5><?php echo e(trans('file.Payslip')); ?>: <?php echo e($month_year); ?></h5>
 </div>
-<hr>
+<br>
 <div class="table-responsive">
-    <table class="table  table-bordered">
+    <table class="table table-bordered">
         <tbody>
         <tr>
             <td><strong class="help-split"><?php echo e(__('Employee ID')); ?>: </strong><?php echo e($user['username'] ?? ''); ?></td>
@@ -65,17 +91,17 @@
 
 <div class="row">
     <div class="col-xs-12 table-responsive">
-        <table class="table  table-bordered">
+        <table class="table table-bordered text-center">
 
             <thead>
             <tr>
-                <th colspan="2"><?php echo e(trans('file.Earnings')); ?></th>
+                <th id="heading" colspan="2"><?php echo e(trans('file.Earnings')); ?></th>
             </tr>
             </thead>
             <thead>
             <tr>
-                <th><?php echo e(trans('file.Description')); ?></th>
-                <th><?php echo e(trans('file.Amount')); ?></th>
+                <th id="normal-heading"><?php echo e(trans('file.Description')); ?></th>
+                <th id="normal-heading"><?php echo e(trans('file.Amount')); ?></th>
             </tr>
             </thead>
             <?php
@@ -90,17 +116,17 @@
             ?>
             <tr>
                 <?php if($payment_type == 'Monthly'): ?>
-                    <td class="py-3"><strong><?php echo e(__('Basic Salary')); ?></strong></td>
+                    <td class="py-3"><?php echo e(__('Basic Salary')); ?></td>
                     <td><?php echo e($basic_salary); ?></td>
                 <?php else: ?>
-                    <td class="py-3"><strong><?php echo e(__('Basic Salary')); ?> (<?php echo e(__('Total')); ?>)</strong></td>
+                    <td class="py-3"><?php echo e(__('Basic Salary')); ?> (<?php echo e(__('Total')); ?>)</td>
                     <td><?php echo e($total_earnings); ?></td>
                 <?php endif; ?>
             </tr>
             <?php if($allowances): ?>
                 <?php $__currentLoopData = $allowances; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $allowance): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($allowance['allowance_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($allowance['allowance_title']); ?></td>
                         <td><?php echo e($allowance['allowance_amount']); ?></td>
                     </tr>
                     <?php
@@ -112,7 +138,7 @@
             <?php if($commissions): ?>
                 <?php $__currentLoopData = $commissions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $commission): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($commission['commission_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($commission['commission_title']); ?></td>
                         <td><?php echo e($commission['commission_amount']); ?></td>
                     </tr>
                     <?php
@@ -124,7 +150,7 @@
             <?php if($other_payments): ?>
                 <?php $__currentLoopData = $other_payments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $other_payment): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($other_payment['other_payment_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($other_payment['other_payment_title']); ?></td>
                         <td><?php echo e($other_payment['other_payment_amount']); ?></td>
                     </tr>
                     <?php
@@ -136,7 +162,7 @@
             <?php if($overtimes): ?>
                 <?php $__currentLoopData = $overtimes; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $overtime): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($overtime['overtime_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($overtime['overtime_title']); ?></td>
                         <td><?php echo e($overtime['overtime_amount']); ?></td>
                     </tr>
                     <?php
@@ -146,7 +172,7 @@
             <?php endif; ?>
 
             <tr>
-                <td class="py-3"><strong>Total</strong></td>
+                <td class="py-3">Total</td>
                 <?php if(config('variable.currency_format') ==='suffix'): ?>
                     <td id="total_earnings"><?php echo e($total_earnings); ?> <?php echo e(config('variable.currency')); ?></td>
                 <?php else: ?>
@@ -159,19 +185,20 @@
     <!-- /.col -->
 </div>
 
+<hr>
 <div class="row">
     <div class="col-xs-12 table-responsive">
-        <table class="table  table-bordered">
+        <table class="table table-bordered text-center">
 
             <thead>
             <tr>
-                <th colspan="2"><?php echo e(trans('file.Deductions')); ?></th>
+                <th id="heading" colspan="2"><?php echo e(trans('file.Deductions')); ?></th>
             </tr>
             </thead>
             <thead>
             <tr>
-                <th><?php echo e(trans('file.Description')); ?></th>
-                <th><?php echo e(trans('file.Amount')); ?></th>
+                <th id="normal-heading"><?php echo e(trans('file.Description')); ?></th>
+                <th id="normal-heading"><?php echo e(trans('file.Amount')); ?></th>
             </tr>
             </thead>
 
@@ -182,7 +209,7 @@
             <?php if($loans): ?>
                 <?php $__currentLoopData = $loans; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $loan): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($loan['loan_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($loan['loan_title']); ?></td>
                         <td><?php echo e($loan['monthly_payable']); ?></td>
                     </tr>
                     <?php
@@ -194,7 +221,7 @@
             <?php if($deductions): ?>
                 <?php $__currentLoopData = $deductions; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $deduction): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                     <tr>
-                        <td class="py-3"><strong><?php echo e($deduction['deduction_title']); ?></strong></td>
+                        <td class="py-3"><?php echo e($deduction['deduction_title']); ?></td>
                         <td><?php echo e($deduction['deduction_amount']); ?></td>
                     </tr>
                     <?php
@@ -204,7 +231,7 @@
             <?php endif; ?>
 
             <tr>
-                <td class="py-3"><strong><?php echo e(trans('file.Total')); ?></strong></td>
+                <td class="py-3"><?php echo e(trans('file.Total')); ?></td>
                 <?php if(config('variable.currency_format') ==='suffix'): ?>
                     <td id="total_deductions"><?php echo e($total_deductions); ?> <?php echo e(config('variable.currency')); ?></td>
                 <?php else: ?>
@@ -218,9 +245,9 @@
     <!-- /.col -->
 </div>
 <?php if(config('variable.currency_format') ==='suffix'): ?>
-    <h4><?php echo e(__('Total Paid')); ?> : <strong><?php echo e($net_salary); ?> <?php echo e(config('variable.currency')); ?></strong></h4>
+    <h4 class="text-danger"><?php echo e(__('Total Paid')); ?> : <strong><?php echo e($net_salary); ?> <?php echo e(config('variable.currency')); ?></strong></h4>
 <?php else: ?>
-    <h4><?php echo e(__('Total Paid')); ?> :<?php echo e(config('variable.currency')); ?> <strong><?php echo e($net_salary); ?></strong></h4>
+    <h4 class="text-danger"><?php echo e(__('Total Paid')); ?> :<?php echo e(config('variable.currency')); ?> <strong><?php echo e($net_salary); ?></strong></h4>
 <?php endif; ?>
 
 
