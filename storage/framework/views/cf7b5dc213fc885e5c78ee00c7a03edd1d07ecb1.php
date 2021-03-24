@@ -758,6 +758,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         let html = '';
                         if (data.payment_type_error) {
                             html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';

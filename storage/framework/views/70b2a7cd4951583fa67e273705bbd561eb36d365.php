@@ -35,7 +35,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title"><?php echo e(__('Add Allowance')); ?></h5>
+                    <h5 id="exampleModalLabel" class="modal-title"><?php echo e(__('Add Allowance')); ?></h5> 
                     <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="allowance-close"><i class="dripicons-cross"></i></button>
                 </div>
 
@@ -77,8 +77,13 @@
                                                required class="form-control">
                             </div>
 
+                            
+
+
 
                             <div class="container">
+                                <br><br>
+                                <span class="text-danger"><i>[NB: If you don't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="allowance_action"/>
                                     <input type="hidden" name="hidden_id" id="allowance_hidden_id"/>

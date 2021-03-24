@@ -1,5 +1,4 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <section>
 
@@ -9,13 +8,13 @@
             <table id="job_candidate-table" class="table ">
                 <thead>
                 <tr>
-                    <th>{{__('Job Title')}}</th>
-                    <th>{{__('Candidate Name')}}</th>
-                    <th>{{__('Candidate Email')}}</th>
-                    <th>{{trans('file.CV')}}</th>
-                    <th>{{trans('file.Status')}}</th>
-                    <th>{{__('Apply Date')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
+                    <th><?php echo e(__('Job Title')); ?></th>
+                    <th><?php echo e(__('Candidate Name')); ?></th>
+                    <th><?php echo e(__('Candidate Email')); ?></th>
+                    <th><?php echo e(trans('file.CV')); ?></th>
+                    <th><?php echo e(trans('file.Status')); ?></th>
+                    <th><?php echo e(__('Apply Date')); ?></th>
+                    <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                 </tr>
                 </thead>
 
@@ -29,7 +28,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">{{__('Candidate Info')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo e(__('Candidate Info')); ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -42,36 +41,36 @@
                                 <table class="table  table-bordered">
 
                                     <tr>
-                                        <th>{{__('Job Title')}}</th>
+                                        <th><?php echo e(__('Job Title')); ?></th>
                                         <td id="job_description"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Name')}}</th>
+                                        <th><?php echo e(__('Name')); ?></th>
                                         <td id="candidate_name"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Contact')}}</th>
+                                        <th><?php echo e(__('Contact')); ?></th>
                                         <td id="candidate_contact"></td>
                                     </tr>
                                     <tr>
-                                        <th>{{__('Address')}}</th>
+                                        <th><?php echo e(__('Address')); ?></th>
                                         <td id="candidate_address"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Status')}}</th>
+                                        <th><?php echo e(trans('file.Status')); ?></th>
                                         <td id="status"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Cover Letter')}}</th>
+                                        <th><?php echo e(__('Cover Letter')); ?></th>
                                         <td id="cover_letter"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Apply Date')}}</th>
+                                        <th><?php echo e(__('Apply Date')); ?></th>
                                         <td id="apply_date"></td>
                                     </tr>
 
@@ -86,7 +85,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('file.Close')}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('file.Close')); ?></button>
             </div>
         </div>
     </div>
@@ -97,15 +96,15 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
+                    <h2 class="modal-title"><?php echo e(trans('file.Confirmation')); ?></h2>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <h4 align="center">{{__('Are you sure you want to remove this data?')}}</h4>
+                    <h4 align="center"><?php echo e(__('Are you sure you want to remove this data?')); ?></h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">{{trans('file.OK')}}'</button>
-                    <button type="button" class="close btn-default" data-dismiss="modal">{{trans('file.Cancel')}}</button>
+                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger"><?php echo e(trans('file.OK')); ?>'</button>
+                    <button type="button" class="close btn-default" data-dismiss="modal"><?php echo e(trans('file.Cancel')); ?></button>
                 </div>
             </div>
         </div>
@@ -147,7 +146,7 @@
                     processing: true,
                     serverSide: true,
                     ajax: {
-                        url: "{{ route('job_candidates.index') }}",
+                        url: "<?php echo e(route('job_candidates.index')); ?>",
                     },
 
                     columns: [
@@ -170,7 +169,7 @@
                             name: 'cv',
                             render:function (data)
                             {
-                                return '<a href={{url('public/uploads/candidate_cv')}}'
+                                return '<a href=<?php echo e(url('public/uploads/candidate_cv')); ?>'
                                     +'/'+data +'>'+ 'CV' + '</a>';
                             }
                         },
@@ -192,12 +191,12 @@
 
                     "order": [],
                     'language': {
-                        'lengthMenu': '_MENU_ {{__("records per page")}}',
-                        "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                        "search": '{{trans("file.Search")}}',
+                        'lengthMenu': '_MENU_ <?php echo e(__("records per page")); ?>',
+                        "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                        "search": '<?php echo e(trans("file.Search")); ?>',
                         'paginate': {
-                            'previous': '{{trans("file.Previous")}}',
-                            'next': '{{trans("file.Next")}}'
+                            'previous': '<?php echo e(trans("file.Previous")); ?>',
+                            'next': '<?php echo e(trans("file.Next")); ?>'
                         }
                     },
                     'columnDefs': [
@@ -254,7 +253,7 @@
                 $('#form_result').html('');
 
 
-                var target = "{{ route('job_candidates.index') }}/"+id;
+                var target = "<?php echo e(route('job_candidates.index')); ?>/"+id;
 
                 $.ajax({
                     url: target,
@@ -269,7 +268,7 @@
                         $('#status').html(result.data.status);
                         $('#cover_letter').html(result.data.cover_letter);
                         $('#candidate_modal').modal('show');
-                        $('.modal-title').text("{{__('Candidate Info')}}");
+                        $('.modal-title').text("<?php echo e(__('Candidate Info')); ?>");
                     }
                 });
             });
@@ -280,8 +279,8 @@
             $(document).on('click', '.delete', function () {
                 delete_id = $(this).attr('id');
                 $('#confirmModal').modal('show');
-                $('.modal-title').text('{{__('DELETE Record')}}');
-                $('#ok_button').text('{{trans('file.OK')}}');
+                $('.modal-title').text('<?php echo e(__('DELETE Record')); ?>');
+                $('#ok_button').text('<?php echo e(trans('file.OK')); ?>');
 
             });
 
@@ -292,11 +291,11 @@
             });
 
             $('#ok_button').on('click', function () {
-                let target = "{{ route('job_candidates.index') }}/" + delete_id + '/delete';
+                let target = "<?php echo e(route('job_candidates.index')); ?>/" + delete_id + '/delete';
                 $.ajax({
                     url: target,
                     beforeSend: function () {
-                        $('#ok_button').text('{{trans('file.Deleting...')}}');
+                        $('#ok_button').text('<?php echo e(trans('file.Deleting...')); ?>');
                     },
                     success: function (data) {
                         let html = '';
@@ -318,4 +317,5 @@
         })(jQuery);
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH D:\xampp\htdocs\Lion_Coders\Peoplepro\Running_File\peoplepro\resources\views/recruitment/job_candidate/index.blade.php ENDPATH**/ ?>

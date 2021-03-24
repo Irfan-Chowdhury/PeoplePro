@@ -78,6 +78,8 @@
 
 
                             <div class="container">
+                                <br><br>
+                                <span class="text-danger"><i>[NB: If you don't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="deduction_action"/>
                                     <input type="hidden" name="hidden_id" id="deduction_hidden_id"/>

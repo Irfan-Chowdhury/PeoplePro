@@ -44,12 +44,13 @@ class AllUserController extends Controller {
 							$url = url("public//logo/avatar.jpg");        
 							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
 						}
-						
-						$username  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->username."</a></span>";
+						$full_name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
+						// $username  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->username."</a></span>";
+						$username = "<span><b>Username :</b> &nbsp;".$row->username."</span>";
 						return "<div class='d-flex'>
 									<div class='mr-2'>".$profile_photo."</div>
 									<div>" 
-										.$username.'</br>'.
+										.$full_name.'</br>'.$username.'</br>'.
 										// '<b>Role :</b> '.$row->RoleUser->role_name;
 										'<b>Role :</b> '.$row->RoleUser->name;
 									"</div>
@@ -114,6 +115,8 @@ class AllUserController extends Controller {
 
 			$validator = Validator::make($request->all(),
 				[
+					'first_name' => 'required',
+					'last_name'  => 'required',
 					'username' => 'required|unique:users,username,' . $id,
 					'email' => 'required|email|unique:users,email,' . $id,
 					'contact_no' => 'required|unique:users,contact_no,' . $id,
@@ -130,7 +133,8 @@ class AllUserController extends Controller {
 
 			$data = [];
 
-
+			$data['first_name'] = $request->first_name;
+			$data['last_name']  = $request->last_name;
 			$data['username'] = strtolower(trim($request->username));
 			$data['contact_no'] = $request->contact_no;
 			$data['email'] = strtolower(trim($request->email));
@@ -171,39 +175,40 @@ class AllUserController extends Controller {
 	}
 
 
-	public function add_user_form()
-	{
+	// public function add_user_form()
+	// {
 
-		$logged_user = auth()->user();
+	// 	$logged_user = auth()->user();
 
-		if ($logged_user->can('store-user'))
-		{
+	// 	if ($logged_user->can('store-user'))
+	// 	{
 
-			$data['roles'] = Role_User::select('id', 'role_name')->limit(2)->get();
+	// 		$data['roles'] = Role_User::select('id', 'role_name')->limit(2)->get();
 
-			return view('all_user.add_user_form', $data);
-		}
+	// 		return view('all_user.add_user_form', $data);
+	// 	}
 
-		return abort('403', __('You are not authorized'));
-	}
+	// 	return abort('403', __('You are not authorized'));
+	// }
 
 
 	public function add_user_process(Request $request)
 	{
-
+		//return response()->json($request->last_name);
 
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('store-employee'))
 		{
 
-
 			$validator = Validator::make($request->all(),
 				[
-					'username' => 'required|unique:users',
-					'email' => 'required|email|unique:users',
+					'first_name' => 'required',
+					'last_name'  => 'required',
+					'username'   => 'required|unique:users',
+					'email'      => 'required|email|unique:users',
 					'contact_no' => 'required|unique:users',
-					'password' => 'required|min:4|confirmed',
+					'password'   => 'required|min:4|confirmed',
 					'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
 				]
 			);
@@ -215,12 +220,13 @@ class AllUserController extends Controller {
 
 			$data = [];
 
-
-			$data['username'] = strtolower(trim($request->username));
+			$data['first_name'] = $request->first_name;
+			$data['last_name']  = $request->last_name;
+			$data['username'] 	= strtolower(trim($request->username));
 			$data['contact_no'] = $request->contact_no;
-			$data['email'] = strtolower(trim($request->email));
-			$data['password'] = bcrypt($request->password);
-			$data['is_active'] = $request->is_active;
+			$data['email'] 		= strtolower(trim($request->email));
+			$data['password'] 	= bcrypt($request->password);
+			$data['is_active'] 	= $request->is_active;
 			$data['role_users_id'] = 1;
 
 			$photo = $request->profile_photo;

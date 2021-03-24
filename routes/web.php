@@ -71,8 +71,8 @@ Route::group(['middleware' => ['XSS']], function ()
 
 
 	Route::get('/users-list', 'AllUserController@index')->name('users-list');
-	Route::get('/user-add', 'AllUserController@add_user_form')->name('add-user');
-	Route::post('/user-add', 'AllUserController@add_user_process')->name('add-user');;
+	// Route::get('/user-add', 'AllUserController@add_user_form')->name('add-user');
+	Route::post('/user-add', 'AllUserController@add_user_process')->name('add-user');
 	Route::get('/user-login-info', 'AllUserController@login_info')->name('login-info');
 	Route::get('/user_roles', 'AllUserController@user_roles')->name('user-roles');
 	Route::get('/user/edit/{id}', 'AllUserController@edit')->name('edit_user');
@@ -97,6 +97,7 @@ Route::group(['middleware' => ['XSS']], function ()
 
 			//Irfan
 			Route::get('employees/filter', 'EmployeeController@employeesFilter')->name('employees.filter');
+			Route::get('employees/pdf/{id}', 'EmployeeController@employeePDF')->name('employees.pdf');
 
 		}
 		{

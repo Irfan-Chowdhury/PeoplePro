@@ -84,6 +84,8 @@
                         </div>
 
                         <div class="container mt-30px">
+                            
+                            <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
                             <div class="form-group">
                                 <input type="submit" class="btn btn-warning" value=<?php echo e(trans('file.Add')); ?> />
                             </div>

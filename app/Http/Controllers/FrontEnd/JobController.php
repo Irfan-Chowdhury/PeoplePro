@@ -76,11 +76,12 @@ class JobController {
 
 	public function applyForJob(Request $request,$id){
 
-		$validator = Validator::make($request->only('full_name', 'email', 'cover_letter',
+		$validator = Validator::make($request->only('full_name', 'email', 'phone', 'cover_letter',
 			 'cv'),
 			[
 				'full_name' => 'required',
 				'email' => 'required|email',
+				'phone' => 'required',
 				'cover_letter' => 'required',
 				'cv' => 'required|file|max:5120|mimes:jpeg,png,jpg,gif,doc,docx,pdf',
 			],
@@ -88,6 +89,7 @@ class JobController {
 				'full_name.required' => 'Name is not given,it cannot be empty',
 				'email.required' => 'Email is required',
 				'email.email' => 'Email is not valid',
+				'phone.required' => 'Phone number is required',
 				'cover_letter.required' => 'Cover Letter/message is required',
 				'cv.required' => 'CV is required',
 				'cv.file' => 'Must be of type file(jpeg,png,jpg,gif,doc,docx,pdf)',
@@ -107,6 +109,8 @@ class JobController {
 		$data['full_name'] = $request->full_name;
 		$data['job_id'] = $id;
 		$data['email'] = $request->email;
+		$data['phone'] = $request->phone;
+		$data['address'] = $request->address;
 		$data['fb_id'] = $request->fb_id;
 		$data['linkedin_id'] = $request->linkedin_id;
 		$data['cover_letter'] = $request->cover_letter;

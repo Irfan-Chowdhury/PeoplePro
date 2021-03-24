@@ -24,7 +24,6 @@ class Employee extends Model
 		return $this->date_of_birth;
 	}
 
-
 	public function department(){
 		return $this->hasOne('App\department','id','department_id');
 	}
@@ -48,6 +47,11 @@ class Employee extends Model
 	public function user(){
 		return $this->hasOne('App\User','id','id');
 	}
+
+	public function role(){
+		return $this->hasOne('Spatie\Permission\Models\Role','id','role_users_id');
+	}
+
 
 	public function allowances(){
 		return $this->hasMany(SalaryAllowance::class);

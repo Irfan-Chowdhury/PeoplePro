@@ -1,35 +1,54 @@
-=============== Upcoming Fetures ===========
+    =============== Upcoming Features Add/Modify ===========
 
-1.User-List: User Full Name.
-2.Employee list: 
-    1.User-name show
-    2.Skype whats-app show [Done]
-    3.Role (Done)
-    4.PDF
+    A.User-List: 
+        1.User Full Name [Done]
 
-3.User List
-    -Add User  - [Done]
-        1.Add Admin
-        2.Add Employee
-        3.Add Client
+    B.Employee list: 
+        2.User-name show [Done]
+        3.Skype whats-app show [Done]
+        4.Role [Done]
+        5.Employee Details with PDF [Done]
 
-4. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
-5. Add Job Apply - 
-    i.   Contact Number (Required) & 
-    ii.  Address Optional  - 
-    iii. Short Description (Correction- Laravel Developer)
-6. One Company has multiple locatin - (less priority)
-7. PDF Alignment
-7. IP Based Login.
+    C.User List
+        6.Add User  - [Done]
+        7.Add Admin - [Done]
+        8.Add Employee - [Done]
+        9.Add Client - [Done]
+
+    D. Add Job Apply - 
+        10. Contact Number (Required) & Address Optional [Done]    
+
+    E. Others
+        11. PDF Alignment
+        12. Button visibility in "New Payment" [Done]
+        13. Aleart message show for salary,allowance,loan......[Done]
+        14. IP Based Login.
 
 
-=============== BUG ===============
+        15. One Company has multiple locatin - (less priority)
+        16. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
 
-1. Employee Dashboard - Task - [Done]
-2. Bulk Payment Issue - [Done]
-3. Full Screen 
-4. Monthly Attendance (total Work Hour) [Done]
-5. Payment
+
+    =============== BUG ===============
+
+        1. Employee Dashboard - Task - [Done]
+        2. Bulk Payment Issue - [Done]
+        3. Full Screen [Done]
+        4. Monthly Attendance (total Work Hour) [Done]
+        5. (Payment Hourly) Details show - [Done] 
+        6. (Payment Hourly) payment Details before generate - [Done] 
+        7. (Payment Hourly) payment generate - [Done] 
+        8. (Payment Hourly) payslips - [Done] 
+        9. (Payment Hourly) payslips pdf - [Done] 
+        10. Assets Permission Role [Done]
+        11. Short Description (Correction- Short Description) [Done]
+
+    
+
+
+
+
+
 
 
 

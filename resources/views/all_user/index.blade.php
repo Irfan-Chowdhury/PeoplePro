@@ -88,26 +88,37 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Username')}} *</label>
+                                <label>{{__('First Name')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" placeholder="{{__('First Name')}}"
+                                       required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Last Name')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" id="last_name" placeholder="{{__('Last Name')}}"
+                                       required class="form-control">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username"
                                        placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
                                        required class="form-control" value="{{ old('username') }}">
-
                             </div>
+
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Email')}} *</label>
+                                <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email" placeholder="example@example.com" required
                                        class="form-control" value="{{ old('email') }}">
 
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Phone')}} *</label>
+                                <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no"
                                        placeholder="{{trans('file.Phone')}}" required
                                        class="form-control" value="{{ old('contact_no') }}">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Password')}} *</label>
+                                <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password"
                                            placeholder="{{__('min:4 characters')}}"
@@ -115,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{__('Confirm Password')}} *</label>
+                                <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input id="confirm_pass" type="password"
                                            class="form-control @error('password') is-invalid @enderror"
@@ -177,7 +188,18 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Username')}} *</label>
+                                <label>{{__('First Name')}} *</label>
+                                <input type="text" name="first_name" id="first_name_edit" placeholder="{{__('First Name')}}"
+                                       required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Last Name')}} *</label>
+                                <input type="text" name="last_name" id="last_name_edit" placeholder="{{__('Last Name')}}"
+                                       required class="form-control">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username_edit"
                                        placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
                                        required class="form-control">
@@ -186,21 +208,21 @@
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Email')}} *</label>
+                                <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email_edit" placeholder="example@example.com"
                                        required class="form-control">
                             </div>
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Phone')}} *</label>
+                                <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no_edit"
                                        placeholder="{{trans('file.Phone')}}" required
                                        class="form-control" value="{{ old('contact_no') }}">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>{{trans('file.Password')}} *</label>
+                                <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" id="password_edit"
                                            placeholder="{{__('min:4 characters')}}">
@@ -208,7 +230,7 @@
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label>{{__('Confirm Password')}} *</label>
+                                <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input id="confirm_pass_edit" type="password"
                                            class="form-control @error('password') is-invalid @enderror"
@@ -447,6 +469,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        // console.log(data);
                         let html = '';
                         if (data.errors) {
                             html = '<div class="alert alert-danger">';
@@ -514,6 +537,8 @@
                     dataType: "json",
                     success: function (html) {
 
+                        $('#first_name_edit').val(html.data.first_name);
+                        $('#last_name_edit').val(html.data.last_name);
                         $('#username_edit').val(html.data.username);
                         $('#email_edit').val(html.data.email);
                         $('#role_id_edit').selectpicker('val', html.data.role_users_id);

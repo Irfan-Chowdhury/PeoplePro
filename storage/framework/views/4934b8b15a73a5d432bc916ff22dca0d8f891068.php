@@ -197,7 +197,7 @@
                                     <?php $__currentLoopData = $assigned_tasks; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $task): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                     <tr>
                                         <td>
-                                            <a href="<?php echo e(route('tasks.show',$task->assignedTasks[0]->id)); ?>"><h5><?php echo e($project->assignedTasks[0]->title); ?></h5></a>
+                                            <a href="<?php echo e(route('tasks.show',$task->assignedTasks[0]->id)); ?>"><h5><?php echo e($task->assignedTasks[0]->title); ?></h5></a>
                                         </td>
                                     </tr>
                                     <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>         

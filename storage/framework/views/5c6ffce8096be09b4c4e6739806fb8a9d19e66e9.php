@@ -72,26 +72,37 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Username')); ?> *</label>
+                                <label><?php echo e(__('First Name')); ?> <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" placeholder="<?php echo e(__('First Name')); ?>"
+                                       required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label><?php echo e(__('Last Name')); ?> <span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" id="last_name" placeholder="<?php echo e(__('Last Name')); ?>"
+                                       required class="form-control">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label><?php echo e(trans('file.Username')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username"
                                        placeholder="<?php echo e(__('Unique Value',['key'=>trans('file.Name')])); ?>"
                                        required class="form-control" value="<?php echo e(old('username')); ?>">
-
                             </div>
+
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Email')); ?> *</label>
+                                <label><?php echo e(trans('file.Email')); ?> <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email" placeholder="example@example.com" required
                                        class="form-control" value="<?php echo e(old('email')); ?>">
 
                             </div>
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Phone')); ?> *</label>
+                                <label><?php echo e(trans('file.Phone')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no"
                                        placeholder="<?php echo e(trans('file.Phone')); ?>" required
                                        class="form-control" value="<?php echo e(old('contact_no')); ?>">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Password')); ?> *</label>
+                                <label><?php echo e(trans('file.Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password"
                                            placeholder="<?php echo e(__('min:4 characters')); ?>"
@@ -99,7 +110,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(__('Confirm Password')); ?> *</label>
+                                <label><?php echo e(__('Confirm Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input id="confirm_pass" type="password"
                                            class="form-control <?php $__errorArgs = ['password'];
@@ -175,7 +186,18 @@ unset($__errorArgs, $__bag); ?>"
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Username')); ?> *</label>
+                                <label><?php echo e(__('First Name')); ?> *</label>
+                                <input type="text" name="first_name" id="first_name_edit" placeholder="<?php echo e(__('First Name')); ?>"
+                                       required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label><?php echo e(__('Last Name')); ?> *</label>
+                                <input type="text" name="last_name" id="last_name_edit" placeholder="<?php echo e(__('Last Name')); ?>"
+                                       required class="form-control">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label><?php echo e(trans('file.Username')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username_edit"
                                        placeholder="<?php echo e(__('Unique Value',['key'=>trans('file.Name')])); ?>"
                                        required class="form-control">
@@ -184,21 +206,21 @@ unset($__errorArgs, $__bag); ?>"
 
 
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Email')); ?> *</label>
+                                <label><?php echo e(trans('file.Email')); ?> <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email_edit" placeholder="example@example.com"
                                        required class="form-control">
                             </div>
 
 
                             <div class="col-md-6 form-group">
-                                <label><?php echo e(trans('file.Phone')); ?> *</label>
+                                <label><?php echo e(trans('file.Phone')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no_edit"
                                        placeholder="<?php echo e(trans('file.Phone')); ?>" required
                                        class="form-control" value="<?php echo e(old('contact_no')); ?>">
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label><?php echo e(trans('file.Password')); ?> *</label>
+                                <label><?php echo e(trans('file.Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" class="form-control" name="password" id="password_edit"
                                            placeholder="<?php echo e(__('min:4 characters')); ?>">
@@ -206,7 +228,7 @@ unset($__errorArgs, $__bag); ?>"
                             </div>
 
                             <div class="form-group col-md-6">
-                                <label><?php echo e(__('Confirm Password')); ?> *</label>
+                                <label><?php echo e(__('Confirm Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input id="confirm_pass_edit" type="password"
                                            class="form-control <?php $__errorArgs = ['password'];
@@ -459,6 +481,7 @@ unset($__errorArgs, $__bag); ?>" name="profile_photo"
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        // console.log(data);
                         let html = '';
                         if (data.errors) {
                             html = '<div class="alert alert-danger">';
@@ -526,6 +549,8 @@ unset($__errorArgs, $__bag); ?>" name="profile_photo"
                     dataType: "json",
                     success: function (html) {
 
+                        $('#first_name_edit').val(html.data.first_name);
+                        $('#last_name_edit').val(html.data.last_name);
                         $('#username_edit').val(html.data.username);
                         $('#email_edit').val(html.data.email);
                         $('#role_id_edit').selectpicker('val', html.data.role_users_id);

@@ -26,6 +26,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Spatie\Permission\Models\Role;
 use Throwable;
+use Barryvdh\DomPDF\Facade as PDF;
 
 
 class EmployeeController extends Controller {
@@ -38,13 +39,6 @@ class EmployeeController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		// $employee = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
-		// 					->where('company_id',1)
-		// 					->where('id',9)
-		// 					->first();
-		
-		// return $employee;
-
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
@@ -52,34 +46,34 @@ class EmployeeController extends Controller {
 		if (request()->ajax())
 		{
 			if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id){
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->where('designation_id','=',$request->designation_id)
 							->where('office_shift_id','=',$request->office_shift_id)
 							->get();
 			}elseif ($request->company_id && $request->department_id && $request->designation_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->where('designation_id','=',$request->designation_id)
 							->get();
 			}elseif ($request->company_id && $request->department_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
 							->where('department_id','=',$request->department_id)
 							->get();
 			}elseif ($request->company_id && $request->office_shift_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
 							->where('office_shift_id','=',$request->office_shift_id)
 							->get();
 			}elseif ($request->company_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
 							->get();	
 			}else {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name')
+				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 					->orderBy('company_id')
 					->get();
 			}
@@ -142,6 +136,8 @@ class EmployeeController extends Controller {
 					if (auth()->user()->can('modify-details-employee'))
 					{
 						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
+						$button .= '&nbsp;&nbsp;&nbsp;';
+						$button .= '<a class="download btn-sm" style="background:#FF7588; color:#fff" title="PDF" href="' . route('employees.pdf', $data->id ) . '"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>';
 					}
 
 					return $button;
@@ -172,7 +168,7 @@ class EmployeeController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-		// return response()->json($request->role_users_id);
+		//return response()->json($request->first_name);
 
 		$logged_user = auth()->user();
 
@@ -221,6 +217,8 @@ class EmployeeController extends Controller {
 
 
 				$user = [];
+				$user['first_name'] = $request->first_name;
+				$user['last_name'] = $request->last_name;
 				$user['username'] = strtolower(trim($request->username));
 				$user['email'] = strtolower(trim($request->email));
 				$user['password'] = bcrypt($request->password);
@@ -461,6 +459,8 @@ class EmployeeController extends Controller {
 
 
 				$user = [];
+				$user['first_name'] = $request->first_name;
+				$user['last_name'] = $request->last_name;
 				$user['username'] = strtolower(trim($request->username));
 				$user['email'] = strtolower(trim($request->email));
 				$user['password'] = bcrypt($request->password);
@@ -676,5 +676,16 @@ class EmployeeController extends Controller {
 
 	}
 
+	public function employeePDF($id)
+	{
+		$employee = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name','role:id,name')
+							->where('id',$id)
+							->first()
+							->toArray();
+		
+		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
+        $pdf = PDF::loadView('employee.pdf',$employee);
+        return $pdf->stream();
+	}
 
 }
