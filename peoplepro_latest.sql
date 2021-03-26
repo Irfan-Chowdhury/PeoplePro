@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 27, 2021 at 02:43 AM
+-- Generation Time: Mar 26, 2021 at 05:18 AM
 -- Server version: 10.4.11-MariaDB
--- PHP Version: 7.4.1
+-- PHP Version: 7.4.3
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -19,7 +19,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `peoplepro5`
+-- Database: `peoplepro_latest`
 --
 
 -- --------------------------------------------------------
@@ -166,15 +166,17 @@ CREATE TABLE `attendances` (
 --
 
 INSERT INTO `attendances` (`id`, `employee_id`, `attendance_date`, `clock_in`, `clock_in_ip`, `clock_out`, `clock_out_ip`, `clock_in_out`, `time_late`, `early_leaving`, `overtime`, `total_work`, `total_rest`, `attendance_status`) VALUES
-(3, 9, '2021-02-24', '10:00', '::1', '11:14', '::1', 0, '00:00', '02:45', '00:00', '01:14', '00:00', 'present'),
+(3, 9, '2020-02-21', '10:00', '::1', '11:14', '::1', 0, '00:00', '02:45', '00:00', '01:14', '00:00', 'present'),
 (5, 10, '2021-02-24', '10:00', '', '14:00', '', 0, '00:00', '00:00', '00:00', '04:00', '00:00', 'present'),
 (6, 11, '2021-02-24', '10:05', '', '14:05', '', 0, '00:05', '00:00', '00:05', '04:00', '00:00', 'present'),
 (7, 12, '2021-02-24', '10:20', '', '14:50', '', 0, '00:20', '00:00', '00:50', '04:30', '00:00', 'present'),
-(8, 17, '2021-02-24', '10:00', '', '13:25', '', 0, '00:00', '00:35', '00:00', '03:25', '00:00', 'present'),
-(9, 9, '2021-02-24', '11:25', '::1', '14:40', '::1', 0, '00:00', '00:00', '00:40', '03:15', '00:11', 'present'),
+(9, 9, '2021-02-22', '11:25', '::1', '14:40', '::1', 0, '00:00', '00:00', '00:40', '03:15', '00:11', 'present'),
 (10, 9, '2021-02-23', '10:00', '::1', '14:00', '::1', 0, '00:00', '00:00', '00:00', '04:00', '00:00', 'present'),
-(11, 9, '2021-02-23', '10:00', '::1', '14:20', '::1', 0, '00:00', '00:00', '00:20', '04:20', '00:00', 'present'),
-(12, 9, '2021-02-23', '10:00', '::1', '13:20', '::1', 0, '00:00', '40:00', '00:00', '03:20', '00:00', 'present');
+(11, 9, '2021-03-24', '10:00', '::1', '14:20', '::1', 0, '00:00', '00:00', '00:20', '04:20', '00:00', 'present'),
+(12, 9, '2021-03-25', '10:00', '::1', '13:20', '::1', 0, '00:00', '40:00', '00:00', '03:20', '00:00', 'present'),
+(15, 12, '2021-02-19', '12:00', '', '17:00', '', 0, '00:00', '00:00', '00:00', '05:00', '00:00', 'present'),
+(16, 11, '2021-03-19', '10:00', '', '17:00', '', 0, '00:00', '00:00', '03:00', '08:00', '00:00', 'present'),
+(17, 11, '2021-03-20', '09:00', '', '15:00', '', 0, '00:00', '00:00', '00:00', '06:00', '00:00', 'present');
 
 -- --------------------------------------------------------
 
@@ -732,7 +734,7 @@ CREATE TABLE `employees` (
   `fb_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `twitter_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `linkedIn_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `blogger_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `whatsapp_id` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `basic_salary` double(8,2) NOT NULL DEFAULT 0.00,
   `payslip_type` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `is_active` tinyint(4) DEFAULT NULL,
@@ -744,23 +746,15 @@ CREATE TABLE `employees` (
 -- Dumping data for table `employees`
 --
 
-INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `contact_no`, `date_of_birth`, `gender`, `office_shift_id`, `company_id`, `department_id`, `designation_id`, `location_id`, `role_users_id`, `status_id`, `joining_date`, `exit_date`, `marital_status`, `address`, `city`, `state`, `country`, `zip_code`, `cv`, `skype_id`, `fb_id`, `twitter_id`, `linkedIn_id`, `blogger_id`, `basic_salary`, `payslip_type`, `is_active`, `created_at`, `updated_at`) VALUES
-(8, 'new', 'user', 'new@gmail.com', '367823782', '1984-07-18', 'Male', 1, 1, 1, 1, NULL, 1, 1, '2019-11-04', NULL, 'single', 'new york', 'new york city', 'yoke city', '1', '6767', NULL, NULL, NULL, NULL, NULL, NULL, 5000.00, 'Monthly', 1, '2020-07-26 19:49:19', '2020-10-16 06:29:40'),
-(9, 'sahiba', 'khatun', 'sahibakhatun@gmail.com', '387292822', '1990-09-25', 'Female', 1, 1, 1, 2, NULL, 2, 1, '2020-01-02', NULL, 'single', '22,new street', 'Sharjha', 'UAE', '222', '6753', NULL, NULL, NULL, NULL, NULL, NULL, 1000.00, 'Monthly', 1, '2020-07-26 19:51:54', '2020-10-27 03:17:21'),
-(10, 'John', 'Cena', 'johncena@hotmail.com', '456372782', '1991-03-09', 'Male', 1, 1, 2, 3, NULL, 2, 2, '2019-04-16', NULL, 'married', 'New South Wales', 'Sydney', NULL, '15', '78765', NULL, NULL, NULL, NULL, NULL, NULL, 20000.00, 'Monthly', 1, '2020-07-26 20:01:39', '2020-07-29 07:02:17'),
-(11, 'Neo', 'Dezhi', 'neo22@boston.ac.uk', '67278232', '1991-03-29', 'Male', 1, 1, 3, 5, NULL, 2, NULL, '2020-07-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1500.00, 'Hourly', 1, '2020-07-26 20:03:25', '2020-10-13 01:56:30'),
-(12, 'Bob', 'Hobart', 'bob@ymail.com', '4678292', '1993-05-18', 'Male', 1, 1, 3, 5, NULL, 2, 1, '2018-12-13', NULL, 'single', '3527  Horseshoe Lane', 'Norristown', 'Pennsylvania', '1', '19403', NULL, 'bobhober05', 'bob.05@facebook.com', NULL, NULL, NULL, 1500.00, 'Monthly', 1, '2020-07-27 04:26:35', '2020-10-20 03:20:10'),
-(13, 'Alice', 'Patrica', 'alicehh4@newmail.com', '8765445698', '1991-07-25', 'Male', NULL, 1, NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 15000.00, 'Monthly', 1, '2020-07-27 04:28:16', '2021-01-27 01:10:40'),
-(14, 'Mayank', 'Agarwal', 'mayank@gmail.com', '746389982', '1989-06-03', 'Male', NULL, 2, 4, 6, NULL, 2, 3, '2020-07-02', NULL, 'divorced', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 200.00, 'Monthly', 1, '2020-07-27 04:31:24', '2020-07-29 19:32:55'),
-(15, 'Mansoor', 'Ahmed', 'mansoor@yahoo.com', '67638299', '1998-08-18', 'Male', NULL, 2, 4, 6, NULL, 2, 1, '2019-05-22', NULL, 'single', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 110.00, 'Monthly', 1, '2020-07-27 04:33:54', '2020-07-29 19:34:46'),
-(17, 'Test', 'Case1', 'test@test.com', '7837848', '1984-08-31', 'Male', 1, 1, 2, 5, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 1000.00, 'Monthly', 1, '2020-07-31 19:01:50', '2021-02-15 07:04:54'),
-(19, 'Irfan', 'Chowdhury', 'irfanchowdhury@gmail.com', '01829498436', '2018-08-26', 'Male', 1, 1, 1, 1, NULL, 2, 1, '2021-02-10', NULL, '', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-10 02:16:13', '2021-02-10 02:35:59'),
-(21, 'Graiden', 'Newton', 'samiqe@mailinator.com', '123456871', '2021-02-02', 'Female', 1, 1, 1, 2, NULL, 5, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-24 07:30:13', '2021-02-24 07:30:13'),
-(22, 'Chanda', 'Salinas', 'leke@mailinator.com', '13547883585', '2021-02-01', 'Male', 1, 1, 1, 2, NULL, 4, 1, NULL, NULL, '', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-24 07:32:35', '2021-02-24 17:50:55'),
-(23, 'Melinda', 'Conrad', 'garemisyn@mailinator.com', '2135644789', '2021-02-01', 'Male', 1, 1, 1, 2, NULL, 4, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-24 07:33:46', '2021-02-24 07:33:46'),
-(24, 'Kevin', 'Stokes', 'hagokadox@mailinator.com', '56312145577455', '2021-02-03', 'Male', 1, 1, 1, 2, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-24 07:35:04', '2021-02-24 07:35:04'),
-(25, 'Macey', 'Gilmore', 'pine@mailinator.com', '2145563221', '2021-02-04', 'Male', 1, 1, 1, 2, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-24 07:35:59', '2021-02-24 07:35:59'),
-(26, 'Amelia', 'Mccall', 'miquny@mailinator.com', '23857748585', '2021-02-02', 'Female', 1, 1, 1, 2, NULL, 4, 1, '2021-02-16', NULL, '', '', '', '', '', '', NULL, NULL, NULL, NULL, NULL, NULL, 0.00, NULL, 1, '2021-02-25 01:33:37', '2021-02-25 03:51:05');
+INSERT INTO `employees` (`id`, `first_name`, `last_name`, `email`, `contact_no`, `date_of_birth`, `gender`, `office_shift_id`, `company_id`, `department_id`, `designation_id`, `location_id`, `role_users_id`, `status_id`, `joining_date`, `exit_date`, `marital_status`, `address`, `city`, `state`, `country`, `zip_code`, `cv`, `skype_id`, `fb_id`, `twitter_id`, `linkedIn_id`, `whatsapp_id`, `basic_salary`, `payslip_type`, `is_active`, `created_at`, `updated_at`) VALUES
+(9, 'sahiba', 'khatun', 'sahibakhatun@gmail.com', '387292822', '1990-09-25', 'Female', 1, 1, 1, 2, NULL, 2, 1, '2020-01-02', NULL, 'single', '22,new street', 'Sharjha', 'UAE', '222', '6753', NULL, 'Sabiha95', '', '', '', '123456789', 100.00, 'Monthly', 1, '2020-07-26 19:51:54', '2021-03-24 02:01:41'),
+(10, 'John', 'Cena', 'johncena@hotmail.com', '456372782', '1991-03-09', 'Male', 1, 1, 2, 3, NULL, 2, 2, '2019-04-16', NULL, 'married', 'New South Wales', 'Sydney', NULL, '15', '78765', NULL, 'Jhon123', '', '', '', '12354698', 100.00, 'Monthly', 1, '2020-07-26 20:01:39', '2021-03-20 02:57:57'),
+(11, 'Neo', 'Dezhi', 'neo22@boston.ac.uk', '67278232', '1991-03-29', 'Male', 1, 1, 3, 5, NULL, 2, NULL, '2020-07-01', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Deshi321', NULL, NULL, NULL, '987456', 100.00, 'Hourly', 1, '2020-07-26 20:03:25', '2021-03-12 07:29:40'),
+(12, 'Bob', 'Hobart', 'bob@ymail.com', '4678292', '1993-05-18', 'Male', 1, 1, 3, 5, NULL, 2, 1, '2018-12-13', NULL, 'single', '3527  Horseshoe Lane', 'Norristown', 'Pennsylvania', '1', '19403', NULL, 'bobhober05', 'bob.05@facebook.com', '', '', '12354698', 100.00, 'Monthly', 1, '2020-07-27 04:26:35', '2021-03-23 18:01:54'),
+(13, 'Alice', 'Patrica', 'alicehh4@newmail.com', '8765445698', '1991-07-25', 'Male', NULL, 1, NULL, NULL, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Alica123', '', '', '', '96548789', 100.00, 'Monthly', 1, '2020-07-27 04:28:16', '2021-03-20 10:54:37'),
+(14, 'Mayank', 'Agarwal', 'mayank@gmail.com', '746389982', '1989-06-03', 'Male', NULL, 2, 4, 6, NULL, 2, 3, '2020-07-02', NULL, 'divorced', NULL, NULL, NULL, NULL, NULL, NULL, 'mayank23', '', '', '', '465467767', 200.00, 'Monthly', 1, '2020-07-27 04:31:24', '2021-03-20 10:55:32'),
+(15, 'Mansoor', 'Ahmed', 'mansoor@yahoo.com', '67638299', '1998-08-18', 'Male', NULL, 2, 4, 6, NULL, 2, 1, '2019-05-22', NULL, 'single', NULL, NULL, NULL, NULL, NULL, NULL, 'Moonsoor', '', '', '', '48787564', 110.00, 'Monthly', 1, '2020-07-27 04:33:54', '2021-03-20 10:55:54'),
+(27, 'Junayet', 'Istius', 'junayet@gmail.com', '01829496534', '2021-03-01', 'Male', 1, 1, 1, 1, NULL, 2, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'junayet67', '', '', '', '66456798', 0.00, 'Monthly', 1, '2021-03-12 10:47:48', '2021-03-20 10:55:08');
 
 -- --------------------------------------------------------
 
@@ -791,7 +785,6 @@ INSERT INTO `employee_bank_accounts` (`id`, `employee_id`, `account_title`, `acc
 (4, 15, 'Mansoor-Ahmed', 'D-123456', 'Dutch Bangla', 'D-987', 'Agrabad', '2021-01-25 18:22:58', '2021-01-25 18:22:58'),
 (5, 9, 'Sabiha', 'M-123456', 'Mutual Trust Bank', 'MTB-123', 'Dhaka', '2021-01-25 18:25:10', '2021-01-25 18:25:10'),
 (6, 10, 'Jhon-Chena', 'IB-1234567', 'Islami Bank', 'IB-4567', 'Chawkbazar', '2021-01-25 18:28:46', '2021-01-25 18:28:46'),
-(7, 8, 'new-user', 'BA-123456', 'Bank Asia', 'BA-987', 'Agrabad', '2021-01-27 00:30:26', '2021-01-27 00:30:26'),
 (8, 13, 'Alice B', '1564788541', 'Sonali Bank', 'Sonali Bank-156', 'Agrabad', '2021-01-27 01:09:26', '2021-01-27 01:09:26');
 
 -- --------------------------------------------------------
@@ -854,8 +847,6 @@ CREATE TABLE `employee_documents` (
 --
 
 INSERT INTO `employee_documents` (`id`, `employee_id`, `document_type_id`, `document_title`, `description`, `document_file`, `expiry_date`, `is_notify`, `created_at`, `updated_at`) VALUES
-(1, 8, 1, 'cmcbmnz', 'czvz', 'cmcbmnz.1595828529.pdf', '2021-03-01', 1, '2020-07-27 05:42:10', '2020-07-27 05:42:10'),
-(2, 8, 2, 'passport', 'fahdga', 'passport.1595828561.pdf', '2021-05-24', 1, '2020-07-27 05:42:41', '2020-07-27 05:42:41'),
 (3, 12, 1, 'My driving licence', 'driving licesnse for review', 'My driving licence.1603175008.png', '2023-02-24', NULL, '2020-10-20 03:23:28', '2020-10-20 03:23:28');
 
 -- --------------------------------------------------------
@@ -912,7 +903,6 @@ CREATE TABLE `employee_meeting` (
 --
 
 INSERT INTO `employee_meeting` (`employee_id`, `meeting_id`) VALUES
-(8, 1),
 (9, 1),
 (10, 1),
 (11, 1),
@@ -935,10 +925,13 @@ CREATE TABLE `employee_project` (
 
 INSERT INTO `employee_project` (`employee_id`, `project_id`) VALUES
 (9, 1),
+(10, 4),
 (11, 1),
 (12, 1),
+(12, 4),
 (14, 2),
-(15, 2);
+(15, 2),
+(27, 4);
 
 -- --------------------------------------------------------
 
@@ -1021,7 +1014,6 @@ CREATE TABLE `employee_training_list` (
 --
 
 INSERT INTO `employee_training_list` (`employee_id`, `training_list_id`) VALUES
-(8, 1),
 (9, 1),
 (10, 1),
 (12, 1);
@@ -1185,8 +1177,8 @@ CREATE TABLE `finance_bank_cashes` (
 --
 
 INSERT INTO `finance_bank_cashes` (`id`, `account_name`, `account_balance`, `initial_balance`, `account_number`, `branch_code`, `bank_branch`, `created_at`, `updated_at`) VALUES
-(1, 'Central Bank', '23105', '50000', '5635636', '676', 'Ethopia', '2020-07-28 17:17:21', '2020-10-19 11:57:30'),
-(2, 'New Horizon', '34100', '35000', '5534677', '453', 'Orchestra', '2020-07-28 17:18:15', '2020-07-29 05:36:41');
+(1, 'Central Bank', '45075', '50000', '5635636', '676', 'Ethopia', '2020-07-28 17:17:21', '2021-03-22 14:36:02'),
+(2, 'New Horizon', '144500', '35000', '5534677', '453', 'Orchestra', '2020-07-28 17:18:15', '2021-03-12 07:30:35');
 
 -- --------------------------------------------------------
 
@@ -1215,8 +1207,8 @@ CREATE TABLE `finance_deposits` (
 --
 
 INSERT INTO `finance_deposits` (`id`, `company_id`, `account_id`, `amount`, `category`, `description`, `payment_method_id`, `payer_id`, `deposit_reference`, `deposit_file`, `deposit_date`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, '10000', 'interest income', 'gfddds', 3, 1, '564534', NULL, '2021-02-22', '2020-07-28 17:24:20', '2020-07-28 17:26:37'),
-(5, NULL, 2, '100', 'interest income', NULL, 1, 2, '37763', NULL, '2021-02-21', '2020-07-28 18:12:31', '2020-07-29 05:28:25');
+(1, NULL, 1, '110500', 'interest income', 'gfddds', 3, 1, '564534', NULL, '2021-02-22', '2020-07-28 17:24:20', '2021-03-12 07:30:25'),
+(5, NULL, 2, '110500', 'interest income', '', 1, 2, '37763', NULL, '2021-02-21', '2020-07-28 18:12:31', '2021-03-12 07:30:35');
 
 -- --------------------------------------------------------
 
@@ -1255,7 +1247,34 @@ INSERT INTO `finance_expenses` (`id`, `company_id`, `account_id`, `amount`, `cat
 (16, NULL, 1, '310', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-02-20', '2020-07-29 20:32:34', '2020-07-29 20:32:34'),
 (19, NULL, 1, '965', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', '2020-10-15 06:27:00', '2020-10-15 06:27:00'),
 (20, NULL, 1, '310', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', '2020-10-19 11:54:47', '2020-10-19 11:54:47'),
-(21, NULL, 1, '3690', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', '2020-10-19 11:57:30', '2020-10-19 11:57:30');
+(21, NULL, 1, '3690', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', '2020-10-19 11:57:30', '2020-10-19 11:57:30'),
+(22, NULL, 1, '310', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-05', '2021-03-05 12:49:44', '2021-03-05 12:49:44'),
+(23, NULL, 1, '49800', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 06:18:02', '2021-03-12 06:18:02'),
+(24, NULL, 1, '110', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 06:40:21', '2021-03-12 06:40:21'),
+(25, NULL, 1, '1705', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 06:52:46', '2021-03-12 06:52:46'),
+(26, NULL, 1, '3880', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 07:20:57', '2021-03-12 07:20:57'),
+(27, NULL, 1, '3880', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 07:27:15', '2021-03-12 07:27:15'),
+(28, NULL, 1, '1110', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 07:31:31', '2021-03-12 07:31:31'),
+(29, NULL, 1, '2590', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 10:24:41', '2021-03-12 10:24:41'),
+(30, NULL, 1, '175', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 10:26:26', '2021-03-12 10:26:26'),
+(31, NULL, 1, '110', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 10:34:06', '2021-03-12 10:34:06'),
+(32, NULL, 1, '310', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 11:03:09', '2021-03-12 11:03:09'),
+(33, NULL, 1, '2590', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 11:27:41', '2021-03-12 11:27:41'),
+(34, NULL, 1, '0', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 11:40:29', '2021-03-12 11:40:29'),
+(35, NULL, 1, '2305', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 11:46:25', '2021-03-12 11:46:25'),
+(36, NULL, 1, '110', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:03:55', '2021-03-12 13:03:55'),
+(37, NULL, 1, '660', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:07:59', '2021-03-12 13:07:59'),
+(38, NULL, 1, '660', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:08:48', '2021-03-12 13:08:48'),
+(39, NULL, 1, '420', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:12:40', '2021-03-12 13:12:40'),
+(40, NULL, 1, '650', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:16:06', '2021-03-12 13:16:06'),
+(41, NULL, 1, '310', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', '2021-03-12 13:17:02', '2021-03-12 13:17:02'),
+(42, NULL, 1, '660', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-13', '2021-03-13 10:07:03', '2021-03-13 10:07:03'),
+(43, NULL, 1, '0', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-13', '2021-03-13 10:07:25', '2021-03-13 10:07:25'),
+(44, NULL, 1, '1490', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-20', '2021-03-20 14:25:41', '2021-03-20 14:25:41'),
+(45, NULL, 1, '2090', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-20', '2021-03-20 14:37:54', '2021-03-20 14:37:54'),
+(46, NULL, 1, '2090', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', '2021-03-22 13:44:20', '2021-03-22 13:44:20'),
+(47, NULL, 1, '340', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', '2021-03-22 14:30:06', '2021-03-22 14:30:06'),
+(48, NULL, 1, '175', NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', '2021-03-22 14:36:02', '2021-03-22 14:36:02');
 
 -- --------------------------------------------------------
 
@@ -1333,9 +1352,9 @@ CREATE TABLE `finance_transactions` (
 --
 
 INSERT INTO `finance_transactions` (`id`, `company_id`, `account_id`, `amount`, `category`, `category_id`, `description`, `payment_method_id`, `payee_id`, `payer_id`, `expense_reference`, `expense_file`, `expense_date`, `deposit_reference`, `deposit_file`, `deposit_date`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, '10000', 'interest income', NULL, 'gfddds', 3, NULL, 1, NULL, NULL, NULL, '564534', NULL, '2021-02-22', '2020-07-28 17:24:20', '2020-07-28 17:26:37'),
+(1, NULL, 1, '110500', 'interest income', NULL, 'gfddds', 3, NULL, 1, NULL, NULL, NULL, '564534', NULL, '2021-02-22', '2020-07-28 17:24:20', '2021-03-12 07:30:25'),
 (3, NULL, 2, '3000', '', 1, NULL, 2, 1, NULL, '455343', NULL, '2021-02-23', NULL, NULL, NULL, '2020-07-28 17:45:41', '2020-07-28 17:45:41'),
-(5, NULL, 2, '100', 'interest income', NULL, NULL, 1, NULL, 2, NULL, NULL, NULL, '37763', NULL, '2021-02-21', '2020-07-28 18:12:31', '2020-07-29 05:28:25'),
+(5, NULL, 2, '110500', 'interest income', NULL, '', 1, NULL, 2, NULL, NULL, NULL, '37763', NULL, '2021-02-21', '2020-07-28 18:12:31', '2021-03-12 07:30:35'),
 (6, NULL, 2, '2000', 'transfer', NULL, NULL, 1, NULL, NULL, NULL, NULL, NULL, '6736', NULL, '2021-02-24', '2020-07-29 05:36:41', '2020-07-29 05:36:41'),
 (7, NULL, 1, '2000', 'transfer', NULL, NULL, 1, NULL, NULL, '6736', NULL, '2021-02-24', NULL, NULL, NULL, '2020-07-29 05:36:41', '2020-07-29 05:36:41'),
 (9, NULL, 1, '20000', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-02-20', NULL, NULL, NULL, '2020-07-29 07:20:58', '2020-07-29 07:20:58'),
@@ -1347,7 +1366,34 @@ INSERT INTO `finance_transactions` (`id`, `company_id`, `account_id`, `amount`, 
 (16, NULL, 1, '310', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-02-20', NULL, NULL, NULL, '2020-07-29 20:32:34', '2020-07-29 20:32:34'),
 (19, NULL, 1, '965', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', NULL, NULL, NULL, '2020-10-15 06:27:00', '2020-10-15 06:27:00'),
 (20, NULL, 1, '310', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', NULL, NULL, NULL, '2020-10-19 11:54:47', '2020-10-19 11:54:47'),
-(21, NULL, 1, '3690', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', NULL, NULL, NULL, '2020-10-19 11:57:30', '2020-10-19 11:57:30');
+(21, NULL, 1, '3690', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-01-24', NULL, NULL, NULL, '2020-10-19 11:57:30', '2020-10-19 11:57:30'),
+(22, NULL, 1, '310', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-05', NULL, NULL, NULL, '2021-03-05 12:49:44', '2021-03-05 12:49:44'),
+(23, NULL, 1, '49800', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 06:18:02', '2021-03-12 06:18:02'),
+(24, NULL, 1, '110', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 06:40:21', '2021-03-12 06:40:21'),
+(25, NULL, 1, '1705', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 06:52:46', '2021-03-12 06:52:46'),
+(26, NULL, 1, '3880', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 07:20:57', '2021-03-12 07:20:57'),
+(27, NULL, 1, '3880', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 07:27:15', '2021-03-12 07:27:15'),
+(28, NULL, 1, '1110', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 07:31:31', '2021-03-12 07:31:31'),
+(29, NULL, 1, '2590', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 10:24:41', '2021-03-12 10:24:41'),
+(30, NULL, 1, '175', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 10:26:26', '2021-03-12 10:26:26'),
+(31, NULL, 1, '110', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 10:34:06', '2021-03-12 10:34:06'),
+(32, NULL, 1, '310', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 11:03:09', '2021-03-12 11:03:09'),
+(33, NULL, 1, '2590', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 11:27:41', '2021-03-12 11:27:41'),
+(34, NULL, 1, '0', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 11:40:29', '2021-03-12 11:40:29'),
+(35, NULL, 1, '2305', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 11:46:24', '2021-03-12 11:46:24'),
+(36, NULL, 1, '110', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:03:55', '2021-03-12 13:03:55'),
+(37, NULL, 1, '660', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:07:59', '2021-03-12 13:07:59'),
+(38, NULL, 1, '660', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:08:48', '2021-03-12 13:08:48'),
+(39, NULL, 1, '420', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:12:40', '2021-03-12 13:12:40'),
+(40, NULL, 1, '650', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:16:06', '2021-03-12 13:16:06'),
+(41, NULL, 1, '310', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-12', NULL, NULL, NULL, '2021-03-12 13:17:02', '2021-03-12 13:17:02'),
+(42, NULL, 1, '660', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-13', NULL, NULL, NULL, '2021-03-13 10:07:03', '2021-03-13 10:07:03'),
+(43, NULL, 1, '0', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-13', NULL, NULL, NULL, '2021-03-13 10:07:25', '2021-03-13 10:07:25'),
+(44, NULL, 1, '1490', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-20', NULL, NULL, NULL, '2021-03-20 14:25:41', '2021-03-20 14:25:41'),
+(45, NULL, 1, '2090', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-20', NULL, NULL, NULL, '2021-03-20 14:37:54', '2021-03-20 14:37:54'),
+(46, NULL, 1, '2090', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', NULL, NULL, NULL, '2021-03-22 13:44:20', '2021-03-22 13:44:20'),
+(47, NULL, 1, '340', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', NULL, NULL, NULL, '2021-03-22 14:30:06', '2021-03-22 14:30:06'),
+(48, NULL, 1, '175', '', NULL, NULL, NULL, NULL, NULL, 'Payroll', NULL, '2021-03-22', NULL, NULL, NULL, '2021-03-22 14:36:02', '2021-03-22 14:36:02');
 
 -- --------------------------------------------------------
 
@@ -1593,6 +1639,8 @@ CREATE TABLE `job_candidates` (
   `job_id` bigint(20) UNSIGNED NOT NULL,
   `full_name` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone` varchar(191) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `cover_letter` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
   `fb_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `linkedin_id` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -1607,8 +1655,9 @@ CREATE TABLE `job_candidates` (
 -- Dumping data for table `job_candidates`
 --
 
-INSERT INTO `job_candidates` (`id`, `job_id`, `full_name`, `email`, `cover_letter`, `fb_id`, `linkedin_id`, `cv`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
-(1, 1, 'John Stones', 'john_stones@gmail.com', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus, quam et ultricies vulputate, mauris arcu viverra ipsum, nec interdum dui ipsum id elit. Vivamus vehicula posuere commodo. Curabitur consectetur lacus nisi. Mauris vitae pulvinar lacus. Vestibulum malesuada felis magna, in convallis tortor lobortis ac.</p>', 'jonh@fb.com', 'john_stones', 'JohnStones_1603445937.pdf', 'applied', '', '2020-10-23 06:38:57', '2020-10-23 06:38:57');
+INSERT INTO `job_candidates` (`id`, `job_id`, `full_name`, `email`, `phone`, `address`, `cover_letter`, `fb_id`, `linkedin_id`, `cv`, `status`, `remarks`, `created_at`, `updated_at`) VALUES
+(1, 1, 'John Stones', 'john_stones@gmail.com', '1234567894', 'Sydney, USA', '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus, quam et ultricies vulputate, mauris arcu viverra ipsum, nec interdum dui ipsum id elit. Vivamus vehicula posuere commodo. Curabitur consectetur lacus nisi. Mauris vitae pulvinar lacus. Vestibulum malesuada felis magna, in convallis tortor lobortis ac.</p>', 'jonh@fb.com', 'john_stones', 'JohnStones_1603445937.pdf', 'applied', '', '2020-10-23 06:38:57', '2020-10-23 06:38:57'),
+(4, 1, 'Md Irfan Chowdhury', 'irfanchowdhury@gmail.com', '1234646', 'Chittagong, Bangladesh', 'I\'m a web developer from.', 'https://www.facebook.com/', 'https://www.linkedin.com/in/irfan-chowdhury', 'MdIrfanChowdhury_1616565250.pdf', 'applied', '', '2021-03-24 02:54:10', '2021-03-24 02:54:10');
 
 -- --------------------------------------------------------
 
@@ -1679,9 +1728,9 @@ CREATE TABLE `job_posts` (
 --
 
 INSERT INTO `job_posts` (`id`, `company_id`, `job_category_id`, `job_title`, `job_type`, `no_of_vacancy`, `job_url`, `gender`, `min_experience`, `short_description`, `long_description`, `closing_date`, `status`, `is_featured`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 'Laravel Developer', 'full_time', 2, 'qPnZoMWx83Qb0YnTVl5F', 'No Preference', '2 Years', 'dsabdma mnbdmab', '&lt;p&gt;&amp;bull; Should have experience in working on framework such as Laravel,&lt;br /&gt;Symphony etc&lt;br /&gt;&amp;bull; Excellent working knowledge of Web application development&lt;br /&gt;&amp;bull; Advance coding Skills in PHP, HTML, CSS, JavaScript, and scripting&lt;br /&gt;languages desirable&lt;br /&gt;&amp;bull; Excellent working knowledge of MySQL database&lt;br /&gt;&amp;bull; Good understanding of database performance tuning and sql queries&lt;br /&gt;&amp;bull; Experience working with a PHP framework such as CodeIgniter/Laravel&lt;br /&gt;&amp;bull; Experience in both Front End / Back End Developer.&lt;br /&gt;&amp;bull; Good Knowledge and understanding of CRM, CMS, SHOPPING-CART,&lt;br /&gt;PAYMENT GATEWAY &amp;amp; other API INTEGRATION&lt;/p&gt;', '2021-03-06', 1, 1, '2021-02-22 00:00:00', '2021-02-22 00:00:00'),
-(2, 1, 5, 'Business Analyst', 'part_time', 3, 'OhBIUt70qzUGfzfWifEI', 'Male', '5 Years', 'dbskbck jbksjbd da nm,a', '&lt;p&gt;Important skills needed :&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;Oral and written communication skills&lt;/li&gt;\r\n&lt;li&gt;nterpersonal and consultative skills&lt;/li&gt;\r\n&lt;li&gt;Facilitation skills&lt;/li&gt;\r\n&lt;li&gt;Analytical thinking and problem solving&lt;/li&gt;\r\n&lt;li&gt;Being detail-oriented and capable of delivering a high level of accuracy&lt;/li&gt;\r\n&lt;li&gt;Organizational skills&lt;/li&gt;\r\n&lt;/ul&gt;', '2021-03-03', 1, 1, '2021-02-23 00:00:00', '2021-02-23 00:00:00'),
-(3, 2, 3, 'Seo specialist', 'full_time', 5, 'nPJh3pew9HpyzdRlGDj2', 'Other', 'Fresh', 'xcdsd', '&lt;p&gt;The job of an &lt;strong&gt;SEO&lt;/strong&gt; specialist doesn&amp;rsquo;t stop with a couple of website tweaks and a few links scattered around the internet. Instead, the &lt;span style=&quot;background-color: #e03e2d;&quot;&gt;&lt;strong&gt;specialist&lt;/strong&gt;&lt;/span&gt; has to be on the ball, constantly looking for trends like those noted above and finding new ways to maximize &lt;em&gt;website&lt;/em&gt; traffic.&lt;/p&gt;', '2021-03-06', 1, 1, '2021-02-23 00:00:00', '2021-02-23 00:00:00');
+(1, 1, 2, 'Laravel Developer', 'full_time', 2, 'qPnZoMWx83Qb0YnTVl5F', 'No Preference', '2 Years', 'Lion-Coders is looking for Intermediate level Software Developers (3) for its Laravel based software developments. The primary role of these developers will be to develop/debug new desktop/xamarin/web applications for its overseas clients.', '&lt;p&gt;&amp;bull; Should have experience in working on framework such as Laravel,&lt;br /&gt;Symphony etc&lt;br /&gt;&amp;bull; Excellent working knowledge of Web application development&lt;br /&gt;&amp;bull; Advance coding Skills in PHP, HTML, CSS, JavaScript, and scripting&lt;br /&gt;languages desirable&lt;br /&gt;&amp;bull; Excellent working knowledge of MySQL database&lt;br /&gt;&amp;bull; Good understanding of database performance tuning and sql queries&lt;br /&gt;&amp;bull; Experience working with a PHP framework such as CodeIgniter/Laravel&lt;br /&gt;&amp;bull; Experience in both Front End / Back End Developer.&lt;br /&gt;&amp;bull; Good Knowledge and understanding of CRM, CMS, SHOPPING-CART,&lt;br /&gt;PAYMENT GATEWAY &amp;amp; other API INTEGRATION&lt;/p&gt;', '2021-03-06', 1, 1, '2021-02-22 00:00:00', '2021-03-24 01:46:04'),
+(2, 1, 5, 'Business Analyst', 'part_time', 3, 'OhBIUt70qzUGfzfWifEI', 'Male', '5 Years', 'Business analysts work with organizations to help them improve their processes and systems. They conduct research and analysis in order to come up with solutions to business problems and help to introduce these systems to businesses and their clients.', '&lt;p&gt;Important skills needed :&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;Oral and written communication skills&lt;/li&gt;\r\n&lt;li&gt;nterpersonal and consultative skills&lt;/li&gt;\r\n&lt;li&gt;Facilitation skills&lt;/li&gt;\r\n&lt;li&gt;Analytical thinking and problem solving&lt;/li&gt;\r\n&lt;li&gt;Being detail-oriented and capable of delivering a high level of accuracy&lt;/li&gt;\r\n&lt;li&gt;Organizational skills&lt;/li&gt;\r\n&lt;/ul&gt;', '2021-03-03', 1, 1, '2021-02-23 00:00:00', '2021-03-24 01:46:46'),
+(3, 2, 3, 'SEO Specialist', 'full_time', 5, 'nPJh3pew9HpyzdRlGDj2', 'Other', 'Fresh', 'A Search Engine Optimization Specialist is responsible for analyzing, reviewing and implementing websites that are optimized to be picked up by search engines. An SEO specialist will develop content to include keywords or phrases in order to increase traffic to the website.', '&lt;p&gt;The job of an &lt;strong&gt;SEO&lt;/strong&gt; specialist doesn&amp;rsquo;t stop with a couple of website tweaks and a few links scattered around the internet. Instead, the &lt;span style=&quot;background-color: #e03e2d;&quot;&gt;&lt;strong&gt;specialist&lt;/strong&gt;&lt;/span&gt; has to be on the ball, constantly looking for trends like those noted above and finding new ways to maximize &lt;em&gt;website&lt;/em&gt; traffic.&lt;/p&gt;', '2021-03-06', 1, 1, '2021-02-23 00:00:00', '2021-03-24 01:47:51');
 
 -- --------------------------------------------------------
 
@@ -1713,7 +1762,7 @@ CREATE TABLE `leaves` (
 
 INSERT INTO `leaves` (`id`, `leave_type_id`, `company_id`, `department_id`, `employee_id`, `start_date`, `end_date`, `total_days`, `leave_reason`, `remarks`, `status`, `is_half`, `is_notify`, `created_at`, `updated_at`) VALUES
 (1, 3, 1, 1, 9, '2021-02-14', '2021-02-15', 2, 'tem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatu', 'tem vel eum iure reprehenderit qui in ea', 'approved', NULL, 1, '2020-07-27 18:40:11', '2020-07-27 18:40:11'),
-(2, 1, 1, 3, 17, '2021-02-28', '2021-03-01', 2, 'adhava', NULL, 'pending', NULL, NULL, '2020-07-31 19:49:28', '2020-07-31 19:49:28');
+(2, 1, 1, 3, NULL, '2021-02-28', '2021-03-01', 2, 'adhava', NULL, 'pending', NULL, NULL, '2020-07-31 19:49:28', '2020-07-31 19:49:28');
 
 -- --------------------------------------------------------
 
@@ -1765,7 +1814,7 @@ CREATE TABLE `locations` (
 
 INSERT INTO `locations` (`id`, `location_name`, `location_head`, `address1`, `address2`, `city`, `state`, `country`, `zip`, `created_at`, `updated_at`) VALUES
 (1, 'Boston', NULL, '22,westwood', NULL, 'Boston', 'New Boston', 2, 7678, '2020-07-26 18:12:19', '2020-07-26 18:12:19'),
-(2, 'sydney ranger', 8, 'Waca,22 bekar street', NULL, 'sydney', 'West Australia', 15, 9890, '2020-07-26 18:21:12', '2020-07-27 09:14:58');
+(2, 'sydney ranger', NULL, 'Waca,22 bekar street', NULL, 'sydney', 'West Australia', 15, 9890, '2020-07-26 18:21:12', '2020-07-27 09:14:58');
 
 -- --------------------------------------------------------
 
@@ -1946,11 +1995,19 @@ CREATE TABLE `model_has_roles` (
 INSERT INTO `model_has_roles` (`role_id`, `model_type`, `model_id`) VALUES
 (1, 'App\\User', 1),
 (1, 'App\\User', 8),
+(1, 'App\\User', 28),
+(1, 'App\\User', 29),
+(1, 'App\\User', 30),
+(1, 'App\\User', 31),
 (2, 'App\\User', 5),
 (2, 'App\\User', 6),
+(2, 'App\\User', 9),
+(2, 'App\\User', 12),
 (2, 'App\\User', 14),
 (2, 'App\\User', 24),
 (2, 'App\\User', 25),
+(2, 'App\\User', 27),
+(2, 'App\\User', 32),
 (4, 'App\\User', 23),
 (4, 'App\\User', 26),
 (5, 'App\\User', 21),
@@ -1983,7 +2040,8 @@ INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `
 ('0c7b565d-2342-4937-8628-1db54d9a0642', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 15, '{\"data\":\"Test2 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/2\"}', NULL, '2020-10-25 17:12:46', '2020-10-25 17:12:46'),
 ('1140572c-13d0-456b-b58e-01df812d21b6', 'App\\Notifications\\InvoicePaidNotification', 'App\\User', 16, '{\"data\":\"Payment of Project : Test2 has been paid\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/invoices\\/INV-NleUqw\"}', NULL, '2020-10-18 03:13:41', '2020-10-18 03:13:41'),
 ('144c0b47-e39d-4bb2-9742-0a1519d2a8b5', 'App\\Notifications\\InvoicePaidNotification', 'App\\User', 16, '{\"data\":\"Payment of Project : test3 has been paid\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/invoices\\/INV-IjAIYl\"}', NULL, '2020-10-12 07:50:56', '2020-10-12 07:50:56'),
-('1fb3f81d-3bb5-4c24-94db-44e0cdda1072', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', NULL, '2020-10-25 17:16:16', '2020-10-25 17:16:16'),
+('1dfa778b-b2cf-4b18-8505-e5449f4edad3', 'App\\Notifications\\ProjectCreatedNotifiaction', 'App\\User', 12, '{\"data\":\"A project has been created namely Elevani and 2 Employees has been assigned for \",\"link\":\"http:\\/\\/localhost:8080\\/Lion_Coders\\/Peoplepro\\/Running_File\\/peoplepro\\/project-management\\/projects\\/4\"}', NULL, '2021-03-12 23:30:38', '2021-03-12 23:30:38'),
+('1fb3f81d-3bb5-4c24-94db-44e0cdda1072', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', '2021-03-22 13:18:03', '2020-10-25 17:16:16', '2021-03-22 13:18:03'),
 ('232dbdbd-f4fc-4c6f-93ba-58d5f854e6b2', 'App\\Notifications\\TicketAssignedNotification', 'App\\User', 12, '{\"data\":\"2 Employees has been assigned for Bob Hobart ticket\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 17:05:30', '2020-07-28 17:05:30'),
 ('26fd9a32-861a-414f-bed9-656b04743199', 'App\\Notifications\\EmployeeTravelStatus', 'App\\User', 9, '{\"data\":\"Your travel request status is --- approved\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/profile#Employee_travel\"}', NULL, '2020-08-18 07:13:03', '2020-08-18 07:13:03'),
 ('2d9f84f7-b18c-4d81-87e3-40ba55ed3ee1', 'App\\Notifications\\InvoiceReceivedNotification', 'App\\User', 16, '{\"data\":\"Invoice of Project : test3 has been received\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/invoices\\/INV-IjAIYl\"}', NULL, '2020-10-12 07:50:00', '2020-10-12 07:50:00'),
@@ -1991,14 +2049,16 @@ INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `
 ('5bcad5db-10b0-4864-93b3-239c540a0238', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 12, '{\"data\":\"Test1 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/1\"}', NULL, '2020-10-18 11:21:13', '2020-10-18 11:21:13'),
 ('641c1c91-d33c-451b-836f-c421e15912f7', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 8, '{\"data\":\"A task has been created of Test2 by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', NULL, '2020-10-12 01:53:23', '2020-10-12 01:53:23'),
 ('69319850-8ca7-4734-8cd6-871d976077f1', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 8, '{\"data\":\"Test2 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/2\"}', NULL, '2020-10-25 17:12:46', '2020-10-25 17:12:46'),
+('6d744e18-c1a7-4b3c-a0ac-272c0f593c7f', 'App\\Notifications\\ProjectCreatedNotifiaction', 'App\\User', 1, '{\"data\":\"A project has been created namely Elevani and 2 Employees has been assigned for \",\"link\":\"http:\\/\\/localhost:8080\\/Lion_Coders\\/Peoplepro\\/Running_File\\/peoplepro\\/project-management\\/projects\\/4\"}', '2021-03-22 13:18:03', '2021-03-12 23:30:38', '2021-03-22 13:18:03'),
 ('70aafa4e-434f-4ba2-8aea-ee754cce75c7', 'App\\Notifications\\TicketCreatedNotification', 'App\\User', 1, '{\"data\":\"A ticket has been issued for Bob Hobart\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', '2020-07-28 17:05:45', '2020-07-28 16:59:09', '2020-07-28 17:05:45'),
 ('75865d0f-944d-43e2-aa43-ab1ad12a6e92', 'App\\Notifications\\TicketCreatedNotification', 'App\\User', 12, '{\"data\":\"A ticket has been issued for Bob Hobart\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 16:59:09', '2020-07-28 16:59:09'),
-('7d2802a2-6c28-480f-8ab9-69b1b8e48a20', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', NULL, '2020-10-25 17:14:23', '2020-10-25 17:14:23'),
-('7fbad02a-1fb1-485d-a451-6c5c8be10824', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 1, '{\"data\":\"A task has been created of Test2 by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', NULL, '2020-10-12 01:53:23', '2020-10-12 01:53:23'),
+('7d2802a2-6c28-480f-8ab9-69b1b8e48a20', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', '2021-03-22 13:18:03', '2020-10-25 17:14:23', '2021-03-22 13:18:03'),
+('7fbad02a-1fb1-485d-a451-6c5c8be10824', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 1, '{\"data\":\"A task has been created of Test2 by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', '2021-03-22 13:18:03', '2020-10-12 01:53:23', '2021-03-22 13:18:03'),
 ('8e9054a1-fe5d-4a8b-8b33-40655f1306bf', 'App\\Notifications\\EmployeeAwardNotify', 'App\\User', 9, '{\"data\":\"Congratulation! An Award has been given to you\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/profile#Employee_Core_hr\"}', NULL, '2020-08-18 06:55:40', '2020-08-18 06:55:40'),
 ('9a2c3218-774f-4990-b41b-f5ba0d5dad5a', 'App\\Notifications\\TicketUpdatedNotification', 'App\\User', 8, '{\"data\":\"Issued ticket for Bob Hobart has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 17:06:02', '2020-07-28 17:06:02'),
 ('9b2fa86f-db94-4694-84be-2c033bbb450d', 'App\\Notifications\\TicketAssignedNotification', 'App\\User', 8, '{\"data\":\"2 Employees has been assigned for Bob Hobart ticket\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 17:05:30', '2020-07-28 17:05:30'),
 ('9e5de11c-c9fd-4b3d-acd5-dc2208b46682', 'App\\Notifications\\EmployeeTravelStatus', 'App\\User', 9, '{\"data\":\"Your travel request status is --- first level approval\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/profile#Employee_travel\"}', NULL, '2020-08-18 07:11:23', '2020-08-18 07:11:23'),
+('9fddf1b1-3b3b-4216-8523-fb1d70278672', 'App\\Notifications\\ProjectCreatedNotifiaction', 'App\\User', 13, '{\"data\":\"A project has been created namely Elevani and 2 Employees has been assigned for \",\"link\":\"http:\\/\\/localhost:8080\\/Lion_Coders\\/Peoplepro\\/Running_File\\/peoplepro\\/project-management\\/projects\\/4\"}', NULL, '2021-03-12 23:30:39', '2021-03-12 23:30:39'),
 ('9fe492ca-7b37-4419-935d-31cd42d3af77', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 8, '{\"data\":\"new2222 has been updated by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', NULL, '2020-10-12 02:00:20', '2020-10-12 02:00:20'),
 ('a92e54de-6aa5-4f9e-84ff-db58c857ce6e', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 11, '{\"data\":\"Test1 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/1\"}', NULL, '2020-10-18 11:21:13', '2020-10-18 11:21:13'),
 ('b0e5a738-ff48-4c14-a02a-2ad571ce0fa6', 'App\\Notifications\\InvoiceReceivedNotification', 'App\\User', 16, '{\"data\":\"Invoice of Project : Test2 has been received\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/invoices\\/INV-NleUqw\"}', NULL, '2020-10-18 03:18:53', '2020-10-18 03:18:53'),
@@ -2012,10 +2072,10 @@ INSERT INTO `notifications` (`id`, `type`, `notifiable_type`, `notifiable_id`, `
 ('e7faff2c-21f2-49a4-917a-b7c4f0c41b85', 'App\\Notifications\\EmployeeTransferNotify', 'App\\User', 9, '{\"data\":\"You have been transferred To\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/profile#Employee_transfer\"}', NULL, '2020-08-18 07:44:56', '2020-08-18 07:44:56'),
 ('e82fc7b5-2ab7-4799-af55-204684deb53f', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 8, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', NULL, '2020-10-25 17:16:16', '2020-10-25 17:16:16'),
 ('ec32bc86-7300-4509-b28a-1b91e2e99711', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 8, '{\"data\":\"test3 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/3\"}', NULL, '2020-10-25 17:14:23', '2020-10-25 17:14:23'),
-('ec517324-8a08-46cd-8bcc-e381809474b5', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 1, '{\"data\":\"new2222 has been updated by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', NULL, '2020-10-12 02:00:20', '2020-10-12 02:00:20'),
-('ecc3dc35-43c0-4f70-9704-c6abf6300464', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"Test2 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/2\"}', NULL, '2020-10-25 17:12:46', '2020-10-25 17:12:46'),
+('ec517324-8a08-46cd-8bcc-e381809474b5', 'App\\Notifications\\ClientTaskCreated', 'App\\User', 1, '{\"data\":\"new2222 has been updated by a client named maria_g\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/tasks\\/6\"}', '2021-03-22 13:18:03', '2020-10-12 02:00:20', '2021-03-22 13:18:03'),
+('ecc3dc35-43c0-4f70-9704-c6abf6300464', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"Test2 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/2\"}', '2021-03-22 13:18:03', '2020-10-25 17:12:46', '2021-03-22 13:18:03'),
 ('ed994f46-e157-4ed1-8a8a-1f15120c7845', 'App\\Notifications\\TicketAssignedNotification', 'App\\User', 1, '{\"data\":\"2 Employees has been assigned for Bob Hobart ticket\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', '2020-07-28 17:05:45', '2020-07-28 17:05:30', '2020-07-28 17:05:45'),
-('f7b7f0bc-87c5-47de-815c-0da9d6912884', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"Test1 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/1\"}', NULL, '2020-10-18 11:21:13', '2020-10-18 11:21:13'),
+('f7b7f0bc-87c5-47de-815c-0da9d6912884', 'App\\Notifications\\ProjectUpdatedNotification', 'App\\User', 1, '{\"data\":\"Test1 has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/project-management\\/projects\\/1\"}', '2021-03-22 13:18:03', '2020-10-18 11:21:13', '2021-03-22 13:18:03'),
 ('fa1c5825-43e9-4ee9-a48d-792f43b0d79d', 'App\\Notifications\\TicketUpdatedNotification', 'App\\User', 12, '{\"data\":\"Issued ticket for Bob Hobart has been updated\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 17:06:02', '2020-07-28 17:06:02'),
 ('fea68d3b-bf7b-452f-b3de-d41d30a787ec', 'App\\Notifications\\TicketCreatedNotification', 'App\\User', 8, '{\"data\":\"A ticket has been issued for Bob Hobart\",\"link\":\"http:\\/\\/peopleprohrm.com\\/demo\\/tickets\\/Kkqx8gSB\"}', NULL, '2020-07-28 16:59:09', '2020-07-28 16:59:09');
 
@@ -2161,11 +2221,14 @@ CREATE TABLE `payslips` (
 
 INSERT INTO `payslips` (`id`, `payslip_key`, `payslip_number`, `employee_id`, `payment_type`, `basic_salary`, `net_salary`, `allowances`, `commissions`, `loans`, `deductions`, `overtimes`, `other_payments`, `hours_worked`, `status`, `month_year`, `created_at`, `updated_at`) VALUES
 (20, 'X2boPbPbL9JebSTmdFie', '7977642466', 9, 'Monthly', 1000.00, 4890.00, '[{\"id\":5,\"employee_id\":9,\"allowance_title\":\"xyz\",\"allowance_amount\":\"100\"}]', '[{\"id\":14,\"employee_id\":9,\"commission_title\":\"Cofee\",\"commission_amount\":\"15\"},{\"id\":15,\"employee_id\":9,\"commission_title\":\"Tea\",\"commission_amount\":\"10\"}]', '[{\"id\":6,\"employee_id\":9,\"loan_title\":\"hello\",\"loan_amount\":\"200\",\"time_remaining\":\"6\",\"amount_remaining\":\"150\",\"monthly_payable\":\"25.000\"},{\"id\":9,\"employee_id\":9,\"loan_title\":\"we3\",\"loan_amount\":\"100\",\"time_remaining\":\"8\",\"amount_remaining\":\"80\",\"monthly_payable\":\"10.000\"}]', '[{\"id\":3,\"employee_id\":9,\"deduction_title\":\"Test Deduction\",\"deduction_amount\":\"50\"}]', '[{\"id\":5,\"employee_id\":9,\"overtime_title\":\"test\",\"no_of_days\":\"52\",\"overtime_hours\":\"30\",\"overtime_rate\":\"45\",\"overtime_amount\":\"1350\"},{\"id\":6,\"employee_id\":9,\"overtime_title\":\"test-2\",\"no_of_days\":\"10\",\"overtime_hours\":\"25\",\"overtime_rate\":\"100\",\"overtime_amount\":\"2500\"}]', '[]', 0, 1, 'January-2021', '2021-01-26 17:41:10', '2021-01-26 17:41:10'),
-(21, '9ZLBOQYwhT3zGZgEfuJ8', '5630750376', 8, 'Monthly', 5000.00, 5260.00, '[{\"id\":6,\"employee_id\":8,\"allowance_title\":\"Tea\",\"allowance_amount\":\"10\"},{\"id\":7,\"employee_id\":8,\"allowance_title\":\"Snacks\",\"allowance_amount\":\"50\"}]', '[{\"id\":16,\"employee_id\":8,\"commission_title\":\"sale\",\"commission_amount\":\"20\"}]', '[]', '[{\"id\":4,\"employee_id\":8,\"deduction_title\":\"Test\",\"deduction_amount\":\"20\"}]', '[{\"id\":7,\"employee_id\":8,\"overtime_title\":\"Test Overtime\",\"no_of_days\":\"3\",\"overtime_hours\":\"20\",\"overtime_rate\":\"10\",\"overtime_amount\":\"200\"}]', '[]', 0, 1, 'January-2021', '2021-01-27 00:28:22', '2021-01-27 00:28:22'),
-(22, 'ZTScxyCJMw6hJ1JfI9ct', '5777706364', 11, 'Hourly', 1500.00, 6690.00, '[{\"id\":1,\"employee_id\":11,\"allowance_title\":\"Home\",\"allowance_amount\":\"200\"},{\"id\":2,\"employee_id\":11,\"allowance_title\":\"Tea\",\"allowance_amount\":\"50\"}]', '[{\"id\":1,\"employee_id\":11,\"commission_title\":\"Sale\",\"commission_amount\":\"20\"}]', '[]', '[{\"id\":1,\"employee_id\":11,\"deduction_title\":\"Test\",\"deduction_amount\":\"10\"}]', '[{\"id\":1,\"employee_id\":11,\"overtime_title\":\"Test Overtime\",\"no_of_days\":\"2\",\"overtime_hours\":\"20\",\"overtime_rate\":\"20\",\"overtime_amount\":\"400\"},{\"id\":2,\"employee_id\":11,\"overtime_title\":\"test overtime 2\",\"no_of_days\":\"3\",\"overtime_hours\":\"10\",\"overtime_rate\":\"3\",\"overtime_amount\":\"30\"}]', '[]', 0, 1, 'January-2021', '2021-01-27 00:58:43', '2021-01-27 00:58:43'),
 (23, 'Heizf4TsdYLCOgt8GBOQ', '1685181828', 12, 'Monthly', 1500.00, 1705.00, '[{\"id\":3,\"employee_id\":12,\"allowance_title\":\"Snacks\",\"allowance_amount\":\"50\"},{\"id\":4,\"employee_id\":12,\"allowance_title\":\"Transport\",\"allowance_amount\":\"60\"}]', '[{\"id\":2,\"employee_id\":12,\"commission_title\":\"Sale Increase\",\"commission_amount\":\"15\"},{\"id\":13,\"employee_id\":12,\"commission_title\":\"Work Rate\",\"commission_amount\":\"10\"}]', '[]', '[{\"id\":2,\"employee_id\":12,\"deduction_title\":\"Development tax\",\"deduction_amount\":\"5\"}]', '[{\"id\":3,\"employee_id\":12,\"overtime_title\":\"Night Shift\",\"no_of_days\":\"5\",\"overtime_hours\":\"10\",\"overtime_rate\":\"5\",\"overtime_amount\":\"50\"},{\"id\":4,\"employee_id\":12,\"overtime_title\":\"Production Hour\",\"no_of_days\":\"2\",\"overtime_hours\":\"2\",\"overtime_rate\":\"5\",\"overtime_amount\":\"10\"}]', '[]', 0, 1, 'January-2021', '2021-01-27 01:22:07', '2021-01-27 01:22:07'),
 (24, 'JlvmZMOa5lI5jLCjiJhG', '4271987981', 14, 'Monthly', 200.00, 310.00, '[{\"id\":12,\"employee_id\":14,\"allowance_title\":\"Tea\",\"allowance_amount\":\"10\"}]', '[{\"id\":19,\"employee_id\":14,\"commission_title\":\"Sale\",\"commission_amount\":\"10\"}]', '[]', '[{\"id\":7,\"employee_id\":14,\"deduction_title\":\"Health\",\"deduction_amount\":\"10\"}]', '[{\"id\":10,\"employee_id\":14,\"overtime_title\":\"Advance Work\",\"no_of_days\":\"7\",\"overtime_hours\":\"10\",\"overtime_rate\":\"10\",\"overtime_amount\":\"100\"}]', '[]', 0, 1, 'January-2021', '2021-01-27 01:36:45', '2021-01-27 01:36:45'),
-(25, 'MrxSJ9ogvmnLgYLjsm1Z', '8439446056', 11, 'Hourly', 1500.00, 690.00, '[{\"id\":1,\"employee_id\":11,\"allowance_title\":\"Home\",\"allowance_amount\":\"200\"},{\"id\":2,\"employee_id\":11,\"allowance_title\":\"Tea\",\"allowance_amount\":\"50\"}]', '[{\"id\":1,\"employee_id\":11,\"commission_title\":\"Sale\",\"commission_amount\":\"20\"}]', '[]', '[{\"id\":1,\"employee_id\":11,\"deduction_title\":\"Test\",\"deduction_amount\":\"10\"}]', '[{\"id\":1,\"employee_id\":11,\"overtime_title\":\"Test Overtime\",\"no_of_days\":\"2\",\"overtime_hours\":\"20\",\"overtime_rate\":\"20\",\"overtime_amount\":\"400\"},{\"id\":2,\"employee_id\":11,\"overtime_title\":\"test overtime 2\",\"no_of_days\":\"3\",\"overtime_hours\":\"10\",\"overtime_rate\":\"3\",\"overtime_amount\":\"30\"}]', '[]', 0, 1, 'February-2021', '2021-02-15 07:03:50', '2021-02-15 07:03:50');
+(35, 'qaFrFw7u42ttOPtdUg3X', '1470327139', 14, 'Monthly', 200.00, 310.00, '[{\"id\":12,\"employee_id\":14,\"allowance_title\":\"Tea\",\"allowance_amount\":\"10\"}]', '[{\"id\":19,\"employee_id\":14,\"commission_title\":\"Sale\",\"commission_amount\":\"10\"}]', '[]', '[{\"id\":7,\"employee_id\":14,\"deduction_title\":\"Health\",\"deduction_amount\":\"10\"}]', '[{\"id\":10,\"employee_id\":14,\"overtime_title\":\"Advance Work\",\"no_of_days\":\"7\",\"overtime_hours\":\"10\",\"overtime_rate\":\"10\",\"overtime_amount\":\"100\"}]', '[]', 0, 1, 'February-2021', '2021-03-05 12:49:44', '2021-03-05 12:49:44'),
+(64, '5egHnALK1DikDtw3qpC9', '9276867492', 15, 'Monthly', 110.00, 110.00, '[]', '[]', '[]', '[]', '[]', '[]', 0, 1, 'March-2021', '2021-03-12 06:40:21', '2021-03-12 06:40:21'),
+(65, 'rqKgatx6fEzWtiITw81J', '7754626331', 12, 'Monthly', 1500.00, 1705.00, '[{\"id\":3,\"employee_id\":12,\"allowance_title\":\"Snacks\",\"allowance_amount\":\"50\"},{\"id\":4,\"employee_id\":12,\"allowance_title\":\"Transport\",\"allowance_amount\":\"60\"}]', '[{\"id\":2,\"employee_id\":12,\"commission_title\":\"Sale Increase\",\"commission_amount\":\"15\"},{\"id\":13,\"employee_id\":12,\"commission_title\":\"Work Rate\",\"commission_amount\":\"10\"}]', '[]', '[{\"id\":2,\"employee_id\":12,\"deduction_title\":\"Development tax\",\"deduction_amount\":\"5\"}]', '[{\"id\":3,\"employee_id\":12,\"overtime_title\":\"Night Shift\",\"no_of_days\":\"5\",\"overtime_hours\":\"10\",\"overtime_rate\":\"5\",\"overtime_amount\":\"50\"},{\"id\":4,\"employee_id\":12,\"overtime_title\":\"Production Hour\",\"no_of_days\":\"2\",\"overtime_hours\":\"2\",\"overtime_rate\":\"5\",\"overtime_amount\":\"10\"}]', '[{\"id\":1,\"employee_id\":12,\"other_payment_title\":\"Pefomance Bonus\",\"other_payment_amount\":\"15\"}]', 0, 1, 'February-2021', '2021-03-12 06:52:46', '2021-03-12 06:52:46'),
+(146, 'ix7eieBNAuWw5hU3wVWp', '8080407568', 14, 'Monthly', 200.00, 310.00, '[{\"id\":12,\"employee_id\":14,\"allowance_title\":\"Tea\",\"allowance_amount\":\"10\"}]', '[{\"id\":19,\"employee_id\":14,\"commission_title\":\"Sale\",\"commission_amount\":\"10\"}]', '[]', '[{\"id\":7,\"employee_id\":14,\"deduction_title\":\"Health\",\"deduction_amount\":\"10\"}]', '[{\"id\":10,\"employee_id\":14,\"overtime_title\":\"Advance Work\",\"no_of_days\":\"7\",\"overtime_hours\":\"10\",\"overtime_rate\":\"10\",\"overtime_amount\":\"100\"}]', '[]', 0, 1, 'March-2021', '2021-03-12 13:17:02', '2021-03-12 13:17:02'),
+(147, 'ET6AArlpGdCmexpWMeLi', '2925821330', 10, 'Monthly', 100.00, 660.00, '[{\"id\":8,\"employee_id\":10,\"allowance_title\":\"Tea\",\"allowance_amount\":\"10\"},{\"id\":9,\"employee_id\":10,\"allowance_title\":\"Snacks\",\"allowance_amount\":\"50\"}]', '[{\"id\":17,\"employee_id\":10,\"commission_title\":\"Sale\",\"commission_amount\":\"50\"}]', '[]', '[{\"id\":5,\"employee_id\":10,\"deduction_title\":\"Testing\",\"deduction_amount\":\"50\"}]', '[{\"id\":8,\"employee_id\":10,\"overtime_title\":\"Advance Work\",\"no_of_days\":\"5\",\"overtime_hours\":\"25\",\"overtime_rate\":\"20\",\"overtime_amount\":\"500\"}]', '[]', 0, 1, 'March-2021', '2021-03-13 10:07:03', '2021-03-13 10:07:03'),
+(151, 'mnzEPhO72WpQuCkWywV1', '4591888585', 11, 'Hourly', 100.00, 2090.00, '[{\"id\":1,\"employee_id\":11,\"allowance_title\":\"Home\",\"allowance_amount\":\"200\"},{\"id\":2,\"employee_id\":11,\"allowance_title\":\"Tea\",\"allowance_amount\":\"50\"}]', '[{\"id\":1,\"employee_id\":11,\"commission_title\":\"Sale\",\"commission_amount\":\"20\"}]', '[]', '[{\"id\":1,\"employee_id\":11,\"deduction_title\":\"Test\",\"deduction_amount\":\"10\"}]', '[{\"id\":1,\"employee_id\":11,\"overtime_title\":\"Test Overtime\",\"no_of_days\":\"2\",\"overtime_hours\":\"20\",\"overtime_rate\":\"20\",\"overtime_amount\":\"400\"},{\"id\":2,\"employee_id\":11,\"overtime_title\":\"test overtime 2\",\"no_of_days\":\"3\",\"overtime_hours\":\"10\",\"overtime_rate\":\"3\",\"overtime_amount\":\"30\"}]', '[]', 0, 1, 'March-2021', '2021-03-22 13:44:21', '2021-03-22 13:44:21');
 
 -- --------------------------------------------------------
 
@@ -2522,7 +2585,8 @@ CREATE TABLE `projects` (
 INSERT INTO `projects` (`id`, `title`, `client_id`, `company_id`, `start_date`, `end_date`, `project_priority`, `description`, `summary`, `project_status`, `project_note`, `project_progress`, `is_notify`, `added_by`, `created_at`, `updated_at`) VALUES
 (1, 'Test1', 16, 1, '2021-02-23', '2021-02-27', 'medium', '&lt;ul&gt;\r\n&lt;li&gt;Section 2: Functional Objectives&lt;br /&gt;Each objective gives a desired behavior for the system, a business justification, and a measure to determine if the final system has successfully met the objective. These objectives are organized by priority. In order for the new system to be considered successful, all high priority objectives must be met.&lt;/li&gt;\r\n&lt;li&gt;Section 3: Non-Functional Objectives&lt;br /&gt;This section is organized by category. Each objective specifies a technical requirement or constraint on the overall characteristics of the system. Each objective is measurable.&lt;/li&gt;\r\n&lt;li&gt;Section 4: Context Model&lt;br /&gt;This section gives a text description of the goal of the system, and a pictorial description of the scope of the system in a context diagram. Those entities outside the system that interact with the system are described.&lt;/li&gt;\r\n&lt;/ul&gt;', 'tinguish. In a free hour, when our power of choice is untrammelled and when nothing prevents our being able to do what we like best, every pleasure is to be welcomed and every pain avoided. But in certain circumstances and owing to the claims of duty or the obligations of business it will', 'in_progress', 'Note', '36', NULL, NULL, '2020-07-28 14:58:29', '2020-11-02 02:47:03'),
 (2, 'Test2', 16, 2, '2021-02-24', '2021-02-25', 'highest', '&lt;ul style=&quot;list-style-type: square;&quot;&gt;\r\n&lt;li&gt;The system shall allow for on-line product ordering by either the customer or the sales agent. For customers, this will eliminate the current delay between their decision to buy and the placement of the order. This will reduce the time a sales agent spends on an order by x%. The cost to process an order will be reduced to $y.&lt;/li&gt;\r\n&lt;li&gt;The system shall reflect a new and changed product description within x minutes of the database being updated by the product owner. This will reduce the number of incidents of incorrectly displayed information by x%. This eliminates the current redundant update of information, saving $y dollars annually.&lt;/li&gt;\r\n&lt;/ul&gt;', 'in culpa qui officia deserunt mollitia animi, id est laborum et dolorum fuga. Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis', 'not_started', NULL, '83', NULL, NULL, '2020-07-28 15:36:47', '2020-11-02 02:47:59'),
-(3, 'test3', 16, 1, '2021-02-25', '2021-03-01', 'high', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;strong&gt;A sales agent should be able to use the system in his job after x days of training.&lt;/strong&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;strong&gt;A user who already knows what product he is interested in should be able to locate and view that page in x seconds.&lt;/strong&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', '', 'not_started', NULL, '55', NULL, NULL, '2020-08-03 09:26:42', '2020-11-02 02:51:05');
+(3, 'test3', 16, 1, '2021-02-25', '2021-03-01', 'high', '&lt;p&gt;&amp;nbsp;&lt;/p&gt;\r\n&lt;ul&gt;\r\n&lt;li&gt;&lt;strong&gt;A sales agent should be able to use the system in his job after x days of training.&lt;/strong&gt;&lt;/li&gt;\r\n&lt;li&gt;&lt;strong&gt;A user who already knows what product he is interested in should be able to locate and view that page in x seconds.&lt;/strong&gt;&lt;/li&gt;\r\n&lt;/ul&gt;\r\n&lt;p&gt;&amp;nbsp;&lt;/p&gt;', '', 'not_started', NULL, '55', NULL, NULL, '2020-08-03 09:26:42', '2020-11-02 02:51:05'),
+(4, 'Elevani', 16, 1, '2021-03-11', '2021-03-14', 'low', '', 'Testing Purpose', 'not started', NULL, NULL, NULL, NULL, '2021-03-12 23:30:37', '2021-03-12 23:30:37');
 
 -- --------------------------------------------------------
 
@@ -2782,30 +2846,6 @@ INSERT INTO `role_has_permissions` (`permission_id`, `role_id`) VALUES
 -- --------------------------------------------------------
 
 --
--- Table structure for table `role_users`
---
-
-CREATE TABLE `role_users` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `role_name` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `role_access` int(11) DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `role_users`
---
-
-INSERT INTO `role_users` (`id`, `role_name`, `role_access`, `created_at`, `updated_at`) VALUES
-(1, 'admin', NULL, NULL, NULL),
-(2, 'employee', NULL, NULL, NULL),
-(3, 'client', NULL, NULL, NULL),
-(4, 'employer', NULL, NULL, NULL);
-
--- --------------------------------------------------------
-
---
 -- Table structure for table `salary_allowances`
 --
 
@@ -2829,8 +2869,6 @@ INSERT INTO `salary_allowances` (`id`, `employee_id`, `allowance_title`, `allowa
 (3, 12, 'Snacks', '50', 0, '2020-10-20 04:01:55', '2020-10-20 04:01:55'),
 (4, 12, 'Transport', '60', 0, '2020-10-20 04:02:25', '2020-10-20 04:02:25'),
 (5, 9, 'xyz', '100', 1, '2021-01-25 19:01:56', '2021-01-25 19:01:56'),
-(6, 8, 'Tea', '10', 0, '2021-01-27 00:23:34', '2021-01-27 00:23:34'),
-(7, 8, 'Snacks', '50', 0, '2021-01-27 00:24:16', '2021-01-27 00:24:16'),
 (8, 10, 'Tea', '10', 0, '2021-01-27 00:40:48', '2021-01-27 00:40:48'),
 (9, 10, 'Snacks', '50', 0, '2021-01-27 00:40:58', '2021-01-27 00:40:58'),
 (10, 13, 'Home', '100', 0, '2021-01-27 01:11:57', '2021-01-27 01:11:57'),
@@ -2862,7 +2900,6 @@ INSERT INTO `salary_commissions` (`id`, `employee_id`, `commission_title`, `comm
 (13, 12, 'Work Rate', '10', '2020-10-20 04:39:15', '2020-10-20 04:39:15'),
 (14, 9, 'Cofee', '15', '2021-01-25 19:01:30', '2021-01-25 19:01:30'),
 (15, 9, 'Tea', '10', '2021-01-26 17:31:48', '2021-01-26 17:31:48'),
-(16, 8, 'sale', '20', '2021-01-27 00:24:46', '2021-01-27 00:24:46'),
 (17, 10, 'Sale', '50', '2021-01-27 01:04:32', '2021-01-27 01:04:32'),
 (18, 13, 'Sale', '20', '2021-01-27 01:12:55', '2021-01-27 01:12:55'),
 (19, 14, 'Sale', '10', '2021-01-27 01:35:16', '2021-01-27 01:35:16');
@@ -2891,7 +2928,6 @@ INSERT INTO `salary_deductions` (`id`, `employee_id`, `deduction_title`, `deduct
 (1, 11, 'Test', '10', 'Health Insurance Corporation', '2020-07-29 18:21:22', '2020-07-29 18:21:22'),
 (2, 12, 'Development tax', '5', 'Home Development Mutual Fund', '2020-10-20 04:50:01', '2020-10-20 04:50:01'),
 (3, 9, 'Test Deduction', '50', 'Social Security System', '2021-01-26 17:37:03', '2021-01-26 17:37:03'),
-(4, 8, 'Test', '20', 'Other Statutory Deduction', '2021-01-27 00:25:46', '2021-01-27 00:25:46'),
 (5, 10, 'Testing', '50', 'Other Statutory Deduction', '2021-01-27 00:43:37', '2021-01-27 00:43:37'),
 (6, 13, 'Health', '100', 'Health Insurance Corporation', '2021-01-27 01:13:31', '2021-01-27 01:13:31'),
 (7, 14, 'Health', '10', 'Health Insurance Corporation', '2021-01-27 01:35:37', '2021-01-27 01:35:37');
@@ -2916,14 +2952,6 @@ CREATE TABLE `salary_loans` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `salary_loans`
---
-
-INSERT INTO `salary_loans` (`id`, `employee_id`, `loan_title`, `loan_amount`, `loan_type`, `loan_time`, `amount_remaining`, `time_remaining`, `monthly_payable`, `reason`, `created_at`, `updated_at`) VALUES
-(6, 9, 'hello', '200', 'Social Security System Loan', '8', '150', '6', '25.000', 'sdasd', '2020-10-15 04:48:08', '2021-01-26 17:41:10'),
-(9, 9, 'we3', '100', 'Other Loan', '10', '80', '8', '10.000', 'fdsd', '2020-10-15 05:18:50', '2021-01-26 17:41:10');
 
 -- --------------------------------------------------------
 
@@ -2974,9 +3002,6 @@ INSERT INTO `salary_overtimes` (`id`, `employee_id`, `overtime_title`, `no_of_da
 (2, 11, 'test overtime 2', '3', '10', '3', '30', '2020-07-29 18:24:20', '2020-07-29 18:24:20'),
 (3, 12, 'Night Shift', '5', '10', '5', '50', '2020-10-20 05:00:15', '2020-10-20 05:00:15'),
 (4, 12, 'Production Hour', '2', '2', '5', '10', '2020-10-20 05:00:47', '2020-10-20 05:00:47'),
-(5, 9, 'test', '52', '30', '45', '1350', '2021-01-25 19:02:32', '2021-01-25 19:02:32'),
-(6, 9, 'test-2', '10', '25', '100', '2500', '2021-01-26 17:39:14', '2021-01-26 17:39:14'),
-(7, 8, 'Test Overtime', '3', '20', '10', '200', '2021-01-27 00:27:16', '2021-01-27 00:27:40'),
 (8, 10, 'Advance Work', '5', '25', '20', '500', '2021-01-27 00:45:01', '2021-01-27 00:45:01'),
 (9, 13, 'Advance Work', '5', '20', '10', '200', '2021-01-27 01:14:09', '2021-01-27 01:14:09'),
 (10, 14, 'Advance Work', '7', '10', '10', '100', '2021-01-27 01:36:03', '2021-01-27 01:36:03');
@@ -3278,13 +3303,6 @@ CREATE TABLE `transfers` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Dumping data for table `transfers`
---
-
-INSERT INTO `transfers` (`id`, `description`, `company_id`, `from_department_id`, `to_department_id`, `employee_id`, `transfer_date`, `created_at`, `updated_at`) VALUES
-(1, NULL, 1, 3, 2, 17, '2021-02-24', '2020-10-22 01:51:49', '2020-10-22 01:51:49');
-
 -- --------------------------------------------------------
 
 --
@@ -3348,6 +3366,8 @@ INSERT INTO `travel_types` (`id`, `arrangement_type`, `company_id`, `created_at`
 
 CREATE TABLE `users` (
   `id` bigint(20) UNSIGNED NOT NULL,
+  `first_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_name` varchar(191) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `username` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
@@ -3369,27 +3389,20 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `username`, `email`, `email_verified_at`, `password`, `profile_photo`, `profile_bg`, `role_users_id`, `is_active`, `contact_no`, `last_login_ip`, `last_login_date`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'admin', 'ash@test.com', NULL, '$2y$10$Kvjut1QYWY9d3CabKzF71OWyGSgVLonc81k2JAzkXPxo6VsJzLNiK', 'ash_1595771188.jpg', NULL, 1, 1, '1234', '::1', '2021-02-26 12:16:26.00', '1Cm1GmuDKR6SzTZYlPVUBkaxXOEzf9RIrFutLL6UEGJwCy2TIh7umc7a8UTd', NULL, '2020-10-27 03:16:48', NULL),
-(5, 'rony', 'rony@gmail.com', NULL, '$2y$10$WYNGVGparpp2QNy.CR1O5OIYJES71MVXmVsWTpTJ.BSJoUCzaCF0W', NULL, NULL, 2, NULL, '1235', '::1', '2020-07-31 18:52:00.00', NULL, NULL, NULL, NULL),
-(6, 'adnan', 'adnan@gmail.com', NULL, '$2y$10$cXWuLpSgv5lRx3NzzNRiK.ouq6iw6RQB4eISobTDnquZ.DB1nlxcS', NULL, NULL, 2, NULL, '1236', NULL, NULL, NULL, NULL, NULL, NULL),
-(8, 'new1', 'new@gmail.com', NULL, '$2y$10$Kvjut1QYWY9d3CabKzF71OWyGSgVLonc81k2JAzkXPxo6VsJzLNiK', NULL, NULL, 1, 1, '367823782', '::1', '2020-10-22 04:03:57.00', NULL, '2020-07-26 19:49:19', '2020-10-06 04:48:58', NULL),
-(9, 'staff', 'sahibakhatun@gmail.com', NULL, '$2y$10$bUQtCmmuIM.iWmKKukNdkOy2fiRIz19sjnPxSpRZ75cvigVi4iex.', NULL, NULL, 2, 1, '387292822', '::1', '2021-02-25 04:17:14.00', NULL, '2020-07-26 19:51:54', '2020-10-27 03:17:21', NULL),
-(10, 'cena11', 'johncena@hotmail.com', NULL, '$2y$10$Ldt8bLq.NGh9a9PWewVNteXJf0hfvOoVmK9VB.gHzInvqQQIIYSuK', NULL, NULL, 2, 1, '456372782', NULL, NULL, NULL, '2020-07-26 20:01:39', '2020-07-27 11:14:32', NULL),
-(11, 'neo22', 'neo22@boston.ac.uk', NULL, '$2y$10$XvN/XJh4L/9G/ZR.Sij6vO0QeESrzvqBLavEJ6BTJAD8C2dnpJMmq', NULL, NULL, 2, 1, '67278232', NULL, NULL, NULL, '2020-07-26 20:03:25', '2020-07-29 07:43:17', NULL),
-(12, 'bob05', 'bob@ymail.com', NULL, '$2y$10$HJgsKjcOhjUaC/F7oSyddeOvGpYg68mnAIqae21M6.k1arsCaQ8Aq', NULL, NULL, 2, 1, '4678292', NULL, NULL, NULL, '2020-07-27 04:26:35', '2020-10-20 01:49:44', NULL),
-(13, 'alicehh4', 'alicehh4@newmail.com', NULL, '$2y$10$RSa5xb2m7FW79kIB/x2Yy.VqRu1RtRD/HsKMTM9BmTHkWomdLlH3e', NULL, NULL, 2, 1, '8765445698', NULL, NULL, NULL, '2020-07-27 04:28:16', '2020-07-27 04:28:16', NULL),
-(14, 'mayank06', 'mayank@gmail.com', NULL, '$2y$10$U2jCXdu6YztlaHf/./nbf.mPHDy7gYfK5bhAT8wfu4I7to3SKwX.e', NULL, NULL, 2, 1, '746389982', NULL, NULL, NULL, '2020-07-27 04:31:24', '2020-07-27 11:16:03', NULL),
-(15, 'mansoor', 'mansoor@yahoo.com', NULL, '$2y$10$MyFyjN2K1QFL89eKuZQHF.xZ17vl0YviZ1q9d4eIORmMmS0gQs2IK', NULL, NULL, 2, 1, '67638299', NULL, NULL, NULL, '2020-07-27 04:33:54', '2020-07-29 19:34:46', NULL),
-(16, 'client', 'shahadatashraf10@gmail.com', NULL, '$2y$10$L2ZeycpJbv4lyBKETojmGOzas42hU1sZJwi/ulvnuhIXAqTkZy6xS', NULL, NULL, 3, 1, '67651', '::1', '2020-10-27 04:01:55.00', NULL, '2020-07-28 14:41:31', '2020-10-27 03:17:50', NULL),
-(17, 'test', 'test@test.com', NULL, '$2y$10$45G2pV2cGbbrRHNgod1MWupDtCbYk2K/jHzowg17FYo0ET5Lga0Pe', NULL, NULL, 2, 1, '7837848', '::1', '2020-07-31 19:39:24.00', NULL, '2020-07-31 19:01:50', '2020-07-31 19:39:11', NULL),
-(19, 'irfan95', 'irfanchowdhury@gmail.com', NULL, '$2y$10$VVqkYGYl7INYd27a.aGone7Vr3iuDDfuPESZXCGcrubOXsBhObFYS', NULL, NULL, 2, 1, '01829498436', '::1', '2021-02-10 02:25:52.00', NULL, '2021-02-10 02:16:13', '2021-02-10 02:35:59', NULL),
-(21, 'wiwopeguta', 'samiqe@mailinator.com', NULL, '$2y$10$I6mQOOF4/ZOWMhTj7Beur.zNahEsLbZtPirnTmdWZlZBZdQN.VHbu', NULL, NULL, 5, 1, '123456871', NULL, NULL, NULL, '2021-02-24 07:30:13', '2021-02-24 07:30:13', NULL),
-(22, 'kyraz', 'leke@mailinator.com', NULL, '$2y$10$NmO8s40zVsobWZ8B3.PG4OgDaJpXcWgfeSVriGiF7crK.NDdU.bUW', NULL, NULL, 4, 1, '13547883585', NULL, NULL, NULL, '2021-02-24 07:32:35', '2021-02-24 17:50:55', NULL),
-(23, 'subahud', 'garemisyn@mailinator.com', NULL, '$2y$10$3Pxa/u2zCX8DYcEV7GHiO.nBRAC4.BqXKp6bk9PVcDUoMp.bcYGby', NULL, NULL, 4, 1, '2135644789', NULL, NULL, NULL, '2021-02-24 07:33:46', '2021-02-24 07:33:46', NULL),
-(24, 'mivacoqy', 'hagokadox@mailinator.com', NULL, '$2y$10$ju/q0Ei.Jx0sqe23nOlrP.ehg6xMGchPFBbYCXltGaJ1HGjtdurCu', NULL, NULL, 2, 1, '56312145577455', NULL, NULL, NULL, '2021-02-24 07:35:04', '2021-02-24 07:35:04', NULL),
-(25, 'mifybudi', 'pine@mailinator.com', NULL, '$2y$10$rDnkwQA9LLSkXuhhJkG2gOov0HZjjtxScZSshBbIxEcno4m91F9Ne', NULL, NULL, 1, 1, '2145563221', NULL, NULL, NULL, '2021-02-24 07:35:59', '2021-02-24 07:35:59', NULL),
-(26, 'gusepyvizo', 'miquny@mailinator.com', NULL, '$2y$10$sAPpc/HdoYGAB3EOvEwqhuFW0YUSZsDlbWui1CEXoNgBM39ArGCwe', NULL, NULL, 4, 1, '23857748585', NULL, NULL, NULL, '2021-02-25 01:33:37', '2021-02-25 03:51:05', NULL);
+INSERT INTO `users` (`id`, `first_name`, `last_name`, `username`, `email`, `email_verified_at`, `password`, `profile_photo`, `profile_bg`, `role_users_id`, `is_active`, `contact_no`, `last_login_ip`, `last_login_date`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Ashraf ', 'Shadat', 'admin', 'ash@test.com', NULL, '$2y$10$Kvjut1QYWY9d3CabKzF71OWyGSgVLonc81k2JAzkXPxo6VsJzLNiK', 'ash_1595771188.jpg', NULL, 1, 1, '1234', '127.0.0.1', '2021-03-24 02:00:26.00', '4pU1dZM3WahwShHe2Z6W4WdcwLs1jbRMze4qp1CjYapG6zrL0axzmDmchf9z', NULL, '2020-10-27 03:16:48', NULL),
+(5, 'Rony ', 'Khan', 'rony', 'rony@gmail.com', NULL, '$2y$10$WYNGVGparpp2QNy.CR1O5OIYJES71MVXmVsWTpTJ.BSJoUCzaCF0W', NULL, NULL, 2, NULL, '1235', '::1', '2020-07-31 18:52:00.00', NULL, NULL, NULL, NULL),
+(6, 'Adnan', 'Khan', 'adnan', 'adnan@gmail.com', NULL, '$2y$10$cXWuLpSgv5lRx3NzzNRiK.ouq6iw6RQB4eISobTDnquZ.DB1nlxcS', NULL, NULL, 2, NULL, '1236', NULL, NULL, NULL, NULL, NULL, NULL),
+(9, 'Sahiba', 'Khatun', 'staff', 'sahibakhatun@gmail.com', NULL, '$2y$10$XdsdHb9yjuANEW5YLqMzA.9qHxdO9uKUnCB3mmlhyOAe7v2m0irAS', 'staff_1616582111.jpg', NULL, 2, 1, '387292822', '127.0.0.1', '2021-03-24 01:53:45.00', NULL, '2020-07-26 19:51:54', '2021-03-24 07:35:11', NULL),
+(10, 'Jhon', 'Chena', 'cena11', 'johncena@hotmail.com', NULL, '$2y$10$Ldt8bLq.NGh9a9PWewVNteXJf0hfvOoVmK9VB.gHzInvqQQIIYSuK', NULL, NULL, 2, 1, '456372782', NULL, NULL, NULL, '2020-07-26 20:01:39', '2020-07-27 11:14:32', NULL),
+(11, 'Neo', 'Desi', 'neo22', 'neo22@boston.ac.uk', NULL, '$2y$10$XvN/XJh4L/9G/ZR.Sij6vO0QeESrzvqBLavEJ6BTJAD8C2dnpJMmq', NULL, NULL, 2, 1, '67278232', NULL, NULL, NULL, '2020-07-26 20:03:25', '2020-07-29 07:43:17', NULL),
+(12, 'Bob', 'Hobart', 'bob05', 'bob@ymail.com', NULL, '$2y$10$hJA2MjGTk5JxYPEYg7guAuYLbNcRZK0zPsWlGXp7MomQfnb3Qwu0q', NULL, NULL, 2, 1, '4678292', NULL, NULL, NULL, '2020-07-27 04:26:35', '2021-03-23 18:01:54', NULL),
+(13, ' Alice ', 'Patrica', 'alicehh4', 'alicehh4@newmail.com', NULL, '$2y$10$RSa5xb2m7FW79kIB/x2Yy.VqRu1RtRD/HsKMTM9BmTHkWomdLlH3e', NULL, NULL, 2, 1, '8765445698', NULL, NULL, NULL, '2020-07-27 04:28:16', '2020-07-27 04:28:16', NULL),
+(14, 'Mayank ', 'Agarwal', 'mayank06', 'mayank@gmail.com', NULL, '$2y$10$U2jCXdu6YztlaHf/./nbf.mPHDy7gYfK5bhAT8wfu4I7to3SKwX.e', NULL, NULL, 2, 1, '746389982', NULL, NULL, NULL, '2020-07-27 04:31:24', '2020-07-27 11:16:03', NULL),
+(15, 'Mansoor ', 'Ahmed', 'mansoor', 'mansoor@yahoo.com', NULL, '$2y$10$MyFyjN2K1QFL89eKuZQHF.xZ17vl0YviZ1q9d4eIORmMmS0gQs2IK', NULL, NULL, 2, 1, '67638299', NULL, NULL, NULL, '2020-07-27 04:33:54', '2020-07-29 19:34:46', NULL),
+(16, 'Shadat', 'Ashraf', 'client', 'shahadatashraf10@gmail.com', NULL, '$2y$10$KvsR.SbDeGCWYKdOMtFhHOtgxJczVMXXlvDUfsc0S2caMqF2R3jQG', NULL, NULL, 3, 1, '67651', '127.0.0.1', '2021-03-24 02:04:12.00', NULL, '2020-07-28 14:41:31', '2021-03-24 02:04:05', NULL),
+(27, 'Junayet ', 'Istius', 'junayet95', 'junayet@gmail.com', NULL, '$2y$10$Enzuol2OzlDVbP6qa9SMTuXFkQynA0lA0oBrtD0RaBnvwGoBPfZvG', NULL, NULL, 2, 1, '01829496534', NULL, NULL, NULL, '2021-03-12 10:47:47', '2021-03-12 10:47:47', NULL),
+(31, 'Imran', 'Chowdhury', 'imran95', 'imran95@gmail.com', NULL, '$2y$10$wcKbAlCe.qrmpD1/uH/xPuTIeTG4iP5KU6sacYDgMBgE0NzmgLYnS', NULL, NULL, 1, 1, '01521226455', NULL, NULL, NULL, '2021-03-23 14:43:05', '2021-03-23 14:48:44', NULL);
 
 -- --------------------------------------------------------
 
@@ -4035,12 +4048,6 @@ ALTER TABLE `role_has_permissions`
   ADD KEY `role_has_permissions_role_id_foreign` (`role_id`);
 
 --
--- Indexes for table `role_users`
---
-ALTER TABLE `role_users`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indexes for table `salary_allowances`
 --
 ALTER TABLE `salary_allowances`
@@ -4255,7 +4262,7 @@ ALTER TABLE `asset_categories`
 -- AUTO_INCREMENT for table `attendances`
 --
 ALTER TABLE `attendances`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `awards`
@@ -4327,7 +4334,7 @@ ALTER TABLE `document_types`
 -- AUTO_INCREMENT for table `employees`
 --
 ALTER TABLE `employees`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `employee_bank_accounts`
@@ -4411,7 +4418,7 @@ ALTER TABLE `finance_deposits`
 -- AUTO_INCREMENT for table `finance_expenses`
 --
 ALTER TABLE `finance_expenses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `finance_payees`
@@ -4429,7 +4436,7 @@ ALTER TABLE `finance_payers`
 -- AUTO_INCREMENT for table `finance_transactions`
 --
 ALTER TABLE `finance_transactions`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
 
 --
 -- AUTO_INCREMENT for table `finance_transfers`
@@ -4483,7 +4490,7 @@ ALTER TABLE `invoice_items`
 -- AUTO_INCREMENT for table `job_candidates`
 --
 ALTER TABLE `job_candidates`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `job_categories`
@@ -4555,7 +4562,7 @@ ALTER TABLE `payment_methods`
 -- AUTO_INCREMENT for table `payslips`
 --
 ALTER TABLE `payslips`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=154;
 
 --
 -- AUTO_INCREMENT for table `permissions`
@@ -4573,7 +4580,7 @@ ALTER TABLE `policies`
 -- AUTO_INCREMENT for table `projects`
 --
 ALTER TABLE `projects`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `project_bugs`
@@ -4628,12 +4635,6 @@ ALTER TABLE `resignations`
 --
 ALTER TABLE `roles`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
---
--- AUTO_INCREMENT for table `role_users`
---
-ALTER TABLE `role_users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `salary_allowances`
@@ -4765,7 +4766,7 @@ ALTER TABLE `travel_types`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `warnings`
