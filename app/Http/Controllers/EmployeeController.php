@@ -177,7 +177,7 @@ class EmployeeController extends Controller {
 			if (request()->ajax())
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
-					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id'),
+					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','login_type'),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
@@ -191,6 +191,7 @@ class EmployeeController extends Controller {
 						'department_id' => 'required',
 						'designation_id' => 'required',
 						'office_shift_id' => 'required',
+						'login_type' => 'required',
 						'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
 					]
 				);
@@ -224,8 +225,10 @@ class EmployeeController extends Controller {
 				$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
+				$user['login_type'] = $request->login_type; //new
+				$user['ip_address'] = $request->ip_address; //new
 				$user['is_active'] = 1;
-
+				
 				$photo = $request->profile_photo;
 				$file_name = null;
 
@@ -406,7 +409,7 @@ class EmployeeController extends Controller {
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'company_id', 'department_id', 'designation_id', 'office_shift_id', 'location_id', 'status_id',
-					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code'
+					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','login_type'
 				),
 					[
 						'first_name' => 'required',
@@ -417,6 +420,7 @@ class EmployeeController extends Controller {
 						'username' => 'required|unique:users,username,' . $employee,
 						'role_users_id' => 'required',
 						'status_id' => 'required',
+						'login_type' => 'required',
 					]
 				);
 
@@ -466,6 +470,8 @@ class EmployeeController extends Controller {
 				$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
+				$user['login_type'] = $request->login_type; //new
+				$user['ip_address'] = $request->ip_address; //new
 				$user['is_active'] = 1;
 
 				DB::beginTransaction();

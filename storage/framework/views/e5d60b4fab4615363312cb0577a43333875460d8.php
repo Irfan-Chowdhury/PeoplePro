@@ -1,5 +1,4 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
     <section>
@@ -8,14 +7,14 @@
 
 
         <div class="container-fluid mb-3">
-            @can('store-details-employee')
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('store-details-employee')): ?>
                 <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
-                            class="fa fa-plus"></i> {{__('Add Employee')}}</button>
-            @endcan
-            @can('modify-details-employee')
+                            class="fa fa-plus"></i> <?php echo e(__('Add Employee')); ?></button>
+            <?php endif; ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('modify-details-employee')): ?>
                 <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
-                            class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
-            @endcan
+                            class="fa fa-minus-circle"></i> <?php echo e(__('Bulk delete')); ?></button>
+            <?php endif; ?>
             <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                 <i class="fa fa-filter" aria-hidden="true"></i> Filter
             </button>
@@ -29,16 +28,16 @@
                             <!-- Company -->
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="text-bold"><strong>{{trans('file.Company')}}</strong></label>
+                                    <label class="text-bold"><strong><?php echo e(trans('file.Company')); ?></strong></label>
                                     <select name="company_id" id="company_id_filter"
                                             class="form-control selectpicker dynamic"
                                             data-live-search="true" data-live-search-style="begins"
                                             data-shift_name="shift_name" data-dependent="department_name"
-                                            title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
+                                            title="<?php echo e(__('Selecting',['key'=>trans('file.Company')])); ?>...">
                                             <option value=""></option>
-                                        @foreach($companies as $company)
-                                            <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                        @endforeach
+                                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
@@ -47,12 +46,12 @@
                             <!-- Department-->
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label class="text-bold"><b>{{trans('file.Department')}}</b></label>
+                                    <label class="text-bold"><b><?php echo e(trans('file.Department')); ?></b></label>
                                     <select name="department_id" id="department_id_filter"
                                             class="selectpicker form-control designationFilter"
                                             data-live-search="true" data-live-search-style="begins"
                                             data-designation_name="designation_name"
-                                            title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
+                                            title="<?php echo e(__('Selecting',['key'=>trans('file.Department')])); ?>...">
                                     </select>
                                 </div>
                             </div>
@@ -60,20 +59,20 @@
 
                             <!-- Designation -->
                             <div class="col-md-3 form-group">
-                                <label class="text-bold"><b>{{trans('file.Designation')}}</b></label>
+                                <label class="text-bold"><b><?php echo e(trans('file.Designation')); ?></b></label>
                                 <select name="designation_id" id="designation_id_filter" class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
+                                        title="<?php echo e(__('Selecting',['key'=>trans('file.Designation')])); ?>...">
                                 </select>
                             </div>
                             <!--/ Designation -->
 
                             <!-- Office Shift -->
                             <div class="col-md-2 form-group">
-                                <label class="text-bold"><b>{{__('Office Shift')}}</b></label>
+                                <label class="text-bold"><b><?php echo e(__('Office Shift')); ?></b></label>
                                 <select name="office_shift_id" id="office_shift_id_filter" class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting Office Shift')}}...">
+                                        title="<?php echo e(__('Selecting Office Shift')); ?>...">
                                 </select>
                             </div>
                             <!--/ Office Shift -->
@@ -97,10 +96,10 @@
                 <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>{{trans('file.Employee')}}</th>
-                    <th>{{trans('file.Company')}}</th>
-                    <th>{{trans('file.Contact')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
+                    <th><?php echo e(trans('file.Employee')); ?></th>
+                    <th><?php echo e(trans('file.Company')); ?></th>
+                    <th><?php echo e(trans('file.Contact')); ?></th>
+                    <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                 </tr>
                 </thead>
 
@@ -115,7 +114,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Employee')}}</h5>
+                    <h5 id="exampleModalLabel" class="modal-title"><?php echo e(__('Add Employee')); ?></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -125,128 +124,127 @@
                     <span id="form_result"></span>
                     <form method="post" id="sample_form" class="form-horizontal" enctype="multipart/form-data">
 
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('First Name')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="first_name" id="first_name" placeholder="{{__('First Name')}}"
+                                <label class="text-bold"><?php echo e(__('First Name')); ?> <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" placeholder="<?php echo e(__('First Name')); ?>"
                                        required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('Last Name')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="last_name" id="last_name" placeholder="{{__('Last Name')}}"
+                                <label class="text-bold"><?php echo e(__('Last Name')); ?> <span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" id="last_name" placeholder="<?php echo e(__('Last Name')); ?>"
                                        required class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Email')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Email')); ?> <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email" placeholder="example@example.com" required
                                        class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Phone')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Phone')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no"
-                                       placeholder="{{trans('file.Phone')}}" required
-                                       class="form-control" value="{{ old('contact_no') }}">
+                                       placeholder="<?php echo e(trans('file.Phone')); ?>" required
+                                       class="form-control" value="<?php echo e(old('contact_no')); ?>">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('Date Of Birth')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(__('Date Of Birth')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="date_of_birth" id="date_of_birth" required autocomplete="off"
                                        class="form-control date" value="">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Gender')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Gender')); ?> <span class="text-danger">*</span></label>
                                 <select name="gender" id="gender" required class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>trans('file.Gender')])}}...">
-                                    <option value="Male">{{trans('file.Male')}}</option>
-                                    <option value="Female">{{trans('file.Female')}}</option>
-                                    <option value="Other">{{trans('file.Other')}}</option>
+                                        title="<?php echo e(__('Selecting',['key'=>trans('file.Gender')])); ?>...">
+                                    <option value="Male"><?php echo e(trans('file.Male')); ?></option>
+                                    <option value="Female"><?php echo e(trans('file.Female')); ?></option>
+                                    <option value="Other"><?php echo e(trans('file.Other')); ?></option>
                                 </select>
                             </div>
 
 
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-bold">{{trans('file.Company')}} <span class="text-danger">*</span></label>
+                                    <label class="text-bold"><?php echo e(trans('file.Company')); ?> <span class="text-danger">*</span></label>
                                     <select name="company_id" id="company_id" required
                                             class="form-control selectpicker dynamic"
                                             data-live-search="true" data-live-search-style="begins"
                                             data-shift_name="shift_name" data-dependent="department_name"
-                                            title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
-                                        @foreach($companies as $company)
-                                            <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                        @endforeach
+                                            title="<?php echo e(__('Selecting',['key'=>trans('file.Company')])); ?>...">
+                                        <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                            <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label class="text-bold">{{trans('file.Department')}} <span class="text-danger">*</span></label>
+                                    <label class="text-bold"><?php echo e(trans('file.Department')); ?> <span class="text-danger">*</span></label>
                                     <select name="department_id" id="department_id" required
                                             class="selectpicker form-control designation"
                                             data-live-search="true" data-live-search-style="begins"
                                             data-designation_name="designation_name"
-                                            title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
+                                            title="<?php echo e(__('Selecting',['key'=>trans('file.Department')])); ?>...">
                                     </select>
                                 </div>
                             </div>
 
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Designation')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Designation')); ?> <span class="text-danger">*</span></label>
                                 <select name="designation_id" id="designation_id" required class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
+                                        title="<?php echo e(__('Selecting',['key'=>trans('file.Designation')])); ?>...">
                                 </select>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Office_Shift')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Office_Shift')); ?> <span class="text-danger">*</span></label>
                                 <select name="office_shift_id" id="office_shift_id" required class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>trans('file.Office_Shift')])}}...">
+                                        title="<?php echo e(__('Selecting',['key'=>trans('file.Office_Shift')])); ?>...">
                                 </select>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Username')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Username')); ?> <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username"
-                                       placeholder="{{__('Unique Value',['key'=>trans('file.Username')])}}"
+                                       placeholder="<?php echo e(__('Unique Value',['key'=>trans('file.Username')])); ?>"
                                        required class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Role')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Role')); ?> <span class="text-danger">*</span></label>
                                 <select name="role_users_id" id="role_users_id" required
                                         class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
-                                    @foreach ($roles as $item)
-                                        <option value="{{$item->id}}">{{$item->name}}</option>
-                                    @endforeach
-                                    {{-- <option value="1">Admin</option>
-                                    <option value="2">Employee</option> --}}
+                                        title="<?php echo e(__('Selecting',['key'=>trans('file.Role')])); ?>...">
+                                    <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                    
                                 </select>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Password')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(trans('file.Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password"
-                                           placeholder="{{trans('file.Password')}}"
+                                           placeholder="<?php echo e(trans('file.Password')); ?>"
                                            required class="form-control">
                                 </div>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('Confirm Password')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(__('Confirm Password')); ?> <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input id="confirm_pass" type="password"
                                            class="form-control "
-                                           name="password_confirmation" placeholder="{{__('Re-type Password')}}"
+                                           name="password_confirmation" placeholder="<?php echo e(__('Re-type Password')); ?>"
                                            required autocomplete="new-password">
                                 </div>
                                 <div class="form-group">
@@ -256,18 +254,25 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
+                                <label for="profile_photo" class=""><strong><?php echo e(__('Image')); ?></strong></label>
                                 <input type="file" id="profile_photo"
-                                       class="form-control @error('photo') is-invalid @enderror"
-                                       name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
+                                       class="form-control <?php $__errorArgs = ['photo'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"
+                                       name="profile_photo" placeholder="<?php echo e(__('Upload',['key'=>trans('file.Photo')])); ?>">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('Login Type')}} <span class="text-danger">*</span></label>
+                                <label class="text-bold"><?php echo e(__('Login Type')); ?> <span class="text-danger">*</span></label>
                                 <select name="login_type" id="login_type" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins" title="{{__('Select Login Type...')}}">
-                                    <option value="general">{{__('General')}}</option>
-                                    <option value="ip">{{__('IP')}}</option>
+                                        data-live-search="true" data-live-search-style="begins" title="<?php echo e(__('Select Login Type...')); ?>">
+                                    <option value="general"><?php echo e(__('General')); ?></option>
+                                    <option value="ip"><?php echo e(__('IP')); ?></option>
                                 </select>
                             </div>
 
@@ -280,7 +285,7 @@
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="action"/>
                                     <input type="hidden" name="hidden_id" id="hidden_id"/>
-                                    <input type="submit" name="action_button" id="action_button" class="btn btn-warning w-100" value="{{trans('file.Add')}}" />
+                                    <input type="submit" name="action_button" id="action_button" class="btn btn-warning w-100" value="<?php echo e(trans('file.Add')); ?>" />
                                 </div>
                             </div>
                         </div>
@@ -297,17 +302,17 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
+                    <h2 class="modal-title"><?php echo e(trans('file.Confirmation')); ?></h2>
                     <button type="button" class="employee-close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <h4 align="center" style="margin:0;">{{__('Are you sure you want to remove this data?')}}</h4>
+                    <h4 align="center" style="margin:0;"><?php echo e(__('Are you sure you want to remove this data?')); ?></h4>
                 </div>
                 <div class="modal-footer">
                     <button type="button" name="ok_button" id="ok_button"
-                            class="btn btn-danger">{{trans('file.OK')}}</button>
+                            class="btn btn-danger"><?php echo e(trans('file.OK')); ?></button>
                     <button type="button" class="close btn-default"
-                            data-dismiss="modal">{{trans('file.Cancel')}}</button>
+                            data-dismiss="modal"><?php echo e(trans('file.Cancel')); ?></button>
                 </div>
             </div>
         </div>
@@ -323,7 +328,7 @@
 
             var date = $('.date');
             date.datepicker({
-                format: '{{ env('Date_Format_JS')}}',
+                format: '<?php echo e(env('Date_Format_JS')); ?>',
                 autoclose: true,
                 todayHighlight: true
             });
@@ -358,7 +363,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('employees.index') }}",
+                    url: "<?php echo e(route('employees.index')); ?>",
                     type: 'GET',
                     data: function (d) {
                         d.company_id     = $("#company_id_filter").val();
@@ -398,12 +403,12 @@
 
                 "order": [],
                 'language': {
-                    'lengthMenu': '_MENU_ {{__('records per page')}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
+                    'lengthMenu': '_MENU_ <?php echo e(__('records per page')); ?>',
+                    "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                    "search": '<?php echo e(trans("file.Search")); ?>',
                     'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
+                        'previous': '<?php echo e(trans("file.Previous")); ?>',
+                        'next': '<?php echo e(trans("file.Next")); ?>'
                     }
                 },
                 'columnDefs': [
@@ -482,15 +487,15 @@
         $('#create_record').click(function () {
 
             $('.modal-title').text("Add Employee");
-            $('#action_button').val('{{trans('file.Add')}}');
-            $('#action').val('{{trans('file.Add')}}');
+            $('#action_button').val('<?php echo e(trans('file.Add')); ?>');
+            $('#action').val('<?php echo e(trans('file.Add')); ?>');
             $('#formModal').modal('show');
         });
 
         $('#sample_form').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
-                url: "{{ route('employees.store') }}",
+                url: "<?php echo e(route('employees.store')); ?>",
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -528,8 +533,8 @@
         $(document).on('click', '.delete', function () {
             employee_delete_id = $(this).attr('id');
             $('#confirmModal').modal('show');
-            $('.modal-title').text('{{__('DELETE Record')}}');
-            $('#ok_button').text('{{trans('file.OK')}}');
+            $('.modal-title').text('<?php echo e(__('DELETE Record')); ?>');
+            $('#ok_button').text('<?php echo e(trans('file.OK')); ?>');
 
         });
 
@@ -540,9 +545,9 @@
             let table = $('#employee-table').DataTable();
             id = table.rows({selected: true}).ids().toArray();
             if (id.length > 0) {
-                if (confirm('{{__('Delete Selection',['key'=>trans('file.Employee')])}}')) {
+                if (confirm('<?php echo e(__('Delete Selection',['key'=>trans('file.Employee')])); ?>')) {
                     $.ajax({
-                        url: '{{route('mass_delete_employees')}}',
+                        url: '<?php echo e(route('mass_delete_employees')); ?>',
                         method: 'POST',
                         data: {
                             employeeIdArray: id
@@ -563,7 +568,7 @@
                     });
                 }
             } else {
-                alert('{{__('Please select atleast one checkbox')}}');
+                alert('<?php echo e(__('Please select atleast one checkbox')); ?>');
             }
         });
 
@@ -576,11 +581,11 @@
         });
 
         $('#ok_button').click(function () {
-            let target = "{{ route('employees.index') }}/" + employee_delete_id + '/delete';
+            let target = "<?php echo e(route('employees.index')); ?>/" + employee_delete_id + '/delete';
             $.ajax({
                 url: target,
                 beforeSend: function () {
-                    $('#ok_button').text('{{trans('file.Deleting...')}}');
+                    $('#ok_button').text('<?php echo e(trans('file.Deleting...')); ?>');
                 },
                 success: function (data) {
                     if (data.success) {
@@ -604,9 +609,9 @@
         $('#confirm_pass').on('input', function () {
 
             if ($('input[name="password"]').val() != $('input[name="password_confirmation"]').val())
-                $("#divCheckPasswordMatch").html('{{__('Password does not match! please type again')}}');
+                $("#divCheckPasswordMatch").html('<?php echo e(__('Password does not match! please type again')); ?>');
             else
-                $("#divCheckPasswordMatch").html('{{__('Password matches!')}}');
+                $("#divCheckPasswordMatch").html('<?php echo e(__('Password matches!')); ?>');
 
         });
 
@@ -617,7 +622,7 @@
                 let dependent = $(this).data('dependent');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_department') }}",
+                    url: "<?php echo e(route('dynamic_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -638,7 +643,7 @@
                 let dependent = $(this).data('shift_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_office_shifts') }}",
+                    url: "<?php echo e(route('dynamic_office_shifts')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -656,7 +661,7 @@
                 let designation_name = $(this).data('designation_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_designation_department') }}",
+                    url: "<?php echo e(route('dynamic_designation_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, designation_name: designation_name},
                     success: function (result) {
@@ -674,7 +679,7 @@
         $('#login_type').change(function() {
             var login_type = $('#login_type').val();
             if (login_type=='ip') {
-                data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
+                data = '<label class="text-bold"><?php echo e(__("IP Address")); ?> <span class="text-danger">*</span></label>';
                 data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
                 $('#ipField').html(data)
             }else{
@@ -693,7 +698,7 @@
                 let dependent = $(this).data('dependent');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_department') }}",
+                    url: "<?php echo e(route('dynamic_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -716,7 +721,7 @@
                 let designation_name = $(this).data('designation_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_designation_department') }}",
+                    url: "<?php echo e(route('dynamic_designation_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, designation_name: designation_name},
                     success: function (result) {
@@ -737,7 +742,7 @@
                 let dependent = $(this).data('shift_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_office_shifts') }}",
+                    url: "<?php echo e(route('dynamic_office_shifts')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -751,4 +756,5 @@
 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\peoplepro\resources\views/employee/index.blade.php ENDPATH**/ ?>

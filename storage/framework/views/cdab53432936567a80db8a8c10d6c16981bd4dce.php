@@ -1,5 +1,4 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
     <style>
         .nav-tabs li a {
             padding: 0.75rem 1.25rem;
@@ -17,50 +16,51 @@
 
     </style>
     <section>
-        @can('view-details-employee')
+        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view-details-employee')): ?>
         <div class="container-fluid">
             <div class="card">
                 <div class="card-body">
                     <div class="text-center">
-                        <h2>{{$employee->user->username}}</h2>
+                        <h2><?php echo e($employee->user->username); ?></h2>
                     </div>
                     <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
                         <li class="nav-item">
                             <a class="nav-link active" id="general-tab" data-toggle="tab" href="#General" role="tab"
-                               aria-controls="General" aria-selected="true">{{trans('file.General')}}</a>
+                               aria-controls="General" aria-selected="true"><?php echo e(trans('file.General')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="profile-tab" data-toggle="tab" href="#Profile" role="tab"
-                               aria-controls="Profile" aria-selected="false">{{trans('file.Profile')}}</a>
+                               aria-controls="Profile" aria-selected="false"><?php echo e(trans('file.Profile')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="set_salary-tab" data-toggle="tab" href="#Set_salary" role="tab"
-                               aria-controls="Set_salary" aria-selected="false">{{__('Set Salary')}}</a>
+                               aria-controls="Set_salary" aria-selected="false"><?php echo e(__('Set Salary')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="leave-tab" data-toggle="tab" href="#Leave" role="tab"
-                               aria-controls="Leave" aria-selected="false">{{trans('file.Leave')}}</a>
+                               aria-controls="Leave" aria-selected="false"><?php echo e(trans('file.Leave')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="employee_core_hr-tab" data-toggle="tab" href="#Employee_Core_hr"
-                               role="tab" aria-controls="Employee_Core_hr" aria-selected="false">{{__('Core HR')}}</a>
+                               role="tab" aria-controls="Employee_Core_hr" aria-selected="false"><?php echo e(__('Core HR')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="employee_project_task-tab" data-toggle="tab"
                                href="#Employee_project_task" role="tab" aria-controls="Employee_project_task"
-                               aria-selected="false">{{trans('file.Project')}} & {{trans('file.Task')}}</a>
+                               aria-selected="false"><?php echo e(trans('file.Project')); ?> & <?php echo e(trans('file.Task')); ?></a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" id="employee_payslip-tab" data-toggle="tab" href="#Employee_Payslip"
                                role="tab" aria-controls="Employee_Payslip"
-                               aria-selected="false">{{trans('file.Payslip')}}</a>
+                               aria-selected="false"><?php echo e(trans('file.Payslip')); ?></a>
                         </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="General" role="tabpanel"
                              aria-labelledby="general-tab">
                             <!--Contents for General starts here-->
-                            {{__('General Info')}}
+                            <?php echo e(__('General Info')); ?>
+
                             <hr>
                             <div class="row">
                                 <div class="col-md-3">
@@ -68,207 +68,209 @@
                                         <li class="nav-item">
                                             <a class="nav-link active" id="basic-tab" data-toggle="tab" href="#Basic"
                                                role="tab" aria-controls="Basic"
-                                               aria-selected="true">{{trans('file.Basic')}}</a>
+                                               aria-selected="true"><?php echo e(trans('file.Basic')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('immigrations.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('immigrations.show',$employee)); ?>"
                                                id="immigration-tab" data-toggle="tab" data-table="immigration"
                                                data-target="#Immigration" role="tab" aria-controls="Immigration"
-                                               aria-selected="false">{{trans('file.Immigration')}}</a>
+                                               aria-selected="false"><?php echo e(trans('file.Immigration')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('contacts.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('contacts.show',$employee)); ?>"
                                                id="emergency-tab" data-toggle="tab" data-table="emergency"
                                                data-target="#Emergency" role="tab" aria-controls="Emergency"
-                                               aria-selected="false">{{__('Emergency Contacts')}}</a>
+                                               aria-selected="false"><?php echo e(__('Emergency Contacts')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('social_profile.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('social_profile.show',$employee)); ?>"
                                                id="social_profile-tab" data-toggle="tab" data-table="social_profile"
                                                data-target="#Social_profile" role="tab" aria-controls="Social_profile"
-                                               aria-selected="false">{{__('Social Profile')}}</a>
+                                               aria-selected="false"><?php echo e(__('Social Profile')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('documents.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('documents.show',$employee)); ?>"
                                                id="document-tab" data-toggle="tab" data-table="document"
                                                data-target="#Document" role="tab" aria-controls="Document"
-                                               aria-selected="false">{{trans('file.Document')}}</a>
+                                               aria-selected="false"><?php echo e(trans('file.Document')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('qualifications.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('qualifications.show',$employee)); ?>"
                                                id="qualification-tab" data-toggle="tab" data-table="qualification"
                                                data-target="#Qualification" role="tab" aria-controls="Qualification"
-                                               aria-selected="false">{{trans('file.Qualification')}}</a>
+                                               aria-selected="false"><?php echo e(trans('file.Qualification')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('work_experience.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('work_experience.show',$employee)); ?>"
                                                id="work_experience-tab" data-toggle="tab" data-table="work_experience"
                                                data-target="#Work_experience" role="tab" aria-controls="Work_experience"
-                                               aria-selected="false">{{__('Work Experience')}}</a>
+                                               aria-selected="false"><?php echo e(__('Work Experience')); ?></a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{{route('bank_account.show',$employee)}}"
+                                            <a class="nav-link" href="<?php echo e(route('bank_account.show',$employee)); ?>"
                                                id="bank_account-tab" data-toggle="tab" data-table="bank_account"
                                                data-target="#Bank_account" role="tab" aria-controls="Bank_account"
-                                               aria-selected="false">{{__('Bank Account')}}</a>
+                                               aria-selected="false"><?php echo e(__('Bank Account')); ?></a>
                                         </li>
                                     </ul>
                                 </div>
-                                @endcan
-                                @can('modify-details-employee')
+                                <?php endif; ?>
+                                <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('modify-details-employee')): ?>
                                 <div class="col-md-9">
                                     <div class="tab-content" id="myTabContent">
                                         <div class="tab-pane fade show active" id="Basic" role="tabpanel"
                                              aria-labelledby="basic-tab">
                                             <!--Contents for Basic starts here-->
-                                            {{__('Basic Information')}}
+                                            <?php echo e(__('Basic Information')); ?>
+
                                             <hr>
                                             <span id="form_result"></span>
                                             <form method="post" id="basic_sample_form" class="form-horizontal"
                                                   enctype="multipart/form-data" autocomplete="off">
 
-                                                @csrf
+                                                <?php echo csrf_field(); ?>
                                                 <div class="row">
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('First Name')}}</label>
+                                                        <label><?php echo e(__('First Name')); ?></label>
                                                         <input type="text" name="first_name" id="first_name"
-                                                               placeholder="{{__('First Name')}}"
+                                                               placeholder="<?php echo e(__('First Name')); ?>"
                                                                required class="form-control"
-                                                               value="{{ $employee->first_name }}">
+                                                               value="<?php echo e($employee->first_name); ?>">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Last Name')}}</label>
+                                                        <label><?php echo e(__('Last Name')); ?></label>
                                                         <input type="text" name="last_name" id="last_name"
-                                                               placeholder="{{__('Last Name')}}"
+                                                               placeholder="<?php echo e(__('Last Name')); ?>"
                                                                required class="form-control"
-                                                               value="{{ $employee->last_name }}">
+                                                               value="<?php echo e($employee->last_name); ?>">
                                                     </div>
 
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Username')}}</label>
+                                                        <label><?php echo e(trans('file.Username')); ?></label>
                                                         <input type="text" name="username" id="username"
-                                                               placeholder="{{trans('file.Username')}}" required
+                                                               placeholder="<?php echo e(trans('file.Username')); ?>" required
                                                                class="form-control"
-                                                               value="{{$employee->user->username}}">
+                                                               value="<?php echo e($employee->user->username); ?>">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Email')}}</label>
+                                                        <label><?php echo e(trans('file.Email')); ?></label>
                                                         <input type="text" name="email" id="email"
-                                                               placeholder="{{trans('file.Email')}}"
+                                                               placeholder="<?php echo e(trans('file.Email')); ?>"
                                                                required class="form-control"
-                                                               value="{{ $employee->email }}">
+                                                               value="<?php echo e($employee->email); ?>">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Phone')}}</label>
+                                                        <label><?php echo e(trans('file.Phone')); ?></label>
                                                         <input type="text" name="contact_no" id="contact_no"
-                                                               placeholder="{{trans('file.Phone')}}"
+                                                               placeholder="<?php echo e(trans('file.Phone')); ?>"
                                                                required class="form-control"
-                                                               value="{{ $employee->contact_no }}">
+                                                               value="<?php echo e($employee->contact_no); ?>">
                                                     </div>
 
                                                     <div class="col-md-8 form-group">
-                                                        <label>{{trans('file.Address')}} </label>
+                                                        <label><?php echo e(trans('file.Address')); ?> </label>
                                                         <input type="text" name="address" id="address"
                                                                placeholder="Address"
-                                                               value="{{$employee->address}}" class="form-control">
+                                                               value="<?php echo e($employee->address); ?>" class="form-control">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.City')}} </label>
+                                                        <label><?php echo e(trans('file.City')); ?> </label>
                                                         <input type="text" name="city" id="city"
-                                                               placeholder="{{trans('file.City')}}"
-                                                               value="{{$employee->city}}" class="form-control">
+                                                               placeholder="<?php echo e(trans('file.City')); ?>"
+                                                               value="<?php echo e($employee->city); ?>" class="form-control">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.State/Province')}}
+                                                        <label><?php echo e(trans('file.State/Province')); ?>
+
                                                         </label>
                                                         <input type="text" name="state" id="state"
-                                                               placeholder="{{trans('file.State/Province')}}"
-                                                               value="{{$employee->state}}" class="form-control">
+                                                               placeholder="<?php echo e(trans('file.State/Province')); ?>"
+                                                               value="<?php echo e($employee->state); ?>" class="form-control">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.ZIP')}} </label>
+                                                        <label><?php echo e(trans('file.ZIP')); ?> </label>
                                                         <input type="text" name="zip_code" id="zip_code"
-                                                               placeholder="{{trans('file.ZIP')}}"
-                                                               value="{{$employee->zip_code}}" class="form-control">
+                                                               placeholder="<?php echo e(trans('file.ZIP')); ?>"
+                                                               value="<?php echo e($employee->zip_code); ?>" class="form-control">
                                                     </div>
 
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Country')}}</label>
+                                                            <label><?php echo e(trans('file.Country')); ?></label>
                                                             <select name="country" id="country"
                                                                     class="form-control selectpicker"
                                                                     data-live-search="true"
                                                                     data-live-search-style="begins"
-                                                                    title="{{__('Selecting',['key'=>trans('file.Country')])}}...">
-                                                                @foreach($countries as $country)
-                                                                    <option value="{{$country->id}}" {{ ($employee->country == $country->id) ? "selected" : '' }}>{{$country->name}}</option>
-                                                                @endforeach
+                                                                    title="<?php echo e(__('Selecting',['key'=>trans('file.Country')])); ?>...">
+                                                                <?php $__currentLoopData = $countries; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $country): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($country->id); ?>" <?php echo e(($employee->country == $country->id) ? "selected" : ''); ?>><?php echo e($country->name); ?></option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Date Of Birth')}} <span class="text-danger">*</span></label>
+                                                        <label><?php echo e(__('Date Of Birth')); ?> <span class="text-danger">*</span></label>
                                                         <input type="text" name="date_of_birth" id="date_of_birth"
                                                                required autocomplete="off" class="form-control date"
-                                                               value="{{$employee->date_of_birth}}">
+                                                               value="<?php echo e($employee->date_of_birth); ?>">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Gender')}} <span class="text-danger">*</span></label>
+                                                        <label><?php echo e(trans('file.Gender')); ?> <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="gender_hidden"
-                                                               value="{{ $employee->gender }}"/>
+                                                               value="<?php echo e($employee->gender); ?>"/>
                                                         <select name="gender" id="gender"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
-                                                                title="{{__('Selecting',['key'=>trans('file.Gender')])}}...">
-                                                            <option value="Male">{{trans('file.Male')}}</option>
-                                                            <option value="Female">{{trans('file.Female')}}</option>
-                                                            <option value="Other">{{trans('file.Other')}}</option>
+                                                                title="<?php echo e(__('Selecting',['key'=>trans('file.Gender')])); ?>...">
+                                                            <option value="Male"><?php echo e(trans('file.Male')); ?></option>
+                                                            <option value="Female"><?php echo e(trans('file.Female')); ?></option>
+                                                            <option value="Other"><?php echo e(trans('file.Other')); ?></option>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Marital Status')}} <span class="text-danger">*</span></label>
+                                                        <label><?php echo e(__('Marital Status')); ?> <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="marital_status_hidden"
-                                                               value="{{ $employee->marital_status }}"/>
+                                                               value="<?php echo e($employee->marital_status); ?>"/>
                                                         <select name="marital_status" id="marital_status"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
-                                                                title="{{__('Selecting',['key'=>__('Marital Status')])}}...">
-                                                            <option value="single">{{trans('file.Single')}}</option>
-                                                            <option value="married">{{trans('file.Married')}}</option>
-                                                            <option value="widowed">{{trans('file.Widowed')}}</option>
-                                                            <option value="divorced">{{trans('file.Divorced/Separated')}}</option>
+                                                                title="<?php echo e(__('Selecting',['key'=>__('Marital Status')])); ?>...">
+                                                            <option value="single"><?php echo e(trans('file.Single')); ?></option>
+                                                            <option value="married"><?php echo e(trans('file.Married')); ?></option>
+                                                            <option value="widowed"><?php echo e(trans('file.Widowed')); ?></option>
+                                                            <option value="divorced"><?php echo e(trans('file.Divorced/Separated')); ?></option>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Company')}}</label>
+                                                            <label><?php echo e(trans('file.Company')); ?></label>
                                                             <input type="hidden" name="company_id_hidden"
-                                                               value="{{ $employee->company_id }}"/>
+                                                               value="<?php echo e($employee->company_id); ?>"/>
                                                             <select name="company_id" id="company_id"
                                                                     class="form-control selectpicker dynamic"
                                                                     data-live-search="true"
                                                                     data-live-search-style="begins"
                                                                     data-dependent="department_name"
                                                                     data-shift_name="shift_name"
-                                                                    title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
-                                                                @foreach($companies as $company)
-                                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                                                @endforeach
+                                                                    title="<?php echo e(__('Selecting',['key'=>trans('file.Company')])); ?>...">
+                                                                <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                                 
                                                             </select>
                                                         </div>
@@ -276,119 +278,118 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Department')}}</label>
+                                                            <label><?php echo e(trans('file.Department')); ?></label>
                                                             <input type="hidden" name="department_id_hidden"
-                                                               value="{{ $employee->department_id }}"/>
+                                                               value="<?php echo e($employee->department_id); ?>"/>
                                                             <select name="department_id" id="department_id"
                                                                     class="selectpicker form-control designation"
                                                                     data-live-search="true"
                                                                     data-live-search-style="begins"
                                                                     data-designation_name="designation_name"
-                                                                    title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
-                                                                @foreach($departments as $department)
-                                                                    <option value="{{$department->id}}">{{$department->department_name}}</option>
-                                                                @endforeach
+                                                                    title="<?php echo e(__('Selecting',['key'=>trans('file.Department')])); ?>...">
+                                                                <?php $__currentLoopData = $departments; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $department): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($department->id); ?>"><?php echo e($department->department_name); ?></option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Designation')}}</label>
+                                                        <label><?php echo e(trans('file.Designation')); ?></label>
                                                         <input type="hidden" name="designation_id_hidden"
-                                                               value="{{ $employee->designation_id }}"/>
+                                                               value="<?php echo e($employee->designation_id); ?>"/>
                                                         <select name="designation_id" id="designation_id"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
-                                                                title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
-                                                            @foreach($designations as $designation)
-                                                                <option value="{{$designation->id}}">{{$designation->designation_name}}</option>
-                                                            @endforeach
+                                                                title="<?php echo e(__('Selecting',['key'=>trans('file.Designation')])); ?>...">
+                                                            <?php $__currentLoopData = $designations; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $designation): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e($designation->id); ?>"><?php echo e($designation->designation_name); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Role')}} <span class="text-danger">*</span></label>
+                                                        <label><?php echo e(trans('file.Role')); ?> <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="role_user_hidden"
-                                                               value="{{ $employee->role_users_id }}"/>
-                                                        <select name="role_users_id" id="role_users_id" required @if($employee->role_users_id==1) disabled  @endif 
+                                                               value="<?php echo e($employee->role_users_id); ?>"/>
+                                                        <select name="role_users_id" id="role_users_id" required <?php if($employee->role_users_id==1): ?> disabled  <?php endif; ?> 
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
-                                                                title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
-                                                            {{-- <option value="1">Admin</option>
-                                                            <option value="2">Employee</option> --}}
-                                                            @foreach($roles as $item)
-                                                                <option value="{{$item->id}}">{{$item->name}}</option>
-                                                            @endforeach
+                                                                title="<?php echo e(__('Selecting',['key'=>trans('file.Role')])); ?>...">
+                                                            
+                                                            <?php $__currentLoopData = $roles; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e($item->id); ?>"><?php echo e($item->name); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Status')}}</label>
+                                                            <label><?php echo e(trans('file.Status')); ?></label>
                                                             <input type="hidden" name="status_id_hidden"
-                                                               value="{{ $employee->status_id }}"/>
+                                                               value="<?php echo e($employee->status_id); ?>"/>
                                                             <select name="status_id" id="status_id"
                                                                     class="form-control selectpicker"
                                                                     data-live-search="true"
                                                                     data-live-search-style="begins"
-                                                                    title="{{__('Selecting',['key'=>trans('file.Status')])}}...">
-                                                                @foreach($statuses as $status)
-                                                                    <option value="{{$status->id}}">{{$status->status_title}}</option>
-                                                                @endforeach
+                                                                    title="<?php echo e(__('Selecting',['key'=>trans('file.Status')])); ?>...">
+                                                                <?php $__currentLoopData = $statuses; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $status): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                    <option value="<?php echo e($status->id); ?>"><?php echo e($status->status_title); ?></option>
+                                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                             </select>
                                                         </div>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Office Shift')}}</label>
+                                                        <label><?php echo e(trans('file.Office Shift')); ?></label>
                                                         <input type="hidden" name="office_shift_id_hidden"
-                                                               value="{{ $employee->office_shift_id }}"/>
+                                                               value="<?php echo e($employee->office_shift_id); ?>"/>
                                                         <select name="office_shift_id" id="office_shift_id"
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
-                                                                title="{{__('Selecting',['key'=>trans('file.Office Shift')])}}...">
-                                                            @foreach($office_shifts as $office_shift)
-                                                                <option value="{{$office_shift->id}}">{{$office_shift->shift_name}}</option>
-                                                            @endforeach
+                                                                title="<?php echo e(__('Selecting',['key'=>trans('file.Office Shift')])); ?>...">
+                                                            <?php $__currentLoopData = $office_shifts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $office_shift): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                                <option value="<?php echo e($office_shift->id); ?>"><?php echo e($office_shift->shift_name); ?></option>
+                                                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                                         </select>
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Date Of Joining')}}</label>
+                                                        <label><?php echo e(__('Date Of Joining')); ?></label>
                                                         <input type="text" name="joining_date" id="joining_date"
                                                                autocomplete="off" class="form-control date"
-                                                               value="{{$employee->joining_date }}">
+                                                               value="<?php echo e($employee->joining_date); ?>">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Date Of Leaving')}}</label>
+                                                        <label><?php echo e(__('Date Of Leaving')); ?></label>
                                                         <input type="text" name="exit_date" id="exit_date"
                                                                autocomplete="off" class="form-control date"
-                                                               value="{{$employee->exit_date}}">
+                                                               value="<?php echo e($employee->exit_date); ?>">
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label class="text-bold">{{__('Login Type')}} <span class="text-danger">*</span></label>
+                                                        <label class="text-bold"><?php echo e(__('Login Type')); ?> <span class="text-danger">*</span></label>
                                                         <select name="login_type" id="login_type" required class="selectpicker form-control"
-                                                                data-live-search="true" data-live-search-style="begins" title="{{__('Select Login Type...')}}">
-                                                                <option value="general" @if($employee->user->login_type=='general') selected  @endif>{{__('General')}}</option>
-                                                                <option value="ip" @if($employee->user->login_type=='ip') selected  @endif>{{__('IP')}}</option>
+                                                                data-live-search="true" data-live-search-style="begins" title="<?php echo e(__('Select Login Type...')); ?>">
+                                                                <option value="general" <?php if($employee->user->login_type=='general'): ?> selected  <?php endif; ?>><?php echo e(__('General')); ?></option>
+                                                                <option value="ip" <?php if($employee->user->login_type=='ip'): ?> selected  <?php endif; ?>><?php echo e(__('IP')); ?></option>
                                                         </select>
                                                     </div>
 
-                                                    @if($employee->user->login_type=='ip')
+                                                    <?php if($employee->user->login_type=='ip'): ?>
                                                         <div class="col-md-4">
-                                                            <label class="text-bold">{{__('IP Address')}} <span class="text-danger">*</span></label>
-                                                            <input type="text" name="ip_address" id="ip_address" value="{{$employee->user->ip_address}}" required class="form-control">
+                                                            <label class="text-bold"><?php echo e(__('IP Address')); ?> <span class="text-danger">*</span></label>
+                                                            <input type="text" name="ip_address" id="ip_address" value="<?php echo e($employee->user->ip_address); ?>" required class="form-control">
                                                         </div>
-                                                    @else
+                                                    <?php else: ?>
                                                         <div class="col-md-4"  id="ipField">
                                                             
                                                         </div>  
-                                                    @endif
+                                                    <?php endif; ?>
 
                                                     
                                                     
@@ -399,7 +400,8 @@
                                                         <div class="form-group row mb-0">
                                                             <div class="col-md-6 offset-md-4">
                                                                 <button type="submit" class="btn btn-primary">
-                                                                    {{trans('file.Save')}}
+                                                                    <?php echo e(trans('file.Save')); ?>
+
                                                                 </button>
                                                             </div>
                                                         </div>
@@ -408,50 +410,57 @@
                                                 </div>
                                             </form>
                                         </div>
-                                        @endcan
+                                        <?php endif; ?>
 
-                                        @can('view-details-employee')
+                                        <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('view-details-employee')): ?>
                                         <div class="tab-pane fade" id="Immigration" role="tabpanel"
                                              aria-labelledby="immigration-tab">
-                                            {{__('Assigned Immigration')}}
+                                            <?php echo e(__('Assigned Immigration')); ?>
+
                                             <hr>
-                                            @include('employee.immigration.index')
+                                            <?php echo $__env->make('employee.immigration.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Emergency" role="tabpanel"
                                              aria-labelledby="emergency-tab">
-                                            {{__('Emergency Contacts')}}
+                                            <?php echo e(__('Emergency Contacts')); ?>
+
                                             <hr>
-                                            @include('employee.emergency_contacts.index')
+                                            <?php echo $__env->make('employee.emergency_contacts.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Social_profile" role="tabpanel"
                                              aria-labelledby="social_profile-tab">
-                                            {{__('Social Profile')}}
+                                            <?php echo e(__('Social Profile')); ?>
+
                                             <hr>
-                                            @include('employee.social_profile.index')
+                                            <?php echo $__env->make('employee.social_profile.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Document" role="tabpanel"
                                              aria-labelledby="document-tab">
-                                            {{__('All Documents')}}
+                                            <?php echo e(__('All Documents')); ?>
+
                                             <hr>
-                                            @include('employee.documents.index')
+                                            <?php echo $__env->make('employee.documents.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Qualification" role="tabpanel"
                                              aria-labelledby="qualification-tab">
-                                            {{__('All Qualifications')}}
+                                            <?php echo e(__('All Qualifications')); ?>
+
                                             <hr>
-                                            @include('employee.qualifications.index')
+                                            <?php echo $__env->make('employee.qualifications.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Work_experience" role="tabpanel"
                                              aria-labelledby="work_experience-tab">
-                                            {{__('Work Experience')}}
+                                            <?php echo e(__('Work Experience')); ?>
+
                                             <hr>
-                                            @include('employee.work_experience.index')
+                                            <?php echo $__env->make('employee.work_experience.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
                                         <div class="tab-pane fade" id="Bank_account" role="tabpanel"
                                              aria-labelledby="bank_account-tab">
-                                            {{__('Bank Account')}}
+                                            <?php echo e(__('Bank Account')); ?>
+
                                             <hr>
-                                            @include('employee.bank_account.index')
+                                            <?php echo $__env->make('employee.bank_account.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
                                         </div>
 
 
@@ -462,28 +471,31 @@
                         </div>
                         <div class="tab-pane fade" id="Profile" role="tabpanel" aria-labelledby="profile-tab">
                             <!--Contents for Profile starts here-->
-                            {{__('Profile Picture')}}
+                            <?php echo e(__('Profile Picture')); ?>
+
                             <hr>
 
-                        @include('employee.profile_picture.index')
+                        <?php echo $__env->make('employee.profile_picture.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Profile ends here-->
                         </div>
 
                         <div class="tab-pane fade" id="Set_salary" role="tabpanel" aria-labelledby="set_salary-tab">
                             <!--Contents for Contact starts here-->
-                            {{__('Salary Info')}}
+                            <?php echo e(__('Salary Info')); ?>
+
                             <hr>
-                        @include('employee.salary.index')
+                        <?php echo $__env->make('employee.salary.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Contact ends here-->
                         </div>
 
                         <div class="tab-pane fade" id="Leave" role="tabpanel" aria-labelledby="leave-tab">
                             <!--Contents for Contact starts here-->
-                            {{__('Leave Info')}}
+                            <?php echo e(__('Leave Info')); ?>
+
                             <hr>
-                        @include('employee.leave.index')
+                        <?php echo $__env->make('employee.leave.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Contact ends here-->
                         </div>
@@ -491,9 +503,10 @@
                         <div class="tab-pane fade" id="Employee_Core_hr" role="tabpanel"
                              aria-labelledby="employee_core_hr-tab">
                             <!--Contents for Contact starts here-->
-                            {{__('Core HR')}}
+                            <?php echo e(__('Core HR')); ?>
+
                             <hr>
-                        @include('employee.core_hr.award.index')
+                        <?php echo $__env->make('employee.core_hr.award.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Contact ends here-->
                         </div>
@@ -501,9 +514,10 @@
                         <div class="tab-pane fade" id="Employee_project_task" role="tabpanel"
                              aria-labelledby="employee_project_task-tab">
                             <!--Contents for Contact starts here-->
-                            {{trans('file.Project')}} & {{trans('file.Task')}}
+                            <?php echo e(trans('file.Project')); ?> & <?php echo e(trans('file.Task')); ?>
+
                             <hr>
-                        @include('employee.project_task.index')
+                        <?php echo $__env->make('employee.project_task.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Contact ends here-->
                         </div>
@@ -511,9 +525,10 @@
                         <div class="tab-pane fade" id="Employee_Payslip" role="tabpanel"
                              aria-labelledby="employee_payslip-tab">
                             <!--Contents for Contact starts here-->
-                            {{trans('file.Payslip')}}
+                            <?php echo e(trans('file.Payslip')); ?>
+
                             <hr>
-                        @include('employee.payslip.index')
+                        <?php echo $__env->make('employee.payslip.index', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
                         <!--Contents for Contact ends here-->
                         </div>
@@ -523,7 +538,7 @@
             </div>
         </div>
 
-            @endcan
+            <?php endif; ?>
 
     </section>
 
@@ -545,129 +560,129 @@
 
             let date = $('.date');
             date.datepicker({
-                format: '{{ env('Date_Format_JS')}}',
+                format: '<?php echo e(env('Date_Format_JS')); ?>',
                 autoclose: true,
                 todayHighlight: true
             });
         });
 
         $('[data-table="immigration"]').one('click', function (e) {
-                @include('employee.immigration.index_js')
+                <?php echo $__env->make('employee.immigration.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         });
 
         $('[data-table="emergency"]').one('click', function (e) {
-            @include('employee.emergency_contacts.index_js')
+            <?php echo $__env->make('employee.emergency_contacts.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('[data-table="document"]').one('click', function (e) {
-                @include('employee.documents.index_js')
+                <?php echo $__env->make('employee.documents.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('[data-table="qualification"]').one('click', function (e) {
-            @include('employee.qualifications.index_js')
+            <?php echo $__env->make('employee.qualifications.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('[data-table="work_experience"]').one('click', function (e) {
-            @include('employee.work_experience.index_js')
+            <?php echo $__env->make('employee.work_experience.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('[data-table="bank_account"]').one('click', function (e) {
-            @include('employee.bank_account.index_js')
+            <?php echo $__env->make('employee.bank_account.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#profile-tab').one('click', function (e) {
-            @include('employee.profile_picture.index_js')
+            <?php echo $__env->make('employee.profile_picture.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#set_salary-tab').one('click', function (e) {
-            @include('employee.salary.basic_salary_js')
+            <?php echo $__env->make('employee.salary.basic_salary_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#salary_allowance-tab').one('click', function (e) {
-            @include('employee.salary.allowance.index_js')
+            <?php echo $__env->make('employee.salary.allowance.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#salary_commission-tab').one('click', function (e) {
-            @include('employee.salary.commission.index_js')
+            <?php echo $__env->make('employee.salary.commission.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#salary_loan-tab').one('click', function (e) {
-            @include('employee.salary.loan.index_js')
+            <?php echo $__env->make('employee.salary.loan.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#salary_deduction-tab').one('click', function (e) {
-            @include('employee.salary.deduction.index_js')
+            <?php echo $__env->make('employee.salary.deduction.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
        $('#other_payment-tab').one('click', function (e) {
-            @include('employee.salary.other_payment.index_js')
+            <?php echo $__env->make('employee.salary.other_payment.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#salary_overtime-tab').one('click', function (e) {
-            @include('employee.salary.overtime.index_js')
+            <?php echo $__env->make('employee.salary.overtime.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#leave-tab').one('click', function (e) {
-            @include('employee.leave.index_js')
+            <?php echo $__env->make('employee.leave.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#employee_core_hr-tab').one('click', function (e) {
-            @include('employee.core_hr.award.index_js')
+            <?php echo $__env->make('employee.core_hr.award.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_travel-tab').one('click', function (e) {
-            @include('employee.core_hr.travel.index_js')
+            <?php echo $__env->make('employee.core_hr.travel.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_training-tab').one('click', function (e) {
-            @include('employee.core_hr.training.index_js')
+            <?php echo $__env->make('employee.core_hr.training.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_ticket-tab').one('click', function (e) {
-            @include('employee.core_hr.ticket.index_js')
+            <?php echo $__env->make('employee.core_hr.ticket.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#employee_transfer-tab').one('click', function (e) {
-            @include('employee.core_hr.transfer.index_js')
+            <?php echo $__env->make('employee.core_hr.transfer.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#employee_promotion-tab').one('click', function (e) {
-            @include('employee.core_hr.promotion.index_js')
+            <?php echo $__env->make('employee.core_hr.promotion.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_complaint-tab').one('click', function (e) {
-            @include('employee.core_hr.complaint.index_js')
+            <?php echo $__env->make('employee.core_hr.complaint.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#employee_warning-tab').one('click', function (e) {
-            @include('employee.core_hr.warning.index_js')
+            <?php echo $__env->make('employee.core_hr.warning.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_project_task-tab').one('click', function (e) {
-            @include('employee.project_task.project.index_js')
+            <?php echo $__env->make('employee.project_task.project.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
 
         });
 
         $('#employee_task-tab').one('click', function (e) {
-            @include('employee.project_task.task.index_js')
+            <?php echo $__env->make('employee.project_task.task.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#employee_payslip-tab').one('click', function (e) {
-            @include('employee.payslip.index_js')
+            <?php echo $__env->make('employee.payslip.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
 
         $('#basic_sample_form').on('submit', function (event) {
             event.preventDefault();
             $.ajax({
-                url: "{{ route('employees_basicInfo.update',$employee->id) }}",
+                url: "<?php echo e(route('employees_basicInfo.update',$employee->id)); ?>",
                 method: "POST",
                 data: new FormData(this),
                 contentType: false,
@@ -698,7 +713,7 @@
                 let dependent = $(this).data('shift_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_office_shifts') }}",
+                    url: "<?php echo e(route('dynamic_office_shifts')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -717,7 +732,7 @@
                 let dependent = $(this).data('dependent');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_department') }}",
+                    url: "<?php echo e(route('dynamic_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -735,7 +750,7 @@
                 let designation_name = $(this).data('designation_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_designation_department') }}",
+                    url: "<?php echo e(route('dynamic_designation_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, designation_name: designation_name},
                     success: function (result) {
@@ -752,7 +767,7 @@
         $('#login_type').change(function() {
             var login_type = $('#login_type').val();
             if (login_type=='ip') {
-                data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
+                data = '<label class="text-bold"><?php echo e(__("IP Address")); ?> <span class="text-danger">*</span></label>';
                 data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
                 $('#ipField').html(data)
             }else{
@@ -761,4 +776,6 @@
         });
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\peoplepro\resources\views/employee/dashboard.blade.php ENDPATH**/ ?>
