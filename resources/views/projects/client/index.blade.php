@@ -57,30 +57,30 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>{{__('Name')}} *</label>
+                                <label>{{__('Name')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="name" id="name" placeholder={{__('Name')}}
                                         required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Company')}} *</label>
+                                <label>{{trans('file.Company')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="company_name" id="company_name"
                                        placeholder={{trans('file.Company')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Username')}} *</label>
+                                <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="username" id="username"
                                        placeholder="{{trans('file.Username')}}"
                                        required class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Email')}} *</label>
+                                <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
                                 <input type="email" name="email" id="email" placeholder='example@example.com' required
                                        class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Phone')}}*</label>
+                                <label>{{trans('file.Phone')}}<span class="text-danger">*</span></label>
                                 <input type="text" name="contact_no" id="contact_no"
                                        placeholder="{{trans('file.Phone')}}"
                                        class="form-control" value="{{ old('contact_no') }}">
@@ -93,27 +93,12 @@
                             </div>
 
                             <div class="col-md-6 form-group hide-edit">
-                                <label>{{trans('file.Password')}} *</label>
+                                <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
                                 <div class="input-group">
                                     <input type="password" name="password" id="password"
                                            placeholder="{{trans('file.Password')}}"
                                            class="form-control">
                                 </div>
-                            </div>
-
-                            <div class="col-md-6 form-group custom-control custom-checkbox hide-add">
-                                <input type="checkbox" class="custom-control-input" name="is_active" id="is_active"
-                                       value="1" checked>
-                                <label class="custom-control-label" for="is_active">{{trans('file.Active')}}</label>
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                <label for="Photo"
-                                       class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
-                                <input type="file" id="profile_photo"
-                                       class="form-control @error('photo') is-invalid @enderror"
-                                       name="profile_photo"
-                                       placeholder={{trans('file.Upload')}} {{trans('file.Photo')}}>
                             </div>
 
                             <div class="col-md-6 form-group">
@@ -128,20 +113,20 @@
                                        class="form-control">
                             </div>
 
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-6 form-group">
                                 <label>{{trans('file.City')}} </label>
                                 <input type="text" name="city" id="city" placeholder="{{trans('file.City')}}"
                                        class="form-control">
                             </div>
 
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-6 form-group">
                                 <label>{{trans('file.State/Province')}} </label>
                                 <input type="text" name="state" id="state"
                                        placeholder="{{trans('file.State/Province')}}"
                                        class="form-control">
                             </div>
 
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-6 form-group">
                                 <label>{{trans('file.ZIP')}} </label>
                                 <input type="text" name="zip" id="zip" placeholder="{{trans('file.ZIP')}}"
                                        class="form-control">
@@ -159,6 +144,21 @@
                                         @endforeach
                                     </select>
                                 </div>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="Photo"
+                                       class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
+                                <input type="file" id="profile_photo"
+                                       class="form-control @error('photo') is-invalid @enderror"
+                                       name="profile_photo"
+                                       placeholder={{trans('file.Upload')}} {{trans('file.Photo')}}>
+                            </div>
+
+                            <div class="col-md-6 form-group custom-control custom-checkbox hide-add">
+                                <input type="checkbox" class="custom-control-input" name="is_active" id="is_active"
+                                       value="1" checked>
+                                <label class="custom-control-label" for="is_active">{{trans('file.Active')}}</label>
                             </div>
 
 

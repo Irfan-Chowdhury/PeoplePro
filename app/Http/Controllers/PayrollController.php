@@ -159,41 +159,6 @@ class PayrollController extends Controller {
 							return '';
 						}
 					})
-					// ->addColumn('action', function ($data)
-					// {
-					// 	if (auth()->user()->can('view-paylist'))
-					// 	{
-					// 		$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
-					// 		$button .= '&nbsp;&nbsp;';
-					// 		$status = 0;
-					// 		$payslip_key = 0;
-					// 		foreach ($data->payslips as $payslip)
-					// 		{
-					// 			$payslip_key = $payslip->payslip_key;
-					// 			$status = $payslip->status;
-					// 		}
-					// 		if ($status == 1)
-					// 		{
-					// 			$button .= '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
-					// 			$button .= '&nbsp;&nbsp;';
-					// 			$button .= '<a id="' . $payslip_key . '" class="download btn btn-info btn-sm" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
-					// 		} else
-					// 		{
-					// 			if (auth()->user()->can('make-payment'))
-					// 			{
-					// 				$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
-					// 			} else
-					// 			{
-					// 				$button = '';
-					// 			}
-					// 		}
-
-					// 		return $button;
-					// 	} else
-					// 	{
-					// 		return '';
-					// 	}
-					// })
 					->rawColumns(['action'])
 					->make(true);
 			}
@@ -256,52 +221,6 @@ class PayrollController extends Controller {
 		return response()->json(['data' => $data]);
 	}
 
-	// public function paySlip($id)
-	// {
-
-	// 	$employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user')
-	// 		->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type', 'designation_id', 'department_id', 'joining_date')
-	// 		->findOrFail($id);
-
-	// 	$data = [];
-	// 	$data['basic_salary'] = $employee->basic_salary;
-	// 	$data['basic_total'] = $employee->basic_salary;
-	// 	$data['allowances'] = $employee->allowances;
-	// 	$data['commissions'] = $employee->commissions;
-	// 	$data['loans'] = $employee->loans;
-	// 	$data['deductions'] = $employee->deductions;
-	// 	$data['overtimes'] = $employee->overtimes;
-	// 	$data['other_payments'] = $employee->otherPayments;
-
-	// 	$data['employee_id'] = $employee->id;
-	// 	$data['employee_full_name'] = $employee->full_name;
-	// 	$data['employee_designation'] = $employee->designation->designation_name;
-	// 	$data['employee_department'] = $employee->department->department_name;
-	// 	$data['employee_join_date'] = $employee->joining_date;
-	// 	$data['employee_username'] = $employee->user->username;
-	// 	$data['employee_pp'] = $employee->user->profile_photo ?? '';
-
-	// 	$data['payslip_type'] = $employee->payslip_type;
-
-	// 	if ($employee->payslip_type === 'Hourly')
-	// 	{
-	// 		$total = 0;
-	// 		$total_hours_worked = $this->totalWorkedHours($employee);
-	// 		$data['monthly_worked_hours'] = $total_hours_worked;
-	// 		//formatting in hour:min and separating them
-	// 		sscanf($total_hours_worked, '%d:%d', $hour, $min);
-	// 		//converting in minute
-	// 		$total += $hour * 60 + $min;
-
-	// 		$data['monthly_worked_amount'] = ($employee->basic_salary / 60) * $total;
-
-	// 		$data['basic_total'] = $data['monthly_worked_amount'];
-	// 	}
-
-	// 	return response()->json(['data' => $data]);
-	// }
-
-
 	public function paySlipGenerate(Request $request)
 	{
 		$month_year = $request->filter_month_year;
@@ -345,41 +264,6 @@ class PayrollController extends Controller {
 
 		return response()->json(['data' => $data]);
 	}
-	// public function paySlipGenerate($id)
-	// {
-	// 	$employee = $employee = Employee::with('allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'payslips')
-	// 		->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-	// 		->findOrFail($id);
-	// 	$data = [];
-
-	// 	$data['employee'] = $employee->id;
-	// 	$data['basic_salary'] = $employee->basic_salary;
-	// 	$data['total_allowance'] = $employee->allowances->sum('allowance_amount');
-	// 	$data['total_commission'] = $employee->commissions->sum('commission_amount');
-	// 	$data['monthly_payable'] = $employee->loans->sum('monthly_payable');
-	// 	$data['amount_remaining'] = $employee->loans->sum('amount_remaining');
-	// 	$data['total_deduction'] = $employee->deductions->sum('deduction_amount');
-	// 	$data['total_overtime'] = $employee->overtimes->sum('overtime_amount');
-	// 	$data['total_other_payment'] = $employee->otherPayments->sum('other_payment_amount');
-	// 	$data['payslip_type'] = $employee->payslip_type;
-
-	// 	if ($employee->payslip_type == 'Monthly')
-	// 	{
-	// 		$data['total_salary'] = $this->totalSalary($employee);
-	// 	} else
-	// 	{
-	// 		$total = 0;
-	// 		$total_hours = $this->totalWorkedHours($employee);
-	// 		sscanf($total_hours, '%d:%d', $hour, $min);
-	// 		//converting in minute
-	// 		$total += $hour * 60 + $min;
-	// 		$data['total_hours'] = $total_hours;
-	// 		$data['worked_amount'] = ($data['basic_salary'] / 60) * $total;
-	// 		$data['total_salary'] = $this->totalSalary($employee, $total);
-	// 	}
-
-	// 	return response()->json(['data' => $data]);
-	// }
 
 	public function payEmployee($id, Request $request)
 	{
@@ -664,198 +548,32 @@ class PayrollController extends Controller {
 
 		return response()->json(['error' => __('Error')]);
 	}
-
-	// //----Old----
-	// public function payBulk(Request $request)
-	// {
-	// 	$logged_user = auth()->user();
-	// 	if ($logged_user->can('make-bulk_payment'))
-	// 	{
-	// 		if (request()->ajax())
-	// 		{
-
-	// 			$paid_employee = Payslip::where('month_year', $request->month_year)->pluck('employee_id');
-
-	// 			if (!empty($request->filter_company && $request->filter_department))
-	// 			{
-	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
-	// 					'loans:id,employee_id,loan_title,loan_amount',
-	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
-	// 					'commissions:id,employee_id,commission_title,commission_amount',
-	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
-	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
-	// 				)
-	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-	// 					->where('company_id', $request->filter_company)
-	// 					->where('department_id', $request->filter_department)
-	// 					->whereNotIn('id', $paid_employee)
-	// 					->get();
-	// 			} elseif (!empty($request->filter_company))
-	// 			{
-	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
-	// 					'loans:id,employee_id,loan_title,loan_amount',
-	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
-	// 					'commissions:id,employee_id,commission_title,commission_amount',
-	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
-	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
-	// 				)
-	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-	// 					->where('company_id', $request->filter_company)
-	// 					->whereNotIn('id', $paid_employee)
-	// 					->get();
-	// 			} else
-	// 			{
-	// 				$employees = Employee::with('allowances:id,employee_id,allowance_title,allowance_amount',
-	// 					'loans:id,employee_id,loan_title,loan_amount',
-	// 					'deductions:id,employee_id,deduction_title,deduction_amount',
-	// 					'commissions:id,employee_id,commission_title,commission_amount',
-	// 					'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
-	// 					'otherPayments:id,employee_id,other_payment_title,other_payment_amount'
-	// 				)
-	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-	// 					->whereNotIn('id', $paid_employee)
-	// 					->get();
-	// 			}
-
-
-	// 			if ($employees->isEmpty())
-	// 			{
-	// 				return response()->json(['error' => 'Selected Employees are already Paid']);
-	// 			}
-
-
-	// 			DB::beginTransaction();
-	// 				try
-	// 				{
-	// 					$total_sum = 0;
-	// 					foreach ($employees as $employee)
-	// 					{
-	// 						if ($employee->payslip_type == 'Monthly')
-	// 						{
-	// 							$net_salary = $this->totalSalary($employee);
-	// 						} else
-	// 						{
-	// 							$total = 0;
-	// 							$total_hours = $this->totalWorkedHours($employee);
-	// 							sscanf($total_hours, '%d:%d', $hour, $min);
-	// 							//converting in minute
-	// 							$total += $hour * 60 + $min;
-	// 							$net_salary = $this->totalSalary($employee, $total);
-	// 						}
-	// 						$data = [];
-	// 						$data['payslip_key'] = Str::random('20');
-	// 						$data['payment_type'] = $employee->payslip_type;
-	// 						$data['basic_salary'] = $employee->basic_salary;
-	// 						$data['allowances'] = $employee->allowances;
-	// 						$data['commissions'] = $employee->commissions;
-	// 						$data['loans'] = $employee->loans;
-	// 						$data['deductions'] = $employee->deductions;
-	// 						$data['overtimes'] = $employee->overtimes;
-	// 						$data['other_payments'] = $employee->otherPayments;
-	// 						$data['month_year'] = $request->month_year;
-	// 						$data['net_salary'] = $net_salary;
-	// 						$data['status'] = 1;
-	// 						$data['employee_id'] = $employee->id;
-
-	// 						$total_sum = $total_sum + $net_salary;
-
-	// 						if ($employee->loans)
-	// 						{
-	// 							foreach ($employee->loans as $loan)
-	// 							{
-	// 								if($loan->time_remaining === '0')
-	// 								{
-	// 									$amount_remaining = 0;
-	// 									$time_remaining = 0;
-	// 									$monthly_payable = 0;
-	// 								}
-	// 								else
-	// 								{
-	// 									$amount_remaining = $loan->amount_remaining - $loan->monthly_payable;
-	// 									$time_remaining = $loan->time_remaining - 1;
-	// 									$monthly_payable = $loan->monthly_payable;
-	// 								}
-	// 								SalaryLoan::whereId($loan->id)->update(['amount_remaining' => $amount_remaining, 'time_remaining' => $time_remaining,
-	// 									'monthly_payable' => $monthly_payable]);
-	// 							}
-	// 							$employee_loan = Employee::with('loans:id,employee_id,loan_title,loan_amount,time_remaining,amount_remaining,monthly_payable')
-	// 								->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
-	// 								->findOrFail($employee->id);
-	// 							$data['loans'] = $employee_loan->loans;
-	// 						}
-
-	// 						Payslip::create($data);
-
-	// 					}
-
-	// 					$account_balance = DB::table('finance_bank_cashes')->where('id', config('variable.account_id'))->pluck('account_balance')->first();
-
-	// 					if ((int)$account_balance < $total_sum)
-	// 					{
-	// 						throw new Exception("requested balance is less then available balance");
-	// 					}
-
-	// 					$new_balance = (int)$account_balance - (int)$total_sum;
-
-	// 					$finance_data = [];
-
-	// 					$finance_data['account_id'] = config('variable.account_id');
-	// 					$finance_data['amount'] = $total_sum;
-	// 					$finance_data ['expense_date'] = now()->format(env('Date_Format'));
-	// 					$finance_data ['expense_reference'] = trans('file.Payroll');
-
-
-	// 					FinanceBankCash::whereId($finance_data['account_id'])->update(['account_balance' => $new_balance]);
-
-	// 					$Expense = FinanceTransaction::create($finance_data);
-
-	// 					$finance_data['id'] = $Expense->id;
-
-	// 					FinanceExpense::create($finance_data);
-
-	// 					DB::commit();
-	// 				} catch (Exception $e)
-	// 				{
-	// 					DB::rollback();
-	// 					return response()->json(['error' =>  $e->getMessage()]);
-	// 				} catch (Throwable $e)
-	// 				{
-	// 					DB::rollback();
-	// 					return response()->json(['error' => $e->getMessage()]);
-	// 				}
-
-	// 				return response()->json(['success' => __('Paid Successfully')]);
-	// 		}
-	// 	}
-
-	// 	return response()->json(['error' => __('Error')]);
-	// }
 }
 
 
 
 // $ip_server = $_SERVER['REMOTE_ADDR'];
-		// $ip_server = $_SERVER['HTTP_CLIENT_IP'];
-		// $ip_server = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		// $ip_server = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-		// $ip_server = gethostbyaddr($_SERVER['REMOTE_HOST']);
-		// $myPublicIP = trim(shell_exec("dig +short myip.opendns.REMOTE_HOSTcom @resolver1.opendns.com"));
-		// return "Server IP Address is: ". $ip_server; 
+// $ip_server = $_SERVER['HTTP_CLIENT_IP'];
+// $ip_server = $_SERVER['HTTP_X_FORWARDED_FOR'];
+// $ip_server = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+// $ip_server = gethostbyaddr($_SERVER['REMOTE_HOST']);
+// $myPublicIP = trim(shell_exec("dig +short myip.opendns.REMOTE_HOSTcom @resolver1.opendns.com"));
+// return "Server IP Address is: ". $ip_server; 
 
-		// $ipaddress = '';
-		// if (isset($_SERVER['HTTP_CLIENT_IP']))
-		// 	$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
-		// else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
-		// else if(isset($_SERVER['HTTP_X_FORWARDED']))
-		// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
-		// else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
-		// 	$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
-		// else if(isset($_SERVER['HTTP_FORWARDED']))
-		// 	$ipaddress = $_SERVER['HTTP_FORWARDED'];
-		// else if(isset($_SERVER['REMOTE_ADDR']))
-		// 	$ipaddress = $_SERVER['REMOTE_ADDR'];
-		// else
-		// 	$ipaddress = 'UNKNOWN';
-		// return $ipaddress;
+// $ipaddress = '';
+// if (isset($_SERVER['HTTP_CLIENT_IP']))
+// 	$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+// else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+// else if(isset($_SERVER['HTTP_X_FORWARDED']))
+// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+// else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+// 	$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+// else if(isset($_SERVER['HTTP_FORWARDED']))
+// 	$ipaddress = $_SERVER['HTTP_FORWARDED'];
+// else if(isset($_SERVER['REMOTE_ADDR']))
+// 	$ipaddress = $_SERVER['REMOTE_ADDR'];
+// else
+// 	$ipaddress = 'UNKNOWN';
+// return $ipaddress;
 

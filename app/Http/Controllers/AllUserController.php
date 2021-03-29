@@ -79,8 +79,6 @@ class AllUserController extends Controller {
 					->rawColumns(['action','contacts','username','login_info'])
 					->make(true);
 			}
-
-			// return view('all_user.index', compact('roles'));
 			return view('all_user.index');
 		}
 

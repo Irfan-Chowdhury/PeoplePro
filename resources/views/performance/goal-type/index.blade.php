@@ -270,7 +270,7 @@
                             if(data.success)
                             {
                                 table.ajax.reload();
-                                .rows('.selected').detableselect();
+                                table.rows('.selected').detableselect();
                                 $("#confirmDeleteCheckboxModal").modal('hide');
                                 $('#success_alert').fadeIn("slow"); //Check in top in this blade
                                 $('#success_alert').addClass('alert alert-success').html(data.success);

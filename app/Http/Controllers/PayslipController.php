@@ -227,24 +227,7 @@ class PayslipController extends Controller {
 
 		return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
 	}
-	// public function show(Payslip $payslip)
-	// {	
-
-	// 	$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
-	// 		->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
-	// 		->where('id',$payslip->employee_id)->first();
-	// 	$total_minutes = 0 ;
-	// 	$total_hours = $this->totalWorkedHours($employee);
-	// 	sscanf($total_hours, '%d:%d', $hour, $min);
-	// 	//converting in minute
-	// 	$total_minutes += $hour * 60 + $min;
-	// 	$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
-
-	// 	return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
-	// }
-
-
-
+	
 	public function delete(Payslip $payslip){
 		if ($payslip->exists)
 		{
@@ -289,28 +272,5 @@ class PayslipController extends Controller {
         $pdf = PDF::loadView('salary.payslip.pdf', $payslip,$employee);
         return $pdf->stream();
 	}
-
-	// public function printPdf(Payslip $payslip){
-
-	// 	$employee = Employee::with('user:id,username','company.Location.country',
-	// 		'department:id,department_name','designation:id,designation_name')
-	// 		->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id','payslip_type')
-	// 		->where('id',$payslip->employee_id)->first()->toArray();
-
-	// 	$employee_new = Employee::findOrFail($payslip->employee_id);
-
-	// 	$total_minutes = 0 ;
-	// 	$total_hours = $this->totalWorkedHours($employee_new);
-	// 	sscanf($total_hours, '%d:%d', $hour, $min);
-	// 	//converting in minute
-	// 	$total_minutes += $hour * 60 + $min;
-	// 	$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
-	// 	$employee['hours_amount'] = $amount_hours;
-
-	// 	PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
-    //     $pdf = PDF::loadView('salary.payslip.pdf', $payslip,$employee);
-    //     return $pdf->stream();
-	// }
-
 }
 

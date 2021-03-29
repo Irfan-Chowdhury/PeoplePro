@@ -39,6 +39,8 @@ class EmployeeController extends Controller {
 	 */
 	public function index(Request $request)
 	{
+		// return $request->ip();
+
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
@@ -177,7 +179,7 @@ class EmployeeController extends Controller {
 			if (request()->ajax())
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
-					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','login_type'),
+					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','attendance_type'),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
@@ -191,7 +193,7 @@ class EmployeeController extends Controller {
 						'department_id' => 'required',
 						'designation_id' => 'required',
 						'office_shift_id' => 'required',
-						'login_type' => 'required',
+						'attendance_type' => 'required',
 						'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
 					]
 				);
@@ -214,6 +216,7 @@ class EmployeeController extends Controller {
 				$data['email'] = strtolower(trim($request->email));
 				$data ['role_users_id'] = $request->role_users_id;
 				$data['contact_no'] = $request->contact_no;
+				$data['attendance_type'] = $request->attendance_type; //new
 				$data['is_active'] = 1;
 
 
@@ -225,8 +228,6 @@ class EmployeeController extends Controller {
 				$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
-				$user['login_type'] = $request->login_type; //new
-				$user['ip_address'] = $request->ip_address; //new
 				$user['is_active'] = 1;
 				
 				$photo = $request->profile_photo;
@@ -284,6 +285,8 @@ class EmployeeController extends Controller {
 	public
 	function show(Employee $employee)
 	{
+		// return $employee->attendance_type;
+
 		if (auth()->user()->can('view-details-employee'))
 		{
 			$companies = Company::select('id', 'company_name')->get();
@@ -401,6 +404,8 @@ class EmployeeController extends Controller {
 	public
 	function infoUpdate(Request $request, $employee)
 	{
+		// return response()->json($request->attendance_type);
+
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('modify-details-employee'))
@@ -409,7 +414,7 @@ class EmployeeController extends Controller {
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'company_id', 'department_id', 'designation_id', 'office_shift_id', 'location_id', 'status_id',
-					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','login_type'
+					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type'
 				),
 					[
 						'first_name' => 'required',
@@ -420,7 +425,7 @@ class EmployeeController extends Controller {
 						'username' => 'required|unique:users,username,' . $employee,
 						'role_users_id' => 'required',
 						'status_id' => 'required',
-						'login_type' => 'required',
+						'attendance_type' => 'required',
 					]
 				);
 
@@ -459,6 +464,7 @@ class EmployeeController extends Controller {
 				$data['email'] = strtolower(trim($request->email));
 				$data ['role_users_id'] = $request->role_users_id;
 				$data['contact_no'] = $request->contact_no;
+				$data['attendance_type'] = $request->attendance_type;
 				$data['is_active'] = 1;
 
 
@@ -470,15 +476,11 @@ class EmployeeController extends Controller {
 				$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
-				$user['login_type'] = $request->login_type; //new
-				$user['ip_address'] = $request->ip_address; //new
 				$user['is_active'] = 1;
 
 				DB::beginTransaction();
 				try
 				{
-
-					
 					User::whereId($employee)->update($user);
 					employee::find($employee)->update($data);
 

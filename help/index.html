@@ -51,6 +51,7 @@
         <li><a href="#language_setting" title="Language Setting">Language Setting</a></li>
         <li><a href="#variable_type" title="Variable Type">Variable Type</a></li>
         <li><a href="#variable_method" title="Variable Method">Variable Method</a></li>
+        <li><a href="#ip_setting" title="IP Settings">IP Settings</a></li> <!-- New-->
         <li><a href="#employee_list" title="Employee List">Employee List</a></li>
         <li><a href="#import_employee" title="Import Employee">Import Employee</a></li>
         <li><a href="#user_list" title="User List">User List</a></li>
@@ -88,7 +89,17 @@
         <li><a href="#job_interview" title="Job Interview">Job Interview</a></li>
         <li><a href="#cms" title="CMS">CMS</a></li>
         <li><a href="#new_payment" title="New Payment">New Payment</a></li>
-        <li><a href="#payslip_history" title="payslip History">Payslip History</a></li>
+        <li><a href="#payment_history" title="payslip History">Payslip History</a></li>
+        
+        <!-- Performance -->
+        <li><a href="#goal_type" title="Goal Type">Goal Type</a></li>
+        <li><a href="#goal_tracking" title="Goal Tracking">Goal Tracking</a></li>
+        <li><a href="#indicator" title="Indicator">Indicator</a></li>
+        <li><a href="#appraisal" title="Appraisal">Appraisal</a></li>
+        <!--/ Performance -->
+        
+
+
         <li><a href="#hr_calendar" title="HR Calendar">HR Calendar</a></li>
         <li><a href="#event" title="Event">Event</a></li>
         <li><a href="#meeting" title="Meeting">Meeting</a></li>
@@ -900,6 +911,21 @@
 
         </ul>
     </section>
+    
+    <!-- New  -->
+    <section id="ip_setting">
+        <div class="page-header">
+            <h3>IP Setting</h3>
+            <hr class="notop">
+        </div>
+        <p>
+            <strong>Customize Setting</strong> -> <strong>IP Setting</strong>.<br>
+            Here you can set your IP address so that employee's attendance (Clock-IN and Clock Out) can control by IP based.
+        </p>
+        <p>
+            <img alt="" src="assets/images/ip_setting.png">
+        </p>
+    </section>
 
 
     <section id="employee_list">
@@ -914,7 +940,8 @@
             on the details page and update if needed.
         </p>
         <p>
-            <img alt="" src="assets/images/employee_list1.png">
+            <!-- <img alt="" src="assets/images/employee_list1.png"> -->
+            <img alt="" src="assets/images/employee_list.png">
         </p>
 
         <p>
@@ -925,11 +952,18 @@
             permissions can be manually set on Customize Setting -> Roles and Access Page
         </p>
         <p>
-            <img alt="" src="assets/images/employee_add1.png">
+            <img alt="" src="assets/images/employee_add.png">
         </p>
 
         <p>
             <strong>Details(3)</strong>.<br>
+            You can filter employess .
+        </p>
+        <p>
+            <img alt="" src="assets/images/employee_filter.png">
+        </p>
+        <p>
+            <strong>Details(4)</strong>.<br>
             Employee Details can be seen using this button .
         </p>
         <p>
@@ -1152,13 +1186,13 @@
         <p>
             <strong>User</strong>-><strong>User List</strong><br>
             Here you can view the record of all the users. You can also add users using <strong>Add User(2)</strong>
-            . The purpose of this is to add user that can manage/edit the resources
+            and also can redirect to Employee's and Client's add form. The purpose of this is to add user that can manage/edit the resources
             of the system. The user will have default access to all the resources.But you can change/limit the
             access using
             <strong>Roles and Access</strong> under <strong>Customize Setting</strong>
         </p>
         <p>
-            <img alt="" src="assets/images/user_list.png">
+            <img alt="" src="assets/images/user_list2.png">
         </p>
 
     </section>
@@ -1982,9 +2016,107 @@
             here.s
         </p>
         <p>
-            <img alt="" src="assets/images/payslip_history.png">
+            <img alt="" src="assets/images/payment_history.png">
+        </p>
+    </section>
+    
+    <section id="goal_type">
+        <div class="page-header">
+            <h3>Goal Type</h3>
+            <hr class="notop">
+        </div>
+        <p>
+            <strong>Performance</strong>-><strong>Goal Type</strong><br>
+            You can see performance goal type list for the employees. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/goal_type_list.png">
         </p>
 
+        <p>
+            <strong>Add New Type</strong><br>
+            You can add new goal type. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/add_goal_type.png">
+        </p>
+    </section>
+
+
+    <section id="goal_tracking">
+        <div class="page-header">
+            <h3>Goal Tracking</h3>
+            <hr class="notop">
+        </div>
+        <p>
+            <strong>Performance</strong>-><strong>Goal Tracking</strong><br>
+            You can see performance goal tracking list for the employees. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/goal_tracking_list.png">
+        </p>
+
+        <p>
+            <strong>Add New Goal Tracking (1)</strong><br>
+            You can add new goal tracking. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/add_new_goal_tracking.png">
+        </p>
+        
+        <p>
+            <strong>Edit Goal Tracking (2)</strong><br>
+            You can edit goal tracking. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/edit_goal_tracking.png">
+        </p>
+    </section>
+    
+    
+    <section id="indicator">
+        <div class="page-header">
+            <h3>Indicator</h3>
+            <hr class="notop">
+        </div>
+        <p>
+            <strong>Performance</strong>-><strong>Indicator</strong><br>
+            You can see indicator list of peroformance. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/indicator_list.png">
+        </p>
+
+        <p>
+            <strong>Add New Indicator (1)</strong><br>
+            You can add new indicator info. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/add_indicator.png">
+        </p>
+    </section>
+
+
+    <section id="appraisal">
+        <div class="page-header">
+            <h3>Appraisal</h3>
+            <hr class="notop">
+        </div>
+        <p>
+            <strong>Performance</strong>-><strong>Appraisal</strong><br>
+            You can see apprisal list of peroformance. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/appraisal_list.png">
+        </p>
+
+        <p>
+            <strong>Add New Indicator (1)</strong><br>
+            You can add new appraisal info of employee performance. 
+        </p>
+        <p>
+            <img alt="" src="assets/images/add_appraisal.png">
+        </p>
     </section>
 
 

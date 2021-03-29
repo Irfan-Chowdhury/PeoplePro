@@ -17,6 +17,7 @@ use App\FinanceExpense;
 use App\Holiday;
 use App\Http\traits\ShiftTimingOnDay;
 use App\Invoice;
+use App\IpSetting;
 use App\leave;
 use App\LeaveType;
 use App\Payslip;
@@ -395,7 +396,7 @@ class DashboardController extends Controller {
 	}
 
 
-	public function employeeDashboard()
+	public function employeeDashboard(Request $request)
 	{
 		$user = auth()->user();
 		$employee = Employee::with('department:id,department_name', 'officeShift')->findOrFail($user->id);
@@ -452,12 +453,15 @@ class DashboardController extends Controller {
 		$employee_attendance = Attendance::where('attendance_date', now()->format('Y-m-d'))
 				->where('employee_id', $employee->id)->orderBy('id', 'desc')->first() ?? null;
 		
+		//IP Check
+		$ipCheck = IpSetting::where('ip_address',$request->ip())->exists();
+		
 
 		return view('dashboard.employee_dashboard', compact('user', 'employee', 'employee_attendance',
 			'shift_in', 'shift_out', 'shift_name', 'announcements',
 			'employee_award_count', 'holidays', 'leave_types', 'travel_types',
 			'assigned_projects', 'assigned_projects_count',
-			'assigned_tasks', 'assigned_tasks_count', 'assigned_tickets', 'assigned_tickets_count'));
+			'assigned_tasks', 'assigned_tasks_count', 'assigned_tickets', 'assigned_tickets_count','ipCheck'));
 	}
 
 

@@ -371,15 +371,15 @@
                                                     </div>
 
                                                     <div class="col-md-4">
-                                                        <label class="text-bold">{{__('Login Type')}} <span class="text-danger">*</span></label>
-                                                        <select name="login_type" id="login_type" required class="selectpicker form-control"
+                                                        <label class="text-bold">{{__('Attendance Type')}} <span class="text-danger">*</span></label>
+                                                        <select name="attendance_type" id="attendance_type" required class="selectpicker form-control"
                                                                 data-live-search="true" data-live-search-style="begins" title="{{__('Select Login Type...')}}">
-                                                                <option value="general" @if($employee->user->login_type=='general') selected  @endif>{{__('General')}}</option>
-                                                                <option value="ip" @if($employee->user->login_type=='ip') selected  @endif>{{__('IP')}}</option>
+                                                                <option value="general" @if($employee->attendance_type=='general') selected  @endif>{{__('General')}}</option>
+                                                                <option value="ip_based" @if($employee->attendance_type=='ip_based') selected  @endif>{{__('IP Based')}}</option>
                                                         </select>
                                                     </div>
 
-                                                    @if($employee->user->login_type=='ip')
+                                                    {{-- @if($employee->user->login_type=='ip')
                                                         <div class="col-md-4">
                                                             <label class="text-bold">{{__('IP Address')}} <span class="text-danger">*</span></label>
                                                             <input type="text" name="ip_address" id="ip_address" value="{{$employee->user->ip_address}}" required class="form-control">
@@ -388,7 +388,7 @@
                                                         <div class="col-md-4"  id="ipField">
                                                             
                                                         </div>  
-                                                    @endif
+                                                    @endif --}}
 
                                                     
                                                     
@@ -666,6 +666,9 @@
 
         $('#basic_sample_form').on('submit', function (event) {
             event.preventDefault();
+            var attendance_type = $("#attendance_type").val();
+            // console.log(attendance_type);
+
             $.ajax({
                 url: "{{ route('employees_basicInfo.update',$employee->id) }}",
                 method: "POST",
@@ -749,16 +752,16 @@
         });
 
         // Login Type Change
-        $('#login_type').change(function() {
-            var login_type = $('#login_type').val();
-            if (login_type=='ip') {
-                data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
-                data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
-                $('#ipField').html(data)
-            }else{
-                $('#ipField').empty();
-            }
-        });
+        // $('#login_type').change(function() {
+        //     var login_type = $('#login_type').val();
+        //     if (login_type=='ip') {
+        //         data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
+        //         data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
+        //         $('#ipField').html(data)
+        //     }else{
+        //         $('#ipField').empty();
+        //     }
+        // });
     </script>
 
 @endsection

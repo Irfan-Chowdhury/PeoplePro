@@ -12,8 +12,6 @@ use ZipArchive;
 
 class GeneralSettingController extends Controller {
 
-	//
-
 	public function index()
 	{
 		if (auth()->user()->can('view-general-setting'))

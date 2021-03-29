@@ -344,6 +344,9 @@
                                             href="{{route('variables_method.index')}}">{{__('Variable Method')}}</a>
                                 </li>
                             @endcan
+                            @can('view-general-setting')
+                                <li id="ip_setting"><a href="{{route('ip_setting.index')}}">{{__('IP Settings')}}</a></li>
+                            @endcan
 
                         </ul>
                     </li>
@@ -494,6 +497,26 @@
                         </ul>
                     </li>
                 @endcan
+
+
+                @can('performance')
+                        <li class="has-dropdown {{ (request()->is('performance*')) ? 'active' : '' }}"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i><span>Performance</span></a>
+                            <ul id="performance" class="collapse list-unstyled ">
+                                @can('view-goal-type')
+                                    <li id="goal-type"><a href="{{route('performance.goal-type.index')}}">{{__('Goal type')}}</a></li>
+                                @endcan
+                                @can('view-goal-tracking')
+                                    <li id="goal-tracking"><a href="{{route('performance.goal-tracking.index')}}">{{__('Goal Tracking')}}</a></li>
+                                @endcan
+                                @can('view-indicator')
+                                    <li id="indicator"><a href="{{route('performance.indicator.index')}}">{{__('Indicator')}}</a></li>
+                                @endcan
+                                @can('view-appraisal')
+                                    <li id="appraisal"><a href="{{route('performance.appraisal.index')}}">{{__('Appraisal')}}</a></li>
+                                @endcan
+                            </ul>
+                        </li>
+                    @endcan
 
                 @can('view-calendar')
                     <li class="{{ (request()->is('calendar*')) ? 'active' : '' }}"><a
@@ -763,25 +786,6 @@
                                     <li id="file_config"><a
                                                 href="{{route('file_config.index')}}">{{__('File Configuration')}}</a>
                                     </li>
-                                @endcan
-                            </ul>
-                        </li>
-                    @endcan
-
-                    @can('performance')
-                        <li class="has-dropdown {{ (request()->is('performance*')) ? 'active' : '' }}"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i><span>Performance</span></a>
-                            <ul id="performance" class="collapse list-unstyled ">
-                                @can('view-goal-type')
-                                    <li id="goal-type"><a href="{{route('performance.goal-type.index')}}">{{__('Goal type')}}</a></li>
-                                @endcan
-                                @can('view-goal-tracking')
-                                    <li id="goal-tracking"><a href="{{route('performance.goal-tracking.index')}}">{{__('Goal Tracking')}}</a></li>
-                                @endcan
-                                @can('view-indicator')
-                                    <li id="indicator"><a href="{{route('performance.indicator.index')}}">{{__('Indicator')}}</a></li>
-                                @endcan
-                                @can('view-appraisal')
-                                    <li id="appraisal"><a href="{{route('performance.appraisal.index')}}">{{__('Appraisal')}}</a></li>
                                 @endcan
                             </ul>
                         </li>

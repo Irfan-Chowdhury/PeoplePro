@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\IpSetting;
 use App\Providers\RouteServiceProvider;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -47,20 +48,6 @@ class LoginController extends Controller
      // over riding the method for custom redirecting after login
      protected function authenticated(Request $request, $user) 
      {
-        if ($user->login_type=='general') {
-            return $this->gotoResponseRequest($request, $user);
-        }
-        else if ($user->login_type=='ip' && $user->ip_address==$request->ip()) {
-            return $this->gotoResponseRequest($request, $user);
-        }else {
-            Auth::logout();
-            return $this->sendFailedLoginResponse($request);
-        }
-    }
-
-    protected function gotoResponseRequest($request, $user)
-    {
-        //-----Previus Code----
         //saving login timestamps and ip after login
         $user->timestamps = false;
         $user->last_login_date = Carbon::now()->toDateTimeString();

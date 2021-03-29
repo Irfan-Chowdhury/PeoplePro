@@ -21,4 +21,7 @@ class Client extends Model
 		return $this->hasMany(Project::class);
 	}
 
+	public function user(){
+		return $this->hasOne('App\User','id','id');
+	}
 }

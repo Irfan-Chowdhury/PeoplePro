@@ -852,6 +852,16 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('/empty_database', 'GeneralSettingController@emptyDatabase')->name('empty_database');
 			Route::get('/export_database', 'GeneralSettingController@exportDatabase')->name('export_database');
 
+			//IP Settings
+			Route::group(['prefix' => 'ip_settings'], function () {
+				Route::get('/', 'IPSettingController@index')->name('ip_setting.index');
+				Route::post('/store', 'IPSettingController@store')->name('ip_setting.store');
+				Route::get('/edit', 'IPSettingController@edit')->name('ip_setting.edit');
+				Route::post('/update', 'IPSettingController@update')->name('ip_setting.update');
+				Route::get('/delete', 'IPSettingController@delete')->name('ip_setting.delete');
+				Route::get('/bulk_delete', 'IPSettingController@bulkDelete')->name('ip_setting.bulk_delete');
+			});
+
 		}
 	});
 

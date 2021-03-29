@@ -263,17 +263,15 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{__('Login Type')}} <span class="text-danger">*</span></label>
-                                <select name="login_type" id="login_type" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins" title="{{__('Select Login Type...')}}">
+                                <label class="text-bold">{{__('Attendance Type')}} <span class="text-danger">*</span></label>
+                                <select name="attendance_type" id="attendance_type" required class="selectpicker form-control"
+                                        data-live-search="true" data-live-search-style="begins" title="{{__('Select Attendance Type...')}}">
                                     <option value="general">{{__('General')}}</option>
-                                    <option value="ip">{{__('IP')}}</option>
+                                    <option value="ip_based">{{__('IP Based')}}</option>
                                 </select>
                             </div>
 
-                            <div class="col-md-6 form-group"  id="ipField">
-                               
-                            </div>                            
+                            {{-- <div class="col-md-6 form-group"  id="ipField"></div> --}}
 
 
                             <div class="container">
@@ -489,6 +487,9 @@
 
         $('#sample_form').on('submit', function (event) {
             event.preventDefault();
+            // var attendance_type = $("#attendance_type").val();
+            // console.log(attendance_type);
+
             $.ajax({
                 url: "{{ route('employees.store') }}",
                 method: "POST",
@@ -671,16 +672,16 @@
 
 
         // Login Type Change
-        $('#login_type').change(function() {
-            var login_type = $('#login_type').val();
-            if (login_type=='ip') {
-                data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
-                data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
-                $('#ipField').html(data)
-            }else{
-                $('#ipField').empty();
-            }
-        });
+        // $('#login_type').change(function() {
+        //     var login_type = $('#login_type').val();
+        //     if (login_type=='ip') {
+        //         data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
+        //         data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
+        //         $('#ipField').html(data)
+        //     }else{
+        //         $('#ipField').empty();
+        //     }
+        // });
 
 
 

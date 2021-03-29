@@ -88,6 +88,7 @@ class ClientController extends Controller {
 			$user_data = [];
 			$data = [];
 
+			$user_data['first_name'] = $request->name;
 			$user_data['username'] = strtolower(trim($request->username));
 			$user_data['contact_no'] = $request->contact_no;
 			$user_data['email'] = strtolower(trim($request->email));
@@ -152,7 +153,7 @@ class ClientController extends Controller {
 		{
 			$data = client::findOrFail($id);
 
-			return response()->json(['data' => $data]);
+			return response()->json(['data' => $data,'login_type'=> $data->user->login_type]);
 		}
 	}
 
@@ -196,6 +197,7 @@ class ClientController extends Controller {
 			$user_data = [];
 			$data = [];
 
+			$user_data['first_name'] = $request->name;
 			$user_data['username'] = strtolower(trim($request->username));
 			$user_data['contact_no'] = $request->contact_no;
 			$user_data['email'] = strtolower(trim($request->email));

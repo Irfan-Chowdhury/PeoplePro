@@ -40,10 +40,12 @@
                         <input type="hidden" value="" name="in_out_value" id="in_out">
 
                         @if(!$employee_attendance || $employee_attendance->clock_in_out=== 0)
-                            <button class="btn btn-success btn-sm" type="submit" id="clock_in_btn"><i class="dripicons-enter"></i> {{__('Clock IN')}}</button>
+                            <button class="btn btn-success btn-sm" @if($employee->attendance_type=='ip_based' && $ipCheck!=true) disabled @endif type="submit" id="clock_in_btn"><i class="dripicons-enter"></i> {{__('Clock IN')}}</button>
                         @else
-                            <button class="btn btn-danger btn-sm" type="submit" id="clock_out_btn"><i class="dripicons-exit"></i> {{__('Clock Out')}}</button>
+                            <button class="btn btn-danger btn-sm" @if($employee->attendance_type=='ip_based' && $ipCheck!=true) disabled @endif type="submit" id="clock_out_btn"><i class="dripicons-exit"></i> {{__('Clock OUT')}}</button>
                         @endif
+                        {{-- <br> --}}
+                        @if($employee->attendance_type=='ip_based' && $ipCheck!=true) <small class="text-danger"><i>[Please login with your office's internet to clock in or clock out]</i></small> @endif
                     </form>
                 </div>
             </div>
