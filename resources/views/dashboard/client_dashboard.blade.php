@@ -16,7 +16,7 @@
                 </div>
 
                 <div class="col-9 col-md-10 mb-3">
-                    <h4 class="font-weight-bold">{{$client->name}} <span class="text-muted">({{$user->username}})</span>
+                    <h4 class="font-weight-bold">{{$client->first_name}}  {{$client->last_name}} <span class="text-muted">({{$user->username}})</span>
                     </h4>
                     <div class="text-muted mb-2">{{trans('file.Company')}}: {{$client->company_name}}</div>
                     <p class="text-muted pb-0-5">{{__('Last Login')}}: {{$user->last_login_date}}</p>

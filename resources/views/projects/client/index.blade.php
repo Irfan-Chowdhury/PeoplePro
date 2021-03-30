@@ -57,10 +57,20 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-6 form-group">
+                                <label>{{__('First Name')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="first_name" id="first_name" placeholder={{__('First Name')}}
+                                        required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Last Name')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="last_name" id="last_name" placeholder={{__('Last Name')}}
+                                        required class="form-control">
+                            </div>
+                            {{-- <div class="col-md-6 form-group">
                                 <label>{{__('Name')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="name" id="name" placeholder={{__('Name')}}
                                         required class="form-control">
-                            </div>
+                            </div> --}}
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Company')}} <span class="text-danger">*</span></label>
                                 <input type="text" name="company_name" id="company_name"
@@ -453,7 +463,8 @@
 
                         $('#company_name').val(html.data.company_name);
                         $('#username').val(html.data.username);
-                        $('#name').val(html.data.name);
+                        $('#first_name').val(html.data.first_name);
+                        $('#last_name').val(html.data.last_name);
                         $('#contact_no').val(html.data.contact_no);
                         $('#email').val(html.data.email);
                         $('#website').val(html.data.website);

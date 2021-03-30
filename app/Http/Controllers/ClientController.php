@@ -30,6 +30,10 @@ class ClientController extends Controller {
 					{
 						return $client->id;
 					})
+					->addColumn('name', function ($data)
+					{
+						return $data->first_name.' '.$data->last_name;
+					})
 					->addColumn('action', function ($data)
 					{
 						$button = '';
@@ -65,12 +69,14 @@ class ClientController extends Controller {
 		$logged_user = auth()->user();
 		if ($logged_user->can('store-client'))
 		{
-			$validator = Validator::make($request->only('username', 'company_name', 'name', 'password', 'contact_no', 'email', 'website', 'address1', 'address2',
+			$validator = Validator::make($request->only('username', 'company_name', 'first_name','last_name', 'password', 'contact_no', 'email', 'website', 'address1', 'address2',
 				'city', 'state', 'country', 'zip', 'profile'),
 				[
 					'username' => 'required|unique:users,username,',
 					'email' => 'required|email|unique:users',
 					'company_name' => 'required',
+					'first_name' => 'required',
+					'last_name' => 'required',
 					'contact_no' => 'nullable|numeric',
 					'zip' => 'nullable|numeric',
 					'password' => 'required|min:4',
@@ -88,7 +94,8 @@ class ClientController extends Controller {
 			$user_data = [];
 			$data = [];
 
-			$user_data['first_name'] = $request->name;
+			$user_data['first_name'] = $request->first_name;
+			$user_data['last_name'] = $request->last_name;
 			$user_data['username'] = strtolower(trim($request->username));
 			$user_data['contact_no'] = $request->contact_no;
 			$user_data['email'] = strtolower(trim($request->email));
@@ -112,7 +119,8 @@ class ClientController extends Controller {
 				}
 			}
 
-			$data ['name'] = $request->name;
+			$data['first_name'] = $request->first_name;
+			$data['last_name'] = $request->last_name;
 			$data ['company_name'] = $request->company_name;
 			$data ['website'] = $request->website;
 			$data ['address1'] = $request->address1;
@@ -175,12 +183,14 @@ class ClientController extends Controller {
 
 			$client = Client::findOrFail($id);
 
-			$validator = Validator::make($request->only('username', 'company_name', 'name', 'contact_no', 'email', 'website', 'address1', 'address2',
+			$validator = Validator::make($request->only('username', 'company_name', 'first_name', 'last_name', 'contact_no', 'email', 'website', 'address1', 'address2',
 				'city', 'state', 'country', 'zip', 'profile'),
 				[
 					'username' => 'required|unique:users,username,' . $id,
 					'email' => 'required|email|unique:users,email,' . $id,
 					'company_name' => 'required',
+					'first_name' => 'required',
+					'last_name' => 'required',
 					'contact_no' => 'nullable|numeric',
 					'zip' => 'nullable|numeric',
 					'profile' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
@@ -197,7 +207,8 @@ class ClientController extends Controller {
 			$user_data = [];
 			$data = [];
 
-			$user_data['first_name'] = $request->name;
+			$user_data['first_name'] = $request->first_name;
+			$user_data['last_name'] = $request->last_name;
 			$user_data['username'] = strtolower(trim($request->username));
 			$user_data['contact_no'] = $request->contact_no;
 			$user_data['email'] = strtolower(trim($request->email));
@@ -225,7 +236,8 @@ class ClientController extends Controller {
 				}
 			}
 
-			$data ['name'] = $request->name;
+			$data['first_name'] = $request->first_name;
+			$data['last_name'] = $request->last_name;
 			$data ['company_name'] = $request->company_name;
 			$data ['website'] = $request->website;
 			$data ['address1'] = $request->address1;
