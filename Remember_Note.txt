@@ -1,15 +1,15 @@
-    
+
     =============== Upcoming Features Add/Modify ===========
 
-    A.User-List: 
+    A.User-List:
         1.User Full Name ------------------------[Done]
 
-    B.Employee list: 
+    B.Employee list:
         2.User-name show ------------------------[Done]
         3.Skype whats-app show ------------------[Done]
         4.Role ----------------------------------[Done]
         5.Employee Details with PDF -------------[Done]
-    
+
     C. User Roles and Access
         6. Update Role and DB -------------------[Done]
 
@@ -18,19 +18,22 @@
         8.Add Employee(Redirect with modal)------[Done]
         9.Add Client (Redirect) -----------------[Done]
 
-    E. Add Job Apply - 
-        10. Contact Number (Required)------------[Done] 
-        11. Address (Optional) ------------------[Done]    
+    E. Add Job Apply -
+        10. Contact Number (Required)------------[Done]
+        11. Address (Optional) ------------------[Done]
 
     F. Others
         12. Payslip PDF Formate -----------------[Done]
         13. Button visibility in "New Payment" --[Done]
         14. Aleart message show for salary,allowance,loan......[Done]
-        15. IP Based Login.---------------------- [Incomplete]
+        15. IP Based Login.---------------------- [Complete]
 
     G. Later
         16. One Company has multiple locatin - (less priority)
         17. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
+        18. Holiday will not count with employee's leave request days
+        19. HR Report (Payslip) - When filter an employee, a payslip button must show. (Cancel)
+        20. Expiry Documents - send notification to admin.
 
 
                 =============== BUG ===============
@@ -44,31 +47,19 @@
 
         4. Monthly Attendance (total Work Hour) ----[Done]
 
-        5. (Payment Hourly) Details show -----------[Done] 
+        5. (Payment Hourly) Details show -----------[Done]
 
-        6. (Payment Hourly) payment Details before generate - [Done] 
+        6. (Payment Hourly) payment Details before generate - [Done]
 
-        7. (Payment Hourly) payment generate -------[Done] 
+        7. (Payment Hourly) payment generate -------[Done]
 
-        8. (Payment Hourly) payslips ---------------[Done] 
+        8. (Payment Hourly) payslips ---------------[Done]
 
-        9. (Payment Hourly) payslips pdf -----------[Done] 
+        9. (Payment Hourly) payslips pdf -----------[Done]
 
         10. Assets Permission Role -----------------[Done]
 
         11. Short Description (Correction- Short Description) [Done]
-
-    
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -78,15 +69,15 @@
 
 
 =============== Remeber ===============
-1.Modified file- 
+1.Modified file-
     1. EmployeeController@ - index(),store(),infoUpdate()
     2. AllUserController@ - user_roles() [all_user.user_roles.blade.php]
-    3. AssignRoleController@ - update()  
-    4. Forign key relation updated- using 'roles' instead of 'role_users' (users.role_users_id == roles.id && employees.role_users_id == roles.id)  
+    3. AssignRoleController@ - update()
+    4. Forign key relation updated- using 'roles' instead of 'role_users' (users.role_users_id == roles.id && employees.role_users_id == roles.id)
     5. In employee details by view -  Employee's Role will be disabled when he is admin.
 
 2.Have to Update for client's DB -
-    table(roles) - 
+    table(roles) -
             1. Admin
             2. Employee
             3. Client
@@ -94,3 +85,13 @@
 3. 'role_users' table will be deleted.
 4. payslips.hours_worked - type chenge
 5. payEmployee() - hours_worked added for hourly based employee
+6. Client Name table & DB
+7. New Feature IP Setting
+8.new column 'attendance_type' in Employee
+
+=============== Git Some Note =========
+1. To force to remove the last commit from git,
+    use these 2 following commands:
+
+    git reset --hard HEAD^
+    git push origin -f

@@ -9,7 +9,7 @@ $db_password = $_POST['dbpass'];
 $db_name = $_POST['dbname'];
 
 
-$url = 'peopleprohrm.com/purchaseverify/';
+$url = 'https://peopleprohrm.com/purchaseverify/';
 $post_string = 'purchasecode='.urlencode($purchase_code);
 $ch = curl_init();
 curl_setopt($ch,CURLOPT_URL, $url);

@@ -27,9 +27,8 @@ class CalendarableController extends Controller {
 			$travel_types = TravelType::select('id', 'arrangement_type')->get();
 			$training_types = TrainingType::select('id', 'type')->get();
 			$trainers = Trainer::select('id', 'first_name', 'last_name')->get();
-			$clients = Client::select('id', 'name')->get();
+			$clients = Client::select('id', 'first_name','last_name')->get();
 			$projects = Project::select('id', 'title')->get();
-
 
 			return view('calendarable.index', compact('companies', 'leave_types',
 				'training_types', 'trainers', 'travel_types', 'clients', 'projects'));
