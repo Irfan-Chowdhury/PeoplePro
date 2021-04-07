@@ -171,7 +171,7 @@
                                                                value="{{ $employee->contact_no }}">
                                                     </div>
 
-                                                    <div class="col-md-8 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label>{{trans('file.Address')}} </label>
                                                         <input type="text" name="address" id="address"
                                                                placeholder="Address"
@@ -379,20 +379,18 @@
                                                         </select>
                                                     </div>
 
-                                                    {{-- @if($employee->user->login_type=='ip')
-                                                        <div class="col-md-4">
-                                                            <label class="text-bold">{{__('IP Address')}} <span class="text-danger">*</span></label>
-                                                            <input type="text" name="ip_address" id="ip_address" value="{{$employee->user->ip_address}}" required class="form-control">
-                                                        </div>
-                                                    @else
-                                                        <div class="col-md-4"  id="ipField">
-                                                            
-                                                        </div>  
-                                                    @endif --}}
+                                                    <div class="col-md-4 form-group">
+                                                        <label>{{__('Total Annual Leave')}}  (Year - {{date('Y')}})</label>
+                                                        <input type="number" min="0" name="total_leave" id="total_leave" autocomplete="off" class="form-control" value="{{$employee->total_leave}}">
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label>{{__('Remaining Leave')}}  (Year - {{date('Y')}})</label>
+                                                        <input type="number" readonly name="remaining_leave" id="remaining_leave" autocomplete="off" class="form-control" value="{{$employee->remaining_leave}}">
+                                                        <small class="text-danger"><i>(Read Only)</i></small>
+                                                    </div>
 
                                                     
-                                                    
-                                                    <div class="col-md-4"></div>
+                                                    {{-- <div class="col-md-4"></div> --}}
                                                     <div class="col-md-4"></div>
 
                                                     <div class="mt-3 form-group row">
@@ -549,6 +547,14 @@
                 autoclose: true,
                 todayHighlight: true
             });
+
+            let month_year = $('.month_year');
+            month_year.datepicker({
+                format: "MM-yyyy",
+                startView: "months",
+                minViewMode: 1,
+                autoclose: true,
+            }).datepicker("setDate", new Date());   
         });
 
         $('[data-table="immigration"]').one('click', function (e) {
@@ -582,6 +588,10 @@
 
         $('#set_salary-tab').one('click', function (e) {
             @include('employee.salary.basic_salary_js')
+        });
+
+        $('#salary_basic-tab').one('click', function (e) {
+            @include('employee.salary.basic.index_js')
         });
 
         $('#salary_allowance-tab').one('click', function (e) {
@@ -678,6 +688,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     var html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';
@@ -687,6 +698,7 @@
                         html += '</div>';
                     }
                     if (data.success) {
+                        $('#remaining_leave').val(data.remaining_leave)
                         html = '<div class="alert alert-success">' + data.success + '</div>';
                         html = '<div class="alert alert-success">' + data.success + '</div>';
                     }

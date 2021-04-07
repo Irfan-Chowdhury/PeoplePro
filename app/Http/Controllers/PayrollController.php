@@ -36,15 +36,14 @@ class PayrollController extends Controller {
 		$first_date = date('Y-m-d', strtotime('first day of ' . $selected_date));
 		$last_date = date('Y-m-d', strtotime('last day of ' . $selected_date));
 
-
 		if ($logged_user->can('view-paylist'))
 		{
 			if (request()->ajax())
 			{
+				$paid_employees = Payslip::where('month_year',$selected_date)->pluck('employee_id');
 
 				if (!empty($request->filter_company && $request->filter_department))
 				{
-
 					$employees = Employee::with(['allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments',
 						'payslips' => function ($query) use ($selected_date)
 						{
@@ -56,6 +55,7 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
 						->where('department_id', $request->filter_department)
+						->whereNotIn('id',$paid_employees)
 						->get();
 
 				} elseif (!empty($request->filter_company))
@@ -70,6 +70,7 @@ class PayrollController extends Controller {
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
 						->where('company_id', $request->filter_company)
+						->whereNotIn('id',$paid_employees)
 						->get();
 				} else
 				{
@@ -83,9 +84,9 @@ class PayrollController extends Controller {
 							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+						->whereNotIn('id',$paid_employees)
 						->get();
 				}
-
 
 				return datatables()->of($employees)
 					->setRowId(function ($pay_list)
@@ -128,30 +129,39 @@ class PayrollController extends Controller {
 					{
 						if (auth()->user()->can('view-paylist'))
 						{
-							$status = 0;
-							$payslip_key = 0;
-							foreach ($data->payslips as $payslip)
+							if (auth()->user()->can('make-payment'))
 							{
-								$payslip_key = $payslip->payslip_key;
-								$status = $payslip->status;
-							}
-							if ($status == 1)
-							{
-								$button = '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+								$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
 								$button .= '&nbsp;&nbsp;';
-								$button .= '<a id="' . $payslip_key . '" class="download btn-sm" style="background:#FF7588; color:#fff" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+								$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
 							} else
 							{
-								if (auth()->user()->can('make-payment'))
-								{
-									$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
-									$button .= '&nbsp;&nbsp;';
-									$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
-								} else
-								{
-									$button = '';
-								}
+								$button = '';
 							}
+							// $status = 0;
+							// $payslip_key = 0;
+							// foreach ($data->payslips as $payslip)
+							// {
+							// 	$payslip_key = $payslip->payslip_key;
+							// 	$status = $payslip->status;
+							// }
+							// if ($status == 1)
+							// {
+							// 	$button = '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+							// 	$button .= '&nbsp;&nbsp;';
+							// 	$button .= '<a id="' . $payslip_key . '" class="download btn-sm" style="background:#FF7588; color:#fff" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+							// } else
+							// {
+							// 	if (auth()->user()->can('make-payment'))
+							// 	{
+							// 		$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
+							// 		$button .= '&nbsp;&nbsp;';
+							// 		$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
+							// 	} else
+							// 	{
+							// 		$button = '';
+							// 	}
+							// }
 
 							return $button;
 						} else
@@ -168,6 +178,148 @@ class PayrollController extends Controller {
 
 		return abort('403', __('You are not authorized'));
 	}
+	// public function index(Request $request)
+	// {
+	// 	$logged_user = auth()->user();
+	// 	$companies = company::all();
+
+	// 	$selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year;
+		
+	// 	$first_date = date('Y-m-d', strtotime('first day of ' . $selected_date));
+	// 	$last_date = date('Y-m-d', strtotime('last day of ' . $selected_date));
+
+
+	// 	if ($logged_user->can('view-paylist'))
+	// 	{
+	// 		if (request()->ajax())
+	// 		{
+
+	// 			if (!empty($request->filter_company && $request->filter_department))
+	// 			{
+	// 				$employees = Employee::with(['allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments',
+	// 					'payslips' => function ($query) use ($selected_date)
+	// 					{
+	// 						$query->where('month_year', $selected_date);
+	// 					},
+	// 					'employeeAttendance' => function ($query) use ($first_date, $last_date){
+	// 						$query->whereBetween('attendance_date', [$first_date, $last_date]);
+	// 					}])
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->where('company_id', $request->filter_company)
+	// 					->where('department_id', $request->filter_department)
+	// 					->get();
+
+	// 			} elseif (!empty($request->filter_company))
+	// 			{
+	// 				$employees = Employee::with(['allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments',
+	// 					'payslips' => function ($query) use ($selected_date)
+	// 					{
+	// 						$query->where('month_year', $selected_date);
+	// 					},
+	// 					'employeeAttendance' => function ($query) use ($first_date, $last_date){
+	// 						$query->whereBetween('attendance_date', [$first_date, $last_date]);
+	// 					}])
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->where('company_id', $request->filter_company)
+	// 					->get();
+	// 			} else
+	// 			{
+	// 				$employees = Employee::with(['allowances', 'loans', 'deductions',
+	// 					'commissions', 'overtimes', 'otherPayments',
+	// 					'payslips' => function ($query) use ($selected_date)
+	// 					{
+	// 						$query->where('month_year', $selected_date);
+	// 					},
+	// 					'employeeAttendance' => function ($query) use ($first_date, $last_date){
+	// 						$query->whereBetween('attendance_date', [$first_date, $last_date]);
+	// 					}])
+	// 					->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
+	// 					->get();
+	// 			}
+
+
+	// 			return datatables()->of($employees)
+	// 				->setRowId(function ($pay_list)
+	// 				{
+	// 					return $pay_list->id;
+	// 				})
+	// 				->addColumn('employee_name', function ($row)
+	// 				{
+	// 					return $row->full_name;
+	// 				})
+	// 				->addColumn('net_salary', function ($row)
+	// 				{
+	// 					if ($row->payslip_type == 'Monthly')
+	// 					{
+	// 						$total_salary = $this->totalSalary($row);
+	// 					} else
+	// 					{
+	// 						$total = 0;
+	// 						$total_hours = $this->totalWorkedHours($row);
+
+	// 						sscanf($total_hours, '%d:%d', $hour, $min);
+	// 						//converting in minute
+	// 						$total += $hour * 60 + $min;
+	// 						$total_salary = $this->totalSalary($row, $total);
+	// 					}
+
+	// 					return $total_salary;
+
+	// 				})
+	// 				->addColumn('status', function ($row)
+	// 				{
+	// 					foreach ($row->payslips as $payslip)
+	// 					{
+	// 						$status = $payslip->status;
+
+	// 						return $status;
+	// 					}
+	// 				})
+	// 				->addColumn('action', function ($data)
+	// 				{
+	// 					if (auth()->user()->can('view-paylist'))
+	// 					{
+	// 						$status = 0;
+	// 						$payslip_key = 0;
+	// 						foreach ($data->payslips as $payslip)
+	// 						{
+	// 							$payslip_key = $payslip->payslip_key;
+	// 							$status = $payslip->status;
+	// 						}
+	// 						if ($status == 1)
+	// 						{
+	// 							$button = '<a id="' . $payslip_key . '" class="payslip btn btn-info btn-sm" title="Payslip" href="' . route('payslip_details.show', $payslip_key) . '"><i class="dripicons-user-id"></i></a>';
+	// 							$button .= '&nbsp;&nbsp;';
+	// 							$button .= '<a id="' . $payslip_key . '" class="download btn-sm" style="background:#FF7588; color:#fff" title="Download" href="' . route('payslip.pdf', $payslip_key) . '"><i class="dripicons-download"></i></a>';
+	// 						} else
+	// 						{
+	// 							if (auth()->user()->can('make-payment'))
+	// 							{
+	// 								$button = '<button type="button" name="view" id="' . $data->id . '" class="details btn btn-primary btn-sm" title="Details"><i class="dripicons-preview"></i></button>';
+	// 								$button .= '&nbsp;&nbsp;';
+	// 								$button .= '<button type="button" name="payment" id="' . $data->id . '" class="generate_payment btn btn-secondary btn-sm" title="generate_payment"><i class="fa fa-money"></i></button>';
+	// 							} else
+	// 							{
+	// 								$button = '';
+	// 							}
+	// 						}
+
+	// 						return $button;
+	// 					} else
+	// 					{
+	// 						return '';
+	// 					}
+	// 				})
+	// 				->rawColumns(['action'])
+	// 				->make(true);
+	// 		}
+
+	// 		return view('salary.pay_list.index', compact('companies'));
+	// 	}
+
+	// 	return abort('403', __('You are not authorized'));
+	// }
+
 
 	public function paySlip(Request $request)
 	{

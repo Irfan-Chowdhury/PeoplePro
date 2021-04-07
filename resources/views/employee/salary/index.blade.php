@@ -4,8 +4,16 @@
             <ul class="nav nav-tabs vertical" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="salary-tab" data-toggle="tab" href="#Salary" role="tab"
-                       aria-controls="Salary" aria-selected="true">{{__('Basic Salary')}}</a>
+                       aria-controls="Salary" aria-selected="true">{{__('Basic Salary (Old)')}}</a>
                 </li>
+                <!-- New -->
+                <li class="nav-item">
+                    <a class="nav-link" href="{{route('salary_basic.show',$employee)}}" id="salary_basic-tab" 
+                        data-toggle="tab" data-table="salary_basic" data-target="#salary_basic" role="tab" 
+                        aria-controls="salary_basic" aria-selected="false">{{__('Basic Salary (New)')}}
+                    </a>
+                </li>
+                <!--/ New -->
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('salary_allowance.show',$employee)}}" id="salary_allowance-tab"
                        data-toggle="tab" data-table="salary_allowance" data-target="#Salary_allowance" role="tab"
@@ -85,6 +93,7 @@
                         <div class="container mt-30px">
                             
                             <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current salary will be treated as the previous salary.]</i></span> <br><br>
+                            
                             <div class="form-group">
                                 <input type="submit" class="btn btn-warning" value={{trans('file.Add')}} />
                             </div>
@@ -96,13 +105,22 @@
             @endcan
 
 
+
+            <!-- New -->
+            <div class="tab-pane fade" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
+                {{__('All Basic Salary')}}
+                <hr>
+                @include('employee.salary.basic.index')
+            </div>
+            <!--/ New -->
+
+
             <div class="tab-pane fade" id="Salary_allowance" role="tabpanel" aria-labelledby="salary_allowance-tab">
                 {{__('All allowances')}}
                 <hr>
-
                 @include('employee.salary.allowance.index')
-
             </div>
+
             <div class="tab-pane fade" id="Salary_commission" role="tabpanel" aria-labelledby="Salary_commission-tab">
                 {{__('All commission')}}
                 <hr>

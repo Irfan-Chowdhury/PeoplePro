@@ -163,6 +163,19 @@ Route::group(['middleware' => ['XSS']], function ()
 		{
 			Route::post('employees/{employee}/storeSalary', 'EmployeeController@storeSalary')->name('employees_basicSalary.store');
 		}
+		//--- New ---
+		{
+			// Route::prefix('salary_basic')->group(function () {
+				Route::get('salary_basic', 'SalaryBasicController@index')->name('salary_basic.index');
+				Route::get('salary_basic/{employee}', 'SalaryBasicController@show')->name('salary_basic.show');
+				Route::post('salary_basic/{employee}/store', 'SalaryBasicController@store')->name('salary_basic.store');
+				Route::get('salary_basic/{id}/edit', 'SalaryBasicController@edit')->name('salary_basic.edit');
+				Route::post('salary_basic/update', 'SalaryBasicController@update')->name('salary_basic.update');
+				Route::get('salary_basic/{id}/delete', 'SalaryBasicController@destroy')->name('salary_basic.destroy');
+			// });
+			
+		}
+		//--- New ---
 		{
 			Route::get('salary_allowance', 'SalaryAllowanceController@index')->name('salary_allowance.index');
 			Route::get('salary_allowance/{id}/edit', 'SalaryAllowanceController@edit')->name('salary_allowance.edit');
@@ -544,8 +557,6 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::post('leaves/delete/selected', 'LeaveController@delete_by_selection')->name('mass_delete_leaves');
 
 			Route::get('leaves/{id}/calendarable', 'LeaveController@calendarableDetails')->name('leaves.calendarable');
-
-
 		}
 	});
 

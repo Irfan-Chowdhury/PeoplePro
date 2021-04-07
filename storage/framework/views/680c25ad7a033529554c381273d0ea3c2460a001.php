@@ -1,40 +1,40 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
     <section>
         <div class="container-fluid">
             <div class="card mb-4">
                 <div class="card-header with-border">
-                    <h3 class="card-title text-center"> {{__('Generate Payslip')}} </h3>
+                    <h3 class="card-title text-center"> <?php echo e(__('Generate Payslip')); ?> </h3>
                 </div>
                 <span id="bulk_payment_result"></span>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
                             <form method="post" id="filter_form" class="form-horizontal" >
-                                @csrf
+                                <?php echo csrf_field(); ?>
                                 <div class="row">
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select class="form-control ss selectpicker dynamic" name="filter_company" id="company_id" data-dependent="department_name" data-placeholder="Company" data-column="1" required tabindex="-1" aria-hidden="true">
-                                                <option value="0">{{__('All Companies')}}</option>
-                                                @foreach($companies as $company)
-                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                                @endforeach
-                                                {{ csrf_field() }}
+                                                <option value="0"><?php echo e(__('All Companies')); ?></option>
+                                                <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                                    <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                                                <?php echo e(csrf_field()); ?>
+
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <select class="form-control selectpicker default_dept" name="filter_department" id="department_id" data-placeholder="Department" required tabindex="-1" aria-hidden="true">
-                                                <option value="0">{{__('All Departments')}}</option>
+                                                <option value="0"><?php echo e(__('All Departments')); ?></option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <input class="form-control month_year date" placeholder="{{__('Select Month')}}" readonly id="month_year" name="month_year" type="text" value="">
+                                            <input class="form-control month_year date" placeholder="<?php echo e(__('Select Month')); ?>" readonly id="month_year" name="month_year" type="text" value="">
                                         </div>
                                     </div>
                                 </div>
@@ -42,9 +42,9 @@
                                 <div class="text-center">
                                     <div class="form-group">
                                         <div class="form-actions">
-                                            <button id="payslip_filter" type="submit" class="filtering btn btn-primary"> <i class="fa fa-search"></i> {{trans('file.Search')}} </button>
+                                            <button id="payslip_filter" type="submit" class="filtering btn btn-primary"> <i class="fa fa-search"></i> <?php echo e(trans('file.Search')); ?> </button>
 
-                                            <button id="bulk_payment" type="submit" class="filtering btn btn-primary"> <i class="fa fa-check-square-o"></i> {{__('BULK PAYMENT')}} </button>
+                                            <button id="bulk_payment" type="submit" class="filtering btn btn-primary"> <i class="fa fa-check-square-o"></i> <?php echo e(__('BULK PAYMENT')); ?> </button>
                                         </div>
                                     </div>
                                 </div>
@@ -54,19 +54,19 @@
                 </div>
             </div>
         </div>
-        <div class="card-title text-center"><h3>{{__('Payment Info')}} <span id="details_month_year"></span></h3></div>
+        <div class="card-title text-center"><h3><?php echo e(__('Payment Info (0)')); ?> <span id="details_month_year"></span></h3></div>
         <div class="container-fluid"><span id="general_result"></span></div>
         <div class="table-responsive">
             <table id="pay_list-table" class="table">
                 <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>{{trans('file.Name')}}</th>
-                    <th>{{__('Payslip Type')}}</th>
-                    <th>{{__('Basic Salary')}}</th>
-                    <th>{{__('Net Salary')}}</th>
-                    <th>{{trans('file.Status')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
+                    <th><?php echo e(trans('file.Name')); ?></th>
+                    <th><?php echo e(__('Payslip Type')); ?></th>
+                    <th><?php echo e(__('Basic Salary')); ?></th>
+                    <th><?php echo e(__('Net Salary')); ?></th>
+                    <th><?php echo e(trans('file.Status')); ?></th>
+                    <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                 </tr>
                 </thead>
             </table>
@@ -77,7 +77,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">{{__('Salary Info')}}</h4>
+                        <h4 class="modal-title" id="myModalLabel"><?php echo e(__('Salary Info')); ?></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -88,12 +88,12 @@
                                     <div class="ml-3">
                                         <div class="h3 text-bold d-inline" id="employee_full_name"></div> (<span id="employee_username"></span>)
                                         <p class="text-gray" id="employee_designation"></p>
-                                        <a id="employee_id" href="">{{ __('View Profile') }}</a>
+                                        <a id="employee_id" href=""><?php echo e(__('View Profile')); ?></a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <h3 class="mt-5">{{__('Salary Details')}}</h3>
+                                <h3 class="mt-5"><?php echo e(__('Salary Details')); ?></h3>
                                 <hr>
                                 <div class="card-block">
                                     <div id="accordion">
@@ -116,7 +116,7 @@
                                             </div>
                                         </div>
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_allowances" aria-expanded="false"> <strong>{{trans('file.Allowances')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_allowances" aria-expanded="false"> <strong><?php echo e(trans('file.Allowances')); ?></strong> </a> </div>
                                             <div id="set_allowances" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -124,7 +124,7 @@
                                                             <tbody>
                                                             <tr id="allowance_info"></tr>
                                                             <tr>
-                                                                <td><strong>{{trans('file.Total')}}:</strong> <span id="total_allowance" class="pull-right"></span></td>
+                                                                <td><strong><?php echo e(trans('file.Total')); ?>:</strong> <span id="total_allowance" class="pull-right"></span></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -133,7 +133,7 @@
                                             </div>
                                         </div>
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_commissions" aria-expanded="false"> <strong>{{trans('file.Commissions')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_commissions" aria-expanded="false"> <strong><?php echo e(trans('file.Commissions')); ?></strong> </a> </div>
                                             <div id="set_commissions" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -141,7 +141,7 @@
                                                             <tbody>
                                                             <tr id="commission_info"></tr>
                                                             <tr>
-                                                                <td><strong>{{trans('file.Total')}}:</strong> <span id="total_commission" class="pull-right"></span></td>
+                                                                <td><strong><?php echo e(trans('file.Total')); ?>:</strong> <span id="total_commission" class="pull-right"></span></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -150,7 +150,7 @@
                                             </div>
                                         </div>
                                         <div class="card  mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_loan_deductions" aria-expanded="false"> <strong>{{trans('file.Loan')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_loan_deductions" aria-expanded="false"> <strong><?php echo e(trans('file.Loan')); ?></strong> </a> </div>
                                             <div id="set_loan_deductions" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -160,7 +160,7 @@
 
                                                             </tr>
                                                             <tr>
-                                                                <td><strong>{{trans('file.Total')}}:</strong> <span id="total_loan"  class="pull-right"></span></td>
+                                                                <td><strong><?php echo e(trans('file.Total')); ?>:</strong> <span id="total_loan"  class="pull-right"></span></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -169,7 +169,7 @@
                                             </div>
                                         </div>
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#statutory_deductions" aria-expanded="false"> <strong>{{__('Statutory deductions')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#statutory_deductions" aria-expanded="false"> <strong><?php echo e(__('Statutory deductions')); ?></strong> </a> </div>
                                             <div id="statutory_deductions" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -177,7 +177,7 @@
                                                             <tbody>
                                                             <tr id="deduction_info"></tr>
                                                             <tr>
-                                                                <td><strong>{{trans('file.Total')}}:</strong> <span id="total_deduction" class="pull-right"></span></td>
+                                                                <td><strong><?php echo e(trans('file.Total')); ?>:</strong> <span id="total_deduction" class="pull-right"></span></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -187,7 +187,7 @@
                                         </div>
 
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_other_payments" aria-expanded="false"> <strong>{{__('Other Payment')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_other_payments" aria-expanded="false"> <strong><?php echo e(__('Other Payment')); ?></strong> </a> </div>
                                             <div id="set_other_payments" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -195,7 +195,7 @@
                                                             <tbody>
                                                             <tr id="other_payment_info"></tr>
                                                             <tr>
-                                                                <td><strong>{{trans('file.Total')}}:</strong> <span id="total_other_payment" class="pull-right"></span></td>
+                                                                <td><strong><?php echo e(trans('file.Total')); ?>:</strong> <span id="total_other_payment" class="pull-right"></span></td>
                                                             </tr>
                                                             </tbody>
                                                         </table>
@@ -205,7 +205,7 @@
                                         </div>
 
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#overtime" aria-expanded="false"> <strong>{{trans('file.Overtime')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#overtime" aria-expanded="false"> <strong><?php echo e(trans('file.Overtime')); ?></strong> </a> </div>
                                             <div id="overtime" class="collapse" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <div class="table-responsive">
@@ -213,17 +213,17 @@
                                                             <thead>
                                                             <tr>
                                                                 <th>#</th>
-                                                                <th>{{__('Overtime Title')}}</th>
-                                                                <th>{{__('Number of days')}}</th>
-                                                                <th>{{trans('file.Hours')}}</th>
-                                                                <th>{{trans('file.Rate')}}</th>
+                                                                <th><?php echo e(__('Overtime Title')); ?></th>
+                                                                <th><?php echo e(__('Number of days')); ?></th>
+                                                                <th><?php echo e(trans('file.Hours')); ?></th>
+                                                                <th><?php echo e(trans('file.Rate')); ?></th>
                                                             </tr>
                                                             </thead>
                                                             <tbody id="overtime_info">
                                                             </tbody>
                                                             <tfoot>
                                                             <tr>
-                                                                <td colspan="4" align="right"><strong>{{trans('file.Total')}}:</strong></td>
+                                                                <td colspan="4" align="right"><strong><?php echo e(trans('file.Total')); ?>:</strong></td>
                                                                 <td id="total_overtime"></td>
                                                             </tr>
                                                             </tfoot>
@@ -233,14 +233,14 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-header"> <strong class="text-dark">{{__('Net Salary')}}</strong> <strong class="float-right" id="total_salary"></strong></div>
+                                    <div class="card-header"> <strong class="text-dark"><?php echo e(__('Net Salary')); ?></strong> <strong class="float-right" id="total_salary"></strong></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('file.Close')}}</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('file.Close')); ?></button>
                 </div>
             </div>
         </div>
@@ -251,7 +251,7 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title" id="myModalLabel">{{__('Payment Info')}}--- <span id="payment_month_year_show"></span></h4>
+                        <h4 class="modal-title" id="myModalLabel"><?php echo e(__('Payment Info')); ?>--- <span id="payment_month_year_show"></span></h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
@@ -260,7 +260,7 @@
                                <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="name">{{__('Monthly Payslip')}}</label> &nbsp;&nbsp;&nbsp;&nbsp; <span id="payment_type_error"></span>
+                                        <label for="name"><?php echo e(__('Monthly Payslip')); ?></label> &nbsp;&nbsp;&nbsp;&nbsp; <span id="payment_type_error"></span>
                                         <input type="text" name="basic_salary" id="basic_salary_payment" class="form-control" value="0" readonly="readonly">
                                         <input type="hidden" value="0" name="month_year" id="hidden_month_year">
                                         <input type="hidden" value="" name="employee_id" id="employee_id">
@@ -269,28 +269,28 @@
 
                                    <div class="col-md-6 hide-element">
                                        <div class="form-group">
-                                           <label for="worked_hours">{{__('Total Hours(This Month)')}}</label>
+                                           <label for="worked_hours"><?php echo e(__('Total Hours(This Month)')); ?></label>
                                            <input type="text" readonly="readonly" name="worked_hours" id="worked_hours" class="form-control" value="0">
                                        </div>
                                    </div>
 
                                    <div class="col-md-6 hide-element">
                                        <div class="form-group">
-                                           <label for="worked_amount">{{__('Amount')}}</label>
+                                           <label for="worked_amount"><?php echo e(__('Amount')); ?></label>
                                            <input type="text" readonly="readonly" name="worked_amount" id="worked_amount" class="form-control" value="0">
                                        </div>
                                    </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Total Allowance')}}</label>
+                                        <label for="name"><?php echo e(__('Total Allowance')); ?></label>
                                         <input type="text" name="total_allowance" id="total_allowance_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
 
                                    <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{trans('Commissions')}}</label>
+                                        <label for="name"><?php echo e(trans('Commissions')); ?></label>
                                         <input type="text" name="total_commission" id="total_commission_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                    </div>
@@ -299,35 +299,35 @@
 
                                    <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Total Overtime')}}</label>
+                                        <label for="name"><?php echo e(__('Total Overtime')); ?></label>
                                         <input type="text" name="total_overtime" id="total_overtime_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
 
                                    <div class="col-md-6">
                                        <div class="form-group">
-                                           <label for="name">{{__('Other Payment')}}</label>
+                                           <label for="name"><?php echo e(__('Other Payment')); ?></label>
                                            <input type="text" name="total_other_payment" id="total_other_payment_payment" class="form-control" value="0" readonly="readonly">
                                        </div>
                                    </div>
 
                                    <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Statutory deductions')}}</label>
+                                        <label for="name"><?php echo e(__('Statutory deductions')); ?></label>
                                         <input type="text" name="total_deduction" id="total_deduction_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
 
                                    <div class="col-md-6">
                                        <div class="form-group">
-                                           <label for="name">{{__('Monthly Payable')}}</label>
+                                           <label for="name"><?php echo e(__('Monthly Payable')); ?></label>
                                            <input type="text" name="monthly_payable" id="monthly_payable" class="form-control" value="0" readonly="readonly">
                                        </div>
                                    </div>
 
                                    <div class="col-md-6">
                                        <div class="form-group">
-                                           <label for="name">{{__('Loan Remaining')}}</label>
+                                           <label for="name"><?php echo e(__('Loan Remaining')); ?></label>
                                            <input type="text" name="amount_remaining" id="amount_remaining" class="form-control" value="0" readonly="readonly">
                                        </div>
                                    </div>
@@ -336,24 +336,24 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Net Salary')}}</label>
+                                        <label for="name"><?php echo e(__('Net Salary')); ?></label>
                                         <input type="text" readonly="readonly" name="net_salary" id="net_salary_payment" class="form-control" value="0">
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="name">{{__('Payment Amount')}}</label>
+                                        <label for="name"><?php echo e(__('Payment Amount')); ?></label>
                                         <input type="text" readonly="readonly" name="payment_amount" id="total_salary_payment" class="form-control" >
                                     </div>
                                 </div>
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <span><strong>{{trans('file.NOTE')}}:</strong> {{__('Total Allowance,Commissions,Total Loan,Total Overtime,Statutory deductions,Other Payment are not editable.')}}</span>
+                                        <span><strong><?php echo e(trans('file.NOTE')); ?>:</strong> <?php echo e(__('Total Allowance,Commissions,Total Loan,Total Overtime,Statutory deductions,Other Payment are not editable.')); ?></span>
                                     </div>
                                 </div>
 
-                            <div class="form-actions"> <button  type="submit" class="btn btn-primary"><i class="fa fa fa-check-square-o"></i> {{trans('file.Pay')}}</button>
+                            <div class="form-actions"> <button  type="submit" class="btn btn-primary"><i class="fa fa fa-check-square-o"></i> <?php echo e(trans('file.Pay')); ?></button>
                             </div>
                                </div>
                         </form>
@@ -412,12 +412,12 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('payroll.index') }}",
+                            url: "<?php echo e(route('payroll.index')); ?>",
                             data: {
                                 filter_company: filter_company,
                                 filter_department: filter_department,
                                 filter_month_year: filter_month_year,
-                                "_token": "{{ csrf_token()}}"
+                                "_token": "<?php echo e(csrf_token()); ?>"
                             }
                         },
 
@@ -439,10 +439,10 @@
                                 data: 'basic_salary',
                                 name: 'basic_salary',
                                 render: function (data) {
-                                    if ('{{config('variable.currency_format') ==='suffix'}}') {
-                                        return data + ' {{config('variable.currency')}}';
+                                    if ('<?php echo e(config('variable.currency_format') ==='suffix'); ?>') {
+                                        return data + ' <?php echo e(config('variable.currency')); ?>';
                                     } else {
-                                        return '{{config('variable.currency')}} ' + data;
+                                        return '<?php echo e(config('variable.currency')); ?> ' + data;
 
                                     }
                                 }
@@ -451,10 +451,10 @@
                                 data: 'net_salary',
                                 name: 'net_salary',
                                 render: function (data) {
-                                    if ('{{config('variable.currency_format') ==='suffix'}}') {
-                                        return data + ' {{config('variable.currency')}}';
+                                    if ('<?php echo e(config('variable.currency_format') ==='suffix'); ?>') {
+                                        return data + ' <?php echo e(config('variable.currency')); ?>';
                                     } else {
-                                        return '{{config('variable.currency')}} ' + data;
+                                        return '<?php echo e(config('variable.currency')); ?> ' + data;
 
                                     }
                                 }
@@ -464,9 +464,9 @@
                                 name: 'status',
                                 render: function (data) {
                                     if (data == 1) {
-                                        return "<td><div class = 'badge badge-success'>{{trans('file.Paid')}}</div>"
+                                        return "<td><div class = 'badge badge-success'><?php echo e(trans('file.Paid')); ?></div>"
                                     } else {
-                                        return "<td><div class = 'badge badge-danger'>{{trans('file.Unpaid')}}</div>"
+                                        return "<td><div class = 'badge badge-danger'><?php echo e(trans('file.Unpaid')); ?></div>"
                                     }
                                 }
                             },
@@ -480,12 +480,12 @@
 
                         "order": [],
                         'language': {
-                            'lengthMenu': '_MENU_ {{__("records per page")}}',
-                            "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                            "search": '{{trans("file.Search")}}',
+                            'lengthMenu': '_MENU_ <?php echo e(__("records per page")); ?>',
+                            "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                            "search": '<?php echo e(trans("file.Search")); ?>',
                             'paginate': {
-                                'previous': '{{trans("file.Previous")}}',
-                                'next': '{{trans("file.Next")}}'
+                                'previous': '<?php echo e(trans("file.Previous")); ?>',
+                                'next': '<?php echo e(trans("file.Next")); ?>'
                             }
                         },
                         'columnDefs': [
@@ -557,7 +557,7 @@
                         $('#pay_list-table').DataTable().destroy();
                         fill_datatable(filter_company, filter_department,filter_month_year);
                     } else {
-                        alert('{{__('Select Both filter option')}}');
+                        alert('<?php echo e(__('Select Both filter option')); ?>');
                     }
                 });
             });
@@ -566,27 +566,31 @@
             $(document).on('click', '.details', function () {
                 //individual salary id from pay_list table
                 let id = $(this).attr('id');
-
-                let currency_format = '{{config('variable.currency_format')}}';
+                let filter_month_year = $('#month_year').val();
+                let currency_format = '<?php echo e(config('variable.currency_format')); ?>';
 
                 //target contains payslip.show
-                let target = '{{route('paySlip.index')}}/' + id;
+                // let target = '<?php echo e(route('paySlip.index')); ?>/' + id;
+                let target = '<?php echo e(route('paySlip.show')); ?>';
 
                 $.ajax({
                     url: target,
-                    dataType: "json",
+                    // dataType: "json",
+                    type: "GET",
+                    data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
+                        // console.log(result);
                         $('#employee_username').html(result.data.employee_username);
                         $('#employee_full_name').html(result.data.employee_full_name);
                         $('#employee_designation').html(result.data.employee_designation);
                         $('#employee_department').html(result.data.employee_department);
                         $('#employee_join_date').html(result.data.employee_join_date);
-                        $('#employee_id').attr("href","{{ url('staff/employees/') }}/"+result.data.employee_id);
+                        $('#employee_id').attr("href","<?php echo e(url('staff/employees/')); ?>/"+result.data.employee_id);
                         if (result.data.employee_pp==='') {
-                            $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/avatar.jpg  width='100'  class='rounded-circle' />");
+                            $('#employee_pp').html("<img src=<?php echo e(URL::to('/public')); ?>/uploads/profile_photos/avatar.jpg  width='100'  class='rounded-circle' />");
                         }
                         else {
-                            $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/" + result.data.employee_pp + " width='100'  class='rounded-circle' />");
+                            $('#employee_pp').html("<img src=<?php echo e(URL::to('/public')); ?>/uploads/profile_photos/" + result.data.employee_pp + " width='100'  class='rounded-circle' />");
                         }
 
                         let total_allowance = 0;
@@ -645,8 +649,8 @@
 
                         if (result.data.payslip_type === 'Monthly') {
 
-                            $('#payslip_type').html('{{__('Monthly Payslip')}}');
-                            $('#monthly_hourly').html('{{__('Basic Salary')}}');
+                            $('#payslip_type').html('<?php echo e(__('Monthly Payslip')); ?>');
+                            $('#monthly_hourly').html('<?php echo e(__('Basic Salary')); ?>');
                             $('.hide-div').hide();
                             $('#hours_worked').html('');
                             $('#total_hours_worked').html('');
@@ -655,34 +659,34 @@
                         }
                         else {
                             $('.hide-div').show();
-                            $('#payslip_type').html('{{__('Hourly Payslip')}}');
-                            $('#monthly_hourly').html('{{__('Per Hour Salary')}}');
-                            $('#hours_worked').html('{{__('Total Hours Worked This Month')}}');
+                            $('#payslip_type').html('<?php echo e(__('Hourly Payslip')); ?>');
+                            $('#monthly_hourly').html('<?php echo e(__('Per Hour Salary')); ?>');
+                            $('#hours_worked').html('<?php echo e(__('Total Hours Worked This Month')); ?>');
                             $('#total_hours_worked').html(result.data.monthly_worked_hours);
-                            $('#hours_worked_amount').html('{{__('Total Amount')}}');
+                            $('#hours_worked_amount').html('<?php echo e(__('Total Amount')); ?>');
                             $('#total_hours_worked_amount').html(result.data.monthly_worked_amount);
                         }
 
                         if (currency_format == 'suffix') {
 
-                            $('#basic_salary_amount').html(result.data.basic_salary + ' {{config('variable.currency')}}');
-                            $('#total_allowance').html(total_allowance + ' {{config('variable.currency')}}');
-                            $('#total_commission').html(total_commission + ' {{config('variable.currency')}}');
-                            $('#total_loan').html(total_loan + ' {{config('variable.currency')}}');
-                            $('#total_overtime').html(total_overtime + ' {{config('variable.currency')}}');
-                            $('#total_deduction').html(total_deduction + ' {{config('variable.currency')}}');
-                            $('#total_other_payment').html(total_other_payment + ' {{config('variable.currency')}}');
-                            $('#total_salary').html(total_salary + ' {{config('variable.currency')}}');
+                            $('#basic_salary_amount').html(result.data.basic_salary + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_allowance').html(total_allowance + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_commission').html(total_commission + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_loan').html(total_loan + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_overtime').html(total_overtime + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_deduction').html(total_deduction + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_other_payment').html(total_other_payment + ' <?php echo e(config('variable.currency')); ?>');
+                            $('#total_salary').html(total_salary + ' <?php echo e(config('variable.currency')); ?>');
                         }
                         else {
-                            $('#basic_salary_amount').html('{{config('variable.currency')}} ' + result.data.basic_salary);
-                            $('#total_allowance').html('{{config('variable.currency')}} '+ total_allowance);
-                            $('#total_commission').html('{{config('variable.currency')}} ' + total_commission);
-                            $('#total_loan').html('{{config('variable.currency')}} '+ total_loan);
-                            $('#total_overtime').html('{{config('variable.currency')}} '+ total_overtime);
-                            $('#total_deduction').html('{{config('variable.currency')}} '+ total_deduction);
-                            $('#total_other_payment').html('{{config('variable.currency')}} '+ total_other_payment);
-                            $('#total_salary').html('{{config('variable.currency')}} '+ total_salary);
+                            $('#basic_salary_amount').html('<?php echo e(config('variable.currency')); ?> ' + result.data.basic_salary);
+                            $('#total_allowance').html('<?php echo e(config('variable.currency')); ?> '+ total_allowance);
+                            $('#total_commission').html('<?php echo e(config('variable.currency')); ?> ' + total_commission);
+                            $('#total_loan').html('<?php echo e(config('variable.currency')); ?> '+ total_loan);
+                            $('#total_overtime').html('<?php echo e(config('variable.currency')); ?> '+ total_overtime);
+                            $('#total_deduction').html('<?php echo e(config('variable.currency')); ?> '+ total_deduction);
+                            $('#total_other_payment').html('<?php echo e(config('variable.currency')); ?> '+ total_other_payment);
+                            $('#total_salary').html('<?php echo e(config('variable.currency')); ?> '+ total_salary);
                         }
 
                         $('#salary_model').modal('show');
@@ -695,14 +699,17 @@
                 //individual salary id from pay_list table
                 let id = $(this).attr('id');
                 $('#payment_month_year_show').html($('#month_year').val());
-
+                let filter_month_year = $('#month_year').val();
 
                 //target contains payslip.show
-                let target = '{{route('paySlip.index')}}/generate/' + id;
+                // let target = '<?php echo e(route('paySlip.index')); ?>/generate/' + id;
+                let target = '<?php echo e(route('paySlip.generate')); ?>';
 
                 $.ajax({
                     url: target,
-                    dataType: "json",
+                    // dataType: "json",
+                    type: "GET",
+                    data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
                         if (result.data.payslip_type === 'Hourly') {
                                 $('.hide-element').show();
@@ -741,7 +748,7 @@
                $('#hidden_month_year').val($('#month_year').val());
 
                 //target contains payslip.pay
-                let target = '{{route('paySlip.index')}}/pay/' + id;
+                let target = '<?php echo e(route('paySlip.index')); ?>/pay/' + id;
                 $.ajax({
                     url: target,
                     method: "POST",
@@ -751,6 +758,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         let html = '';
                         if (data.payment_type_error) {
                             html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';
@@ -784,7 +792,7 @@
 
                 //console.log(allCheckboxId);
 
-                let target = '{{route('paySlip.bulk_pay')}}' ;
+                let target = '<?php echo e(route('paySlip.bulk_pay')); ?>' ;
 
                 $.ajax({
                     url: target,
@@ -824,14 +832,14 @@
                     let dependent = $(this).data('dependent');
                     let _token = $('input[name="_token"]').val();
                     $.ajax({
-                        url:"{{ route('dynamic_department') }}",
+                        url:"<?php echo e(route('dynamic_department')); ?>",
                         method:"POST",
                         data:{ value:value, _token:_token, dependent:dependent},
                         success:function(result)
                         {
                             $('select').selectpicker("destroy");
                             $('#department_id').html(result);
-                            $('.default_dept').prepend('<option value="0" selected>{{__('All Departments')}}</option>');
+                            $('.default_dept').prepend('<option value="0" selected><?php echo e(__('All Departments')); ?></option>');
                             $('select').selectpicker();
                         }
                     });
@@ -844,14 +852,14 @@
                     let dependent = $(this).data('dependent');
                     let _token = $('input[name="_token"]').val();
                     $.ajax({
-                        url:"{{ route('dynamic_department') }}",
+                        url:"<?php echo e(route('dynamic_department')); ?>",
                         method:"POST",
                         data:{ value:value, _token:_token, dependent:dependent},
                         success:function(result)
                         {
                             $('select').selectpicker("destroy");
                             $('#payment_department_id').html(result);
-                            $('.payment_default_dept').prepend('<option value="0" selected>{{__('All Departments')}}</option>');
+                            $('.payment_default_dept').prepend('<option value="0" selected><?php echo e(__('All Departments')); ?></option>');
                             $('select').selectpicker();
                         }
                     });
@@ -865,7 +873,7 @@
 
 
                 $.ajax({
-                    url: "{{ route('paySlip.index') }}/delete/" + id,
+                    url: "<?php echo e(route('paySlip.index')); ?>/delete/" + id,
                     success: function (data) {
                         let html = '';
                         if (data.error) {
@@ -902,4 +910,5 @@
         })(jQuery); 
     </script>
 
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\laragon\www\Running_File\peoplepro\resources\views/salary/pay_list/index0.blade.php ENDPATH**/ ?>

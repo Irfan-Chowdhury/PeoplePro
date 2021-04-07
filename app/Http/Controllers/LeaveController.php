@@ -22,7 +22,7 @@ class LeaveController extends Controller {
 
 	public function index()
 	{
-		
+
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$leave_types = LeaveType::select('id', 'leave_type', 'allocated_day')->get();
@@ -73,16 +73,12 @@ class LeaveController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
 	public function store(Request $request)
 	{
 		if(auth()->user()->can('store-leave') || auth()->user())
 		{
+			//return response()->json($request->diff_date_hidden);
+
 			$validator = Validator::make($request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date', 'diff_date_hidden',
 				'leave_reason', 'remarks', 'status', 'is_half', 'is_notify'
 			),
@@ -102,7 +98,6 @@ class LeaveController extends Controller {
 			{
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
-
 
 			$leave = LeaveType::findOrFail($request->leave_type);
 
@@ -148,8 +143,24 @@ class LeaveController extends Controller {
 			$data ['start_date'] = $request->start_date;
 			$data ['end_date'] = $request->end_date;
 			$data['total_days'] = $request->diff_date_hidden;
+
+
+			//Employee Remaining Leave --- Start
+			$employee_leave_info = Employee::find($request->employee_id);
+			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave) 
+			{
+				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
+			}
+			elseif($request->status=='approved')
+			{
+				$employee_leave_info->remaining_leave = $employee_leave_info->remaining_leave - $request->diff_date_hidden;
+				$employee_leave_info->update();
+			}
+			//Employee Remaining Leave  --- End
+
+
 			$leave = leave::create($data);
-			
+
 			if($leave->is_notify==1)
 			{
 				$text = "A new leave-notification has been published";
@@ -174,19 +185,12 @@ class LeaveController extends Controller {
 				// 					$leave->leave_reason,
 				// 				));
 			}
-				
+
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function show($id)
 	{
 		if (request()->ajax())
@@ -206,12 +210,6 @@ class LeaveController extends Controller {
 		}
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
 		if (request()->ajax())
@@ -227,13 +225,6 @@ class LeaveController extends Controller {
 		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param Request $request
-	 * @param int $id
-	 * @return Response
-	 */
 	public function update(Request $request)
 	{
 		$logged_user = auth()->user();
@@ -256,7 +247,6 @@ class LeaveController extends Controller {
 					'diff_date_hidden' => 'nullable|numeric'
 				]
 			);
-
 
 			if ($validator->fails())
 			{
@@ -301,6 +291,7 @@ class LeaveController extends Controller {
 			{
 				$data ['status'] = $request->status;
 			}
+
 			if ($request->leave_type)
 			{
 				$leave = LeaveType::findOrFail($request->leave_type);
@@ -308,24 +299,28 @@ class LeaveController extends Controller {
 				$employee = leave::where('id', '!=', $id)
 					->where('employee_id', $employee_id)->where('leave_type_id', $request->leave_type);
 
-
 				if ($employee->exists())
 				{
 					$total = 0;
 					$employee_leaves = $employee->get();
 
-
+					
 					foreach ($employee_leaves as $employee_leave)
 					{
 						$total = $total + $employee_leave->total_days;
 					}
 					$total = $total + $request->diff_date_hidden;
+					
+					// $total_days_count = $employee_leaves->sum('total_days');
+					// $total = $total + $request->diff_date_hidden;
+
 
 					if ($leave->allocated_day != null && $leave->allocated_day < $total)
 					{
 						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
 					}
-				} else
+				} 
+				else
 				{
 					if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
 					{
@@ -333,16 +328,16 @@ class LeaveController extends Controller {
 					}
 				}
 				$data['leave_type_id'] = $request->leave_type;
-			} else
-			{
+			}
 
+            else
+			{
 				$leave = LeaveType::findOrFail($request->leave_type_hidden);
 				$employee = leave::where('id', '!=', $id)
 					->where('employee_id', $employee_id)->where('leave_type_id', $request->leave_type_hidden);
 
 				if ($employee->exists())
 				{
-
 					$total = 0;
 					$employee_leaves = $employee->get();
 
@@ -356,8 +351,9 @@ class LeaveController extends Controller {
 					{
 						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
 					}
-				} else
-				{
+				}
+                else
+                {
 					if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
 					{
 						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days,You can select manual')]);
@@ -365,6 +361,20 @@ class LeaveController extends Controller {
 				}
 				$data['leave_type_id'] = $request->leave_type_hidden;
 			}
+
+			//Employee Remaining Leave --- Start
+			$employee_leave_info = Employee::find($employee_id);
+			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave) 
+			{
+				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
+			}
+			elseif($request->status=='approved')
+			{
+				$employee_leave_info->remaining_leave = $employee_leave_info->remaining_leave - $request->diff_date_hidden;
+				$employee_leave_info->update();
+			}
+			//Employee Remaining Leave  --- End
+
 
 			leave::find($id)->update($data);
 
@@ -374,18 +384,11 @@ class LeaveController extends Controller {
 				$notifiable = User::findOrFail($data['employee_id']);
 				$notifiable->notify(new LeaveNotification($text)); //To Employee
 			}
-
 			return response()->json(['success' => __('Data is successfully updated')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED'))

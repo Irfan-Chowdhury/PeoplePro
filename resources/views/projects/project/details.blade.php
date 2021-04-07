@@ -69,7 +69,7 @@
                                         <tbody>
                                             <tr>
                                                 <td><h6 class="mb-0">{{$project->title}}</h6>{{$project->project_priority}} priority<br>{{$project->project_progress ?? '0'}}% Complete</td>
-                                                <td>{{$project->client->name}}</td>
+                                                <td>{{$project->client->first_name}} {{$project->client->last_name}}</td>
                                                 <td>{{$project->start_date}}</td>
                                                 <td>{{$project->end_date}}</td>
                                             </tr>

@@ -26,12 +26,12 @@ class ProjectController extends Controller {
 	{
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
-		$clients = Client::select('id', 'name')->get();
+		$clients = Client::select('id', 'first_name', 'last_name')->get(); //Correction
 		if ($logged_user->can('view-project'))
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(Project::with('client:id,name', 'assignedEmployees')->get())
+				return datatables()->of(Project::with('client:id,first_name,last_name', 'assignedEmployees')->get())
 					->setRowId(function ($project)
 					{
 						return $project->id;
@@ -42,7 +42,8 @@ class ProjectController extends Controller {
 					})
 					->addColumn('client', function ($row)
 					{
-						return $row->client->name ?? '';
+						// return $row->client->name ?? '';
+						return $row->client->first_name.' '.$row->client->last_name ?? ''; //Correction
 					})
 					->addColumn('assigned_employee', function ($row)
 					{
@@ -80,17 +81,6 @@ class ProjectController extends Controller {
 		}
 
 		return abort('403', __('You are not authorized'));
-	}
-
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
 	}
 
 	/**

@@ -14,7 +14,7 @@ class EmployeeProjectController extends Controller {
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(Project::with('client:id,name', 'assignedEmployees')->join('employee_project', 'projects.id', '=', 'employee_project.project_id')
+				return datatables()->of(Project::with('client:id,first_name,last_name', 'assignedEmployees')->join('employee_project', 'projects.id', '=', 'employee_project.project_id')
 					->where('employee_id', $employee)->get())
 					->setRowId(function ($project)
 					{
@@ -29,7 +29,7 @@ class EmployeeProjectController extends Controller {
 					})
 					->addColumn('client', function ($row)
 					{
-						return $row->client->name;
+						return $row->client->first_name.' '.$row->client->last_name;
 					})
 					->addColumn('assigned_employee', function ($row)
 					{

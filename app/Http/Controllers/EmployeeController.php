@@ -28,6 +28,8 @@ use Spatie\Permission\Models\Role;
 use Throwable;
 use Barryvdh\DomPDF\Facade as PDF;
 
+use App\SalaryBasic;
+
 
 class EmployeeController extends Controller {
 
@@ -39,8 +41,6 @@ class EmployeeController extends Controller {
 	 */
 	public function index(Request $request)
 	{
-		// return $request->ip();
-
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
@@ -152,22 +152,12 @@ class EmployeeController extends Controller {
 	}
 
 
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
+	
 	public function create()
 	{
 		//
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
 	public function store(Request $request)
 	{
 		//return response()->json($request->first_name);
@@ -276,17 +266,9 @@ class EmployeeController extends Controller {
 	}
 
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param Employee $employee
-	 * @return Response
-	 */
-	public
-	function show(Employee $employee)
+	
+	public function show(Employee $employee)
 	{
-		// return $employee->attendance_type;
-
 		if (auth()->user()->can('view-details-employee'))
 		{
 			$companies = Company::select('id', 'company_name')->get();
@@ -414,7 +396,7 @@ class EmployeeController extends Controller {
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'company_id', 'department_id', 'designation_id', 'office_shift_id', 'location_id', 'status_id',
-					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type'
+					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type','total_leave'
 				),
 					[
 						'first_name' => 'required',
@@ -426,6 +408,7 @@ class EmployeeController extends Controller {
 						'role_users_id' => 'required',
 						'status_id' => 'required',
 						'attendance_type' => 'required',
+						'total_leave' => 'numeric|min:0',
 					]
 				);
 
@@ -467,13 +450,33 @@ class EmployeeController extends Controller {
 				$data['attendance_type'] = $request->attendance_type;
 				$data['is_active'] = 1;
 
+				//Leave Calculation
+				$employee_leave_info = Employee::find($employee);
+				if ($employee_leave_info->total_leave==0) {
+					$data['total_leave'] = $request->total_leave;
+					$data['remaining_leave'] = $request->total_leave;
+				}
+				elseif ($request->total_leave > $employee_leave_info->total_leave) {
+					$data['total_leave'] = $request->total_leave;
+					$data['remaining_leave'] = $request->remaining_leave + ($request->total_leave - $employee_leave_info->total_leave);
+				}
+				elseif ($request->total_leave < $employee_leave_info->total_leave) {
+					$data['total_leave'] = $request->total_leave;
+					$data['remaining_leave'] = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
+				}else {
+					$data['total_leave'] = $request->total_leave;
+					$data['remaining_leave'] = $employee_leave_info->remaining_leave;
+				}
+				//return response()->json($data['remaining_leave']);
+				
+
 
 				$user = [];
 				$user['first_name'] = $request->first_name;
 				$user['last_name'] = $request->last_name;
 				$user['username'] = strtolower(trim($request->username));
 				$user['email'] = strtolower(trim($request->email));
-				$user['password'] = bcrypt($request->password);
+				//$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
 				$user['is_active'] = 1;
@@ -488,8 +491,6 @@ class EmployeeController extends Controller {
 					$usertest = User::find($employee); //--new--
 					$usertest->syncRoles($data['role_users_id']); //--new--
 
-
-
 					DB::commit();
 				} catch (Exception $e)
 				{
@@ -503,7 +504,7 @@ class EmployeeController extends Controller {
 					return response()->json(['error' => $e->getMessage()]);
 				}
 
-				return response()->json(['success' => __('Data Added successfully.')]);
+				return response()->json(['success' => __('Data Added successfully.'), 'remaining_leave' => $data['remaining_leave']]);
 			}
 		}
 

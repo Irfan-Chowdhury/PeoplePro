@@ -172,7 +172,7 @@
                                                                value="<?php echo e($employee->contact_no); ?>">
                                                     </div>
 
-                                                    <div class="col-md-8 form-group">
+                                                    <div class="col-md-4 form-group">
                                                         <label><?php echo e(trans('file.Address')); ?> </label>
                                                         <input type="text" name="address" id="address"
                                                                placeholder="Address"
@@ -380,11 +380,18 @@
                                                         </select>
                                                     </div>
 
-                                                    
+                                                    <div class="col-md-4 form-group">
+                                                        <label><?php echo e(__('Total Annual Leave')); ?>  (Year - <?php echo e(date('Y')); ?>)</label>
+                                                        <input type="number" min="0" name="total_leave" id="total_leave" autocomplete="off" class="form-control" value="<?php echo e($employee->total_leave); ?>">
+                                                    </div>
+                                                    <div class="col-md-4 form-group">
+                                                        <label><?php echo e(__('Remaining Leave')); ?>  (Year - <?php echo e(date('Y')); ?>)</label>
+                                                        <input type="number" readonly name="remaining_leave" id="remaining_leave" autocomplete="off" class="form-control" value="<?php echo e($employee->remaining_leave); ?>">
+                                                        <small class="text-danger"><i>(Read Only)</i></small>
+                                                    </div>
 
                                                     
                                                     
-                                                    <div class="col-md-4"></div>
                                                     <div class="col-md-4"></div>
 
                                                     <div class="mt-3 form-group row">
@@ -555,6 +562,14 @@
                 autoclose: true,
                 todayHighlight: true
             });
+
+            let month_year = $('.month_year');
+            month_year.datepicker({
+                format: "MM-yyyy",
+                startView: "months",
+                minViewMode: 1,
+                autoclose: true,
+            }).datepicker("setDate", new Date());   
         });
 
         $('[data-table="immigration"]').one('click', function (e) {
@@ -588,6 +603,10 @@
 
         $('#set_salary-tab').one('click', function (e) {
             <?php echo $__env->make('employee.salary.basic_salary_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+        });
+
+        $('#salary_basic-tab').one('click', function (e) {
+            <?php echo $__env->make('employee.salary.basic.index_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         });
 
         $('#salary_allowance-tab').one('click', function (e) {
@@ -684,6 +703,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     var html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';
@@ -693,6 +713,7 @@
                         html += '</div>';
                     }
                     if (data.success) {
+                        $('#remaining_leave').val(data.remaining_leave)
                         html = '<div class="alert alert-success">' + data.success + '</div>';
                         html = '<div class="alert alert-success">' + data.success + '</div>';
                     }

@@ -68,7 +68,7 @@
                                             data-live-search="true" data-live-search-style="begins"
                                             title='{{__('Selecting',['key'=>trans('file.Client')])}}...'>
                                         @foreach($clients as $client)
-                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                            <option value="{{$client->id}}">{{$client->first_name}} {{$client->last_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -184,7 +184,7 @@
                                             data-live-search="true" data-live-search-style="begins"
                                             title='{{__('Selecting',['key'=>trans('file.Client')])}}...'>
                                         @foreach($clients as $client)
-                                            <option value="{{$client->id}}">{{$client->name}}</option>
+                                            <option value="{{$client->id}}">{{$client->first_name}} {{$client->last_name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -394,8 +394,6 @@
                                 }
                             }
                         },
-
-
                         {
                             data: 'action',
                             name: 'action',

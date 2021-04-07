@@ -2,11 +2,8 @@
 @section('content')
 
 
-
     <section>
-
         <div class="container-fluid"><span id="general_result"></span></div>
-
 
         <div class="container-fluid mb-3">
             @can('store-leave')
@@ -77,7 +74,7 @@
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>
                                     @endforeach
-                                    
+
                                 </select>
                             </div>
 
@@ -89,7 +86,7 @@
                                         data-live-search="true" data-live-search-style="begins"
                                         data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
-                                    
+
                                 </select>
                             </div>
 
@@ -176,10 +173,7 @@
 
 
 
-
-
-    <div class="modal fade" id="leave_model" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"
-        >
+    <div class="modal fade" id="leave_model" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -280,10 +274,6 @@
 
 
 
-
-
-
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -306,7 +296,7 @@
 
     <script type="text/javascript">
 
-        (function($) {  
+        (function($) {
             "use strict";
 
             let global_start_date;
@@ -492,6 +482,8 @@
 
                     $('#diff_date_hidden').val(dayDiff);
 
+                    //console.log(dayDiff);
+
 
                     $.ajax({
                         url: "{{ route('leaves.store') }}",
@@ -513,6 +505,9 @@
                             if (data.limit) {
                                 html = '<div class="alert alert-danger">' + data.limit + '</div>';
                             }
+                            if (data.remaining_leave) {
+                                html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                            }
                             if (data.success) {
                                 html = '<div class="alert alert-success">' + data.success + '</div>';
                                 $('#sample_form')[0].reset();
@@ -527,21 +522,28 @@
 
                 if ($('#action').val() === '{{trans('file.Edit')}}') {
 
+                    
+                    // let start_date_edit = $("#start_date").datepicker('getDate');
+                    // let end_date_edit = $("#end_date").datepicker('getDate');
 
-                    let start_date_edit = $("#start_date").datepicker('getDate');
-                    let end_date_edit = $("#end_date").datepicker('getDate');
+                    let start_date_edit = new Date($("#start_date").val()); 
+                    let end_date_edit = new Date($("#end_date").val());
+                    let timeDiff_edit;
                     let dayDiff_edit;
+
                     if (start_date_edit != null && end_date_edit != null) {
-                        dayDiff_edit = Math.ceil((end_date_edit - start_date_edit) / (1000 * 60 * 60 * 24)) + 1;
+                        // dayDiff_edit = Math.ceil((end_date_edit - start_date_edit) / (1000 * 60 * 60 * 24)) + 1;
+                        timeDiff_edit = end_date_edit.getTime() - start_date_edit.getTime();
+                        dayDiff_edit  = timeDiff_edit / (1000 * 3600 * 24) + 1 ;
+
                     } else if (start_date_edit == null && end_date_edit == null) {
                         dayDiff_edit = null;
                     } else {
                         dayDiff_edit = 'dummy';
                     }
 
-
                     $('#diff_date_hidden').val(dayDiff_edit);
-
+                    //console.log(dayDiff_edit);
 
                     $.ajax({
                         url: "{{ route('leaves.update') }}",
@@ -552,6 +554,7 @@
                         processData: false,
                         dataType: "json",
                         success: function (data) {
+                            console.log(data);
                             let html = '';
                             if (data.errors) {
                                 html = '<div class="alert alert-danger">';
@@ -562,6 +565,9 @@
                             }
                             if (data.limit) {
                                 html = '<div class="alert alert-danger">' + data.limit + '</div>';
+                            }
+                            if (data.remaining_leave) {
+                                html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
                             }
                             if (data.success) {
                                 html = '<div class="alert alert-success">' + data.success + '</div>';
@@ -636,6 +642,7 @@
                     url: target,
                     dataType: "json",
                     success: function (html) {
+                        //console.log(html.data.end_date);
 
                         $('#status').selectpicker('val', html.data.status);
                         $('#remarks').val(html.data.remarks);
@@ -806,7 +813,7 @@
                     });
                 }
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 
 @endsection
