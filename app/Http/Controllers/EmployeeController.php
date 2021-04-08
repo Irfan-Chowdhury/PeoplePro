@@ -34,11 +34,6 @@ use App\SalaryBasic;
 class EmployeeController extends Controller {
 
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index(Request $request)
 	{
 		$logged_user = auth()->user();

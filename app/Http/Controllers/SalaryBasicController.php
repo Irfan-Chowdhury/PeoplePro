@@ -16,7 +16,11 @@ class SalaryBasicController extends Controller
         {
             if (request()->ajax())
             {
-                $salary_basics = SalaryBasic::with('payslipMonthYear')->where('employee_id', $employee->id)->get();
+                $salary_basics = SalaryBasic::with('payslipMonthYear')
+                                            ->where('employee_id', $employee->id)
+                                            ->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')
+                                            ->get();
+                
                 return datatables()->of($salary_basics)
                 ->setRowId(function ($row)
                 {
@@ -79,9 +83,12 @@ class SalaryBasicController extends Controller
                 return response()->json(['check_month_year' => "Salary has already been assigned for this month."]);
             }
 
+            $first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
+
             $salary_basic = new SalaryBasic();
             $salary_basic->employee_id  = $employee->id;
             $salary_basic->month_year   = $request->month_year;
+            $salary_basic->first_date   = $first_date;
             $salary_basic->payslip_type = $request->payslip_type;
             $salary_basic->basic_salary = $request->basic_salary;
             $salary_basic->save();
@@ -136,8 +143,11 @@ class SalaryBasicController extends Controller
                 return response()->json(['check_month_year' => "Salary has already been assigned for this month."]);
             }
 
+            $first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
+
             $salary_basic = SalaryBasic::find($id);
             $salary_basic->month_year   = $request->month_year;
+            $salary_basic->first_date   = $first_date;
             $salary_basic->payslip_type = $request->payslip_type;
             $salary_basic->basic_salary = $request->basic_salary;
             $salary_basic->update();

@@ -52,6 +52,10 @@ class Employee extends Model
 		return $this->hasOne('Spatie\Permission\Models\Role','id','role_users_id');
 	}
 
+	public function salaryBasic(){
+		return $this->hasMany(SalaryBasic::class);
+	}
+
 	public function allowances(){
 		return $this->hasMany(SalaryAllowance::class);
 	}

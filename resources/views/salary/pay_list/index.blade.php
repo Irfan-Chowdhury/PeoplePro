@@ -257,6 +257,9 @@
                     <div class="modal-body">
                         <span id="form_result"></span>
                         <form method="get" id="payment_form" class="form-horizontal" >
+
+                               <input type="hidden" name="payslip_type" id="payslip_type_payment">
+
                                <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
@@ -365,7 +368,7 @@
     </section>
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             $(document).ready(function () {
@@ -432,21 +435,25 @@
                                 name: 'employee_name'
                             },
                             {
+                                data: 'salary_basic',
+                                name: 'salary_basic'
+                            },
+                            {
                                 data: 'payslip_type',
                                 name: 'payslip_type'
                             },
-                            {
-                                data: 'basic_salary',
-                                name: 'basic_salary',
-                                render: function (data) {
-                                    if ('{{config('variable.currency_format') ==='suffix'}}') {
-                                        return data + ' {{config('variable.currency')}}';
-                                    } else {
-                                        return '{{config('variable.currency')}} ' + data;
+                            // {
+                            //     data: 'basic_salary',
+                            //     name: 'basic_salary',
+                            //     render: function (data) {
+                            //         if ('{{config('variable.currency_format') ==='suffix'}}') {
+                            //             return data + ' {{config('variable.currency')}}';
+                            //         } else {
+                            //             return '{{config('variable.currency')}} ' + data;
 
-                                    }
-                                }
-                            },
+                            //         }
+                            //     }
+                            // },
                             {
                                 data: 'net_salary',
                                 name: 'net_salary',
@@ -579,7 +586,7 @@
                     type: "GET",
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
-                        // console.log(result);
+                        console.log(result);
                         $('#employee_username').html(result.data.employee_username);
                         $('#employee_full_name').html(result.data.employee_full_name);
                         $('#employee_designation').html(result.data.employee_designation);
@@ -711,6 +718,7 @@
                     type: "GET",
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
+                        //console.log(result.data.payslip_type);
                         if (result.data.payslip_type === 'Hourly') {
                                 $('.hide-element').show();
                                 $('#worked_hours').val(result.data.total_hours);
@@ -722,6 +730,7 @@
                             $('#worked_hours').val('');
                             $('#worked_amount').val('');
                         }
+                        $('#payslip_type_payment').val(result.data.payslip_type);
                         $('#basic_salary_payment').val(result.data.basic_salary);
                         $('#total_allowance_payment').val(result.data.total_allowance);
                         $('#total_commission_payment').val(result.data.total_commission);
@@ -758,7 +767,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
+                        //console.log(data);
                         let html = '';
                         if (data.payment_type_error) {
                             html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';
@@ -907,7 +916,7 @@
                 $('#pay_list-table').DataTable().ajax.reload();
 
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 
 @endsection

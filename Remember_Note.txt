@@ -7,7 +7,8 @@
         18. Holiday will not count with employee's leave request days
         19. HR Report (Payslip) - When filter an employee, a payslip button must show. (Cancel)
         20. Expiry Documents - send notification to admin.
-        21. Update Attendacne - Add Button dissble after giving attendance to ana employee
+        21. Update Attendacne - Add Button dissble after giving attendance to any employee
+		22. After Delete any latest month salary, basic salary will be updated with previous month one.
 
 
                 =============== BUG ===============

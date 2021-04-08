@@ -2,15 +2,15 @@
     <div class="col-md-3">
         @can('view-details-employee')
             <ul class="nav nav-tabs vertical" id="myTab" role="tablist">
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a class="nav-link active" id="salary-tab" data-toggle="tab" href="#Salary" role="tab"
                        aria-controls="Salary" aria-selected="true">{{__('Basic Salary (Old)')}}</a>
-                </li>
+                </li> --}}
                 <!-- New -->
                 <li class="nav-item">
-                    <a class="nav-link" href="{{route('salary_basic.show',$employee)}}" id="salary_basic-tab" 
+                    <a class="nav-link active" href="irfan" id="salary_basic-tab" 
                         data-toggle="tab" data-table="salary_basic" data-target="#salary_basic" role="tab" 
-                        aria-controls="salary_basic" aria-selected="false">{{__('Basic Salary (New)')}}
+                        aria-controls="salary_basic" aria-selected="true">{{__('Basic Salary (New)')}}
                     </a>
                 </li>
                 <!--/ New -->
@@ -50,8 +50,8 @@
 
     <div class="col-md-9">
         <div class="tab-content" id="myTabContent">
-            @can('set-salary')
-            <div class="tab-pane fade show active" id="Salary" role="tabpanel" aria-labelledby="salary-tab">
+            {{-- @can('set-salary') --}}
+            {{-- <div class="tab-pane fade show active" id="Salary" role="tabpanel" aria-labelledby="salary-tab">
                 <!--Contents for Basic starts here-->
                 {{trans('file.Update')}} {{trans('file.Salary')}}
                 <hr>
@@ -101,17 +101,19 @@
 
                     </form>
                 </div>
-            </div>
-            @endcan
+            </div> --}}
+            {{-- @endcan --}}
 
 
 
             <!-- New -->
-            <div class="tab-pane fade" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
+            @can('set-salary')
+            <div class="tab-pane fade show active" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
                 {{__('All Basic Salary')}}
                 <hr>
                 @include('employee.salary.basic.index')
             </div>
+            @endcan
             <!--/ New -->
 
 
