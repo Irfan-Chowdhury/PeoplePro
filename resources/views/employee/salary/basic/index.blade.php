@@ -49,7 +49,6 @@
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>{{__('Month Year')}}</label>
-                                {{-- <input class="form-control month_year date" readonly id="month_year" name="month_year" type="text" value=""> --}}
                                 <input class="form-control month_year"  name="month_year" type="text" id="month_year">
                             </div>
 

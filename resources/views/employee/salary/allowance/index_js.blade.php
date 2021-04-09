@@ -37,6 +37,10 @@
         columns: [
 
             {
+                data: 'month_year',
+                name: 'month_year',
+            },
+            {
                 data: 'is_taxable',
                 name: 'is_taxable',
                 render: function (data, type, row) {
@@ -85,7 +89,7 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 3],
+                'targets': [0, 4],
             },
         ],
 
@@ -147,6 +151,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     var html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';
@@ -179,7 +184,6 @@
     $(document).on('click', '.allowance_edit', function () {
 
         var id = $(this).attr('id');
-
         var target = "{{ route('salary_allowance.index') }}/" + id + '/edit';
 
 
@@ -187,9 +191,9 @@
             url: target,
             dataType: "json",
             success: function (html) {
-
+                console.log(html);
                 let id = html.data.id;
-
+                $('.month_year').val(html.data.month_year);
                 $('#allowance_amount').val(html.data.allowance_amount);
                 $('#allowance_title').val(html.data.allowance_title);
                 $('#allowance_is_taxable').selectpicker('val', html.data.is_taxable);

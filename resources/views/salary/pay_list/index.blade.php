@@ -435,25 +435,21 @@
                                 name: 'employee_name'
                             },
                             {
-                                data: 'salary_basic',
-                                name: 'salary_basic'
-                            },
-                            {
                                 data: 'payslip_type',
                                 name: 'payslip_type'
                             },
-                            // {
-                            //     data: 'basic_salary',
-                            //     name: 'basic_salary',
-                            //     render: function (data) {
-                            //         if ('{{config('variable.currency_format') ==='suffix'}}') {
-                            //             return data + ' {{config('variable.currency')}}';
-                            //         } else {
-                            //             return '{{config('variable.currency')}} ' + data;
+                            {
+                                data: 'basic_salary',
+                                name: 'basic_salary',
+                                render: function (data) {
+                                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                                        return data + ' {{config('variable.currency')}}';
+                                    } else {
+                                        return '{{config('variable.currency')}} ' + data;
 
-                            //         }
-                            //     }
-                            // },
+                                    }
+                                }
+                            },
                             {
                                 data: 'net_salary',
                                 name: 'net_salary',
@@ -587,6 +583,8 @@
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
                         console.log(result);
+                        // console.log(result.data.allowances[0]);
+
                         $('#employee_username').html(result.data.employee_username);
                         $('#employee_full_name').html(result.data.employee_full_name);
                         $('#employee_designation').html(result.data.employee_designation);
@@ -767,7 +765,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
-                        //console.log(data);
+                        console.log(data);
                         let html = '';
                         if (data.payment_type_error) {
                             html = '<div class="alert alert-danger">' + data.payment_type_error + '</div>';

@@ -18,7 +18,11 @@ class SalaryAllowanceController extends Controller {
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryAllowance::where('employee_id', $employee->id)->get())
+				$salaryAllowance = SalaryAllowance::where('employee_id', $employee->id)
+												->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')
+												->get();
+												
+				return datatables()->of($salaryAllowance)
 					->setRowId(function ($allowance)
 					{
 						return $allowance->id;
@@ -51,9 +55,10 @@ class SalaryAllowanceController extends Controller {
 		$logged_user = auth()->user();
 		if ($logged_user->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only('allowance_title', 'allowance_amount',
+			$validator = Validator::make($request->only('month_year','allowance_title', 'allowance_amount',
 				'is_taxable'),
 				[
+					'month_year' => 'required',
 					'allowance_title' => 'required',
 					'allowance_amount' => 'required',
 					'is_taxable' => 'required',
@@ -65,9 +70,12 @@ class SalaryAllowanceController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+            $first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
+
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['allowance_title'] = $request->allowance_title;
 			$data['employee_id'] = $employee->id;
 			$data['allowance_amount'] = $request->allowance_amount;
@@ -100,9 +108,10 @@ class SalaryAllowanceController extends Controller {
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only('allowance_title', 'allowance_amount',
+			$validator = Validator::make($request->only('month_year','allowance_title', 'allowance_amount',
 				'is_taxable'),
 				[
+					'month_year' => 'required',
 					'allowance_title' => 'required',
 					'allowance_amount' => 'required',
 					'is_taxable' => 'required',
@@ -114,8 +123,11 @@ class SalaryAllowanceController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
-			$data = [];
+            $first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
+			$data = [];
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['allowance_title'] = $request->allowance_title;
 			$data['allowance_amount'] = $request->allowance_amount;
 			$data ['is_taxable'] = $request->is_taxable;

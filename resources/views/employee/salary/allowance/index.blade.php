@@ -15,6 +15,7 @@
             <table id="allowance-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{__('Allowance Type')}}</th>
                     <th>{{__('Allowance Title')}}</th>
                     @if(config('variable.currency_format')==='suffix')
@@ -42,9 +43,15 @@
                 <div class="modal-body">
                     <span id="allowance_form_result"></span>
                     <form method="post" id="allowance_sample_form" class="form-horizontal" autocomplete="off">
-
+                        
                         @csrf
                         <div class="row">
+
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year" id="month_year" name="month_year" type="text">
+                            </div>
+
                             <div class="col-md-6 form-group">
                                 <label>{{__('Allowance Type')}} *</label>
                                 <select name="is_taxable" id="allowance_is_taxable" required
