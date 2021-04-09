@@ -18,7 +18,7 @@ class SalaryCommissionController extends Controller
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryCommission::where('employee_id', $employee->id)->get())
+				return datatables()->of(SalaryCommission::where('employee_id', $employee->id)->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')->get())
 					->setRowId(function ($commission)
 					{
 						return $commission->id;
@@ -43,18 +43,20 @@ class SalaryCommissionController extends Controller
 			return view('employee.salary.commission.index',compact('employee'));
 		}
 		return response()->json(['success' => __('You are not authorized')]);
-
 	}
 
 	public function store(Request $request,Employee $employee)
 	{
+		//return response()->json($request->month_year);
+		
 		if (auth()->user()->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only( 'commission_title','commission_amount'
+			$validator = Validator::make($request->only('month_year', 'commission_title','commission_amount'
 				),
 				[
+					'month_year' 	   => 'required',
 					'commission_title' => 'required',
-					'commission_amount' => 'required',
+					'commission_amount'=> 'required',
 				]
 			);
 
@@ -63,9 +65,11 @@ class SalaryCommissionController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['commission_title'] =  $request->commission_title;
 			$data['employee_id'] = $employee->id;
 			$data['commission_amount'] = $request->commission_amount;
@@ -95,8 +99,9 @@ class SalaryCommissionController extends Controller
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only( 'commission_title','commission_amount'),
+			$validator = Validator::make($request->only( 'month_year','commission_title','commission_amount'),
 				[
+					'month_year' => 'required',
 					'commission_title' => 'required',
 					'commission_amount' => 'required',
 				]
@@ -107,9 +112,11 @@ class SalaryCommissionController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['commission_title'] =  $request->commission_title;
 			$data['commission_amount'] = $request->commission_amount;
 
@@ -120,17 +127,10 @@ class SalaryCommissionController extends Controller
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
 	public function destroy($id)
 	{
 		if (auth()->user()->can('modify-details-employee'))
 		{
-
 			SalaryCommission::whereId($id)->delete();
 
 			return response()->json(['success' => __('Data is successfully deleted')]);

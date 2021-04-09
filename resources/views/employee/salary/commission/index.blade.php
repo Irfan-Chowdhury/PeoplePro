@@ -15,6 +15,7 @@
             <table id="commission-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{__('Commission Title')}}</th>
                     @if(config('variable.currency_format')==='suffix')
                         <th>{{__('Commission Amount')}} ({{config('variable.currency')}})</th>
@@ -44,6 +45,11 @@
 
                         @csrf
                         <div class="row">
+
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year"  name="month_year" type="text" id="month_year">
+                            </div>
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Commission Title')}}</label>

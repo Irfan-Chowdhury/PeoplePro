@@ -20,6 +20,7 @@ use Throwable;
 use App\Http\traits\MonthlyWorkedHours;
 use App\SalaryAllowance;
 use App\SalaryBasic;
+use App\SalaryCommission;
 
 class PayrollController extends Controller {
 
@@ -60,8 +61,11 @@ class PayrollController extends Controller {
 		// 			{
 		// 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 		// 			},
-		// 			'loans', 'deductions',
-        //             'commissions', 'overtimes', 'otherPayments',
+		// 			'commissions'=> function ($query)
+		// 			{
+		// 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+		// 			},
+		// 			'loans', 'deductions','overtimes', 'otherPayments',
         //             'payslips' => function ($query) use ($selected_date)
         //             {
         //                 $query->where('month_year', $selected_date);
@@ -75,7 +79,7 @@ class PayrollController extends Controller {
 		// // 				->get();
         //             ->where('id',9)->first();
 
-        ///return $employee->allowances->sum('allowance_amount');
+        // return $employee->commissions;
 
 		
 		// //allowances
@@ -127,8 +131,12 @@ class PayrollController extends Controller {
 						'allowances' => function ($query)
 						{
 							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+						},
+						'commissions'=> function ($query)
+						{
+							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 						},  
-						'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments',
+						'loans', 'deductions', 'overtimes', 'otherPayments',
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
@@ -152,8 +160,12 @@ class PayrollController extends Controller {
 						'allowances' => function ($query)
 						{
 							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+						},
+						'commissions'=> function ($query)
+						{
+							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 						}, 
-						'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments',
+						'loans', 'deductions', 'overtimes', 'otherPayments',
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
@@ -176,8 +188,11 @@ class PayrollController extends Controller {
 						{
 							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 						},
-						'loans', 'deductions',
-						'commissions', 'overtimes', 'otherPayments',
+						'commissions'=> function ($query)
+						{
+							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+						},
+						'loans', 'deductions', 'overtimes', 'otherPayments',
 						'payslips' => function ($query) use ($selected_date)
 						{
 							$query->where('month_year', $selected_date);
@@ -234,11 +249,11 @@ class PayrollController extends Controller {
 						//allowances
 						$allowance_amount = 0;
 						if (!$row->allowances->isEmpty()) {
-							foreach($row->allowances as $key => $item) {
+							foreach($row->allowances as $item) {
 								if($item->first_date <= $first_date){
 									// $allowance_amount = SalaryAllowance::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('allowance_amount');
 									$allowance_amount = 0;
-									foreach($row->allowances as $key => $value) {
+									foreach($row->allowances as $value) {
 										if($value->first_date <= $first_date){
 											if ($item->first_date == $value->first_date) {
 												$allowance_amount += $value->allowance_amount;
@@ -249,10 +264,27 @@ class PayrollController extends Controller {
 							}
 						}
 						
-
+						//commission
+						$commission_amount = 0;
+						if (!$row->commissions->isEmpty()) {
+							foreach($row->commissions as $item) {
+								if($item->first_date <= $first_date){
+									// $commission_amount = SalaryCommission::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('commission_amount');
+									$commission_amount = 0;
+									foreach($row->commissions as $value) {
+										if($value->first_date <= $first_date){
+											if ($item->first_date == $value->first_date) {
+												$commission_amount += $value->commission_amount;
+											}
+										}
+									}
+								}
+							}
+						}
+						
 						//Net Salary
 						if ($payslip_type == 'Monthly'){
-							$total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount);
+							$total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount, $commission_amount);
 						} 
 						else{
 							$total = 0;
@@ -261,7 +293,7 @@ class PayrollController extends Controller {
 							sscanf($total_hours, '%d:%d', $hour, $min);
 							//converting in minute
 							$total += $hour * 60 + $min;
-							$total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount, $total);
+							$total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount, $commission_amount, $total);
 						}
 
 						return $total_salary;
@@ -476,8 +508,12 @@ class PayrollController extends Controller {
 			'allowances' => function ($query)
 			{
 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+			},
+			'commissions'=> function ($query)
+			{
+				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 			}, 
-			'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
+			'loans', 'deductions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
 			'employeeAttendance' => function ($query) use ($first_date, $last_date){
 				$query->whereBetween('attendance_date', [$first_date, $last_date]);
 			}])
@@ -511,16 +547,38 @@ class PayrollController extends Controller {
 		}else {
 			$allowances = [];
 		}
+		
+		
+		//commissions
+		if (!$employee->commissions->isEmpty()) {
+			foreach($employee->commissions as $item) {
+				if($item->first_date <= $first_date){
+					$commissions = array();
+					foreach($employee->commissions as $key => $value) {
+						if($value->first_date <= $first_date){
+							//$commissions = array();
+							if ($item->first_date == $value->first_date) {
+								$commissions[] =  $employee->commissions[$key];
+							}
+						}
+					}
+					
+				}
+			}
+		}else {
+			$commissions = [];
+		}
 
 
 		$data = [];
 		// $data['basic_salary'] = $employee->basic_salary; //will be deleted---- 
 		// $data['basic_total'] = $employee->basic_salary; //will be deleted---- 
-		// $data['allowances'] = $employee->allowances; ; //will be deleted---- 
+		// $data['allowances'] = $employee->allowances; //will be deleted---- 
+		// $data['commissions']  = $employee->commissions; //will be deleted---- 
 		$data['basic_salary'] = $basic_salary; //----New Correction ---
 		$data['basic_total']  = $basic_salary; //----New Correction ---
 		$data['allowances']   = $allowances;  //----New Correction ---
-		$data['commissions']  = $employee->commissions;
+		$data['commissions']  = $commissions; //----New Correction ---
 		$data['loans']        = $employee->loans;
 		$data['deductions']   = $employee->deductions;
 		$data['overtimes']    = $employee->overtimes;
@@ -567,7 +625,15 @@ class PayrollController extends Controller {
 			{
 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 			},
-			'allowances', 'loans', 'deductions', 'commissions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
+			'allowances' => function ($query)
+			{
+				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+			},
+			'commissions' => function ($query) 
+			{
+				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+			}, 
+			'loans', 'deductions', 'overtimes', 'otherPayments', 'designation', 'department', 'user',
 			'employeeAttendance' => function ($query) use ($first_date, $last_date){
 				$query->whereBetween('attendance_date', [$first_date, $last_date]);
 			}])
@@ -584,6 +650,7 @@ class PayrollController extends Controller {
 			}
 		}
 
+		//allowance
 		$allowance_amount = 0;
 		if (!$employee->allowances->isEmpty()) {
 			foreach($employee->allowances as $key => $item) {
@@ -592,14 +659,25 @@ class PayrollController extends Controller {
 				}
 			}
 		}
+		
+		//Commision
+		$commission_amount = 0;
+		if (!$employee->allowances->isEmpty()) {
+			foreach($employee->allowances as $key => $item) {
+				if($item->first_date <= $first_date){
+					$commission_amount = SalaryCommission::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('commission_amount');
+				}
+			}
+		}
 
 		$data = [];
 		$data['employee']         = $employee->id;
 		// $data['basic_salary']  = $employee->basic_salary; //will be deleted---- 
 		// $data['total_allowance']  = $employee->allowances->sum('allowance_amount'); //will be deleted---- 
+		// $data['total_commission'] = $employee->commissions->sum('commission_amount'); //will be deleted---- 
 		$data['basic_salary']     = $basic_salary;  //----New Correction ---
 		$data['total_allowance']  = $allowance_amount;
-		$data['total_commission'] = $employee->commissions->sum('commission_amount');
+		$data['total_commission'] = $commission_amount;
 		$data['monthly_payable']  = $employee->loans->sum('monthly_payable');
 		$data['amount_remaining'] = $employee->loans->sum('amount_remaining');
 		$data['total_deduction']  = $employee->deductions->sum('deduction_amount');
@@ -612,7 +690,7 @@ class PayrollController extends Controller {
 		if ($payslip_type == 'Monthly') //----New Correction ---
 		{
 			// $data['total_salary'] = $this->totalSalary($employee); //will be deleted---- 
-			$data['total_salary'] = $this->totalSalary($employee, $payslip_type, $basic_salary,$allowance_amount);
+			$data['total_salary'] = $this->totalSalary($employee, $payslip_type, $basic_salary,$allowance_amount,$commission_amount);
 		} else
 		{
 			$total = 0;
@@ -622,7 +700,7 @@ class PayrollController extends Controller {
 			$total += $hour * 60 + $min;
 			$data['total_hours'] = $total_hours;
 			$data['worked_amount'] = ($data['basic_salary'] / 60) * $total;
-			$data['total_salary'] = $this->totalSalary($employee,$payslip_type, $basic_salary, $allowance_amount, $total);
+			$data['total_salary'] = $this->totalSalary($employee,$payslip_type, $basic_salary, $allowance_amount, $commission_amount, $total);
 		}
 		return response()->json(['data' => $data]);
 	}
@@ -644,11 +722,15 @@ class PayrollController extends Controller {
 					$employee = Employee::with(['allowances' => function ($query)
 						{
 							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
+						},
+						'commissions' => function ($query)
+						{
+							$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
 						}, 
 						// 'allowances:id,employee_id,allowance_title,allowance_amount',
+						// 'commissions:id,employee_id,commission_title,commission_amount',
 						'loans:id,employee_id,loan_title,loan_amount,time_remaining,amount_remaining,monthly_payable',
 						'deductions:id,employee_id,deduction_title,deduction_amount',
-						'commissions:id,employee_id,commission_title,commission_amount',
 						'overtimes:id,employee_id,overtime_title,no_of_days,overtime_hours,overtime_rate,overtime_amount',
 						'otherPayments:id,employee_id,other_payment_title,other_payment_amount'])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type')
@@ -666,11 +748,28 @@ class PayrollController extends Controller {
 										}
 									}
 								}
-								
 							}
 						}
 					}else {
 						$allowances = [];
+					}
+
+					//commissions
+					if (!$employee->commissions->isEmpty()) {
+						foreach($employee->commissions as $item) {
+							if($item->first_date <= $first_date){
+								$commissions = array();
+								foreach($employee->commissions as $key => $value) {
+									if($value->first_date <= $first_date){
+										if ($item->first_date == $value->first_date) {
+											$commissions[] =  $employee->commissions[$key];
+										}
+									}
+								}
+							}
+						}
+					}else {
+						$commissions = [];
 					}
 
 
@@ -679,11 +778,13 @@ class PayrollController extends Controller {
 					$data['payslip_number'] = mt_rand(1000000000,9999999999);
 					// $data['payment_type'] = $employee->payslip_type; //will be deleted---- 
 					// $data['basic_salary'] = $employee->basic_salary; //will be deleted---- 
+					// $data['allowances'] = $employee->allowances; //will be deleted---- 
+					//$data['commissions'] = $employee->commissions; //will be deleted---- 
 					$data['payment_type'] = $request->payslip_type;
 					$data['basic_salary'] = $request->basic_salary;
-					// $data['allowances'] = $employee->allowances; //will be deleted---- 
-					$data['allowances'] = $allowances;
-					$data['commissions'] = $employee->commissions;
+					
+					$data['allowances']  = $allowances;
+					$data['commissions'] = $commissions;
 					$data['loans'] = $employee->loans;
 					$data['deductions'] = $employee->deductions;
 					$data['overtimes'] = $employee->overtimes;

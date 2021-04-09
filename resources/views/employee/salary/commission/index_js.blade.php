@@ -10,7 +10,6 @@
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
                         );
-
                         column
                             .search(val ? '^' + val + '$' : '', true, false)
                             .draw();
@@ -35,20 +34,23 @@
 
         columns: [
             {
+                data: 'month_year',
+                name : 'month_year'
+            },
+            {
                 data: 'commission_title',
                 name : 'commission_title'
             },
             {
                 data: 'commission_amount',
                 name: 'commission_amount',
-    render: function (data) {
-    if ('{{config('variable.currency_format') ==='suffix'}}') {
-    return data + ' {{config('variable.currency')}}';
-    } else {
-    return '{{config('variable.currency')}} ' + data;
-
-    }
-    }
+                render: function (data) {
+                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                        return data + ' {{config('variable.currency')}}';
+                    }else {
+                        return '{{config('variable.currency')}} ' + data;
+                    }
+                }
             },
             {
                 data: 'action',
@@ -71,7 +73,7 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 2],
+                'targets': [0, 3],
             },
         ],
 
@@ -103,6 +105,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     var html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';
@@ -174,6 +177,7 @@
 
                 let id = html.data.id;
 
+                $('.month_year').val(html.data.month_year);
                 $('#commission_amount').val(html.data.commission_amount);
                 $('#commission_title').val(html.data.commission_title);
 
