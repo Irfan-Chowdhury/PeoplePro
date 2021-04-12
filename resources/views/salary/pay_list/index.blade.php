@@ -54,6 +54,7 @@
                 </div>
             </div>
         </div>
+
         <div class="card-title text-center"><h3>{{__('Payment Info')}} <span id="details_month_year"></span></h3></div>
         <div class="container-fluid"><span id="general_result"></span></div>
         <div class="table-responsive">
@@ -115,8 +116,28 @@
                                                 </div>
                                             </div>
                                         </div>
+
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_allowances" aria-expanded="false"> <strong>{{trans('file.Allowances')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark" data-toggle="collapse" href="#pension" aria-expanded="true"> <strong>{{__('Pension')}}</strong></a> </div>
+                                            <div id="pension" class="collapse in" data-parent="#accordion" aria-expanded="true">
+                                                <div class="card-body">
+                                                    <div class="table-responsive" data-pattern="priority-columns">
+                                                        <table class="table table-striped table-bordered dataTable no-footer">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td><strong>{{__('Pension Type')}}</span>:</strong><span class="pull-right" id="pension_type"></span></td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td><strong>{{__('Pension Amount')}}</span>:</strong><span class="pull-right" id="pension_amount"></span></td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card mb-2">
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_allowances" aria-expanded="false"> <strong>{{trans('file.Allowances')}}</strong></a> &nbsp; <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, the last month's amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a></div>
                                             <div id="set_allowances" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -133,7 +154,7 @@
                                             </div>
                                         </div>
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_commissions" aria-expanded="false"> <strong>{{trans('file.Commissions')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_commissions" aria-expanded="false"> <strong>{{trans('file.Commissions')}}</strong></a> &nbsp; <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a> </div>
                                             <div id="set_commissions" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -169,7 +190,7 @@
                                             </div>
                                         </div>
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#statutory_deductions" aria-expanded="false"> <strong>{{__('Statutory deductions')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#statutory_deductions" aria-expanded="false"> <strong>{{__('Statutory deductions')}}</strong></a> &nbsp; <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, the last month's amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a> </div>
                                             <div id="statutory_deductions" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -187,7 +208,7 @@
                                         </div>
 
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_other_payments" aria-expanded="false"> <strong>{{__('Other Payment')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#set_other_payments" aria-expanded="false"> <strong>{{__('Other Payment')}}</strong></a> &nbsp; <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a> </div>
                                             <div id="set_other_payments" class="collapse" data-parent="#accordion">
                                                 <div class="box-body">
                                                     <div class="table-responsive" data-pattern="priority-columns">
@@ -205,7 +226,7 @@
                                         </div>
 
                                         <div class="card mb-2">
-                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#overtime" aria-expanded="false"> <strong>{{trans('file.Overtime')}}</strong> </a> </div>
+                                            <div class="card-header"> <a class="text-dark collapsed" data-toggle="collapse" href="#overtime" aria-expanded="false"> <strong>{{trans('file.Overtime')}}</strong></a> &nbsp; <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a> </div>
                                             <div id="overtime" class="collapse" data-parent="#accordion">
                                                 <div class="card-body">
                                                     <div class="table-responsive">
@@ -263,7 +284,7 @@
                                <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <label for="name">{{__('Monthly Payslip')}}</label> &nbsp;&nbsp;&nbsp;&nbsp; <span id="payment_type_error"></span>
+                                        <label for="name">{{__('Basic Salary')}}</label> &nbsp;&nbsp;&nbsp;&nbsp; <span id="payment_type_error"></span>
                                         <input type="text" name="basic_salary" id="basic_salary_payment" class="form-control" value="0" readonly="readonly">
                                         <input type="hidden" value="0" name="month_year" id="hidden_month_year">
                                         <input type="hidden" value="" name="employee_id" id="employee_id">
@@ -279,44 +300,43 @@
 
                                    <div class="col-md-6 hide-element">
                                        <div class="form-group">
-                                           <label for="worked_amount">{{__('Amount')}}</label>
+                                           <label for="worked_amount">{{__('Amount')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, the last month's amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                            <input type="text" readonly="readonly" name="worked_amount" id="worked_amount" class="form-control" value="0">
                                        </div>
                                    </div>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Total Allowance')}}</label>
+                                        <label for="name">{{__('Total Allowance')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, the last month's amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                         <input type="text" name="total_allowance" id="total_allowance_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
 
-                                   <div class="col-md-6">
+
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{trans('Commissions')}}</label>
+                                        <label for="name">{{trans('Commissions')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                         <input type="text" name="total_commission" id="total_commission_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
-                                   </div>
+                                </div>
 
-
-
-                                   <div class="col-md-6">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Total Overtime')}}</label>
+                                        <label for="name">{{__('Total Overtime')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                         <input type="text" name="total_overtime" id="total_overtime_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
 
                                    <div class="col-md-6">
                                        <div class="form-group">
-                                           <label for="name">{{__('Other Payment')}}</label>
+                                           <label for="name">{{__('Other Payment')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, 0 amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                            <input type="text" name="total_other_payment" id="total_other_payment_payment" class="form-control" value="0" readonly="readonly">
                                        </div>
                                    </div>
 
                                    <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="name">{{__('Statutory deductions')}}</label>
+                                        <label for="name">{{__('Statutory deductions')}}</label> <a href="#" data-toggle="popover" data-placement="top" data-content="If you don't set this month's amount, the last month's amount will be treated as this month"><i class="fa fa-exclamation-circle text-warning" aria-hidden="true"></i></a>
                                         <input type="text" name="total_deduction" id="total_deduction_payment" class="form-control" value="0" readonly="readonly">
                                     </div>
                                 </div>
@@ -335,6 +355,13 @@
                                        </div>
                                    </div>
 
+                                   <div class="col-md-6">
+                                       <div class="form-group">
+                                           <label for="name">{{__('Pension Amount')}}</label>
+                                           <input type="text" name="pension_amount" id="pension_amount_payment" class="form-control" value="0" readonly="readonly">
+                                       </div>
+                                   </div>
+
 
 
                                 <div class="col-md-6">
@@ -343,7 +370,7 @@
                                         <input type="text" readonly="readonly" name="net_salary" id="net_salary_payment" class="form-control" value="0">
                                     </div>
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="name">{{__('Payment Amount')}}</label>
                                         <input type="text" readonly="readonly" name="payment_amount" id="total_salary_payment" class="form-control" >
@@ -352,7 +379,7 @@
 
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <span><strong>{{trans('file.NOTE')}}:</strong> {{__('Total Allowance,Commissions,Total Loan,Total Overtime,Statutory deductions,Other Payment are not editable.')}}</span>
+                                        <span><strong>{{trans('file.NOTE')}}:</strong> {{__('Total Allowance,Commissions,Total Loan,Total Overtime,Statutory deductions,Other Payment, Pension are not editable.')}}</span>
                                     </div>
                                 </div>
 
@@ -597,6 +624,7 @@
                         else {
                             $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/" + result.data.employee_pp + " width='100'  class='rounded-circle' />");
                         }
+                        $('#pension_type').html(result.data.pension_type);
 
                         let total_allowance = 0;
                         (result.data.allowances).forEach(function (a) {
@@ -649,7 +677,7 @@
                             $('#other_payment_info').append('<tr><td><strong>'+ a.other_payment_title+'---</strong><div class="float-right">'+a.other_payment_amount+'</div></td></tr>');
                         });
 
-                        let total_salary = result.data.basic_total + total_allowance - total_loan + total_commission
+                        let total_salary = result.data.basic_total - result.data.pension_amount + total_allowance - total_loan + total_commission
                             - total_deduction + total_other_payment + total_overtime;
 
                         if (result.data.payslip_type === 'Monthly') {
@@ -675,6 +703,7 @@
                         if (currency_format == 'suffix') {
 
                             $('#basic_salary_amount').html(result.data.basic_salary + ' {{config('variable.currency')}}');
+                            $('#pension_amount').html(result.data.pension_amount + ' {{config('variable.currency')}}');
                             $('#total_allowance').html(total_allowance + ' {{config('variable.currency')}}');
                             $('#total_commission').html(total_commission + ' {{config('variable.currency')}}');
                             $('#total_loan').html(total_loan + ' {{config('variable.currency')}}');
@@ -685,6 +714,7 @@
                         }
                         else {
                             $('#basic_salary_amount').html('{{config('variable.currency')}} ' + result.data.basic_salary);
+                            $('#pension_amount').html('{{config('variable.currency')}} ' + result.data.pension_amount);
                             $('#total_allowance').html('{{config('variable.currency')}} '+ total_allowance);
                             $('#total_commission').html('{{config('variable.currency')}} ' + total_commission);
                             $('#total_loan').html('{{config('variable.currency')}} '+ total_loan);
@@ -716,7 +746,7 @@
                     type: "GET",
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
-                        //console.log(result.data.payslip_type);
+                        console.log(result);
                         if (result.data.payslip_type === 'Hourly') {
                                 $('.hide-element').show();
                                 $('#worked_hours').val(result.data.total_hours);
@@ -735,10 +765,12 @@
                         $('#monthly_payable').val(result.data.monthly_payable);
                         $('#amount_remaining').val(result.data.amount_remaining);
                         $('#total_deduction_payment').val(result.data.total_deduction);
-                        $('#total_other_payment').val(result.data.total_other_payment);
+                        $('#total_other_payment_payment').val(result.data.total_other_payment);
                         $('#total_overtime_payment').val(result.data.total_overtime);
                         $('#total_salary_payment').val(result.data.total_salary);
                         $('#net_salary_payment').val(result.data.total_salary);
+
+                        $('#pension_amount_payment').val(result.data.pension_amount);
 
                         $('#employee_id').val(result.data.employee);
 
@@ -915,6 +947,11 @@
 
             });
         })(jQuery);
+
+
+        $(document).ready(function(){
+            $('[data-toggle="popover"]').popover();
+        });
     </script>
 
 @endsection

@@ -15,6 +15,7 @@
             <table id="deduction-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{__('Deduction Type')}}</th>
                     <th>{{trans('file.Title')}}</th>
                     @if(config('variable.currency_format')==='suffix')
@@ -45,6 +46,12 @@
 
                         @csrf
                         <div class="row">
+
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year"  name="month_year" type="text" id="month_year">
+                            </div>
+
                             <div class="col-md-6 form-group">
                                 <label>{{__('Deduction Option')}} *</label>
                                 <select name="deduction_type" id="deduction_type" required
@@ -76,8 +83,8 @@
 
 
                             <div class="container">
-                                <br><br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                <br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="deduction_action"/>
                                     <input type="hidden" name="hidden_id" id="deduction_hidden_id"/>

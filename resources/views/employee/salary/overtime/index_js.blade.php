@@ -36,6 +36,10 @@
         columns: [
 
             {
+                data: 'month_year',
+                name : 'month_year'
+            },
+            {
                 data: 'overtime_title',
                 name: 'overtime_title'
             },
@@ -80,12 +84,12 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 4],
+                'targets': [0, 5],
             },
         ],
 
 
-        'select': {style: 'multi', selector: 'td:first-child'},
+        {{-- 'select': {style: 'multi', selector: 'td:first-child'}, --}}
         'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
     new $.fn.dataTable.FixedHeader(table_table);
@@ -183,7 +187,7 @@
             success: function (html) {
 
                 let id = html.data.id;
-
+                $('.month_year').val(html.data.month_year);
                 $('#overtime_hours').val(html.data.overtime_hours);
                 $('#overtime_title').val(html.data.overtime_title);
                 $('#no_of_days').val(html.data.no_of_days);

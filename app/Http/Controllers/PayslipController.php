@@ -75,7 +75,7 @@ class PayslipController extends Controller {
 							$allowance_total = 0;
 						}
 
-						//Total Salary 
+						//Total Salary
 						// $total_salary = $basic_salary + $allowance_total;
 
 						//Total Salary
@@ -135,14 +135,14 @@ class PayslipController extends Controller {
 								</div>";
 
 						} //Basic Salary
-						else { 
+						else {
 							$data = "<div class='d-flex'>
 									<div class='ml-auto'> Basic Salary :</div>
 									<div class='ml-auto'>".$basic_salary."</div>
 								</div>";
 						}
 
-						
+
 						if ($row->allowances) {
 							$data .= "<div class='d-flex'>
 									<div class='ml-auto'>(+) Allowance:</div>
@@ -192,7 +192,7 @@ class PayslipController extends Controller {
 								</div>";
 
 						return $data;
-					})					
+					})
 					->addColumn('action', function ($data)
 					{
 							$button  = '<a id="' . $data->payslip_key . '" class="show btn btn-primary btn-sm" href="' . route('payslip_details.show', $data->payslip_key) . '"><i class="dripicons-preview"></i></a>';
@@ -211,12 +211,12 @@ class PayslipController extends Controller {
 	}
 
 	public function show(Payslip $payslip)
-	{	
+	{
 		$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
-			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
+			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type','total_leave','remaining_leave','pension_type','pension_amount')
 			->where('id',$payslip->employee_id)
 			->first();
-				
+
 		$total_minutes = 0 ;
 		// $total_hours = $this->totalWorkedHours($employee);
 		$total_hours = $payslip->hours_worked; //correction
@@ -227,7 +227,7 @@ class PayslipController extends Controller {
 
 		return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
 	}
-	
+
 	public function delete(Payslip $payslip){
 		if ($payslip->exists)
 		{

@@ -94,7 +94,7 @@
         ],
 
 
-        'select': {style: 'multi', selector: 'td:first-child'},
+        {{-- 'select': {style: 'multi', selector: 'td:first-child'}, --}}
         'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
     new $.fn.dataTable.FixedHeader(table_table);

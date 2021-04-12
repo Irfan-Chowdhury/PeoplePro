@@ -14,6 +14,7 @@
             <table id="loan-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{trans('file.Loan')}}</th>
                     @if(config('variable.currency_format')==='suffix')
                         <th>{{__('Loan Amount')}} ({{config('variable.currency')}})</th>
@@ -45,6 +46,11 @@
 
                         @csrf
                         <div class="row">
+
+                            <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year"  name="month_year" type="text" id="month_year">
+                            </div>
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Loan Option')}} *</label>
@@ -90,8 +96,8 @@
 
 
                             <div class="container">
-                                <br><br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                <br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="loan_action"/>
                                     <input type="hidden" name="hidden_id" id="loan_hidden_id"/>

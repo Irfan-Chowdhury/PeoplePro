@@ -16,7 +16,7 @@ class SalaryOvertimeController extends Controller {
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryOvertime::where('employee_id', $employee->id)->get())
+				return datatables()->of(SalaryOvertime::where('employee_id', $employee->id)->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')->get())
 					->setRowId(function ($overtime)
 					{
 						return $overtime->id;
@@ -49,10 +49,11 @@ class SalaryOvertimeController extends Controller {
 	{
 		if (auth()->user()->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only('overtime_title',
+			$validator = Validator::make($request->only('month_year','overtime_title',
 				'no_of_days', 'overtime_hours', 'overtime_rate'
 			),
 				[
+					'month_year' => 'required',
 					'overtime_title' => 'required',
 					'overtime_hours' => 'required',
 					'no_of_days' => 'required',
@@ -65,9 +66,11 @@ class SalaryOvertimeController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['overtime_title'] = $request->overtime_title;
 			$data['employee_id'] = $employee->id;
 			$data['overtime_hours'] = $request->overtime_hours;
@@ -102,10 +105,11 @@ class SalaryOvertimeController extends Controller {
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only('overtime_title',
+			$validator = Validator::make($request->only('month_year','overtime_title',
 				'no_of_days', 'overtime_hours', 'overtime_rate'
 			),
 				[
+					'month_year' => 'required',
 					'overtime_title' => 'required',
 					'overtime_hours' => 'required',
 					'no_of_days' => 'required',
@@ -118,8 +122,11 @@ class SalaryOvertimeController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
-			$data = [];
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
+			$data = [];
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['overtime_title'] = $request->overtime_title;
 			$data['overtime_hours'] = $request->overtime_hours;
 			$data['overtime_rate'] = $request->overtime_rate;

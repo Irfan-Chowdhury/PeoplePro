@@ -99,7 +99,9 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('employees/filter', 'EmployeeController@employeesFilter')->name('employees.filter');
 			Route::get('employees/pdf/{id}', 'EmployeeController@employeePDF')->name('employees.pdf');
 
+            Route::post('employees/{employee}/pension_update', 'EmployeeController@employeesPensionUpdate')->name('employees.pension_update');
 		}
+
 		{
 			Route::post('employees/{employee}/infoUpdate', 'EmployeeController@infoUpdate')->name('employees_basicInfo.update');
 		}
@@ -173,7 +175,7 @@ Route::group(['middleware' => ['XSS']], function ()
 				Route::post('salary_basic/update', 'SalaryBasicController@update')->name('salary_basic.update');
 				Route::get('salary_basic/{id}/delete', 'SalaryBasicController@destroy')->name('salary_basic.destroy');
 			// });
-			
+
 		}
 		//--- New ---
 		{
@@ -570,7 +572,7 @@ Route::group(['middleware' => ['XSS']], function ()
 
 		Route::post('payslip/pay/{id}', 'PayrollController@payEmployee')->name('paySlip.pay');
 		Route::post('payslip/payment/bulk', 'PayrollController@payBulk')->name('paySlip.bulk_pay');
-		
+
 		// Route::get('payslip/generate/{id}', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
 		Route::get('payslip/generate', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
 
@@ -1002,7 +1004,7 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::post('/client/tasks', 'ClientTaskController@store')->name('clientTask.store');
 	Route::get('/client/tasks/{id}/edit', 'ClientTaskController@edit')->name('clientTask.edit');
 	Route::post('/client/tasks/update', 'ClientTaskController@update')->name('clientTask.update');
-	
+
 	//Performance Feature By - Md Irfan Chowdhury
 
 	Route::group(['prefix' => 'performance','namespace'=>'Performance'], function (){

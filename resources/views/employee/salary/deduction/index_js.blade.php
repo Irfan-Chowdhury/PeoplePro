@@ -34,7 +34,10 @@
         },
 
         columns: [
-
+            {
+                data: 'month_year',
+                name: 'month_year'
+            },
             {
                 data: 'deduction_type',
                 name: 'deduction_type',
@@ -47,14 +50,14 @@
             {
                 data: 'deduction_amount',
                 name: 'deduction_amount',
-    render: function (data) {
-    if ('{{config('variable.currency_format') ==='suffix'}}') {
-    return data + ' {{config('variable.currency')}}';
-    } else {
-    return '{{config('variable.currency')}} ' + data;
-
-    }
-    }
+                render: function (data) {
+                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                        return data + ' {{config('variable.currency')}}';
+                    }
+                    else {
+                        return '{{config('variable.currency')}} ' + data;
+                    }
+                }
             },
             {
                 data: 'action',
@@ -82,7 +85,7 @@
         ],
 
 
-        'select': {style: 'multi', selector: 'td:first-child'},
+        {{-- 'select': {style: 'multi', selector: 'td:first-child'}, --}}
         'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
     new $.fn.dataTable.FixedHeader(table_table);
@@ -182,6 +185,7 @@
 
                 let id = html.data.id;
 
+                $('.month_year').val(html.data.month_year);
                 $('#deduction_amount').val(html.data.deduction_amount);
                 $('#deduction_title').val(html.data.deduction_title);
                 $('#deduction_type').selectpicker('val', html.data.deduction_type);

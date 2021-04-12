@@ -2,14 +2,14 @@
     <div class="col-md-3">
         @can('view-details-employee')
             <ul class="nav nav-tabs vertical" id="myTab" role="tablist">
-                {{-- <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link active" id="salary-tab" data-toggle="tab" href="#Salary" role="tab"
                        aria-controls="Salary" aria-selected="true">{{__('Basic Salary (Old)')}}</a>
-                </li> --}}
+                </li>
                 <!-- New -->
                 <li class="nav-item">
-                    <a class="nav-link active" href="irfan" id="salary_basic-tab" 
-                        data-toggle="tab" data-table="salary_basic" data-target="#salary_basic" role="tab" 
+                    <a class="nav-link" href="irfan" id="salary_basic-tab"
+                        data-toggle="tab" data-table="salary_basic" data-target="#salary_basic" role="tab"
                         aria-controls="salary_basic" aria-selected="true">{{__('Basic Salary (New)')}}
                     </a>
                 </li>
@@ -44,14 +44,23 @@
                        data-toggle="tab" data-table="salary_overtime" data-target="#Salary_overtime" role="tab"
                        aria-controls="Salary_overtime" aria-selected="false">{{__('Overtime')}}</a>
                 </li>
+
+                <!-- New -->
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="salary_pension-tab"
+                        data-toggle="tab" data-table="salary_pension" data-target="#salary_pension" role="tab"
+                        aria-controls="salary_pension" aria-selected="true">{{__('Salary Pension')}}
+                    </a>
+                </li>
+                <!--/ New -->
             </ul>
         @endcan
     </div>
 
     <div class="col-md-9">
         <div class="tab-content" id="myTabContent">
-            {{-- @can('set-salary') --}}
-            {{-- <div class="tab-pane fade show active" id="Salary" role="tabpanel" aria-labelledby="salary-tab">
+            @can('set-salary')
+            <div class="tab-pane fade show active" id="Salary" role="tabpanel" aria-labelledby="salary-tab">
                 <!--Contents for Basic starts here-->
                 {{trans('file.Update')}} {{trans('file.Salary')}}
                 <hr>
@@ -91,9 +100,9 @@
                         </div>
 
                         <div class="container mt-30px">
-                            
+
                             <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current salary will be treated as the previous salary.]</i></span> <br><br>
-                            
+
                             <div class="form-group">
                                 <input type="submit" class="btn btn-warning" value={{trans('file.Add')}} />
                             </div>
@@ -101,14 +110,59 @@
 
                     </form>
                 </div>
-            </div> --}}
-            {{-- @endcan --}}
+            </div>
+            @endcan
+
+
+
+
+            <!-- New Pension-->
+            <div class="tab-pane fade" id="salary_pension" role="tabpanel" aria-labelledby="salary_pension-tab">
+                <!--Contents for Basic starts here-->
+                {{trans('file.Update')}} {{__('Pension')}}
+
+                <div class="modal-body">
+                    <span id="pension_form_result"></span>
+                    <form method="post" id="salary_pension_form" class="form-horizontal" autocomplete="off">
+
+                        @csrf
+                        <div class="row">
+
+                            <div class="col-md-4 form-group">
+                                <label>{{__('Pension Type')}}</label>
+                                <input type="hidden" name="pension_type_hidden" value="{{ $employee->pension_type ?? '' }}"/>
+                                <select name="pension_type" id="pension_type" required class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="{{__('Selecting',['key'=>__('Pension Type')])}}...">
+                                    <option value="fixed" @if($employee->pension_type=='fixed') selected @endif>{{__('Fixed')}}</option>
+                                    <option value="percentage" @if($employee->pension_type=='percentage') selected @endif>{{__('Percentage')}}</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-3 form-group">
+                                @if(config('variable.currency_format')==='suffix')
+                                    <label>{{__('Amount')}} ({{config('variable.currency')}})</label>
+                                @else
+                                    <label>({{config('variable.currency')}}) {{__('Amount')}}</label>
+                                @endif
+                                <input type="text" min="0" name="pension_amount" id="pension_amount" placeholder="{{__('Amount')}}" required class="form-control" value="{{ $employee->pension_amount ?? '' }}">
+                            </div>
+                        </div>
+
+                        <div class="container mt-5px">
+                            <span class="text-danger"></span> <br><br>
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-warning" value={{trans('file.Add')}} />
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!--/ New Pension -->
 
 
 
             <!-- New -->
             @can('set-salary')
-            <div class="tab-pane fade show active" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
+            <div class="tab-pane fade" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
                 {{__('All Basic Salary')}}
                 <hr>
                 @include('employee.salary.basic.index')

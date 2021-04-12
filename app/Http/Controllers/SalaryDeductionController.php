@@ -18,7 +18,7 @@ class SalaryDeductionController extends Controller
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryDeduction::where('employee_id', $employee->id)->get())
+				return datatables()->of(SalaryDeduction::where('employee_id', $employee->id)->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')->get())
 					->setRowId(function ($deduction)
 					{
 						return $deduction->id;
@@ -50,9 +50,10 @@ class SalaryDeductionController extends Controller
 	{
 		if (auth()->user()->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only('deduction_title', 'deduction_amount',
+			$validator = Validator::make($request->only('month_year','deduction_title', 'deduction_amount',
 				'deduction_type'),
 				[
+					'month_year' => 'required',
 					'deduction_title' => 'required',
 					'deduction_amount' => 'required',
 					'deduction_type' => 'required',
@@ -64,9 +65,11 @@ class SalaryDeductionController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['deduction_title'] = $request->deduction_title;
 			$data['employee_id'] = $employee->id;
 			$data['deduction_amount'] = $request->deduction_amount;
@@ -97,9 +100,10 @@ class SalaryDeductionController extends Controller
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only( 'deduction_title','deduction_amount',
+			$validator = Validator::make($request->only('month_year', 'deduction_title','deduction_amount',
 				'deduction_type'),
 				[
+					'month_year' => 'required',
 					'deduction_title' => 'required',
 					'deduction_amount' => 'required',
 					'deduction_type' =>'required',
@@ -111,8 +115,11 @@ class SalaryDeductionController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
-			$data = [];
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
+			$data = [];
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['deduction_title'] =  $request->deduction_title;
 			$data['deduction_amount'] = $request->deduction_amount;
 			$data ['deduction_type'] = $request->deduction_type;

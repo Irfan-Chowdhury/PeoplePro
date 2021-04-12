@@ -10,7 +10,6 @@
         21. Update Attendacne - Add Button dissble after giving attendance to any employee
 		22. After Delete any latest month salary, basic salary will be updated with previous month one.
 
-
                 =============== BUG ===============
 
 

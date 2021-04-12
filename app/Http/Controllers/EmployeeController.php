@@ -68,13 +68,13 @@ class EmployeeController extends Controller {
 			}elseif ($request->company_id) {
 				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 							->where('company_id','=',$request->company_id)
-							->get();	
+							->get();
 			}else {
 				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
 					->orderBy('company_id')
 					->get();
 			}
-			
+
 			return datatables()->of($employees)
 				->setRowId(function ($row)
 				{
@@ -82,13 +82,13 @@ class EmployeeController extends Controller {
 				})
 				->addColumn('name', function ($row)
 				{
-					if ($row->user->profile_photo) 
+					if ($row->user->profile_photo)
 					{
-						$url = url("public/uploads/profile_photos/".$row->user->profile_photo);        
-						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>'; 
+						$url = url("public/uploads/profile_photos/".$row->user->profile_photo);
+						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
 					}
 					else {
-						$url = url("public//logo/avatar.jpg");        
+						$url = url("public//logo/avatar.jpg");
 						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
 					}
 					$name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->full_name."</a></span>";
@@ -100,7 +100,7 @@ class EmployeeController extends Controller {
 
 					return "<div class='d-flex'>
 									<div class='mr-2'>".$profile_photo."</div>
-									<div>" 
+									<div>"
 										.$name.'</br>'.$username.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
 									"</div>
 								</div>";
@@ -119,7 +119,7 @@ class EmployeeController extends Controller {
 					$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
 					$skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i>&nbsp;".$row->skype_id;
 					$whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i>&nbsp;".$row->whatsapp_id;
-					
+
 					return $email.'</br>'.$contact_no.'</br>'.$skype_id.'</br>'.$whatsapp_id;
 				})
 				->addColumn('action', function ($data)
@@ -147,7 +147,7 @@ class EmployeeController extends Controller {
 	}
 
 
-	
+
 	public function create()
 	{
 		//
@@ -214,7 +214,7 @@ class EmployeeController extends Controller {
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
 				$user['is_active'] = 1;
-				
+
 				$photo = $request->profile_photo;
 				$file_name = null;
 
@@ -261,7 +261,7 @@ class EmployeeController extends Controller {
 	}
 
 
-	
+
 	public function show(Employee $employee)
 	{
 		if (auth()->user()->can('view-details-employee'))
@@ -300,8 +300,7 @@ class EmployeeController extends Controller {
 	}
 
 
-	public
-	function destroy($id)
+	public function destroy($id)
 	{
 		if (!env('USER_VERIFIED'))
 		{
@@ -337,8 +336,7 @@ class EmployeeController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function unlink($employee)
+	public function unlink($employee)
 	{
 
 		$user = User::findOrFail($employee);
@@ -354,8 +352,7 @@ class EmployeeController extends Controller {
 		}
 	}
 
-	public
-	function delete_by_selection(Request $request)
+	public function delete_by_selection(Request $request)
 	{
 		if (!env('USER_VERIFIED'))
 		{
@@ -378,8 +375,7 @@ class EmployeeController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function infoUpdate(Request $request, $employee)
+	public function infoUpdate(Request $request, $employee)
 	{
 		// return response()->json($request->attendance_type);
 
@@ -396,7 +392,7 @@ class EmployeeController extends Controller {
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
-						'email' => 'required|email|unique:users,email,' . $employee,  
+						'email' => 'required|email|unique:users,email,' . $employee,
 						'contact_no' => 'required|numeric|unique:users,contact_no,' . $employee,
 						'date_of_birth' => 'required',
 						'username' => 'required|unique:users,username,' . $employee,
@@ -463,7 +459,7 @@ class EmployeeController extends Controller {
 					$data['remaining_leave'] = $employee_leave_info->remaining_leave;
 				}
 				//return response()->json($data['remaining_leave']);
-				
+
 
 
 				$user = [];
@@ -506,14 +502,12 @@ class EmployeeController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function socialProfileShow(Employee $employee)
+	public function socialProfileShow(Employee $employee)
 	{
 		return view('employee.social_profile.index', compact('employee'));
 	}
 
-	public
-	function storeSocialInfo(Request $request, $employee)
+	public function storeSocialInfo(Request $request, $employee)
 	{
 		$logged_user = auth()->user();
 
@@ -536,8 +530,7 @@ class EmployeeController extends Controller {
 
 	}
 
-	public
-	function indexProfilePicture(Employee $employee)
+	public function indexProfilePicture(Employee $employee)
 	{
 		$logged_user = auth()->user();
 
@@ -549,8 +542,7 @@ class EmployeeController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function storeProfilePicture(Request $request, $employee)
+	public function storeProfilePicture(Request $request, $employee)
 	{
 		$logged_user = auth()->user();
 
@@ -581,11 +573,9 @@ class EmployeeController extends Controller {
 		}
 
 		return response()->json(['success' => __('You are not authorized')]);
-
 	}
 
-	public
-	function setSalary(Employee $employee)
+	public function setSalary(Employee $employee)
 	{
 		$logged_user = auth()->user();
 		if ($logged_user->can('modify-details-employee'))
@@ -596,8 +586,7 @@ class EmployeeController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function storeSalary(Request $request, $employee)
+	public function storeSalary(Request $request, $employee)
 	{
 		$logged_user = auth()->user();
 
@@ -639,15 +628,55 @@ class EmployeeController extends Controller {
 			}
 
 			return response()->json(['success' => __('Data Added successfully.')]);
-
-
 		}
 
 		return response()->json(['error' => __('You are not authorized')]);
 	}
 
-	public
-	function import()
+    public function employeesPensionUpdate(Request $request, $employee)
+    {
+        //return response()->json('ok');
+        $logged_user = auth()->user();
+
+		if ($logged_user->can('modify-details-employee')){
+
+            $validator = Validator::make($request->only('pension_type', 'pension_amount'),[
+					'pension_type'  => 'required',
+					'pension_amount'=> 'required|numeric',
+				]
+			);
+
+
+			if ($validator->fails()){
+				return response()->json(['errors' => $validator->errors()->all()]);
+			}
+
+			DB::beginTransaction();
+			try
+			{
+				Employee::updateOrCreate(['id' => $employee], [
+					'pension_type' => $request->pension_type,
+					'pension_amount' => $request->pension_amount]);
+				DB::commit();
+			} catch (Exception $e)
+			{
+				DB::rollback();
+
+				return response()->json(['error' => $e->getMessage()]);
+			} catch (Throwable $e)
+			{
+				DB::rollback();
+
+				return response()->json(['error' => $e->getMessage()]);
+			}
+
+			return response()->json(['success' => __('Data Added successfully.')]);
+        }
+        return response()->json(['success' => __('You are not authorized')]);
+
+    }
+
+	public function import()
 	{
 		if (auth()->user()->can('import-employee'))
 		{
@@ -686,7 +715,7 @@ class EmployeeController extends Controller {
 							->where('id',$id)
 							->first()
 							->toArray();
-		
+
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
         $pdf = PDF::loadView('employee.pdf',$employee);
         return $pdf->stream();

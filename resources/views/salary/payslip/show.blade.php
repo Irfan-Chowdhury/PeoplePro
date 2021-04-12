@@ -306,6 +306,35 @@
                                 </div>
                             @endif
 
+
+                            <div class="card mb-2">
+                                <div class="card-header"><a class="text-dark collapsed d-block"
+                                                            data-toggle="collapse" href="#set_annual_leave_info"
+                                                            aria-expanded="false">
+                                        <strong>{{__('Annual Leave Info')}} (Year - {{date('Y')}})</strong> </a></div>
+                                <div id="set_annual_leave_info" class="collapse" data-parent="#accordion">
+                                    <div class="box-body">
+                                        <div class="table-responsive">
+                                            <table class="table  table-bordered dataTable no-footer">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><strong>{{__('Total Annual Leave')}}
+                                                                :</strong> <span
+                                                                    class="pull-right">{{$employee->total_leave}}</span>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>{{__('Reamaining Leave')}}:</strong> <span
+                                                                    class="pull-right">{{$employee->remaining_leave}}</span>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             @if($payslip->overtimes)
                                 <div class="card mb-2">
                                     <div class="card-header"><a class="text-dark collapsed d-block"
@@ -395,6 +424,13 @@
                                                 <tr>
                                                     <td><strong>Total Commission:</strong> <span
                                                                 class="pull-right">{{$commission_total ?? 0.00}}</span>
+                                                    </td>
+                                                </tr>
+                                            @endisset
+                                            @isset($payslip->pension_amount )
+                                                <tr>
+                                                    <td><strong>Pension Amount:</strong> <span
+                                                                class="pull-right">{{$payslip->pension_amount ?? 0.00}}</span>
                                                     </td>
                                                 </tr>
                                             @endisset

@@ -99,7 +99,7 @@ class SalaryCommissionController extends Controller
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only( 'month_year','commission_title','commission_amount'),
+			$validator = Validator::make($request->only('month_year','commission_title','commission_amount'),
 				[
 					'month_year' => 'required',
 					'commission_title' => 'required',

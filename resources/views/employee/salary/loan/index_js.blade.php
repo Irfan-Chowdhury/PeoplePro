@@ -43,7 +43,10 @@
         },
 
         columns: [
-
+            {
+                data: 'month_year',
+                name : 'month_year'
+            },
             {
                 data: null,
                 render: function (data, type, row) {
@@ -92,12 +95,12 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 3],
+                'targets': [0],
             },
         ],
 
 
-        'select': {style: 'multi', selector: 'td:first-child'},
+        {{-- 'select': {style: 'multi', selector: 'td:first-child'}, --}}
         'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
     new $.fn.dataTable.FixedHeader(table_table);
@@ -198,7 +201,7 @@
             success: function (html) {
 
                 let id = html.data.id;
-
+                $('.month_year').val(html.data.month_year);
                 $('#loan_title').val(html.data.loan_title);
                 $('#loan_time').val(html.data.loan_time);
                 $('#amount_remaining').val(html.data.amount_remaining);

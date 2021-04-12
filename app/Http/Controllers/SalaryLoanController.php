@@ -17,7 +17,7 @@ class SalaryLoanController extends Controller {
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryLoan::where('employee_id', $employee->id)->get())
+				return datatables()->of(SalaryLoan::where('employee_id', $employee->id)->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')->get())
 					->setRowId(function ($loan)
 					{
 						return $loan->id;
@@ -54,9 +54,10 @@ class SalaryLoanController extends Controller {
 	{
 		if (auth()->user()->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only('loan_title', 'loan_amount',
+			$validator = Validator::make($request->only('month_year','loan_title', 'loan_amount',
 				'reason', 'loan_type'),
 				[
+					'month_year' => 'required',
 					'loan_title' => 'required',
 					'loan_type' => 'required',
 					'loan_amount' => 'required|numeric',
@@ -69,9 +70,11 @@ class SalaryLoanController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['loan_title'] = $request->loan_title;
 			$data['employee_id'] = $employee->id;
 			$data['loan_amount'] = $request->loan_amount;
@@ -117,9 +120,10 @@ class SalaryLoanController extends Controller {
 
 			$loan = SalaryLoan::findOrFail($id);
 
-			$validator = Validator::make($request->only('loan_title', 'loan_amount',
+			$validator = Validator::make($request->only('month_year','loan_title', 'loan_amount',
 				'reason', 'loan_type'),
 				[
+					'month_year' => 'required',
 					'loan_title' => 'required',
 					'loan_type' => 'required',
 				]
@@ -131,9 +135,11 @@ class SalaryLoanController extends Controller {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['loan_title'] = $request->loan_title;
 			$data['loan_type'] = $request->loan_type;
 			$data['loan_time'] = $request->loan_time;

@@ -36,14 +36,14 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Allowance')}}</h5> 
+                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Allowance')}}</h5>
                     <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="allowance-close"><i class="dripicons-cross"></i></button>
                 </div>
 
                 <div class="modal-body">
                     <span id="allowance_form_result"></span>
                     <form method="post" id="allowance_sample_form" class="form-horizontal" autocomplete="off">
-                        
+
                         @csrf
                         <div class="row">
 
@@ -81,13 +81,13 @@
                                                required class="form-control">
                             </div>
 
-                            
+
 
 
 
                             <div class="container">
-                                <br><br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                <br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="allowance_action"/>
                                     <input type="hidden" name="hidden_id" id="allowance_hidden_id"/>

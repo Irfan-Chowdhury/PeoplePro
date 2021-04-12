@@ -446,7 +446,7 @@
                                 <li id="date_wise_attendance"><a
                                             href="{{route('date_wise_attendances.index')}}"> {{__('Date wise Attendances')}}</a>
                                 </li>
-                            
+
 
                                 <li id="monthly_attendance"><a
                                             href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a>
@@ -532,11 +532,11 @@
                             <i
                                     class="dripicons-document"></i><span>{{__('HR Reports')}}</span></a>
                         <ul id="HR_Reports" class="collapse list-unstyled ">
-                            @can('report-payslip')
+                            {{-- @can('report-payslip')
                                 <li id="payslip_report"><a
                                             href="{{route('report.payslip')}}">{{__('Payslip Report')}}</a>
                                 </li>
-                            @endcan
+                            @endcan --}}
                             @can('report-attendance')
                                 <li id="attendance_report"><a
                                             href="{{route('report.attendance')}}">{{__('Attendance Report')}}</a>
@@ -760,7 +760,7 @@
                                 <li id="assets">
                                     <a href="{{route('assets.index')}}">{{trans(('file.Assets'))}}</a>
                                 </li>
-                            
+
                         </ul>
                     </li>
 

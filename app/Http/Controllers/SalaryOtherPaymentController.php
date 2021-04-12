@@ -15,7 +15,7 @@ class SalaryOtherPaymentController extends Controller
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(SalaryOtherPayment::where('employee_id', $employee->id)->get())
+				return datatables()->of(SalaryOtherPayment::where('employee_id', $employee->id)->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')->get())
 					->setRowId(function ($other_payment)
 					{
 						return $other_payment->id;
@@ -46,11 +46,12 @@ class SalaryOtherPaymentController extends Controller
 	{
 		if (auth()->user()->can('store-details-employee'))
 		{
-			$validator = Validator::make($request->only( 'other_payment_title','other_payment_amount',
+			$validator = Validator::make($request->only('month_year','other_payment_title','other_payment_amount',
 				'is_taxable'),
 				[
+					'month_year' 		  => 'required',
 					'other_payment_title' => 'required',
-					'other_payment_amount' => 'required',
+					'other_payment_amount'=> 'required',
 				]
 			);
 
@@ -60,9 +61,11 @@ class SalaryOtherPaymentController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['other_payment_title'] =  $request->other_payment_title;
 			$data['employee_id'] = $employee->id;
 			$data['other_payment_amount'] = $request->other_payment_amount;
@@ -90,9 +93,10 @@ class SalaryOtherPaymentController extends Controller
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only( 'other_payment_title','other_payment_amount',
+			$validator = Validator::make($request->only('month_year','other_payment_title','other_payment_amount',
 				'is_taxable'),
 				[
+					'month_year' => 'required',
 					'other_payment_title' => 'required',
 					'other_payment_amount' => 'required',
 				]
@@ -103,9 +107,11 @@ class SalaryOtherPaymentController extends Controller
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
+			$first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 
 			$data = [];
-
+			$data['month_year'] = $request->month_year;
+			$data['first_date'] = $first_date;
 			$data['other_payment_title'] =  $request->other_payment_title;
 			$data['other_payment_amount'] = $request->other_payment_amount;
 
@@ -116,17 +122,11 @@ class SalaryOtherPaymentController extends Controller
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+	
 	public function destroy($id)
 	{
 		if (auth()->user()->can('modify-details-employee'))
 		{
-
 			SalaryOtherPayment::whereId($id)->delete();
 
 			return response()->json(['success' => __('Data is successfully deleted')]);

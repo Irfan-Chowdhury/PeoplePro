@@ -269,7 +269,7 @@
                                                                 @foreach($companies as $company)
                                                                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                                                                 @endforeach
-                                                                
+
                                                             </select>
                                                         </div>
                                                     </div>
@@ -311,7 +311,7 @@
                                                         <label>{{trans('file.Role')}} <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="role_user_hidden"
                                                                value="{{ $employee->role_users_id }}"/>
-                                                        <select name="role_users_id" id="role_users_id" required @if($employee->role_users_id==1) disabled  @endif 
+                                                        <select name="role_users_id" id="role_users_id" required @if($employee->role_users_id==1) disabled  @endif
                                                                 class="selectpicker form-control"
                                                                 data-live-search="true"
                                                                 data-live-search-style="begins"
@@ -389,7 +389,7 @@
                                                         <small class="text-danger"><i>(Read Only)</i></small>
                                                     </div>
 
-                                                    
+
                                                     {{-- <div class="col-md-4"></div> --}}
                                                     <div class="col-md-4"></div>
 
@@ -530,11 +530,11 @@
         $('select[name="gender"]').val($('input[name="gender_hidden"]').val());
         $('#role_users_id').selectpicker('val', $('input[name="role_user_hidden"]').val());
         $('#marital_status').selectpicker('val', $('input[name="marital_status_hidden"]').val());
-        
+
         $('#company_id').selectpicker('val', $('input[name="company_id_hidden"]').val());
         $('#department_id').selectpicker('val', $('input[name="department_id_hidden"]').val());
         $('#designation_id').selectpicker('val', $('input[name="designation_id_hidden"]').val());
-        
+
         $('#status_id').selectpicker('val', $('input[name="status_id_hidden"]').val());
         $('#office_shift_id').selectpicker('val', $('input[name="office_shift_id_hidden"]').val());
 
@@ -554,7 +554,7 @@
                 startView: "months",
                 minViewMode: 1,
                 autoclose: true,
-            }).datepicker("setDate", new Date());   
+            }).datepicker("setDate", new Date());
         });
 
         $('[data-table="immigration"]').one('click', function (e) {
@@ -614,9 +614,12 @@
             @include('employee.salary.other_payment.index_js')
         });
 
-
         $('#salary_overtime-tab').one('click', function (e) {
             @include('employee.salary.overtime.index_js')
+        });
+
+        $('#salary_pension-tab').one('click', function (e) {
+            @include('employee.salary.pension_amount_js')
         });
 
 

@@ -15,6 +15,7 @@
             <table id="other_payment-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{trans('file.Title')}}</th>
                     @if(config('variable.currency_format')==='suffix')
                         <th>{{__('Amount')}} ({{config('variable.currency')}})</th>
@@ -46,6 +47,11 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year" name="month_year" type="text" id="month_year">
+                            </div>
+
+                            <div class="col-md-6 form-group">
                                 <label>{{trans('file.Title')}}</label>
                                 <input type="text" name="other_payment_title" id="other_payment_title"
                                        placeholder={{trans('file.Title')}}
@@ -63,8 +69,8 @@
 
 
                             <div class="container">
-                                <br><br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                <br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="other_payment_action"/>
                                     <input type="hidden" name="hidden_id" id="other_payment_hidden_id"/>

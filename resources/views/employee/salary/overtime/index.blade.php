@@ -15,6 +15,7 @@
             <table id="overtime-table" class="table ">
                 <thead>
                 <tr>
+                    <th>{{__('Month-Year')}}</th>
                     <th>{{trans('file.Title')}}</th>
                     <th>{{__('Number Of Days')}}</th>
                     <th>{{__('Total Hours')}}</th>
@@ -48,6 +49,11 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
+                                <label>{{__('Month Year')}}</label>
+                                <input class="form-control month_year" name="month_year" type="text" id="month_year">
+                            </div>
+
+                            <div class="col-md-6 form-group">
                                 <label>{{trans('file.Title')}}</label>
                                 <input type="text" name="overtime_title" id="overtime_title"
                                        placeholder={{trans('file.Title')}}
@@ -79,7 +85,7 @@
 
                             <div class="container">
                                 <br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="overtime_action"/>
                                     <input type="hidden" name="hidden_id" id="overtime_hidden_id"/>

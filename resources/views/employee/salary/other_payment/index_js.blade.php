@@ -34,7 +34,10 @@
         },
 
         columns: [
-
+            {
+                data: 'month_year',
+                name : 'month_year'
+            },
             {
                 data: 'other_payment_title',
                 name : 'other_payment_title'
@@ -42,14 +45,13 @@
             {
                 data: 'other_payment_amount',
                 name: 'other_payment_amount',
-    render: function (data) {
-    if ('{{config('variable.currency_format') ==='suffix'}}') {
-    return data + ' {{config('variable.currency')}}';
-    } else {
-    return '{{config('variable.currency')}} ' + data;
-
-    }
-    }
+                render: function (data) {
+                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                        return data + ' {{config('variable.currency')}}';
+                    } else {
+                        return '{{config('variable.currency')}} ' + data;
+                    }
+                }
             },
             {
                 data: 'action',
@@ -72,12 +74,12 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 2],
+                'targets': [0, 3],
             },
         ],
 
 
-        'select': {style: 'multi', selector: 'td:first-child'},
+        {{-- 'select': {style: 'multi', selector: 'td:first-child'}, --}}
         'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
     });
     new $.fn.dataTable.FixedHeader(table_table);
@@ -174,7 +176,7 @@
             success: function (html) {
 
                 let id = html.data.id;
-
+                $('.month_year').val(html.data.month_year);
                 $('#other_payment_amount').val(html.data.other_payment_amount);
                 $('#other_payment_title').val(html.data.other_payment_title);
 
