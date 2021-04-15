@@ -11,7 +11,7 @@ use Spatie\Permission\Models\Role;
 
 
 class AllUserController extends Controller {
-	
+
 	public function index()
 	{
 		$logged_user = auth()->user();
@@ -30,32 +30,31 @@ class AllUserController extends Controller {
 					{
 						$email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
 						$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
-						
+
 						return $email.'</br>'.$contact_no;
 					})
 					->addColumn('username', function ($row)
 					{
-						if ($row->profile_photo) 
+						if ($row->profile_photo)
 						{
-							$url = url("public/uploads/profile_photos/".$row->profile_photo);        
-							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>'; 
-						}
-						else {
-							$url = url("public//logo/avatar.jpg");        
+							$url = url("public/uploads/profile_photos/".$row->profile_photo);
 							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
 						}
-						$full_name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
-						// $username  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->username."</a></span>";
+						else {
+							$url = url("public//logo/avatar.jpg");
+							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+						}
+						$full_name  = "<span><a class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
 						$username = "<span><b>Username :</b> &nbsp;".$row->username."</span>";
 						return "<div class='d-flex'>
 									<div class='mr-2'>".$profile_photo."</div>
-									<div>" 
+									<div>"
 										.$full_name.'</br>'.$username.'</br>'.
 										// '<b>Role :</b> '.$row->RoleUser->role_name;
 										'<b>Role :</b> '.$row->RoleUser->name;
 									"</div>
 								</div>";
-						
+
 					})
 					->addColumn('login_info', function ($row)
 					{

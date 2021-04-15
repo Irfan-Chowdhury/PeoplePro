@@ -7,23 +7,18 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class EmployeeImmigrationExpiryNotify extends Notification
+class EmployeeImmigrationExpiryNotifyToAdmin extends Notification
 {
     use Queueable;
-    private $document_number;
-	private $expiry_date;
-	private $document_type;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($document_number, $expiry_date, $document_type)
+    public function __construct()
     {
-        $this->document_number = $document_number;
-		$this->expiry_date     = $expiry_date;
-		$this->document_type   = $document_type;
+        //
     }
 
     /**
@@ -34,7 +29,7 @@ class EmployeeImmigrationExpiryNotify extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
@@ -45,13 +40,10 @@ class EmployeeImmigrationExpiryNotify extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->greeting('Hello!')
-			->subject('Document Expiring Reminder')
-			->line('The document number '.$this->document_number.' ('
-		    .$this->document_type.') is going to be expired from now ('.$this->expiry_date.')')
-			->line('Please update the document.')
-			->line('Thank you');
+        // return (new MailMessage)
+        //             ->line('The introduction to the notification.')
+        //             ->action('Notification Action', url('/'))
+        //             ->line('Thank you for using our application!');
     }
 
     /**
@@ -63,7 +55,8 @@ class EmployeeImmigrationExpiryNotify extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'data'=> 'A new notification about employee immigration expiry',
+            'link' => route('employees.index'),
         ];
     }
 }

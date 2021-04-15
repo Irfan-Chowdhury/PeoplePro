@@ -587,11 +587,7 @@
         });
 
         $('#set_salary-tab').one('click', function (e) {
-            @include('employee.salary.basic_salary_js')
-        });
-
-        $('#salary_basic-tab').one('click', function (e) {
-            @include('employee.salary.basic.index_js')
+           @include('employee.salary.basic.index_js') //employee.salary.index_js.blade.php - both are same
         });
 
         $('#salary_allowance-tab').one('click', function (e) {

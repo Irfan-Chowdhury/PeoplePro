@@ -42,7 +42,7 @@ class AttendanceController extends Controller {
 
 
 			if (request()->ajax())
-			{				
+			{
 				//employee attendance of selected date
 
 				// if($logged_user->role_users_id != 1){
@@ -81,7 +81,7 @@ class AttendanceController extends Controller {
 					->where('joining_date', '<=', $selected_date)
 					->get();
 				}
-				
+
 
 
 				$holidays = Holiday::select('id', 'company_id', 'start_date', 'end_date', 'is_publish')
@@ -424,7 +424,6 @@ class AttendanceController extends Controller {
 		}
 
 		return response()->json(trans('file.Success'));
-
 	}
 
 
@@ -440,14 +439,24 @@ class AttendanceController extends Controller {
 			$start_date = Carbon::parse($request->filter_start_date)->format('Y-m-d') ?? '';
 			$end_date = Carbon::parse($request->filter_end_date)->format('Y-m-d') ?? '';
 
+            //New
+            if ($request->employee_id) {
+                $emp = Employee::find($request->employee_id);
+                $joining_date = Carbon::parse($emp->joining_date)->format('Y-m-d') ?? '';
+
+                if(($joining_date >= $start_date) && ($joining_date<= $end_date))
+                {
+                    $start_date = $joining_date;
+                }
+            }
 
 			if (request()->ajax())
 			{
-				if ($request->employee_id) 
+				if ($request->employee_id)
 				{
 					$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($start_date, $end_date)
 					{
-						$query->whereBetween('attendance_date', [$start_date, $end_date]);
+						$query->whereBetween('attendance_date', [$start_date, $end_date]);// start_date = joining_date
 					},
 						'employeeLeave' => function ($query) use ($start_date, $end_date)
 						{
@@ -461,7 +470,8 @@ class AttendanceController extends Controller {
 								->where('end_date', '<=', $end_date);
 						}
 					])
-						->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')->findOrFail($request->employee_id);
+						->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
+                        ->findOrFail($request->employee_id);
 
 
 					$all_attendances_array = $employee->employeeAttendance->groupBy('attendance_date')->toArray();
@@ -479,7 +489,7 @@ class AttendanceController extends Controller {
 					$end->modify('+1 day');
 
 					$interval = DateInterval::createFromDateString('1 day');
-					$period = new DatePeriod($begin, $interval, $end);
+					$period   = new DatePeriod($begin, $interval, $end);
 
 					$date_range = [];
 					foreach ($period as $dt)
@@ -736,7 +746,7 @@ class AttendanceController extends Controller {
 					->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 					->whereId($logged_user->id)->get();
 				}
-				else 
+				else
 				{
 					//Previous
 					if (!empty($request->filter_company && $request->filter_employee))
@@ -781,7 +791,7 @@ class AttendanceController extends Controller {
 						])
 							->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 							->where('company_id', $request->filter_company)->get();
-					} 
+					}
 					// else
 					// {
 					// 	$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($first_date, $last_date)
@@ -1034,6 +1044,7 @@ class AttendanceController extends Controller {
 
 	public function updateAttendance(Request $request)
 	{
+
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		if ($logged_user->can('edit-attendance'))
@@ -1297,7 +1308,7 @@ class AttendanceController extends Controller {
 			->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 			->whereId($employeeId)
 			->get();
-								
+
 		//$count = count($att[0]->employeeAttendance);
 		// return $att[0]->employeeAttendance[0]->total_work;
 

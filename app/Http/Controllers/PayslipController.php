@@ -2,27 +2,51 @@
 
 namespace App\Http\Controllers;
 
-
+use App\company;
 use App\Employee;
 use App\Payslip;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\traits\MonthlyWorkedHours;
-
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PayslipController extends Controller {
 
 	use MonthlyWorkedHours;
 
-	public function index()
+	public function index(Request $request)
 	{
 		$logged_user = auth()->user();
+        $companies = company::all();
+        $selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year ;
 
 		if ($logged_user->can('view-payslip'))
 		{
+
 			if (request()->ajax())
 			{
-				return datatables()->of(Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])->latest('created_at'))
-				// return datatables()->of(Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])->orderBy('id','DESC'))
+                if (!empty($request->filter_employee))
+                {
+                    $payslips = Payslip::with(['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])
+                            ->where('employee_id', $request->filter_employee)
+                            ->where('month_year', $selected_date)
+                            ->get();
+                }
+                elseif (!empty($request->filter_company)) {
+                    $payslips = Payslip::with(['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])
+                            ->where('company_id', $request->filter_company)
+                            ->where('month_year', $selected_date)
+                            ->get();
+                }
+                else {
+                    $payslips = Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])
+                            ->where('month_year',$selected_date)
+                            // ->latest('created_at')
+                            ->get();
+                }
+
+				// return datatables()->of(Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])->latest('created_at'))
+				return datatables()->of($payslips)
 					->setRowId(function ($payslip)
 					{
 						return $payslip->id;
@@ -204,7 +228,7 @@ class PayslipController extends Controller {
 					->make(true);
 			}
 
-			return view('salary.payslip.index');
+			return view('salary.payslip.index',compact('companies'));
 		}
 
 		return abort('403', __('You are not authorized'));

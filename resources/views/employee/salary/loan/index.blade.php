@@ -55,7 +55,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{__('Loan Option')}} *</label>
                                 <select name="loan_type" id="loan_type" required class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        {{-- data-live-search="true" data-live-search-style="begins" --}}
                                         title='{{__('Loan Option')}}'>
                                     <option value="Social Security System Loan">{{__('Social Security System Loan')}}</option>
                                     <option value="Home Development Mutual Fund Loan">{{__('Home Development Mutual Fund Loan')}}</option>

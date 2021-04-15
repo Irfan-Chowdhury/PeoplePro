@@ -7,7 +7,9 @@ use App\EmployeeImmigration;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
 use App\Employee;
+use App\User;
 use App\Notifications\EmployeeImmigrationExpiryNotify;
+use App\Notifications\EmployeeImmigrationExpiryNotifyToAdmin;
 
 class EmployeeImmigrationExpiryReminder extends Command
 {
@@ -42,10 +44,10 @@ class EmployeeImmigrationExpiryReminder extends Command
      */
     public function handle()
     {
-        $seven     = now()->addDays(7)->format('Y-m-d'); //3
+        $seven     = now()->addDays(7)->format('Y-m-d');
 		$fifteen   = now()->addDays(15)->format('Y-m-d');
         $one_month = now()->addDays(30)->format('Y-m-d');
-        
+
         $employee_immigrations = EmployeeImmigration::with('employee','DocumentType')
                                 ->whereIn('expiry_date',[$seven,$fifteen,$one_month])
                                 ->get();
@@ -68,12 +70,21 @@ class EmployeeImmigrationExpiryReminder extends Command
 						$data[$key]['document_number'],
                         $data[$key]['expiry_date'],
                         $data[$key]['document_type']))->delay(($when)));
+
+                //New
+                $notifiable = User::where('role_users_id',1)->get();
+                foreach ($notifiable as $item) {
+                    $item->notify(new EmployeeImmigrationExpiryNotifyToAdmin());
+                }
 			}
 		}
 		else
 		{
 			return '';
         }
-        $this->info('Successfully sent expiry reminder to all Department-Head.');
+        $this->info('Successfully sent.');
     }
 }
+
+//ImmigratinExpiry Notification send to Dept.Head through mail
+//ImmigratinExpiry Notification send to Admin through the system default notification

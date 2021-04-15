@@ -56,7 +56,7 @@
                                 <label>{{__('Deduction Option')}} *</label>
                                 <select name="deduction_type" id="deduction_type" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="false" data-live-search-style="begins"
                                         title='{{__('Deduction Option')}}'>
                                     <option value="Social Security System">{{__('Social Security System')}}</option>
                                     <option value="Health Insurance Corporation">{{__('Health Insurance Corporation')}}</option>

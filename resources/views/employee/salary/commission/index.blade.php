@@ -72,7 +72,7 @@
 
                             <div class="container">
                                 <br><br>
-                                <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br>
+                                {{-- <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current amount will be treated as the previous amount.]</i></span> <br><br> --}}
                                 <div class="form-group" align="center">
                                     <input type="hidden" name="action" id="commission_action"/>
                                     <input type="hidden" name="hidden_id" id="commission_hidden_id"/>

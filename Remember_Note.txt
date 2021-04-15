@@ -6,9 +6,14 @@
         17. There is no any option for night shift like Clock in on 10:00 PM: 03/15/2021 and  Clock out on 05:00 AM: 03/16/2021, there is only one shift can you please resolve this issue.
         18. Holiday will not count with employee's leave request days
         19. HR Report (Payslip) - When filter an employee, a payslip button must show. (Cancel)
-        20. Expiry Documents - send notification to admin.
-        21. Update Attendacne - Add Button dissble after giving attendance to any employee
-		22. After Delete any latest month salary, basic salary will be updated with previous month one.
+
+        20. Expiry Documents - send notification to admin. [Done]
+        21. Update Attendacne - Add Button dissble after giving attendance to any employee [Done]
+        22. Filter in Payment History [Done]
+        23. Hide Employee Dashboard Employee List [Done]
+        24. pDF modified
+        25. Pension Report [Done]
+        26. Joining Date - add into add employee [Done]
 
                 =============== BUG ===============
 
@@ -69,3 +74,37 @@
 
     git reset --hard HEAD^
     git push origin -f
+
+
+
+
+Notification-https://tutsforweb.com/how-to-set-up-task-scheduling-cron-job-in-laravel/
+
+
+
+
+
+// $ip_server = $_SERVER['REMOTE_ADDR'];
+// $ip_server = $_SERVER['HTTP_CLIENT_IP'];
+// $ip_server = $_SERVER['HTTP_X_FORWARDED_FOR'];
+// $ip_server = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+// $ip_server = gethostbyaddr($_SERVER['REMOTE_HOST']);
+// $myPublicIP = trim(shell_exec("dig +short myip.opendns.REMOTE_HOSTcom @resolver1.opendns.com"));
+// return "Server IP Address is: ". $ip_server;
+
+// $ipaddress = '';
+// if (isset($_SERVER['HTTP_CLIENT_IP']))
+// 	$ipaddress = $_SERVER['HTTP_CLIENT_IP'];
+// else if(isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED_FOR'];
+// else if(isset($_SERVER['HTTP_X_FORWARDED']))
+// 	$ipaddress = $_SERVER['HTTP_X_FORWARDED'];
+// else if(isset($_SERVER['HTTP_FORWARDED_FOR']))
+// 	$ipaddress = $_SERVER['HTTP_FORWARDED_FOR'];
+// else if(isset($_SERVER['HTTP_FORWARDED']))
+// 	$ipaddress = $_SERVER['HTTP_FORWARDED'];
+// else if(isset($_SERVER['REMOTE_ADDR']))
+// 	$ipaddress = $_SERVER['REMOTE_ADDR'];
+// else
+// 	$ipaddress = 'UNKNOWN';
+// return $ipaddress;

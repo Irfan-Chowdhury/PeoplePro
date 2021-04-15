@@ -37,113 +37,122 @@ class EmployeeController extends Controller {
 	public function index(Request $request)
 	{
 		$logged_user = auth()->user();
-		$companies = company::select('id', 'company_name')->get();
-		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
-
-		if (request()->ajax())
+        if ($logged_user->can('view-details-employee'))
 		{
-			if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id){
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-							->where('company_id','=',$request->company_id)
-							->where('department_id','=',$request->department_id)
-							->where('designation_id','=',$request->designation_id)
-							->where('office_shift_id','=',$request->office_shift_id)
-							->get();
-			}elseif ($request->company_id && $request->department_id && $request->designation_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-							->where('company_id','=',$request->company_id)
-							->where('department_id','=',$request->department_id)
-							->where('designation_id','=',$request->designation_id)
-							->get();
-			}elseif ($request->company_id && $request->department_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-							->where('company_id','=',$request->company_id)
-							->where('department_id','=',$request->department_id)
-							->get();
-			}elseif ($request->company_id && $request->office_shift_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-							->where('company_id','=',$request->company_id)
-							->where('office_shift_id','=',$request->office_shift_id)
-							->get();
-			}elseif ($request->company_id) {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-							->where('company_id','=',$request->company_id)
-							->get();
-			}else {
-				$employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
-					->orderBy('company_id')
-					->get();
-			}
+            $companies = company::select('id', 'company_name')->get();
+            $roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
 
-			return datatables()->of($employees)
-				->setRowId(function ($row)
-				{
-					return $row->id;
-				})
-				->addColumn('name', function ($row)
-				{
-					if ($row->user->profile_photo)
-					{
-						$url = url("public/uploads/profile_photos/".$row->user->profile_photo);
-						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
-					}
-					else {
-						$url = url("public//logo/avatar.jpg");
-						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
-					}
-					$name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2'>".$row->full_name."</a></span>";
-					$username = "<span>Username: &nbsp;".($row->user->username ?? '')."</span>";
-					$gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
-					$shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
-					$salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')."</span>";
-					$payslip_type = "<span>Payslip Type: &nbsp;".($row->payslip_type ?? '')."</span>";
+            if (request()->ajax())
+            {
+                if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id){
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->where('company_id','=',$request->company_id)
+                                ->where('department_id','=',$request->department_id)
+                                ->where('designation_id','=',$request->designation_id)
+                                ->where('office_shift_id','=',$request->office_shift_id)
+                                ->get();
+                }elseif ($request->company_id && $request->department_id && $request->designation_id) {
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->where('company_id','=',$request->company_id)
+                                ->where('department_id','=',$request->department_id)
+                                ->where('designation_id','=',$request->designation_id)
+                                ->get();
+                }elseif ($request->company_id && $request->department_id) {
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->where('company_id','=',$request->company_id)
+                                ->where('department_id','=',$request->department_id)
+                                ->get();
+                }elseif ($request->company_id && $request->office_shift_id) {
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->where('company_id','=',$request->company_id)
+                                ->where('office_shift_id','=',$request->office_shift_id)
+                                ->get();
+                }elseif ($request->company_id) {
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->where('company_id','=',$request->company_id)
+                                ->get();
+                }else {
+                    $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
+                                ->orderBy('company_id')
+                                ->get();
+                }
 
-					return "<div class='d-flex'>
-									<div class='mr-2'>".$profile_photo."</div>
-									<div>"
-										.$name.'</br>'.$username.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
-									"</div>
-								</div>";
-				})
-				->addColumn('company', function ($row)
-				{
-					$company     = "<span class='text-bold'>".strtoupper($row->company->company_name ?? '')."</span>";
-					$department  = "<span>Department : ".($row->department->department_name ?? '')."</span>";
-					$designation = "<span>Designation : ".($row->designation->designation_name ?? '')."</span>";
+                return datatables()->of($employees)
+                    ->setRowId(function ($row)
+                    {
+                        return $row->id;
+                    })
+                    ->addColumn('name', function ($row)
+                    {
+                        if ($row->user->profile_photo)
+                        {
+                            $url = url("public/uploads/profile_photos/".$row->user->profile_photo);
+                            $profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+                        }
+                        else {
+                            $url = url("public//logo/avatar.jpg");
+                            $profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+                        }
+                        $name  = '<span><a href="employees/' . $row->id .'" class="d-block text-bold" style="color:#24ABF2">'.$row->full_name.'</a></span>';
+                        $username = "<span>Username: &nbsp;".($row->user->username ?? '')."</span>";
+                        $gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
+                        $shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
+                        $salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')."</span>";
+                        $payslip_type = "<span>Payslip Type: &nbsp;".($row->payslip_type ?? '')."</span>";
 
-					return $company.'</br>'.$department.'</br>'.$designation;
-				})
-				->addColumn('contacts', function ($row)
-				{
-					$email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
-					$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
-					$skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i>&nbsp;".$row->skype_id;
-					$whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i>&nbsp;".$row->whatsapp_id;
+                        return "<div class='d-flex'>
+                                        <div class='mr-2'>".$profile_photo."</div>
+                                        <div>"
+                                            .$name.'</br>'.$username.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
+                                        "</div>
+                                    </div>";
+                    })
+                    ->addColumn('company', function ($row)
+                    {
+                        $company     = "<span class='text-bold'>".strtoupper($row->company->company_name ?? '')."</span>";
+                        $department  = "<span>Department : ".($row->department->department_name ?? '')."</span>";
+                        $designation = "<span>Designation : ".($row->designation->designation_name ?? '')."</span>";
 
-					return $email.'</br>'.$contact_no.'</br>'.$skype_id.'</br>'.$whatsapp_id;
-				})
-				->addColumn('action', function ($data)
-				{
-					$button = '';
-					if (auth()->user()->can('view-details-employee'))
-					{
-						$button .= '<a href="employees/' . $data->id . '"  class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View Details"><i class="dripicons-preview"></i></button></a>';
-						$button .= '&nbsp;&nbsp;&nbsp;';
-					}
-					if (auth()->user()->can('modify-details-employee'))
-					{
-						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
-						$button .= '&nbsp;&nbsp;&nbsp;';
-						$button .= '<a class="download btn-sm" style="background:#FF7588; color:#fff" title="PDF" href="' . route('employees.pdf', $data->id ) . '"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>';
-					}
+                        return $company.'</br>'.$department.'</br>'.$designation;
+                    })
+                    ->addColumn('contacts', function ($row)
+                    {
+                        $email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+                        $contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+                        $skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i>&nbsp;".$row->skype_id;
+                        $whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i>&nbsp;".$row->whatsapp_id;
 
-					return $button;
-				})
-				->rawColumns(['name','company','contacts','action',])
-				->make(true);
+                        return $email.'</br>'.$contact_no.'</br>'.$skype_id.'</br>'.$whatsapp_id;
+                    })
+                    ->addColumn('action', function ($data)
+                    {
+                        $button = '';
+                        if (auth()->user()->can('view-details-employee'))
+                        {
+                            $button .= '<a href="employees/' . $data->id . '"  class="edit btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="View Details"><i class="dripicons-preview"></i></button></a>';
+                            $button .= '&nbsp;&nbsp;&nbsp;';
+                        }
+                        if (auth()->user()->can('modify-details-employee'))
+                        {
+                            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
+                            $button .= '&nbsp;&nbsp;&nbsp;';
+                            $button .= '<a class="download btn-sm" style="background:#FF7588; color:#fff" title="PDF" href="' . route('employees.pdf', $data->id ) . '"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>';
+                        }
+
+                        return $button;
+                    })
+                    ->rawColumns(['name','company','contacts','action',])
+                    ->make(true);
+            }
+            return view('employee.index', compact('companies','roles'));
+        }
+        else
+		{
+			return response()->json(['success' => __('You are not authorized')]);
 		}
 
-		return view('employee.index', compact('companies','roles'));
+
+
 	}
 
 
@@ -164,7 +173,7 @@ class EmployeeController extends Controller {
 			if (request()->ajax())
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
-					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','attendance_type'),
+					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','attendance_type','joining_date'),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
@@ -179,6 +188,7 @@ class EmployeeController extends Controller {
 						'designation_id' => 'required',
 						'office_shift_id' => 'required',
 						'attendance_type' => 'required',
+						'joining_date' => 'required',
 						'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
 					]
 				);
@@ -202,6 +212,7 @@ class EmployeeController extends Controller {
 				$data ['role_users_id'] = $request->role_users_id;
 				$data['contact_no'] = $request->contact_no;
 				$data['attendance_type'] = $request->attendance_type; //new
+				$data['joining_date']    = $request->joining_date; //new
 				$data['is_active'] = 1;
 
 
@@ -293,7 +304,7 @@ class EmployeeController extends Controller {
 
 			return view('employee.dashboard', compact('employee', 'countries', 'companies',
 				'departments', 'designations', 'statuses', 'office_shifts', 'document_types', 'education_levels', 'language_skills', 'general_skills','roles'));
-		} else
+		}else
 		{
 			return response()->json(['success' => __('You are not authorized')]);
 		}

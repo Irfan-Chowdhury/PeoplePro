@@ -34,7 +34,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Salary')}}</h5> 
+                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Salary')}}</h5>
                     <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="allowance-close"><i class="dripicons-cross"></i></button>
                 </div>
 
@@ -54,9 +54,7 @@
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Payslip Type')}} *</label>
-                                <select name="payslip_type" id="payslip_type_edit" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>__('Payslip Type')])}}...">
+                                <select name="payslip_type" id="payslip_type_edit" required class="selectpicker form-control" title="{{__('Selecting',['key'=>__('Payslip Type')])}}...">
                                     <option value="Monthly">{{__('Monthly Payslip')}}</option>
                                     <option value="Hourly">{{__('Hourly Payslip')}}</option>
                                 </select>

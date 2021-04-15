@@ -63,8 +63,9 @@ class OfficialDocumentExpiry extends Notification implements ShouldQueue
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        // return [
+        //     'data'=> 'A new notification about official document expiry',
+        //     'link' => route('official_documents.index'),
+        // ];
     }
 }

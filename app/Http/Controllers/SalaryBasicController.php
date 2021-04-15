@@ -20,7 +20,7 @@ class SalaryBasicController extends Controller
                                             ->where('employee_id', $employee->id)
                                             ->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')
                                             ->get();
-                
+
                 return datatables()->of($salary_basics)
                 ->setRowId(function ($row)
                 {
@@ -34,7 +34,7 @@ class SalaryBasicController extends Controller
                         foreach ($row->payslipMonthYear as $key => $value) {
                             if ($row->month_year == $value->month_year) {
                                 $paid = 1;
-                            } 
+                            }
                         }
                         if ($paid==1) {
                             $button = '<button type="button" name="edit" data-id="'.$row->id.'" disabled class="salary_basic_edit btn btn-primary btn-sm" title="Can not edit"><i class="dripicons-pencil"></i></button>';
@@ -58,7 +58,7 @@ class SalaryBasicController extends Controller
             return view('employee.salary.basic.index',compact('employee'));
         }
         return response()->json(['success' => __('You are not authorized')]);
-        
+
     }
 
 
@@ -102,7 +102,7 @@ class SalaryBasicController extends Controller
         }
         return response()->json(['success' => __('You are not authorized')]);
     }
-    
+
     public function edit($id)
     {
         if (request()->ajax())
@@ -113,7 +113,7 @@ class SalaryBasicController extends Controller
 		}
     }
 
-   
+
     public function update(Request $request)
     {
         $logged_user = auth()->user();
@@ -152,11 +152,11 @@ class SalaryBasicController extends Controller
             $salary_basic->basic_salary = $request->basic_salary;
             $salary_basic->update();
 
-            $salaryl_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('basic_salary')->latest()->first();
+            $salary_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->latest()->first();
 
             $employee = Employee::find($salary_basic->employee_id);
-            $employee->payslip_type = $request->payslip_type;
-            $employee->basic_salary = $salaryl_latest->basic_salary; //Alawys Updated latest rouw of this employee
+            $employee->payslip_type = $salary_latest->payslip_type;
+            $employee->basic_salary = $salary_latest->basic_salary; //Alawys Updated latest row of this employee
             $employee->update();
 
 			return response()->json(['success' => __('Data is successfully updated')]);
@@ -165,14 +165,22 @@ class SalaryBasicController extends Controller
 		return response()->json(['success' => __('You are not authorized')]);
     }
 
-    
+
     public function destroy($id)
     {
         $logged_user = auth()->user();
 
 		if ($logged_user->can('modify-details-employee'))
 		{
-			SalaryBasic::whereId($id)->delete();
+			$salary_basic = SalaryBasic::find($id);
+            $salary_basic->delete();
+
+            //Extra
+            $salary_basic_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->orderByRaw('DATE_FORMAT(first_date, "%y-%m") DESC')->first();
+            $employee = Employee::find($salary_basic->employee_id);
+            $employee->payslip_type = $salary_basic_latest->payslip_type;
+            $employee->basic_salary = $salary_basic_latest->basic_salary; //Alawys Updated latest row of this employee
+            $employee->update();
 
 			return response()->json(['success' => __('Data is successfully deleted')]);
 		}

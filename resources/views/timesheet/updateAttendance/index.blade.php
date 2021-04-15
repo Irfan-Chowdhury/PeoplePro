@@ -30,7 +30,7 @@
                                                 @foreach($companies as $company)
                                                     <option value="{{$company->id}}">{{$company->company_name}}</option>
                                                 @endforeach
-                                                
+
                                             </select>
                                         </div>
                                     </div>
@@ -205,7 +205,7 @@
                             attendance_date: attendance_date,
                             company_id: company_id,
                             employee_id: employee_id,
-                            "_token": "{{ csrf_token()}}"
+                            "_token": "{{ csrf_token()}}",
                         }
                     },
 
@@ -229,8 +229,6 @@
                             orderable: false
                         },
                     ],
-
-
 
 
                     "order": [],
@@ -309,6 +307,7 @@
                                 html = '<div class="alert alert-success">' + data.success + '</div>';
                                 $('#edit_form')[0].reset();
                                 $('#update_attendance-table').DataTable().ajax.reload();
+                                $('#add_attendance_btn').addClass('d-none');
                             }
                             $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
                         }
@@ -442,6 +441,6 @@
                 $('#update_attendance-table').DataTable().ajax.reload();
 
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 @endsection

@@ -4,16 +4,8 @@
             <ul class="nav nav-tabs vertical" id="myTab" role="tablist">
                 <li class="nav-item">
                     <a class="nav-link active" id="salary-tab" data-toggle="tab" href="#Salary" role="tab"
-                       aria-controls="Salary" aria-selected="true">{{__('Basic Salary (Old)')}}</a>
+                       aria-controls="Salary" aria-selected="true">{{__('Basic Salary')}}</a>
                 </li>
-                <!-- New -->
-                <li class="nav-item">
-                    <a class="nav-link" href="irfan" id="salary_basic-tab"
-                        data-toggle="tab" data-table="salary_basic" data-target="#salary_basic" role="tab"
-                        aria-controls="salary_basic" aria-selected="true">{{__('Basic Salary (New)')}}
-                    </a>
-                </li>
-                <!--/ New -->
                 <li class="nav-item">
                     <a class="nav-link" href="{{route('salary_allowance.show',$employee)}}" id="salary_allowance-tab"
                        data-toggle="tab" data-table="salary_allowance" data-target="#Salary_allowance" role="tab"
@@ -61,60 +53,11 @@
         <div class="tab-content" id="myTabContent">
             @can('set-salary')
             <div class="tab-pane fade show active" id="Salary" role="tabpanel" aria-labelledby="salary-tab">
-                <!--Contents for Basic starts here-->
-                {{trans('file.Update')}} {{trans('file.Salary')}}
+                {{__('All Basic Salary')}}
                 <hr>
-
-                <div class="modal-body">
-                    <span id="salary_form_result"></span>
-                    <form method="post" id="salary_sample_form" class="form-horizontal" autocomplete="off">
-
-                        @csrf
-                        <div class="row">
-
-                            <div class="col-md-4 form-group">
-                                <label>{{__('Payslip Type')}} *</label>
-                                <input type="hidden" name="payslip_type_hidden"
-                                       value="{{ $employee->payslip_type ?? '' }}"/>
-                                <select name="payslip_type" id="payslip_type" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
-                                        title="{{__('Selecting',['key'=>__('Payslip Type')])}}...">
-                                    <option value="Monthly">{{__('Monthly Payslip')}}</option>
-                                    <option value="Hourly">{{__('Hourly Payslip')}}</option>
-                                </select>
-                            </div>
-
-                            <div class="col-md-3 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Basic Salary')}} ({{config('variable.currency')}})</label>
-                                @else
-                                    <label>({{config('variable.currency')}}) {{__('Basic Salary')}}</label>
-                                @endif
-
-                                <input type="text" name="basic_salary" id="basic_salary"
-                                       placeholder="{{__('Basic Salary')}}"
-                                       required class="form-control" value="{{ $employee->basic_salary ?? '' }}">
-                            </div>
-
-
-                        </div>
-
-                        <div class="container mt-30px">
-
-                            <span class="text-danger"><i>[NB: If you didn't pay the employee's previous due, the current salary will be treated as the previous salary.]</i></span> <br><br>
-
-                            <div class="form-group">
-                                <input type="submit" class="btn btn-warning" value={{trans('file.Add')}} />
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
+                @include('employee.salary.basic.index')
             </div>
             @endcan
-
-
-
 
             <!-- New Pension-->
             <div class="tab-pane fade" id="salary_pension" role="tabpanel" aria-labelledby="salary_pension-tab">
@@ -131,7 +74,7 @@
                             <div class="col-md-4 form-group">
                                 <label>{{__('Pension Type')}}</label>
                                 <input type="hidden" name="pension_type_hidden" value="{{ $employee->pension_type ?? '' }}"/>
-                                <select name="pension_type" id="pension_type" required class="selectpicker form-control" data-live-search="true" data-live-search-style="begins" title="{{__('Selecting',['key'=>__('Pension Type')])}}...">
+                                <select name="pension_type" id="pension_type" required class="selectpicker form-control"  title="{{__('Selecting',['key'=>__('Pension Type')])}}...">
                                     <option value="fixed" @if($employee->pension_type=='fixed') selected @endif>{{__('Fixed')}}</option>
                                     <option value="percentage" @if($employee->pension_type=='percentage') selected @endif>{{__('Percentage')}}</option>
                                 </select>
@@ -158,17 +101,6 @@
             </div>
             <!--/ New Pension -->
 
-
-
-            <!-- New -->
-            @can('set-salary')
-            <div class="tab-pane fade" id="salary_basic" role="tabpanel" aria-labelledby="salary-tab">
-                {{__('All Basic Salary')}}
-                <hr>
-                @include('employee.salary.basic.index')
-            </div>
-            @endcan
-            <!--/ New -->
 
 
             <div class="tab-pane fade" id="Salary_allowance" role="tabpanel" aria-labelledby="salary_allowance-tab">

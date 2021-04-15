@@ -680,6 +680,10 @@
                         let total_salary = result.data.basic_total - result.data.pension_amount + total_allowance - total_loan + total_commission
                             - total_deduction + total_other_payment + total_overtime;
 
+                        if (total_salary < 0) {
+                            total_salary = 0;
+                        }
+
                         if (result.data.payslip_type === 'Monthly') {
 
                             $('#payslip_type').html('{{__('Monthly Payslip')}}');
@@ -746,7 +750,7 @@
                     type: "GET",
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
-                        console.log(result);
+                        console.log(result.data.total_salary);
                         if (result.data.payslip_type === 'Hourly') {
                                 $('.hide-element').show();
                                 $('#worked_hours').val(result.data.total_hours);
@@ -861,8 +865,6 @@
                 });
 
             });
-
-
 
 
             $('.dynamic').change(function() {

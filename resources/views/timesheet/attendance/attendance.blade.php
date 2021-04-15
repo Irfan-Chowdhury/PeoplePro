@@ -3,11 +3,18 @@
 
     <section>
         <div class="container-fluid">
+            
+            {{-- <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div> --}}
+
             <div class="card">
                 <div class="card-body">
 
-                    <div class="card-title text-center"><h3>{{__('Daily Attendance Info')}}<span
-                                    id="details_month_year"></span></h3></div>
+                    <div class="card-title text-center"><h3>{{__('Daily Attendance Info')}}<span id="details_month_year"></span></h3></div>
 
                     <form method="post" id="filter_form" class="form-horizontal">
                         @csrf
@@ -48,7 +55,7 @@
     </section>
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             $(document).ready(function () {

@@ -294,19 +294,20 @@
                     </li>
                 @endcan
 
-                <li class="has-dropdown {{ (request()->is('staff*')) ? 'active' : '' }}"><a href="#employees"
-                                                                                            aria-expanded="false"
-                                                                                            data-toggle="collapse"> <i
-                                class="dripicons-user-group"></i><span>{{trans('file.Employees')}}</span></a>
-                    <ul id="employees" class="collapse list-unstyled ">
-                        <li id="employee_list"><a href="{{route('employees.index')}}">{{__('Employee Lists')}}</a>
-                        </li>
-                        @can('import-employee')
-                            <li id="user-import"><a href="{{route('employees.import')}}">{{__('Import Employees')}}</a>
-                            </li>
-                        @endcan
-                    </ul>
-                </li>
+                @can('view-details-employee')
+                    <li class="has-dropdown {{ (request()->is('staff*')) ? 'active' : '' }}">
+                        <a href="#employees" aria-expanded="false" data-toggle="collapse"> <i class="dripicons-user-group"></i><span>{{trans('file.Employees')}}</span></a>
+                        <ul id="employees" class="collapse list-unstyled ">
+                            @can('view-details-employee')
+                                <li id="employee_list"><a href="{{route('employees.index')}}">{{__('Employee Lists')}}</a></li>
+                            @endcan
+                            @can('import-employee')
+                                <li id="user-import"><a href="{{route('employees.import')}}">{{__('Import Employees')}}</a>
+                                </li>
+                            @endcan
+                        </ul>
+                    </li>
+                @endcan
 
                 @can('customize-setting')
                     <li class="has-dropdown {{ (request()->is('settings*')) ? 'active' : '' }}"><a
@@ -529,14 +530,15 @@
                     <li class="has-dropdown {{ (request()->is('report*')) ? 'active' : '' }}"><a href="#HR_Reports"
                                                                                                  aria-expanded="false"
                                                                                                  data-toggle="collapse">
-                            <i
-                                    class="dripicons-document"></i><span>{{__('HR Reports')}}</span></a>
+                            <i class="dripicons-document"></i><span>{{__('HR Reports')}}</span></a>
                         <ul id="HR_Reports" class="collapse list-unstyled ">
+
                             {{-- @can('report-payslip')
                                 <li id="payslip_report"><a
                                             href="{{route('report.payslip')}}">{{__('Payslip Report')}}</a>
                                 </li>
                             @endcan --}}
+
                             @can('report-attendance')
                                 <li id="attendance_report"><a
                                             href="{{route('report.attendance')}}">{{__('Attendance Report')}}</a>
@@ -581,6 +583,9 @@
                                             href="{{route('report.transaction')}}">{{__('Transaction Report')}}</a>
                                 </li>
                             @endcan
+
+                            {{-- New --}}
+                            <li id="pension_report"><a href="{{route('report.pension')}}">{{__('Pension Report')}}</a></li>
                         </ul>
                     </li>
                 @endcan

@@ -1,10 +1,6 @@
 @extends('layout.main')
 @section('content')
 
-
-
-
-
     <section>
 
         <div class="container-fluid">
@@ -13,7 +9,7 @@
                     <div class="wrapper count-title text-center mb-30px ">
                         <div class="box mb-4">
                             <div class="box-header with-border">
-                                <h3 class="box-title"> {{__('Generate Payslip')}} </h3>
+                                <h3 class="box-title"> {{__('Pension Info')}} <span id="details_month_year"></span> </h3>
                             </div>
                             <div class="box-body">
                                 <div class="row">
@@ -41,7 +37,7 @@
 
                                                 <div class="col-md-4">
                                                     <div class="form-group">
-                                                        <label for="employee_id">{{trans('file.Department')}}</label>
+                                                        <label for="employee_id">{{trans('file.Employee')}}</label>
                                                         <select class="form-control selectpicker default_emp"
                                                                 name="filter_employee" id="employee_id"
                                                                 data-placeholder="{{trans('file.Employee')}}" required="" tabindex="-1"
@@ -86,23 +82,18 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-secondary btn-sm float-left" name="payment_history"
-                                id="payment_history"><i
-                                    class="fa fa-money"></i><a
-                                    href="{{route('payment_history.index')}}">{{__('Payment History')}}</a></button>
-                        <div class="card-title text-center"><h3>{{__('Payment Info')}} <span
-                                        id="details_month_year"></span></h3></div>
                         <div class="container-fluid"><span id="general_result"></span></div>
                         <div class="table-responsive">
-                            <table id="payslip_report-table" class="table ">
+                            <table id="pension_report-table" class="table ">
                                 <thead>
                                 <tr>
-                                    <th class="not-exported"></th>
-                                    <th>{{trans('file.Name')}}</th>
-                                    <th>{{__('Paid Amount')}}</th>
-                                    <th>{{__('Payment Month')}}</th>
-                                    <th>{{__('Payment Date')}}</th>
-                                    <th>{{__('Payslip Type')}}</th>
+                                    <th>{{__('Employee Name')}}</th>
+                                    <th>{{__('Month-Year')}}</th>
+                                    <th>{{__('payment Type')}}</th>
+                                    <th>{{__('Basic Salary')}}</th>
+                                    <th>{{__('Pension Type')}}</th>
+                                    <th>{{__('Pension Amount')}}</th>
+                                    <th>{{__('Remainig Balance')}}</th>
                                 </tr>
                                 </thead>
                             </table>
@@ -111,9 +102,9 @@
                 </div>
             </div>
 
-
         </div>
     </section>
+
 
     <script type="text/javascript">
         (function($) {
@@ -133,7 +124,7 @@
 
                 function fill_datatable(filter_company = '', filter_employee = '', filter_month_year = '') {
                     $('#details_month_year').html($('#month_year').val());
-                    let table_table = $('#payslip_report-table').DataTable({
+                    let table_table = $('#pension_report-table').DataTable({
                         responsive: true,
                         fixedHeader: {
                             header: true,
@@ -142,7 +133,7 @@
                         processing: true,
                         serverSide: true,
                         ajax: {
-                            url: "{{ route('report.payslip') }}",
+                            url: "{{ route('report.pension') }}",
                             data: {
                                 filter_company: filter_company,
                                 filter_employee: filter_employee,
@@ -153,30 +144,34 @@
 
                         columns: [
                             {
-                                data: null,
-                                orderable:false,
-                                searchable:false
-                            },
-                            {
                                 data: 'employee_name',
                                 name: 'employee_name'
-                            },
-                            {
-                                data: 'net_salary',
-                                name: 'net_salary'
                             },
                             {
                                 data: 'month_year',
                                 name: 'month_year'
                             },
                             {
-                                data: 'created_at',
-                                name: 'created_at'
-                            },
-                            {
                                 data: 'payment_type',
                                 name: 'payment_type'
-                            }
+                            },
+                            {
+                                data: 'basic_salary',
+                                name: 'basic_salary'
+                            },
+                            {
+                                data: 'pension_type',
+                                name: 'pension_type'
+                            },
+                            {
+                                data: 'pension_amount',
+                                name: 'pension_amount'
+                            },
+                            {
+                                data: 'remaining',
+                                name: 'remaining'
+                            },
+
                         ],
 
 
@@ -196,20 +191,6 @@
                                 "orderable": false,
                                 'targets': [0],
                             },
-                            {
-                                'render': function(data, type, row, meta){
-                                    if(type === 'display'){
-                                        data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
-                                    }
-
-                                    return data;
-                                },
-                                'checkboxes': {
-                                    'selectRow': true,
-                                    'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
-                                },
-                                'targets': [0]
-                            }
                         ],
 
                         'select': {style: 'multi', selector: 'td:first-child'},
@@ -250,7 +231,7 @@
                     });
                 }
 
-                new $.fn.dataTable.FixedHeader($('#payslip_report-table').DataTable());
+                new $.fn.dataTable.FixedHeader($('#pension_report-table').DataTable());
 
                 $('#filter_form').on('submit',function (e) {
                     e.preventDefault();
@@ -258,7 +239,7 @@
                     var filter_employee = $('#employee_id').val();
                     var filter_month_year = $('#month_year').val();
                     if (filter_company !== '' && filter_employee !== '' && filter_month_year !== '') {
-                        $('#payslip_report-table').DataTable().destroy();
+                        $('#pension_report-table').DataTable().destroy();
                         fill_datatable(filter_company, filter_employee, filter_month_year);
                     } else {
                         alert('{{__('Select Both filter option')}}');
@@ -290,5 +271,4 @@
         })(jQuery);
 
     </script>
-
 @endsection

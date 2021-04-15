@@ -56,7 +56,6 @@
                                 <label>{{__('Allowance Type')}} *</label>
                                 <select name="is_taxable" id="allowance_is_taxable" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
                                         title='{{__('Selecting',['key'=>__('Allowance Type')])}}...'>
                                     <option value="1">{{trans('file.Taxable')}}</option>
                                     <option value="0">{{trans('file.Non-Taxable')}}</option>
@@ -80,10 +79,6 @@
                                        placeholder={{__('Allowance Amount')}}
                                                required class="form-control">
                             </div>
-
-
-
-
 
                             <div class="container">
                                 <br>

@@ -42,10 +42,15 @@ Trait TotalSalaryTrait {
 			$total =  ($basic_salary / 60) * $total_minutes + $allowance_amount +  $employee->commissions->sum('commission_amount')
 				- $employee->loans->sum('monthly_payable') - $deduction_amount - $pension_amount // (basic_salary - pension_amount)
 				+ $employee->otherPayments->sum('other_payment_amount') + $employee->overtimes->sum('overtime_amount');
-
-            return $total;
 		}
+
+        if($total<0)
+        {
+            $total=0;
+        }
+
 		return $total;
 	}
-
 }
+
+// return number_format((float)$total, 2, '.', '');

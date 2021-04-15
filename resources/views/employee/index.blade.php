@@ -77,14 +77,14 @@
                                 </select>
                             </div>
                             <!--/ Office Shift -->
-                            
+
                             <div class="col-md-1">
                                 <label class="text-bold"></label><br>
-                                <button type="button" class="btn btn-dark" id="filterSubmit"> 
+                                <button type="button" class="btn btn-dark" id="filterSubmit">
                                     <i class="fa fa-arrow-right" aria-hidden="true"></i> &nbsp; GET
                                 </button>
                             </div>
-                        </div>                    
+                        </div>
                     </form>
                 </div>
             </div>
@@ -256,19 +256,24 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
-                                <input type="file" id="profile_photo"
-                                       class="form-control @error('photo') is-invalid @enderror"
-                                       name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
-                            </div>
-
-                            <div class="col-md-6 form-group">
                                 <label class="text-bold">{{__('Attendance Type')}} <span class="text-danger">*</span></label>
                                 <select name="attendance_type" id="attendance_type" required class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="begins" title="{{__('Select Attendance Type...')}}">
                                     <option value="general">{{__('General')}}</option>
                                     <option value="ip_based">{{__('IP Based')}}</option>
                                 </select>
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label class="text-bold">{{__('Date Of Joining')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="joining_date" id="joining_date" class="form-control date">
+                            </div>
+
+                            <div class="col-md-6 form-group">
+                                <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
+                                <input type="file" id="profile_photo"
+                                       class="form-control @error('photo') is-invalid @enderror"
+                                       name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
                             </div>
 
                             {{-- <div class="col-md-6 form-group"  id="ipField"></div> --}}
@@ -316,7 +321,7 @@
         $(document).ready(function () {
 
             if (window.location.href.indexOf('#formModal') != -1) {
-                $('#formModal').modal('show');   
+                $('#formModal').modal('show');
             }
 
             var date = $('.date');
@@ -473,7 +478,7 @@
             $('#employee-table').DataTable().draw(true);
             //$('#filter_form')[0].reset();
             //$('select').selectpicker('refresh');
-        });     
+        });
         //--------------/ Filter ----------------------
 
 
@@ -748,7 +753,7 @@
                     }
                 });
             }
-        });   
+        });
 
     </script>
 

@@ -11,6 +11,7 @@ use App\FinanceExpense;
 use App\FinanceTransaction;
 use App\Project;
 use App\Task;
+use App\Payslip;
 use App\TrainingList;
 use Carbon\Carbon;
 use DateInterval;
@@ -762,5 +763,79 @@ class ReportController extends Controller {
 		}
 		return abort('403', __('You are not authorized'));
 	}
+
+    public function pension(Request $request)
+    {
+        $logged_user = auth()->user();
+        $companies = company::all();
+        $selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year ;
+
+
+        if (request()->ajax())
+		{
+            // $payslips = Payslip::with( ['employee:id,first_name,last_name'])
+            //             ->where('month_year',$selected_date)
+            //             ->where('pension_type','!=',NULL)
+            //             ->get();
+
+            if (!empty($request->filter_employee))
+            {
+                $payslips = Payslip::with(['employee:id,first_name,last_name'])
+                        ->where('employee_id', $request->filter_employee)
+                        ->where('month_year', $selected_date)
+                        ->where('pension_type','!=',NULL)
+                        ->get();
+            }
+            elseif (!empty($request->filter_company)) {
+                $payslips = Payslip::with(['employee:id,first_name,last_name'])
+                        ->where('company_id', $request->filter_company)
+                        ->where('month_year', $selected_date)
+                        ->where('pension_type','!=',NULL)
+                        ->get();
+            }
+            else {
+                $payslips = Payslip::with( ['employee:id,first_name,last_name'])
+                        ->where('month_year',$selected_date)
+                        ->where('pension_type','!=',NULL)
+                        ->latest('created_at')
+                        ->get();
+            }
+
+            return datatables()->of($payslips)
+					->setRowId(function ($payslip)
+					{
+						return $payslip->id;
+					})
+                    ->addColumn('employee_name', function ($row)
+					{
+						return $row->employee->full_name;
+					})
+                    ->addColumn('pension_amount', function ($row)
+					{
+                        if($row->pension_type=='percentage')
+                        {
+                            return '% '.$row->pension_amount;
+                        }
+                        else{
+                            return config('variable.currency').' '.$row->pension_amount;
+                        }
+
+					})
+                    ->addColumn('remaining', function ($row)
+					{
+                        if ($row->pension_type=='percentage') {
+                            $remaining = $row->basic_salary - (($row->basic_salary * $row->pension_amount) /100);
+                        } else {
+                            $remaining = $row->basic_salary - $row->pension_amount;
+                        }
+
+						return config('variable.currency').' '.$remaining;
+					})
+					->make(true);
+
+        }
+
+        return view('report.pension_report',compact('companies'));
+    }
 
 }
