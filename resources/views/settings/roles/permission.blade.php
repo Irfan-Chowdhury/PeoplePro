@@ -109,9 +109,14 @@
                                         },
                                         {
                                             id: 'role-access-user',
-                                            text: "{{__('Users Role and access')}}",
+                                            text: "{{__('Assign Role')}}",
                                             checked: ($.inArray('role-access-user', result) >= 0) ? true : false
                                         }
+                                        // {
+                                        //     id: 'assign-role',
+                                        //     text: '{{__('Assign Role')}}',
+                                        //     checked: ($.inArray('assign-role', result) >= 0) ? true : false
+                                        // },
                                     ]
                                 },
                                 {
@@ -175,10 +180,15 @@
                                                     text: "{{__('Delete Role')}}",
                                                     checked: ($.inArray('delete-role', result) >= 0) ? true : false
                                                 },
+                                                // {
+                                                //     id: 'assign-role',
+                                                //     text: '{{__('Assign Role')}}',
+                                                //     checked: ($.inArray('assign-role', result) >= 0) ? true : false
+                                                // },
                                                 {
-                                                    id: 'assign-role',
-                                                    text: '{{__('Assign Role')}}',
-                                                    checked: ($.inArray('assign-role', result) >= 0) ? true : false
+                                                    id: 'set-permission',
+                                                    text: '{{__('Set Permission')}}',
+                                                    checked: ($.inArray('set-permission', result) >= 0) ? true : false
                                                 },
                                             ]
                                         },

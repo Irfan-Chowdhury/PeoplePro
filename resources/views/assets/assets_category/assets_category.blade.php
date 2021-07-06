@@ -2,22 +2,26 @@
 @section('content')
 
     <section>
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    <h3 class="card-title">{{__('Add Asset Category')}}</h3>
-                    <form method="post" id="assets_category_form" class="form-horizontal" >
-                        @csrf
-                        <div class="input-group">
-                            
-                            <input type="text" name="category_name" id="category_name"  required class="form-control"
-                                   placeholder="{{trans('file.Name')}} *">
-                            <input type="submit" name="assets_category_submit" id="assets_category_submit" class="btn btn-success" value={{trans("file.Save")}}>
-                        </div>
-                    </form>
+
+        @can('store-assets-category')
+            <div class="container-fluid">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title">{{__('Add Asset Category')}}</h3>
+                        <form method="post" id="assets_category_form" class="form-horizontal" >
+                            @csrf
+                            <div class="input-group">
+
+                                <input type="text" name="category_name" id="category_name"  required class="form-control"
+                                    placeholder="{{trans('file.Name')}} *">
+                                <input type="submit" name="assets_category_submit" id="assets_category_submit" class="btn btn-success" value={{trans("file.Save")}}>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
-        </div>
+        @endcan
+
         <span class="assets_result"></span>
         <div class="table-responsive">
             <table id="assets_category-table" class="table ">
@@ -63,7 +67,7 @@
     </div>
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             $(document).ready(function () {
@@ -248,7 +252,7 @@
                 $('#assets_category_form')[0].reset();
                 $('#assets_category-table').DataTable().ajax.reload();
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 
  @endsection

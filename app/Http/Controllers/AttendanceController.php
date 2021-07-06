@@ -122,14 +122,14 @@ class AttendanceController extends Controller {
 						//if there are employee attendance,get the first record
 						if ($employee->employeeAttendance->isEmpty())
 						{
-							if (is_null($employee->officeShift->$day ?? null))
+							if (is_null($employee->officeShift->$day ?? null) || ($employee->officeShift->$day == ''))
 							{
 								return __('Off Day');
 							}
 
 							if ($holidays)
 							{
-								if ($employee->company_id === $holidays->company_id)
+								if ($employee->company_id == $holidays->company_id)
 								{
 									return trans('file.Holiday');
 								}
@@ -343,7 +343,7 @@ class AttendanceController extends Controller {
 		if ($employee_attendance_last)
 		{
 			//checking if the employee is not both clocked in + out (1)
-			if ($employee_attendance_last->clock_in_out === 1)
+			if ($employee_attendance_last->clock_in_out == 1)
 			{
 				// if employee is early leaving
 				if ($current_time < $shift_out)
@@ -395,7 +395,7 @@ class AttendanceController extends Controller {
 				return redirect()->back();
 			}
 			// if employee is both clocked in + out
-			if ($employee_attendance_last->clock_in_out === 0)
+			if ($employee_attendance_last->clock_in_out == 0)
 			{
 //				$timeDifference = $shift_in->diff($current_time)->format('%H:%I');
 				// new clock in on that day
@@ -1158,7 +1158,7 @@ class AttendanceController extends Controller {
 		$shift_out = $employee->officeShift->$current_day_out;
 
 
-		if ($shift_in === null)
+		if ($shift_in == null)
 		{
 
 			$data['employee_id'] = $employee_id;

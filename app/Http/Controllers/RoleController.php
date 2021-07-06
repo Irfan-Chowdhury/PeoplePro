@@ -37,6 +37,7 @@ class RoleController extends Controller {
 							{
 								$button = '<a class="show btn btn-primary btn-sm mr-1" href="'.route('rolePermission',$data->id).'">' . trans('file.Permission') . '</a>';
 							}
+							// $button = '<a class="show btn btn-primary btn-sm mr-1" href="'.route('rolePermission',$data->id).'">' . trans('file.Permission') . '</a>';
 							if (auth()->user()->can('edit-role'))
 							{
 								$button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm mr-1"><i class="dripicons-pencil"></i></button>';

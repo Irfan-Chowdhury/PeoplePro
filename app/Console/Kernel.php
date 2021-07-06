@@ -31,7 +31,6 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
 		$schedule->command('document:expiry')->daily();
-		// $schedule->command('document:expiry')->everyMinute();
         $schedule->command('officialDocument:expiry')->daily();
         $schedule->command('employeeImmigration:expiry')->daily();
 	}

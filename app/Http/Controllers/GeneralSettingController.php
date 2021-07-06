@@ -198,9 +198,9 @@ class GeneralSettingController extends Controller {
 			$tables[] = $row[0];
 		}
 
-		$sqlScript = "";
-		foreach ($tables as $table) {
+		$sqlScript = "SET foreign_key_checks = 0;";
 
+		foreach ($tables as $table) {
 			// Prepare SQLscript for creating table structure
 			$query = "SHOW CREATE TABLE $table";
 			$result = mysqli_query($conn, $query);
@@ -219,12 +219,10 @@ class GeneralSettingController extends Controller {
 				while ($row = mysqli_fetch_row($result)) {
 					$sqlScript .= "INSERT INTO $table VALUES(";
 					for ($j = 0; $j < $columnCount; $j ++) {
-						$row[$j] = $row[$j];
-
 						if (isset($row[$j])) {
-							$sqlScript .= '"' . $row[$j] . '"';
+							$sqlScript .= "'" . addslashes($row[$j]) . "'";
 						} else {
-							$sqlScript .= '""';
+							$sqlScript .= "''";
 						}
 						if ($j < ($columnCount - 1)) {
 							$sqlScript .= ',';
@@ -236,6 +234,7 @@ class GeneralSettingController extends Controller {
 
 			$sqlScript .= "\n";
 		}
+        $sqlScript .= "SET foreign_key_checks = 1;";
 
 		if(!empty($sqlScript))
 		{
@@ -268,5 +267,4 @@ class GeneralSettingController extends Controller {
 		}
 		return redirect('public/' . $zipFileName);
 	}
-
 }

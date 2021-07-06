@@ -27,7 +27,7 @@
                                                     data-live-search="true" data-live-search-style="begins"
                                                     title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                                 @foreach($companies as $company)
-                                                    <option value="{{$company->id}}">{{$company->company_name}}</option>
+                                                    <option value="{{$company->id}}" @if($office_shift->company_id==$company->id) selected @endif >{{$company->company_name}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -171,9 +171,9 @@
     </section>
 
     <script>
-        (function($) { 
-            "use strict"; 
-            
+        (function($) {
+            "use strict";
+
             $('.time').clockpicker({
                 placement: 'top',
                 align: 'left',

@@ -382,7 +382,7 @@
     </section>
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
           "use strict";
 
           $('select[name="gender"]').val($('input[name="gender_hidden"]').val());
@@ -431,7 +431,7 @@
           });
 
           $('#set_salary-tab').one('click', function (e) {
-              @include('employee.salary.basic_salary_js')
+            @include('employee.salary.basic.index_js')
           });
 
           $('#salary_allowance-tab').one('click', function (e) {
@@ -566,7 +566,7 @@
                   changedHash && $('ul.nav a[href="' + changedHash + '"]').tab('show');
               }, false);
           });
-        })(jQuery); 
+        })(jQuery);
     </script>
 
 @endsection

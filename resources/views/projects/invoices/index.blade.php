@@ -292,13 +292,15 @@
                 let status_id = $(this).attr('data-status_id');
                 let invoice_id = $(this).attr('data-invoice_id');
 
-                var target = "{{ route('invoices.dummy')}}/" + status_id +'/'+invoice_id;
+
+                var target = "{{ url('project-management/invoices/status')}}/" + status_id +'/'+invoice_id;
 
                 $.ajax({
                     url: target,
                     method: "get",
 
                     success: function (data) {
+                        console.log(data);
                         var html = '';
                         if (data.error) {
                             html = '<div class="alert alert-danger">' + data.error + '</div>';

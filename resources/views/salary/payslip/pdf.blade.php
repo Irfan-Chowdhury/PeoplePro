@@ -228,6 +228,17 @@
                 @endforeach
             @endif
 
+                <tr>
+                    <td class="py-3">{{__('Pension Amount')}}</td>
+                    <td>{{$pension_amount}}</td>
+                </tr>
+				
+				@php
+                    $total_deductions = $total_deductions + $pension_amount;
+                @endphp
+
+
+
             <tr>
                 <td class="py-3">{{trans('file.Total')}}</td>
                 @if(config('variable.currency_format') ==='suffix')

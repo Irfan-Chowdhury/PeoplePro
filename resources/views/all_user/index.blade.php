@@ -9,15 +9,14 @@
             <div class="d-flex flex-row">
                 <div class="p-2">
                     @can('store-user')
-                    {{-- <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
-                            class="fa fa-plus"></i> {{__('Add User')}}</button> --}}
-
                         <div class="dropdown">
                             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-plus"></i> {{__('Add User')}}
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                @if(auth()->user()->role_users_id == 1)
                                 <a class="dropdown-item" href="#" name="create_record" id="create_record">Add Admin</a>
+                                @endif
                                 <a class="dropdown-item" href="{{url('/staff/employees')}}#formModal">Add Employee</a>
                                 <a class="dropdown-item" href="{{url('/project-management/clients')}}#formModal">Add Client</a>
                             </div>
@@ -32,283 +31,257 @@
                     @endcan
                 </div>
             </div>
-            {{-- @can('store-user')
-                
-                <div class="dropdown">
-                    <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i class="fa fa-plus"></i> {{__('Add User')}}
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="#" name="create_record" id="create_record">Add Admin</a>
-                        <a class="dropdown-item" href="#">Add Employee</a>
-                        <a class="dropdown-item" href="#">Add Client</a>
-                    </div>
-                </div>
-            @endcan
-            @can('delete-user')
-                <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
-                            class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
-            @endcan --}}
         </div>
-
 
         <div class="table-responsive">
             <table id="user-table" class="table ">
                 <thead>
-                <tr>
-                    <th class="not-exported"></th>
-                    <th>{{__('User')}}</th>
-                    <th>{{trans('file.Contact')}}</th>
-                    <th>{{__('Login Info')}}</th>
-                    <th>{{trans('file.status')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
-                </tr>
+                    <tr>
+                        <th class="not-exported"></th>
+                        <th>{{__('User')}}</th>
+                        <th>{{trans('file.Contact')}}</th>
+                        <th>{{__('Login Info')}}</th>
+                        <th>{{trans('file.status')}}</th>
+                        <th class="not-exported">{{trans('file.action')}}</th>
+                    </tr>
                 </thead>
-
             </table>
         </div>
+
+        <div id="formModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">{{__('Add User')}}</h5>
+                        <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <span id="form_result"></span>
+                        <form method="post" id="sample_form" class="form-horizontal" enctype="multipart/form-data">
+
+                            @csrf
+                            <div class="row">
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{__('First Name')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="first_name" id="first_name" placeholder="{{__('First Name')}}"
+                                           required class="form-control">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>{{__('Last Name')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="last_name" id="last_name" placeholder="{{__('Last Name')}}"
+                                           required class="form-control">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="username" id="username"
+                                           placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
+                                           required class="form-control" value="{{ old('username') }}">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" id="email" placeholder="example@example.com" required
+                                           class="form-control" value="{{ old('email') }}">
+
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="contact_no" id="contact_no"
+                                           placeholder="{{trans('file.Phone')}}" required
+                                           class="form-control" value="{{ old('contact_no') }}">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" name="password" id="password"
+                                               placeholder="{{__('min:4 characters')}}"
+                                               required class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input id="confirm_pass" type="password"
+                                               class="form-control @error('password') is-invalid @enderror"
+                                               name="password_confirmation" placeholder="{{__('Re-type Password')}}"
+                                               required autocomplete="new-password">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
+                                    <input type="file" id="profile_photo"
+                                           class="form-control @error('photo') is-invalid @enderror"
+                                           name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
+                                </div>
+                                <div class="col-md-6 form-group" align="center">
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md-3 custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="is_active"
+                                                   id="is_active_add"
+                                                   value="1" checked>
+                                            <label class="custom-control-label"
+                                                   for="is_active_add">{{trans('file.Active')}}</label>
+                                        </div>
+                                        <div class="col-md-9">
+                                            <input type="hidden" name="action" id="action"/>
+                                            <input type="hidden" name="hidden_id" id="hidden_id"/>
+                                            <button type="submit" name="action_button" id="action_button"
+                                                    class="btn btn-primary btn-block">{{__('Add User')}}</button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="editModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Edit')}}</h5>
+                        <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <span id="form_result_edit"></span>
+                        <span id="store_profile_photo"></span>
+                        <form method="post" id="form_edit" class="form-horizontal" enctype="multipart/form-data">
+
+                            @csrf
+                            <div class="row">
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{__('First Name')}} *</label>
+                                    <input type="text" name="first_name" id="first_name_edit" placeholder="{{__('First Name')}}"
+                                           required class="form-control">
+                                </div>
+                                <div class="col-md-6 form-group">
+                                    <label>{{__('Last Name')}} *</label>
+                                    <input type="text" name="last_name" id="last_name_edit" placeholder="{{__('Last Name')}}"
+                                           required class="form-control">
+                                </div>
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="username" id="username_edit"
+                                           placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
+                                           required class="form-control">
+                                </div>
+
+
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
+                                    <input type="email" name="email" id="email_edit" placeholder="example@example.com"
+                                           required class="form-control">
+                                </div>
+
+
+                                <div class="col-md-6 form-group">
+                                    <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
+                                    <input type="text" name="contact_no" id="contact_no_edit"
+                                           placeholder="{{trans('file.Phone')}}" required
+                                           class="form-control" value="{{ old('contact_no') }}">
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input type="password" class="form-control" name="password" id="password_edit"
+                                               placeholder="{{__('min:4 characters')}}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
+                                    <div class="input-group">
+                                        <input id="confirm_pass_edit" type="password"
+                                               class="form-control @error('password') is-invalid @enderror"
+                                               name="password_confirmation" placeholder="{{__('Re-type Password')}}">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 form-group ">
+                                    <label for="profile_photo_edit" class=""><strong>{{ __('Image') }}</strong></label>
+                                    <input type="file" id="profile_photo_edit"
+                                           class="form-control @error('photo') is-invalid @enderror" name="profile_photo"
+                                           placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
+                                    <span id="store_profile_photo"></span>
+                                </div>
+
+
+                                <div class="col-md-6 form-group">
+                                    <br>
+                                        <div class="col-sm-3 form-group custom-control custom-checkbox">
+                                            <input type="checkbox" class="custom-control-input" name="is_active"
+                                                   id="is_active_edit" value="1" checked>
+                                            <label class="custom-control-label"
+                                                   for="is_active_edit">{{trans('file.Active')}}</label>
+                                        </div>
+                                </div>
+                                        <div class="col-sm-9">
+                                            <input type="hidden" name="action" id="action_edit"/>
+                                            <input type="hidden" name="hidden_id" id="hidden_id_edit"/>
+                                            <input type="submit" name="action_button" id="action_button_edit"
+                                                   class="btn btn-primary btn-block" value="{{trans('file.Edit')}}"/>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="registrationFormAlert" id="divCheckPasswordMatch_edit">
+                                        </div>
+                                    </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="confirmModal" class="modal fade" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
+                    </div>
+                    <div class="modal-body">
+                        <h4 align="center">{{__('Are you sure you want to remove this data?')}}</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" name="ok_button" id="ok_button"
+                                class="btn btn-danger">{{trans('file.OK')}}</button>
+                        <button type="button" class="btn btn-default"
+                                data-dismiss="modal">{{trans('file.Cancel')}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </section>
 
 
-
-    <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add User')}}</h5>
-                    <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
-                </div>
-
-                <div class="modal-body">
-                    <span id="form_result"></span>
-                    <form method="post" id="sample_form" class="form-horizontal" enctype="multipart/form-data">
-
-                        @csrf
-                        <div class="row">
-
-                            <div class="col-md-6 form-group">
-                                <label>{{__('First Name')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="first_name" id="first_name" placeholder="{{__('First Name')}}"
-                                       required class="form-control">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>{{__('Last Name')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="last_name" id="last_name" placeholder="{{__('Last Name')}}"
-                                       required class="form-control">
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="username" id="username"
-                                       placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
-                                       required class="form-control" value="{{ old('username') }}">
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
-                                <input type="email" name="email" id="email" placeholder="example@example.com" required
-                                       class="form-control" value="{{ old('email') }}">
-
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="contact_no" id="contact_no"
-                                       placeholder="{{trans('file.Phone')}}" required
-                                       class="form-control" value="{{ old('contact_no') }}">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="password" name="password" id="password"
-                                           placeholder="{{__('min:4 characters')}}"
-                                           required class="form-control">
-                                </div>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input id="confirm_pass" type="password"
-                                           class="form-control @error('password') is-invalid @enderror"
-                                           name="password_confirmation" placeholder="{{__('Re-type Password')}}"
-                                           required autocomplete="new-password">
-                                </div>
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
-                                <input type="file" id="profile_photo"
-                                       class="form-control @error('photo') is-invalid @enderror"
-                                       name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
-                            </div>
-                            <div class="col-md-6 form-group" align="center">
-                                <br>
-                                <div class="row">
-                                    <div class="col-md-3 custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="is_active"
-                                               id="is_active_add"
-                                               value="1" checked>
-                                        <label class="custom-control-label"
-                                               for="is_active_add">{{trans('file.Active')}}</label>
-                                    </div>
-                                    <div class="col-md-9">
-                                        <input type="hidden" name="action" id="action"/>
-                                        <input type="hidden" name="hidden_id" id="hidden_id"/>
-                                        <button type="submit" name="action_button" id="action_button"
-                                                class="btn btn-primary btn-block">{{__('Add User')}}</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
-                        </div>
-
-                    </form>
-
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <div id="editModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-
-                <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Edit')}}</h5>
-                    <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
-                </div>
-
-                <div class="modal-body">
-                    <span id="form_result_edit"></span>
-                    <span id="store_profile_photo"></span>
-                    <form method="post" id="form_edit" class="form-horizontal" enctype="multipart/form-data">
-
-                        @csrf
-                        <div class="row">
-
-                            <div class="col-md-6 form-group">
-                                <label>{{__('First Name')}} *</label>
-                                <input type="text" name="first_name" id="first_name_edit" placeholder="{{__('First Name')}}"
-                                       required class="form-control">
-                            </div>
-                            <div class="col-md-6 form-group">
-                                <label>{{__('Last Name')}} *</label>
-                                <input type="text" name="last_name" id="last_name_edit" placeholder="{{__('Last Name')}}"
-                                       required class="form-control">
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="username" id="username_edit"
-                                       placeholder="{{__('Unique Value',['key'=>trans('file.Name')])}}"
-                                       required class="form-control">
-                            </div>
-
-
-
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
-                                <input type="email" name="email" id="email_edit" placeholder="example@example.com"
-                                       required class="form-control">
-                            </div>
-
-
-                            <div class="col-md-6 form-group">
-                                <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
-                                <input type="text" name="contact_no" id="contact_no_edit"
-                                       placeholder="{{trans('file.Phone')}}" required
-                                       class="form-control" value="{{ old('contact_no') }}">
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>{{trans('file.Password')}} <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input type="password" class="form-control" name="password" id="password_edit"
-                                           placeholder="{{__('min:4 characters')}}">
-                                </div>
-                            </div>
-
-                            <div class="form-group col-md-6">
-                                <label>{{__('Confirm Password')}} <span class="text-danger">*</span></label>
-                                <div class="input-group">
-                                    <input id="confirm_pass_edit" type="password"
-                                           class="form-control @error('password') is-invalid @enderror"
-                                           name="password_confirmation" placeholder="{{__('Re-type Password')}}">
-
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 form-group ">
-                                <label for="profile_photo_edit" class=""><strong>{{ __('Image') }}</strong></label>
-                                <input type="file" id="profile_photo_edit"
-                                       class="form-control @error('photo') is-invalid @enderror" name="profile_photo"
-                                       placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
-                                <span id="store_profile_photo"></span>
-                            </div>
-
-
-                            <div class="col-md-6 form-group">
-                                <br>
-                                    <div class="col-sm-3 form-group custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="is_active"
-                                               id="is_active_edit" value="1" checked>
-                                        <label class="custom-control-label"
-                                               for="is_active_edit">{{trans('file.Active')}}</label>
-                                    </div>
-                            </div>
-                                    <div class="col-sm-9">
-                                        <input type="hidden" name="action" id="action_edit"/>
-                                        <input type="hidden" name="hidden_id" id="hidden_id_edit"/>
-                                        <input type="submit" name="action_button" id="action_button_edit"
-                                               class="btn btn-primary btn-block" value="{{trans('file.Edit')}}"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="registrationFormAlert" id="divCheckPasswordMatch_edit">
-                                    </div>
-                                </div>
-                    </form>
-                            </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-
-
-
-    <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
-                </div>
-                <div class="modal-body">
-                    <h4 align="center">{{__('Are you sure you want to remove this data?')}}</h4>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" name="ok_button" id="ok_button"
-                            class="btn btn-danger">{{trans('file.OK')}}</button>
-                    <button type="button" class="btn btn-default"
-                            data-dismiss="modal">{{trans('file.Cancel')}}</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <script type="text/javascript">
-        (function($) { 
+
+        (function($) {
             "use strict";
 
             $(document).ready(function () {
-
-                $('#user-table').DataTable({
+                var table_table = $('#user-table').DataTable({
                     initComplete: function () {
-                        this.api().columns([2, 4]).every(function () {
+                        this.api().columns([1,5]).every(function () {
                             var column = this;
                             var select = $('<select><option value=""></option></select>')
                                 .appendTo($(column.footer()).empty())
@@ -338,11 +311,12 @@
                     ajax: {
                         url: "{{ route('users-list') }}",
                     },
+
                     columns: [
                         {
                             data: null,
-                            orderable: false,
-                            searchable: false
+                            orderable: true,
+                            searchable: true
                         },
                         {
                             data: 'username',
@@ -350,7 +324,7 @@
                         },
                         {
                             data: 'contacts',
-                            name: 'contacts'
+                            name: 'contacts',
                         },
                         {
                             data: 'login_info',
@@ -374,7 +348,6 @@
                         }
                     ],
 
-
                     "order": [],
                     'language': {
                         'lengthMenu': '_MENU_ {{__('records per page')}}',
@@ -385,29 +358,27 @@
                             'next': '{{trans("file.Next")}}'
                         }
                     },
-
                     'columnDefs': [
                         {
                             "orderable": false,
-                            // 'targets': [0,1,9]
-                            'targets': [0]
+                            'targets': [0],
+                            "className": "text-left"
                         },
                         {
                             'render': function (data, type, row, meta) {
                                 if (type === 'display') {
-                                    data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                                    data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>';
                                 }
 
                                 return data;
                             },
                             'checkboxes': {
                                 'selectRow': true,
-                                'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
+                                'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>'
                             },
                             'targets': [0]
                         }
                     ],
-
 
                     'select': {style: 'multi', selector: 'td:first-child'},
                     'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
@@ -444,11 +415,10 @@
                         },
                     ],
                 });
+                new $.fn.dataTable.FixedHeader(table_table);
             });
 
-
             $('#create_record').on('click', function () {
-
                 $('.modal-title').text('{{__('Add User')}}');
                 $('#action_button').val('{{trans('file.Add')}}');
                 $('#action').val('{{trans('file.Add')}}');
@@ -526,7 +496,6 @@
 
             $(document).on('click', '.edit', function () {
 
-
                 let id = $(this).attr('id');
                 $('#form_result_edit').html('');
 
@@ -566,7 +535,6 @@
                 })
             });
 
-
             let lid;
 
             $(document).on('click', '.delete', function () {
@@ -574,7 +542,6 @@
                 $('#confirmModal').modal('show');
                 $('.modal-title').text('{{__('DELETE Record')}}');
                 $('#ok_button').text('{{trans('file.OK')}}');
-
             });
 
             $(document).on('click', '#bulk_delete', function () {
@@ -589,7 +556,7 @@
                             data: {
                                 userIdArray: id
                             },
-                            success: function (data) {                                
+                            success: function (data) {
                                 let html;
                                 if (data.success) {
                                     html = '<div class="alert alert-success">' + data.success + '</div>';
@@ -634,7 +601,7 @@
                             html = '<div class="alert alert-success">' + data.success + '</div>';
                         }
                         if (data.error) {
-                           html = '<div class="alert alert-danger">' + data.error + '</div>';
+                            html = '<div class="alert alert-danger">' + data.error + '</div>';
                         }
                         setTimeout(function () {
                             $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
@@ -661,10 +628,6 @@
             });
 
         })(jQuery);
-
-        // $(window).on('load', function() {
-        //     $('#formModal').modal('show');
-        // });
 
     </script>
 @endsection

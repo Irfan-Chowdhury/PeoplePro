@@ -29,6 +29,24 @@
                                             <input type="file" name="profile_photo" class="form-control">
                                         </div>
                                         <div class="form-group">
+                                            <label>{{__('First Name')}} *</label>
+                                            <input type="text" name="first_name" value="{{$user->first_name}}" required class="form-control" />
+                                            @if($errors->has('first_name'))
+                                                <span>
+                                                    <strong>{{ $errors->first('first_name') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
+                                            <label>{{__('Last Name')}} *</label>
+                                            <input type="text" name="last_name" value="{{$user->last_name}}" required class="form-control" />
+                                            @if($errors->has('last_name'))
+                                                <span>
+                                                    <strong>{{ $errors->first('last_name') }}</strong>
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
                                             <label>{{trans('file.Username')}} *</label>
                                             <input type="text" name="username" value="{{$user->username}}" required class="form-control" />
                                             @if($errors->has('username'))
@@ -104,7 +122,7 @@
     </section>
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             $("ul#setting").siblings('a').attr('aria-expanded','true');
@@ -128,6 +146,6 @@
                     $("#divCheckPasswordMatch").html('{{__('Password matches')}}');
 
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 @endsection

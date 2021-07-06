@@ -369,6 +369,7 @@
             $('#create_record').on('click', function () {
 
                 $('.modal-title').text('{{__('Add Client')}}');
+                $('#store_profile_photo').html('');
                 $('#action_button').val('{{trans("file.Add")}}');
                 $('#action').val('{{trans("file.Add")}}');
                 $('.hide-add').hide();
@@ -452,7 +453,7 @@
                 $('#form_result').html('');
                 $('.hide-edit').hide();
                 $('.hide-add').show();
-
+                $('#store_profile_photo').html('');
 
                 var target = "{{ route('clients.index') }}/" + id + '/edit';
 

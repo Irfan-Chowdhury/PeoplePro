@@ -69,26 +69,10 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <script type="text/javascript">
 
         "use strict";
         $(document).ready(function () {
-
-
-
 
             $('#office_shift-table').DataTable({
                 initComplete: function () {

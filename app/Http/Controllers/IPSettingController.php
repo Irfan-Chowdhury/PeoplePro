@@ -9,12 +9,11 @@ use Yajra\DataTables\Facades\DataTables;
 
 class IPSettingController extends Controller
 {
-    
     public function index(Request $request)
     {
         if (auth()->user()->can('view-general-setting'))
 		{
-            if ($request->ajax()) 
+            if ($request->ajax())
             {
                 $ip_settings = IpSetting::orderBy('id','DESC')->get();
                 return DataTables::of($ip_settings)
@@ -23,7 +22,7 @@ class IPSettingController extends Controller
                         return $row->id;
                     })
                     ->addColumn('action', function($row){
-                        $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm"><i class="dripicons-pencil"></i></a> 
+                        $actionBtn = '<a href="javascript:void(0)" name="edit" data-id="'.$row->id.'" class="edit btn btn-success btn-sm"><i class="dripicons-pencil"></i></a>
                                     &nbsp;
                                     <a href="javascript:void(0)" name="delete" data-id="'.$row->id.'" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></a>';
                         return $actionBtn;
@@ -37,19 +36,19 @@ class IPSettingController extends Controller
 
         return abort('403', __('You are not authorized'));
 
-        
+
     }
 
 
-   
+
     public function store(Request $request)
     {
         if (auth()->user()->can('store-general-setting'))
 		{
             if ($request->ajax()) {
-                $validator = Validator::make($request->only('name','ip_address'),[ 
-                    'name' => 'required|unique:ip_settings',        
-                    'ip_address' => 'required|unique:ip_settings',        
+                $validator = Validator::make($request->only('name','ip_address'),[
+                    'name' => 'required|unique:ip_settings',
+                    'ip_address' => 'required|unique:ip_settings',
                 ]);
 
                 if ($validator->fails()){
@@ -67,17 +66,17 @@ class IPSettingController extends Controller
 
         return abort('403', __('You are not authorized'));
     }
-    
+
     public function edit(Request $request)
     {
         if ($request->ajax()) {
             $ip_setting = IpSetting::find($request->id);
             return response()->json(['id'=>$request->id ,'name' => $ip_setting->name, 'ip_address'=>$ip_setting->ip_address]);
         }
-        
+
     }
 
-  
+
     public function update(Request $request)
     {
         if (auth()->user()->can('store-general-setting'))
@@ -85,9 +84,9 @@ class IPSettingController extends Controller
 
             if ($request->ajax()) {
 
-                $validator = Validator::make($request->only('name','ip_address'),[ 
-                    'name' => 'required|unique:ip_settings,name,'.$request->id,        
-                    'ip_address' => 'required|unique:ip_settings,ip_address,'.$request->id,        
+                $validator = Validator::make($request->only('name','ip_address'),[
+                    'name' => 'required|unique:ip_settings,name,'.$request->id,
+                    'ip_address' => 'required|unique:ip_settings,ip_address,'.$request->id,
                 ]);
 
                 if ($validator->fails()){
@@ -105,7 +104,7 @@ class IPSettingController extends Controller
         return abort('403', __('You are not authorized'));
     }
 
-   
+
     public function delete(Request $request)
     {
         if ($request->ajax()) {
@@ -117,7 +116,7 @@ class IPSettingController extends Controller
     }
 
     public function bulkDelete(Request $request)
-    { 
+    {
         if ($request->ajax()) {
 
             IpSetting::whereIn('id',$request->idsArray)->delete();

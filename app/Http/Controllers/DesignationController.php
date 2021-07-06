@@ -71,7 +71,7 @@ class DesignationController extends Controller
 		{
 			$validator = Validator::make($request->only('designation_name', 'company_id', 'department_id'),
 				[
-					'designation_name' => 'required|unique:designations,designation_name,',
+					'designation_name' => 'required|unique:designations,designation_name,NULL,id,department_id,'.$request->department_id,
 					'company_id' => 'required',
 					'department_id' => 'required',
 				]
@@ -142,7 +142,7 @@ class DesignationController extends Controller
 
 			$validator = Validator::make($request->only('designation_name', 'company_id', 'department_id'),
 				[
-					'designation_name' => 'required|unique:designations,designation_name,'. $id,
+					'designation_name' => 'required|unique:designations,designation_name,'. $id .',id,department_id,'.$request->department_id,
 
 				]
 			);

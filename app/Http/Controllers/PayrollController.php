@@ -26,7 +26,6 @@ use App\SalaryOtherPayment;
 
 class PayrollController extends Controller {
 
-	//
 	use TotalSalaryTrait;
 	use MonthlyWorkedHours;
 
@@ -38,150 +37,6 @@ class PayrollController extends Controller {
 		$selected_date = empty($request->filter_month_year) ? now()->format('F-Y') : $request->filter_month_year;
 		$first_date = date('Y-m-d', strtotime('first day of ' . $selected_date));
 		$last_date = date('Y-m-d', strtotime('last day of ' . $selected_date));
-
-        //---------- Test -------
-        // $selected_date = 'April-2021';
-        // $first_date = '2021-03-01';
-        // $selected_date = 'March-2021';
-		// $nmonth = date('m',strtotime($selected_date));
-		// return $nmonth ;
-
-		// $salary_basic = SalaryBasic::where('first_date','<=',$first_date)->select('employee_id')->distinct()->get();
-		// $salary_basic = SalaryBasic::where('first_date','<=',$first_date)->distinct()->pluck('employee_id');
-		// return $salary_basic;
-
-        // $paid_employees = Payslip::where('month_year',$selected_date)->pluck('employee_id');
-
-        // $employee = Employee::with([
-        //             'salaryBasic' => function ($query)
-        //             {
-		// 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
-		// 				// $query->select('first_date')->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
-        //             },
-        //             'allowances' => function ($query)
-		// 			{
-		// 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
-		// 			},
-		// 			'commissions'=> function ($query) use ($first_date)
-		// 			{
-		// 				$query->where('first_date', $first_date);
-		// 			},
-		// 			'deductions'=> function ($query)
-		// 			{
-		// 				$query->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
-		// 			},
-		// 			'otherPayments'=> function ($query) use ($first_date)
-		// 			{
-		// 				$query->where('first_date', $first_date);
-		// 			},
-        //             'loans'=> function ($query) use ($first_date)
-		// 			{
-		// 				$query->where('first_date','<=', $first_date)
-		// 				->orderByRaw('DATE_FORMAT(first_date, "%y-%m")');
-		// 			},
-		// 			'overtimes'=> function ($query) use ($selected_date)
-		// 			{
-		// 				$query->where('month_year', $selected_date);
-		// 			},
-        //             'payslips' => function ($query) use ($selected_date)
-        //             {
-        //                 $query->where('month_year', $selected_date);
-        //             },
-        //             // 'employeeAttendance' => function ($query) use ($first_date, $last_date){
-        //             //     $query->whereBetween('attendance_date', [$first_date, $last_date]);
-        //             // }
-		// 			])
-        //             ->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount')
-		// // 				->whereNotIn('id',$paid_employees)
-		// // 				->get();
-        //             ->where('id',11)->first();
-
-        // //return $employee->allowances->sum('allowance_amount');
-
-        //  foreach ($employee->salaryBasic as $salaryBasic) {
-        //     if($salaryBasic->first_date <= $first_date){
-        //         $payslip_type = $salaryBasic->payslip_type;
-        //         $basic_salary = $salaryBasic->basic_salary;
-        //     }
-        // }
-
-        // //allowances
-		// $allowance_amount = 0;
-		// if (!$employee->allowances->isEmpty()) {
-		// 	foreach($employee->allowances as $key => $item) {
-		// 		if($item->first_date <= $first_date){
-		// 			$allowance_amount = SalaryAllowance::where('month_year',$item->month_year)->where('employee_id',11)->sum('allowance_amount');
-		// 		}
-		// 	}
-		// }
-
-
-		// $deduction_amount = 0;
-		// if (!$employee->deductions->isEmpty()) {
-		// 	foreach($employee->deductions as $key => $item) {
-		// 		if($item->first_date <= $first_date){
-		// 			$deduction_amount = SalaryDeduction::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('deduction_amount');
-		// 		}
-		// 	}
-		// }
-
-        // $total = 0 + $allowance_amount + $employee->commissions->sum('commission_amount')
-        // - $employee->loans->sum('monthly_payable')
-        // - $deduction_amount - 0 // (basic_salary - pension_amount)
-        // + $employee->otherPayments->sum('other_payment_amount') + $employee->overtimes->sum('overtime_amount');
-
-        // // return $basic_salary; //100
-        // // return $allowance_amount; //250
-        // // return $employee->commissions->sum('commission_amount'); //0
-        // // return $employee->loans->sum('monthly_payable'); //0
-        // // return $deduction_amount; // 10
-        // // return $employee->otherPayments->sum('other_payment_amount'); // 0
-        // // return $employee->overtimes->sum('overtime_amount'); // 0
-        // return $total;
-
-
-
-
-        // if ($employee->percentage) {
-        //     $pension_amount =  ($basicsalary * $employee->pension_amount) /100.00;
-        // } else {
-        //     $pension_amount = $employee->pension_amount;
-        // }
-
-        // return $pension_amount;
-
-
-
-		//allowances
-		// $loans_amount = 0;
-		// if (!$employee->loans->isEmpty()) {
-		// 	foreach($employee->loans as $key => $item) {
-		// 		if($item->first_date <= $first_date){
-		// 			$loans_amount += SalaryLoan::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('monthly_payable');
-		// 		}
-		// 	}
-		// }
-
-		// return $loans_amount;
-
-		// if (!empty($data_month_year)) {
-        //     return $data_month_year;
-		// }
-		// else {
-		// 	foreach($employees[0]->salaryBasic as $key => $salaryBasic)
-		// 	if ($salaryBasic->first_date) {
-		// 		# code...
-		// 	}
-		// }
-
-		//$nmonth = date('m',strtotime($data_month_year));
-		//return $employees[0]->salaryBasic;
-        //return $employees[0]->salaryBasic[0]->month_year;
-
-
-        //---------- Test -------
-
-
 
 		if ($logged_user->can('view-paylist'))
 		{
@@ -520,8 +375,8 @@ class PayrollController extends Controller {
 
 		$data['employee_id']          = $employee->id;
 		$data['employee_full_name']   = $employee->full_name;
-		$data['employee_designation'] = $employee->designation->designation_name;
-		$data['employee_department']  = $employee->department->department_name;
+		$data['employee_designation'] = $employee->designation->designation_name ?? '';
+		$data['employee_department']  = $employee->department->department_name ?? '';
 		$data['employee_join_date']   = $employee->joining_date;
 		$data['employee_username']    = $employee->user->username;
 		$data['employee_pp']          = $employee->user->profile_photo ?? '';
@@ -1066,9 +921,6 @@ class PayrollController extends Controller {
 		return response()->json(['error' => __('Error')]);
 	}
 
-
-
-
     protected function allowances($employee, $first_date, $type)
     {
         if ($type=="getArray") {
@@ -1147,7 +999,6 @@ class PayrollController extends Controller {
                                 }
                             }
                         }
-
                     }
                 }
             }else {

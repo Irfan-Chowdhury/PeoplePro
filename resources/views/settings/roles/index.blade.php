@@ -16,7 +16,11 @@
                 <button type="button" class="edit-btn btn btn-info mr-2" data-toggle="modal" data-target="#createModal">
                     <i class="fa fa-cube"></i> {{__('Add Role')}}</button>
             @endcan
-            @can('assign-role')
+            {{-- @can('assign-role')
+                <a href="{{route('user-roles')}}" class="btn btn-info"><i
+                            class="fa fa-plus"></i> {{__('Assign Role')}}</a>
+            @endcan --}}
+            @can('role-access-user')
                 <a href="{{route('user-roles')}}" class="btn btn-info"><i
                             class="fa fa-plus"></i> {{__('Assign Role')}}</a>
             @endcan
@@ -242,9 +246,10 @@
             </div>
         </div>
     </div>
+    
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             var checkedNodes;

@@ -837,5 +837,4 @@ class ReportController extends Controller {
 
         return view('report.pension_report',compact('companies'));
     }
-
 }

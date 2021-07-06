@@ -19,7 +19,7 @@
                 <div class="col-9 col-md-10 mb-3">
                     <h4 class="font-weight-bold">{{$employee->full_name}} <span class="text-muted font-weight-normal"> ({{$user->username}})</span>
                     </h4>
-                    <div class="text-muted mb-2">{{$employee->designation->designation_name}}, {{$employee->department->department_name}}</div>
+                    <div class="text-muted mb-2">{{$employee->designation->designation_name ?? ''}}, {{$employee->department->department_name ?? ''}}</div>
                     <p class="text-muted">{{__('Last Login')}}: {{$user->last_login_date}}</p>
                     <p class="text-muted">{{__('My Office Shift')}}:
                     @if(!$shift_in)
@@ -39,7 +39,7 @@
                         <input type="hidden" value="{{$shift_out}}" name="office_shift_out" id="shift_out">
                         <input type="hidden" value="" name="in_out_value" id="in_out">
 
-                        @if(!$employee_attendance || $employee_attendance->clock_in_out=== 0)
+                        @if(!$employee_attendance || $employee_attendance->clock_in_out== 0)
                             <button class="btn btn-success btn-sm" @if($employee->attendance_type=='ip_based' && $ipCheck!=true) disabled @endif type="submit" id="clock_in_btn"><i class="dripicons-enter"></i> {{__('Clock IN')}}</button>
                         @else
                             <button class="btn btn-danger btn-sm" @if($employee->attendance_type=='ip_based' && $ipCheck!=true) disabled @endif type="submit" id="clock_out_btn"><i class="dripicons-exit"></i> {{__('Clock OUT')}}</button>
@@ -194,7 +194,7 @@
                                     @foreach($assigned_tasks as $task)
                                     <tr>
                                         <td>
-                                            <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$task->assignedTasks[0]->title}}</h5></a>
+                                            <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$task->assignedTasks[0]->task_name}}</h5></a>
                                         </td>
                                     </tr>
                                     @endforeach
@@ -213,11 +213,11 @@
                             <table class="table">
                                 <tbody>
                                     @foreach($assigned_tickets as $ticket)
-                                    <tr>
-                                        <td>
-                                            <a href="{{route('tickets.show',$ticket->assignedTickets[0]->ticket_code)}}"><h5>{{$ticket->assignedTickets[0]->subject}}</h5></a>
-                                        </td>
-                                    </tr>
+                                        <tr>
+                                            <td>
+                                                <a href="{{route('tickets.show',$ticket->assignedTickets[0]->ticket_code)}}"><h5>{{$ticket->assignedTickets[0]->subject}}</h5></a>
+                                            </td>
+                                        </tr>
                                     @endforeach
                                 </tbody>
                             </table>
@@ -601,7 +601,7 @@
                         });
                     }
 
-                    
+
                 });
 
                 $('#travel_sample_form').on('submit', function (event) {

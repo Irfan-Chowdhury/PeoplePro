@@ -88,7 +88,10 @@
                                     <div id="employee_pp"></div>
                                     <div class="ml-3">
                                         <div class="h3 text-bold d-inline" id="employee_full_name"></div> (<span id="employee_username"></span>)
-                                        <p class="text-gray" id="employee_designation"></p>
+                                        <br>
+                                        <span class="text-gray" id="employee_designation"></span>
+                                        <span class="text-gray" id="employee_department"></span>
+                                        <br>
                                         <a id="employee_id" href="">{{ __('View Profile') }}</a>
                                     </div>
                                 </div>
@@ -609,12 +612,17 @@
                     type: "GET",
                     data: {id:id, filter_month_year:filter_month_year},
                     success: function (result) {
-                        console.log(result);
+                        console.log(result.data);
                         // console.log(result.data.allowances[0]);
 
                         $('#employee_username').html(result.data.employee_username);
                         $('#employee_full_name').html(result.data.employee_full_name);
-                        $('#employee_designation').html(result.data.employee_designation);
+                        if (result.data.employee_designation=='') {
+                            $('#employee_designation').html(result.data.employee_designation);
+                        }
+                        else {
+                            $('#employee_designation').html(result.data.employee_designation + ', ');
+                        }
                         $('#employee_department').html(result.data.employee_department);
                         $('#employee_join_date').html(result.data.employee_join_date);
                         $('#employee_id').attr("href","{{ url('staff/employees/') }}/"+result.data.employee_id);

@@ -7,11 +7,25 @@
         <div class="container-fluid"><span id="general_result"></span></div>
 
         <div class="container-fluid mb-3">
-            @can('set-permission')
+            {{-- @can('set-permission')
+                <a href="{{route('roles.index')}}" class="btn btn-info mr-1"><i
+                            class="fa fa-puzzle-piece"></i> {{trans('file.Role')}} </a>
+            @endcan --}}
+            {{-- @can('assign-role')
+                <form id="mass_role_assign" class="d-inline">
+                    <select id="mass_select" class="selectpicker" data-style="btn-primary" name="mass_role"
+                            title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
+                        @foreach($roles as $role)
+                            <option value="{{$role->id}}">{{$role->name}}</option>
+                        @endforeach
+                    </select>
+                </form>
+            @endcan --}}
+            @can('view-role')
                 <a href="{{route('roles.index')}}" class="btn btn-info mr-1"><i
                             class="fa fa-puzzle-piece"></i> {{trans('file.Role')}} </a>
             @endcan
-            @can('assign-role')
+            @can('role-access-user')
                 <form id="mass_role_assign" class="d-inline">
                     <select id="mass_select" class="selectpicker" data-style="btn-primary" name="mass_role"
                             title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
@@ -42,7 +56,7 @@
     </section>
 
     <script type="text/javascript">
-        (function($) { 
+        (function($) {
             "use strict";
             $(document).ready(function () {
 
@@ -110,9 +124,28 @@
                             name: 'role_name',
 
                         },
+                        // {
+                        //     data: 'assign_role',
+                        //     name: 'assign_role',
+                        //     render: function (data,type,row) {
+
+                        //         if (row.role_name == 'admin' ) {
+                        //             return 'Admin role can not be changed';
+                        //         }
+                        //         else if (row.role_name == 'client') {
+                        //             return 'Client role can not be changed';
+                        //         }
+                        //         else {
+
+                        //             return '@can('assign-role')<div class="btn-group"><button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assign Role &nbsp;</button><div class="dropdown-menu">@foreach($roles as $role)<li data-employee_id="'+row.id+'" data-role_id="{{$role->id}}" class="assign-role">{{$role->name}}</li>@endforeach</div></div>@endcan';
+
+                        //         }
+
+                        //     }
+                        // }
                         {
-                            data: 'assign_role',
-                            name: 'assign_role',
+                            data: 'role-access-user',
+                            name: 'role-access-user',
                             render: function (data,type,row) {
 
                                 if (row.role_name == 'admin' ) {
@@ -122,9 +155,11 @@
                                     return 'Client role can not be changed';
                                 }
                                 else {
-                                    return '<div class="btn-group"><button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assign Role &nbsp;</button><div class="dropdown-menu">@foreach($roles as $role)<li data-employee_id="'+row.id+'" data-role_id="{{$role->id}}" class="assign-role">{{$role->name}}</li>@endforeach</div></div>';
+                                    // return '@can('assign-role')<div class="btn-group"><button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assign Role &nbsp;</button><div class="dropdown-menu">@foreach($roles as $role)<li data-employee_id="'+row.id+'" data-role_id="{{$role->id}}" class="assign-role">{{$role->name}}</li>@endforeach</div></div>@endcan';
+                                    return '@can('role-access-user')<div class="btn-group"><button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Assign Role &nbsp;</button><div class="dropdown-menu">@foreach($roles as $role)<li data-employee_id="'+row.id+'" data-role_id="{{$role->id}}" class="assign-role">{{$role->name}}</li>@endforeach</div></div>@endcan';
+
                                 }
-                                
+
                             }
                         }
 

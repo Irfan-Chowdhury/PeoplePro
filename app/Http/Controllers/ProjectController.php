@@ -42,8 +42,12 @@ class ProjectController extends Controller {
 					})
 					->addColumn('client', function ($row)
 					{
-						// return $row->client->name ?? '';
-						return $row->client->first_name.' '.$row->client->last_name ?? ''; //Correction
+                        if ($row->client_id!=NULL) {
+                            return $row->client->first_name.' '.$row->client->last_name;
+                        }else{
+                            return " ";
+                        }
+
 					})
 					->addColumn('assigned_employee', function ($row)
 					{

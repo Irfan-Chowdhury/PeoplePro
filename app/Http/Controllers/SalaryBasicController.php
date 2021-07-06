@@ -93,9 +93,10 @@ class SalaryBasicController extends Controller
             $salary_basic->basic_salary = $request->basic_salary;
             $salary_basic->save();
 
-            $employee = Employee::find($employee->id);
-            $employee->payslip_type = $request->payslip_type;
-            $employee->basic_salary = $request->basic_salary;
+            $salary_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->orderByRaw('DATE_FORMAT(first_date, "%y-%m") DESC')->first();
+            $employee = Employee::find($salary_basic->employee_id);
+            $employee->payslip_type = $salary_latest->payslip_type;
+            $employee->basic_salary = $salary_latest->basic_salary; //Alawys Updated Last Month-Year wise
             $employee->update();
 
             return response()->json(['success' => __('Data Added successfully.')]);
@@ -152,11 +153,11 @@ class SalaryBasicController extends Controller
             $salary_basic->basic_salary = $request->basic_salary;
             $salary_basic->update();
 
-            $salary_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->latest()->first();
+            $salary_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->orderByRaw('DATE_FORMAT(first_date, "%y-%m") DESC')->first();
 
             $employee = Employee::find($salary_basic->employee_id);
             $employee->payslip_type = $salary_latest->payslip_type;
-            $employee->basic_salary = $salary_latest->basic_salary; //Alawys Updated latest row of this employee
+            $employee->basic_salary = $salary_latest->basic_salary; //Alawys Updated Last Month-Year wise
             $employee->update();
 
 			return response()->json(['success' => __('Data is successfully updated')]);
@@ -179,7 +180,7 @@ class SalaryBasicController extends Controller
             $salary_basic_latest = SalaryBasic::where('employee_id',$salary_basic->employee_id)->select('payslip_type','basic_salary')->orderByRaw('DATE_FORMAT(first_date, "%y-%m") DESC')->first();
             $employee = Employee::find($salary_basic->employee_id);
             $employee->payslip_type = $salary_basic_latest->payslip_type;
-            $employee->basic_salary = $salary_basic_latest->basic_salary; //Alawys Updated latest row of this employee
+            $employee->basic_salary = $salary_basic_latest->basic_salary; //Alawys Updated Last Month-Year wise
             $employee->update();
 
 			return response()->json(['success' => __('Data is successfully deleted')]);

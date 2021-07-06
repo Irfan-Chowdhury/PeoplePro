@@ -71,7 +71,7 @@
                         </button>
                     </div>
                 </form>
-                <!-- This two button for demo only-->
+                <!-- This three buttons for demo only-->
                 <button type="submit" class="btn btn-success btn-sm default admin-btn">LogIn as Admin</button>
                 <button type="submit" class="btn btn-info btn-sm default staff-btn">LogIn as Staff</button>
                 <button type="submit" class="btn btn-warning btn-sm default client-btn">LogIn as Client</button>
@@ -93,10 +93,10 @@
 </html>
 
 <script type="text/javascript">
-    (function($) { 
+    (function($) {
 
-        "use strict"; 
-         
+        "use strict";
+
         $('.admin-btn').on('click', function () {
             $("input[name='username']").focus().val('admin');
             $("input[name='password']").focus().val('admin');

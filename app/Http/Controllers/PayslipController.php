@@ -41,7 +41,6 @@ class PayslipController extends Controller {
                 else {
                     $payslips = Payslip::with( ['employee:id,first_name,last_name,company_id,department_id','employee.company','employee.department'])
                             ->where('month_year',$selected_date)
-                            // ->latest('created_at')
                             ->get();
                 }
 
@@ -57,7 +56,7 @@ class PayslipController extends Controller {
 					})
 					->addColumn('employee_name', function ($row)
 					{
-						$employee_name  = "<span><a href='#' class='d-block text-bold' style='color:#24ABF2;'>".$row->employee->full_name."</a></span>";
+						$employee_name  = "<span><a class='d-block text-bold' style='color:#24ABF2;'>".$row->employee->full_name."</a></span>";
 						$company_name = $row->employee->company->company_name ?? '';
 						$department_name = $row->employee->department->department_name ?? '';
 
@@ -74,13 +73,13 @@ class PayslipController extends Controller {
 									->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type')
 									->where('id',$row->employee_id)->first();
 							$total_minutes = 0 ;
-							$total_hours = $this->totalWorkedHours($employee);
+							$total_hours = $row->hours_worked;
 							sscanf($total_hours, '%d:%d', $hour, $min);
 							//converting in minute
 							$total_minutes += $hour * 60 + $min;
 							$amount_hours = ($row->basic_salary / 60 ) * $total_minutes;
 						}
-						else { //Basic Salary
+						else {
 							$basic_salary = $row->basic_salary;
 						}
 
@@ -241,7 +240,7 @@ class PayslipController extends Controller {
 			->where('id',$payslip->employee_id)
 			->first();
 
-		$total_minutes = 0 ;
+		$total_minutes = 0;
 		// $total_hours = $this->totalWorkedHours($employee);
 		$total_hours = $payslip->hours_worked; //correction
 		sscanf($total_hours, '%d:%d', $hour, $min);
@@ -274,26 +273,25 @@ class PayslipController extends Controller {
 			'employeeAttendance' => function ($query) use ($first_date, $last_date){
 				$query->whereBetween('attendance_date', [$first_date, $last_date]);
 			}])
-			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id','payslip_type')
+			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id','payslip_type','pension_amount')
 			->where('id',$payslip->employee_id)->first()->toArray();
 
-		// return $employee;
 
-		$employee_new = Employee::findOrFail($payslip->employee_id);
+		// return $payslip->pension_amount;
 
 		$total_minutes = 0 ;
-		// $total_hours = $this->totalWorkedHours($employee_new);
 		$total_hours = $payslip->hours_worked; //correction
 		sscanf($total_hours, '%d:%d', $hour, $min);
 		//converting in minute
 		$total_minutes += $hour * 60 + $min;
 		$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
 		$employee['hours_amount'] = $amount_hours;
+        $employee['pension_amount'] = $payslip->pension_amount;
 
 		// return view('salary.payslip.pdf',compact('payslip','employee'));
 
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
-        $pdf = PDF::loadView('salary.payslip.pdf', $payslip,$employee);
+        $pdf = PDF::loadView('salary.payslip.pdf', $payslip, $employee);
         return $pdf->stream();
 	}
 }

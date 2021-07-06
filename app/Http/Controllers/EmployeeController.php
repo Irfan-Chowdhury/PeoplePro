@@ -97,7 +97,11 @@ class EmployeeController extends Controller {
                         $username = "<span>Username: &nbsp;".($row->user->username ?? '')."</span>";
                         $gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
                         $shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
-                        $salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')."</span>";
+                        if(config('variable.currency_format') ==='suffix'){
+							$salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')." ".config('variable.currency')."</span>";
+						}else{
+							$salary= "<span>Salary: &nbsp;".config('variable.currency')." ".($row->basic_salary ?? '')."</span>";
+						}
                         $payslip_type = "<span>Payslip Type: &nbsp;".($row->payslip_type ?? '')."</span>";
 
                         return "<div class='d-flex'>
@@ -411,6 +415,7 @@ class EmployeeController extends Controller {
 						'status_id' => 'required',
 						'attendance_type' => 'required',
 						'total_leave' => 'numeric|min:0',
+						'joining_date' => 'required',
 					]
 				);
 

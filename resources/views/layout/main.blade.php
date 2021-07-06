@@ -280,9 +280,13 @@
                             @can('view-user')
                                 <li id="users-menu"><a href="{{route('users-list')}}">{{__('Users List')}}</a></li>
                             @endcan
-                            @can('role-access-user')
+                            {{-- @can('role-access-user')
                                 <li id="user-roles"><a
                                             href={{route('user-roles')}}>{{__('User Roles and Access')}}</a></li>
+                            @endcan --}}
+                            @can('role-access-user')
+                                <li id="user-roles"><a
+                                            href={{route('user-roles')}}>{{__('Assign Role')}}</a></li>
                             @endcan
                             @can('last-login-user')
                                 <li id="user-last-login"><a
@@ -310,9 +314,18 @@
                 @endcan
 
                 @can('customize-setting')
-                    <li class="has-dropdown {{ (request()->is('settings*')) ? 'active' : '' }}"><a
-                                href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span></a>
+                    <li class="has-dropdown {{ (request()->is('settings*')) ? 'active' : '' }}">
+                        
+                        
+                        @if(auth()->user()->can('view-role')||auth()->user()->can('view-general-setting')||auth()->user()->can('access-language')||auth()->user()->can('access-variable_type')||auth()->user()->can('access-variable_method')||auth()->user()->can('view-general-setting'))
+                            <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> 
+                                <i class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span>
+                            </a>
+                        @endif
+                        {{-- <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> 
+                            <i class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span>
+                        </a> --}}
+
                         <ul id="Customize_settings" class="collapse list-unstyled ">
                             @can('view-role')
                                 <li id="roles"><a href="{{route('roles.index')}}">{{__('Roles and Access')}}</a></li>
@@ -753,21 +766,24 @@
                         </li>
                     @endcan
 
-                    <li class="has-dropdown @if(request()->is('assets*')){{ (request()->is('assets*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/assets_category*')){{ (request()->is('dynamic_variable/assets_category*')) ? 'active' : '' }}@endif">
-                        <a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-box"></i><span>{{trans(('file.Assets'))}}</span></a>
-                        <ul id="assets" class="collapse list-unstyled ">
-                            @can('view-assets-category')
-                                <li id="assets_category"><a
-                                    href="{{route('assets_category.index')}}">{{trans(('file.Category'))}}</a>
-                                </li>
-                            @endcan
-                                <li id="assets">
-                                    <a href="{{route('assets.index')}}">{{trans(('file.Assets'))}}</a>
-                                </li>
+                    @can('assets-and-category')
+                        <li class="has-dropdown @if(request()->is('assets*')){{ (request()->is('assets*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/assets_category*')){{ (request()->is('dynamic_variable/assets_category*')) ? 'active' : '' }}@endif">
+                            <a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
+                                        class="dripicons-box"></i><span>{{trans(('file.Assets'))}}</span></a>
+                            <ul id="assets" class="collapse list-unstyled ">
+                                @can('category')
+                                    <li id="assets_category"><a
+                                        href="{{route('assets_category.index')}}">{{trans(('file.Category'))}}</a>
+                                    </li>
+                                @endcan
 
-                        </ul>
-                    </li>
+                                @can('assets')
+                                    <li id="assets"><a href="{{route('assets.index')}}">{{trans(('file.Assets'))}}</a></li>
+                                @endcan
+
+                            </ul>
+                        </li>
+                    @endcan
 
                     @can('file_module')
                         <li class="has-dropdown {{ (request()->is('file_manager*')) ? 'active' : '' }}"><a

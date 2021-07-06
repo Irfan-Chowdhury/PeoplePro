@@ -12,77 +12,171 @@ use Spatie\Permission\Models\Role;
 
 class AllUserController extends Controller {
 
-	public function index()
-	{
-		$logged_user = auth()->user();
-		// $roles = Role_User::select('id', 'role_name')->limit(2)->get();
+	// public function index()
+	// {
+	// 	$logged_user = auth()->user();
+	// 	// $roles = Role_User::select('id', 'role_name')->limit(2)->get();
 
-		if ($logged_user->can('view-user'))
-		{
-			if (request()->ajax())
-			{
-				return datatables()->of(User::with('RoleUser')->orderByDesc('is_active'))
-					->setRowId(function ($user)
-					{
-						return $user->id;
-					})
-					->addColumn('contacts', function ($row)
-					{
-						$email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
-						$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+	// 	if ($logged_user->can('view-user'))
+	// 	{
+	// 		if (request()->ajax())
+	// 		{
+	// 			return datatables()->of(User::with('RoleUser')->orderByDesc('is_active'))
+	// 				->setRowId(function ($user)
+	// 				{
+	// 					return $user->id;
+	// 				})
+	// 				->addColumn('contacts', function ($row)
+	// 				{
+	// 					$email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+	// 					$contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
 
-						return $email.'</br>'.$contact_no;
-					})
-					->addColumn('username', function ($row)
-					{
-						if ($row->profile_photo)
-						{
-							$url = url("public/uploads/profile_photos/".$row->profile_photo);
-							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
-						}
-						else {
-							$url = url("public//logo/avatar.jpg");
-							$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
-						}
-						$full_name  = "<span><a class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
-						$username = "<span><b>Username :</b> &nbsp;".$row->username."</span>";
-						return "<div class='d-flex'>
-									<div class='mr-2'>".$profile_photo."</div>
-									<div>"
-										.$full_name.'</br>'.$username.'</br>'.
-										// '<b>Role :</b> '.$row->RoleUser->role_name;
-										'<b>Role :</b> '.$row->RoleUser->name;
-									"</div>
-								</div>";
+	// 					return $email.'</br>'.$contact_no;
+	// 				})
+	// 				->addColumn('username', function ($row)
+	// 				{
+	// 					if ($row->profile_photo)
+	// 					{
+	// 						$url = url("public/uploads/profile_photos/".$row->profile_photo);
+	// 						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+	// 					}
+	// 					else {
+	// 						$url = url("public/logo/avatar.jpg");
+	// 						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+	// 					}
+	// 					$full_name  = "<span><a class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
+	// 					$username = "<span><b>Username :</b> &nbsp;".$row->username."</span>";
+	// 					return "<div class='d-flex'>
+	// 								<div class='mr-2'>".$profile_photo."</div>
+	// 								<div>"
+	// 									.$full_name.'</br>'.$username.'</br>'.
+	// 									// '<b>Role :</b> '.$row->RoleUser->role_name;
+	// 									'<b>Role :</b> '.$row->RoleUser->name;
+	// 								"</div>
+	// 							</div>";
 
-					})
-					->addColumn('login_info', function ($row)
-					{
-						return '<b>Last Login Date :</b> '.$row->last_login_date.'</br>'.'<b>Last Login IP :</b> '.$row->last_login_ip;
-					})
-					->addColumn('action', function ($data)
-					{
-						$button = '';
-							if (auth()->user()->can('edit-user'))
-							{
-								$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
-								$button .= '&nbsp;&nbsp;';
-							}
-							if (auth()->user()->can('delete-user') && $data->id != 1)
-							{
-								$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-cross"></i></button>';
-							}
+	// 				})
+	// 				->addColumn('login_info', function ($row)
+	// 				{
+	// 					return '<b>Last Login Date :</b> '.$row->last_login_date.'</br>'.'<b>Last Login IP :</b> '.$row->last_login_ip;
+	// 				})
+	// 				->addColumn('action', function ($data)
+	// 				{
+	// 					$button = '';
+	// 						if (auth()->user()->can('edit-user')) {
+	// 							if ($data->role_users_id != 1) {
+	// 								$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
+	// 								$button .= '&nbsp;&nbsp;';
+	// 							}
+	// 							else {
+	// 								if ($data->id == auth()->user()->id) {
+	// 									$button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
+	// 									$button .= '&nbsp;&nbsp;';
+	// 								}
+	// 							}
 
-							return $button;
-					})
-					->rawColumns(['action','contacts','username','login_info'])
-					->make(true);
-			}
-			return view('all_user.index');
-		}
+	// 						}
+	// 						if (auth()->user()->can('delete-user'))
+	// 						{
+	// 							if ($data->role_users_id != 1) {
+	// 								$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-cross"></i></button>';
+	// 							}
+	// 						}
 
-		return abort('403', __('You are not authorized'));
-	}
+	// 						return $button;
+	// 				})
+	// 				->rawColumns(['action','contacts','username','login_info'])
+	// 				->make(true);
+	// 		}
+	// 		return view('all_user.index');
+	// 	}
+
+	// 	return abort('403', __('You are not authorized'));
+	// }
+
+
+    public function index(){
+
+        $logged_user = auth()->user();
+
+        // $users = User::with('RoleUser')->orderByDesc('is_active');
+        $users = User::orderBy('is_active','desc')->get();
+
+        if (request()->ajax()){
+
+            return datatables()->of($users)
+            ->setRowId(function ($user)
+                {
+                    return $user->id;
+                })
+                ->addColumn('username', function ($row)
+				{
+					if ($row->profile_photo)
+					{
+						$url = url("public/uploads/profile_photos/".$row->profile_photo);
+						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+					}
+					else {
+						$url = url("public/logo/avatar.jpg");
+						$profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
+					}
+					$full_name  = "<span><a class='d-block text-bold' style='color:#24ABF2'>".$row->first_name.' '.$row->last_name."</a></span>";
+					$username = "<span><b>Username :</b> &nbsp;".$row->username."</span>";
+
+                    return "<div class='d-flex'>
+								<div class='mr-2'>".$profile_photo."</div>
+								<div>"
+									.$full_name.'</br>'.$username.'</br>'.
+									// '<b>Role :</b> '.$row->RoleUser->role_name;
+									'<b>Role :</b> '.$row->RoleUser->name;
+								"</div>
+							</div>";
+
+				})
+                ->addColumn('contacts', function ($row)
+                {
+                    $email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+                    $contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
+
+                    return $email.'</br>'.$contact_no;
+                    // return $row->email;
+                })
+                ->addColumn('login_info', function ($row)
+                {
+                    return '<b>Last Login Date :</b> '.$row->last_login_date.'</br>'.'<b>Last Login IP :</b> '.$row->last_login_ip;
+                })
+                ->addColumn('action', function ($data)
+                {
+                    $button = '';
+                    if (auth()->user()->can('edit-user')) {
+                        if ($data->role_users_id != 1) {
+                            $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
+                            $button .= '&nbsp;&nbsp;';
+                        }
+                        else {
+                            if ($data->id == auth()->user()->id) {
+                                $button = '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-document-edit"></i></button>';
+                                $button .= '&nbsp;&nbsp;';
+                            }
+                        }
+
+                    }
+                    if (auth()->user()->can('delete-user'))
+                    {
+                        if ($data->role_users_id != 1) {
+                            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-cross"></i></button>';
+                        }
+                    }
+
+                    return $button;
+                })
+                ->rawColumns(['username','contacts','login_info','action'])
+				->make(true);
+
+        }
+        return view('all_user.index');
+    }
+
 
 	public function edit($id)
 	{
@@ -278,7 +372,12 @@ class AllUserController extends Controller {
 
 
 		$logged_user = auth()->user();
-		$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
+		if(auth()->user()->role_users_id == 1) {
+			$roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
+		}
+		else {
+			$roles = Role::where('id', '!=', 1)->where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
+		}
 
 
 		if ($logged_user->can('role-access-user'))
@@ -303,9 +402,8 @@ class AllUserController extends Controller {
 					{
 						return $user->id;
 					})
-					->addColumn('assign_role', function ($data)
+					->addColumn('role-access-user', function ($data)
 					{
-
 						return '';
 					})
 					->make(true);

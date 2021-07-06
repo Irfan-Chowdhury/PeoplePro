@@ -103,7 +103,6 @@ class SupportTicketController extends Controller {
 	 */
 	public function store(Request $request)
 	{
-
 		if (auth()->user()->can('store-ticket') || auth()->user())
 		{
 			$validator = Validator::make($request->only('subject', 'company_id', 'department_id', 'employee_id', 'ticket_priority', 'description', 'ticket_note'
@@ -145,8 +144,9 @@ class SupportTicketController extends Controller {
 			$data['department_id'] = $request->department_id;
 			$data ['description'] = $request->description;
 			$data ['ticket_priority'] = $request->ticket_priority;
-			$data ['ticket_status'] = $request->ticket_status;
+			// $data ['ticket_status'] = $request->ticket_status;
 			$data ['ticket_note'] = $request->ticket_note;
+			$data ['ticket_status'] = 'pending';
 
 			$file = $request->ticket_attachments;
 
@@ -162,6 +162,13 @@ class SupportTicketController extends Controller {
 					$data['ticket_attachment'] = $file_name;
 				}
 			}
+
+
+			// try {
+			// 	$ticket = SupportTicket::create($data);
+			// } catch (Exception $e) {
+			// 	return response()->json($e);
+			// }
 
 			$ticket = SupportTicket::create($data);
 

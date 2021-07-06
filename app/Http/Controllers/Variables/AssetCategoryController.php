@@ -13,33 +13,37 @@ class AssetCategoryController {
 	public function index()
 	{
 
-		if (request()->ajax())
-		{
-			return datatables()->of(AssetCategory::select('id', 'category_name')->get())
-				->setRowId(function ($assets_category)
-				{
-					return $assets_category->id;
-				})
-				->addColumn('action', function ($data)
-				{
-					if (auth()->user()->can('user-edit'))
-					{
-						$button = '<button type="button" name="edit" id="' . $data->id . '" class="assets_category_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-						$button .= '&nbsp;&nbsp;';
-						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="assets_category_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+        if (auth()->user()->can('view-assets-category'))
+        {
+            if (request()->ajax())
+            {
+                return datatables()->of(AssetCategory::select('id', 'category_name')->get())
+                    ->setRowId(function ($assets_category)
+                    {
+                        return $assets_category->id;
+                    })
+                    ->addColumn('action', function ($data)
+                    {
+                        $button = "";
+                        if (auth()->user()->can('edit-assets-category'))
+                        {
+                            $button .= '<button type="button" name="edit" id="' . $data->id . '" class="assets_category_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+                        }
+                        if(auth()->user()->can('delete-assets-category'))
+                        {
+                            $button .= '&nbsp;&nbsp;';
+                            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="assets_category_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+                        }
 
-						return $button;
-					} else
-					{
-						return '';
-					}
-				})
-				->rawColumns(['action'])
-				->make(true);
+                        return $button;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+            }
 
-		}
+		    return view('assets.assets_category.assets_category');
+        }
 
-		return view('assets.assets_category.assets_category');
 
 	}
 
@@ -47,7 +51,7 @@ class AssetCategoryController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('store-assets-category'))
 		{
 			$validator = Validator::make($request->only('category_name'),
 				[
@@ -111,7 +115,7 @@ class AssetCategoryController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-edit'))
+		if ($logged_user->can('edit-assets-category'))
 		{
 			$id = $request->get('hidden_assets_id');
 
@@ -157,7 +161,7 @@ class AssetCategoryController {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-delete'))
+		if ($logged_user->can('delete-assets-category'))
 		{
 			AssetCategory::whereId($id)->delete();
 			return response()->json(['success' => __('Data is successfully deleted')]);

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PermissionsTableSeeder extends Seeder
 {
@@ -1312,7 +1313,114 @@ class PermissionsTableSeeder extends Seeder
 				'name' => 'cms'
 			),
 
-			//test
+            //Performance
+            array(
+				'id' => 260,
+				'guard_name' => 'web',
+				'name' => 'performance'
+			),
+            array(
+				'id' => 261,
+				'guard_name' => 'web',
+				'name' => 'goal-type'
+			),
+            array(
+				'id' => 262,
+				'guard_name' => 'web',
+				'name' => 'view-goal-type'
+			),
+            array(
+				'id' => 263,
+				'guard_name' => 'web',
+				'name' => 'store-goal-type'
+			),
+            array(
+				'id' => 264,
+				'guard_name' => 'web',
+				'name' => 'edit-goal-type'
+			),
+            array(
+				'id' => 265,
+				'guard_name' => 'web',
+				'name' => 'delete-goal-type'
+			),
+            array(
+				'id' => 266,
+				'guard_name' => 'web',
+				'name' => 'goal-tracking'
+			),
+            array(
+				'id' => 267,
+				'guard_name' => 'web',
+				'name' => 'view-goal-tracking'
+			),
+            array(
+				'id' => 268,
+				'guard_name' => 'web',
+				'name' => 'store-goal-tracking'
+			),
+            array(
+				'id' => 269,
+				'guard_name' => 'web',
+				'name' => 'edit-goal-tracking'
+			),
+            array(
+				'id' => 270,
+				'guard_name' => 'web',
+				'name' => 'delete-goal-tracking'
+			),
+            array(
+				'id' => 271,
+				'guard_name' => 'web',
+				'name' => 'indicator'
+			),
+            array(
+				'id' => 272,
+				'guard_name' => 'web',
+				'name' => 'view-indicator'
+			),
+            array(
+				'id' => 273,
+				'guard_name' => 'web',
+				'name' => 'store-indicator'
+			),
+            array(
+				'id' => 274,
+				'guard_name' => 'web',
+				'name' => 'edit-indicator'
+			),
+            array(
+				'id' => 275,
+				'guard_name' => 'web',
+				'name' => 'delete-indicator'
+			),
+            array(
+				'id' => 276,
+				'guard_name' => 'web',
+				'name' => 'appraisal'
+			),
+            array(
+				'id' => 277,
+				'guard_name' => 'web',
+				'name' => 'view-appraisal'
+			),
+            array(
+				'id' => 278,
+				'guard_name' => 'web',
+				'name' => 'store-appraisal'
+			),
+            array(
+				'id' => 279,
+				'guard_name' => 'web',
+				'name' => 'edit-appraisal'
+			),
+            array(
+				'id' => 280,
+				'guard_name' => 'web',
+				'name' => 'delete-appraisal'
+			),
+
+			//assetes and category
 			array(
 				'id' => 281,
 				'guard_name' => 'web',
@@ -1373,4 +1481,7 @@ class PermissionsTableSeeder extends Seeder
 		DB::table('permissions')->insert($permissions);
     }
 }
+
+
+// php artisan db:seed --class=PermissionsTableSeeder
 

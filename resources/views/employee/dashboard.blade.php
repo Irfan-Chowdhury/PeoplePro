@@ -256,7 +256,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Company')}}</label>
+                                                            <label>{{trans('file.Company')}} <span class="text-danger">*</span></label>
                                                             <input type="hidden" name="company_id_hidden"
                                                                value="{{ $employee->company_id }}"/>
                                                             <select name="company_id" id="company_id"
@@ -276,7 +276,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Department')}}</label>
+                                                            <label>{{trans('file.Department')}} <span class="text-danger">*</span> </label>
                                                             <input type="hidden" name="department_id_hidden"
                                                                value="{{ $employee->department_id }}"/>
                                                             <select name="department_id" id="department_id"
@@ -293,7 +293,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Designation')}}</label>
+                                                        <label>{{trans('file.Designation')}} <span class="text-danger">*</span> </label>
                                                         <input type="hidden" name="designation_id_hidden"
                                                                value="{{ $employee->designation_id }}"/>
                                                         <select name="designation_id" id="designation_id"
@@ -326,7 +326,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Status')}}</label>
+                                                            <label>{{trans('file.Status')}} <span class="text-danger">*</span></label>
                                                             <input type="hidden" name="status_id_hidden"
                                                                value="{{ $employee->status_id }}"/>
                                                             <select name="status_id" id="status_id"
@@ -342,7 +342,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Office Shift')}}</label>
+                                                        <label>{{trans('file.Office Shift')}} <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="office_shift_id_hidden"
                                                                value="{{ $employee->office_shift_id }}"/>
                                                         <select name="office_shift_id" id="office_shift_id"
@@ -357,7 +357,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Date Of Joining')}}</label>
+                                                        <label>{{__('Date Of Joining')}} <span class="text-danger">*</span> </label>
                                                         <input type="text" name="joining_date" id="joining_date"
                                                                autocomplete="off" class="form-control date"
                                                                value="{{$employee->joining_date }}">

@@ -70,7 +70,7 @@ class ClientController extends Controller {
 		if ($logged_user->can('store-client'))
 		{
 			$validator = Validator::make($request->only('username', 'company_name', 'first_name','last_name', 'password', 'contact_no', 'email', 'website', 'address1', 'address2',
-				'city', 'state', 'country', 'zip', 'profile'),
+				'city', 'state', 'country', 'zip', 'profile_photo'),
 				[
 					'username' => 'required|unique:users,username,',
 					'email' => 'required|email|unique:users',
@@ -80,7 +80,7 @@ class ClientController extends Controller {
 					'contact_no' => 'nullable|numeric',
 					'zip' => 'nullable|numeric',
 					'password' => 'required|min:4',
-					'profile' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
+					'profile_photo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
 				]
 			);
 
@@ -184,7 +184,7 @@ class ClientController extends Controller {
 			$client = Client::findOrFail($id);
 
 			$validator = Validator::make($request->only('username', 'company_name', 'first_name', 'last_name', 'contact_no', 'email', 'website', 'address1', 'address2',
-				'city', 'state', 'country', 'zip', 'profile'),
+				'city', 'state', 'country', 'zip', 'profile_photo'),
 				[
 					'username' => 'required|unique:users,username,' . $id,
 					'email' => 'required|email|unique:users,email,' . $id,
@@ -193,7 +193,7 @@ class ClientController extends Controller {
 					'last_name' => 'required',
 					'contact_no' => 'nullable|numeric',
 					'zip' => 'nullable|numeric',
-					'profile' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
+					'profile_photo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
 				]
 			);
 
@@ -224,10 +224,12 @@ class ClientController extends Controller {
 				$new_user = $user_data['username'];
 				if ($photo->isValid())
 				{
-					$file_path = public_path('uploads/profile_photos/' . $client->profile);
-					if (file_exists($file_path))
-					{
-						unlink($file_path);
+					if ($client->profile){
+						$file_path = public_path('uploads/profile_photos/' . $client->profile);
+						if (file_exists($file_path))
+						{
+							unlink($file_path);
+						}
 					}
 					$file_name = preg_replace('/\s+/', '', $new_user) . '_' . time() . '.' . $photo->getClientOriginalExtension();
 					$photo->storeAs('profile_photos', $file_name);

@@ -182,7 +182,7 @@
                         'columnDefs': [
                             {
                                 "orderable": false,
-                                'targets': [0],
+                                'targets': [0,3,4,5],
                                 "className": "text-center"
                             },
                         ],

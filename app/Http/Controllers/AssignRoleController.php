@@ -11,7 +11,8 @@ class AssignRoleController extends Controller {
 	public function update(Request $request, User $user)
 	{
 		$logged_user = auth()->user();
-		if ($logged_user->can('assign-role'))
+		// if ($logged_user->can('assign-role'))
+		if ($logged_user->can('role-access-user'))
 		{
 
 			$role_id = $request->only('roleId');
@@ -24,8 +25,8 @@ class AssignRoleController extends Controller {
 			$employee = Employee::find($user->id);
 			$employee->role_users_id = $role_id['roleId'];
 			$employee->update();
-			
-			
+
+
 			$user = User::find($user->id);
 			$user->role_users_id = $role_id['roleId'];
 			$user->update();
@@ -42,7 +43,8 @@ class AssignRoleController extends Controller {
 	public function mass_update(Request $request)
 	{
 		$logged_user = auth()->user();
-		if ($logged_user->can('assign-role'))
+		// if ($logged_user->can('assign-role'))
+		if ($logged_user->can('role-access-user'))
 		{
 			$user_id = $request['userIdArray'];
 			$role = $request['mass_role'];

@@ -260,7 +260,6 @@ class InvoiceController extends Controller {
 					$data ['invoice_due_date'] = $request->invoice_due_date;
 					$data['grand_total'] = $request->grand_total;
 					$data['invoice_note'] = $request->invoice_note;
-					$data['status'] = 0;
 
 					Invoice::find($id)->update($data);
 
@@ -340,11 +339,6 @@ class InvoiceController extends Controller {
 
 	public function status($status_id,$invoice_id)
 	{
-		if (!$status_id)
-		{
-			return response()->json(['success' => trans('Please select a status')]);
-		}
-
 
 		if ($status_id == 1){
 			Invoice::find($invoice_id)->update(['status'=>1]);
@@ -365,9 +359,9 @@ class InvoiceController extends Controller {
 
 			$notifiable->notify(new InvoiceReceivedNotification($invoice));
 		}
-		else
-		{
-			Invoice::find($invoice_id)->update(['status'=>2]);
+
+		else{
+			Invoice::find($invoice_id)->update(['status'=>0]);
 		}
 
 		return response()->json(['success' => trans('Status Changed successfully')]);

@@ -717,6 +717,8 @@ Route::group(['middleware' => ['XSS']], function ()
 
 	Route::get('meetings/{id}/calendarable', 'MeetingController@calendarableDetails')->name('meetings.calendarable');
 
+
+	
 	Route::post('tickets/update', 'SupportTicketController@update')->name('tickets.update');
 	Route::resource('tickets', 'SupportTicketController')->except([
 		'destroy', 'create', 'update'
@@ -797,7 +799,6 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::resource('invoices', 'InvoiceController')->except([
 				'destroy', 'update'
 			]);
-			Route::get('invoices/status', 'InvoiceController@dummy')->name('invoices.dummy');
 			Route::get('invoices/status/{status_id}/{invoice_id}', 'InvoiceController@status')->name('invoices.status');
 			Route::get('invoices/{id}/delete', 'InvoiceController@destroy')->name('invoices.destroy');
 			Route::get('invoices/download', 'InvoiceController@download')->name('invoices.download');

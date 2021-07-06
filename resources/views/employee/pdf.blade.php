@@ -88,7 +88,11 @@
                             </tr>
                             <tr>
                                 <th>{{__('Salary')}}</th>
-                                <td>{{$basic_salary}}</td>
+                                @if(config('variable.currency_format') ==='suffix')
+                                    <td>{{$basic_salary}} {{config('variable.currency')}}</td>
+                                @else
+                                    <td>{{config('variable.currency')}} {{$basic_salary}} </td>
+                                @endif
                             </tr>
                         </table>
 

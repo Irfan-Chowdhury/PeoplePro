@@ -25,6 +25,7 @@ use App\Project;
 use App\QualificationEducationLevel;
 use App\QualificationLanguage;
 use App\QualificationSkill;
+use App\SalaryBasic;
 use App\status;
 use App\SupportTicket;
 use App\Trainer;
@@ -233,8 +234,12 @@ class DashboardController extends Controller {
 			$language_skills = QualificationLanguage::select('id', 'name')->get();
 			$general_skills = QualificationSkill::select('id', 'name')->get();
 
+			$salary_basics = SalaryBasic::where('employee_id', $employee->id)
+                                        ->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')
+                                        ->get();
+
 			return view('profile.employee_profile', compact('user', 'employee', 'statuses',
-				'countries', 'document_types', 'education_levels', 'language_skills', 'general_skills'));
+				'countries', 'document_types', 'education_levels', 'language_skills', 'general_skills','salary_basics'));
 		}
 	}
 
@@ -249,6 +254,8 @@ class DashboardController extends Controller {
 
 		$validator = Validator::make($request->all(),
 			[
+				'first_name' => 'required|unique:users,first_name,' . $id,
+				'last_name' => 'required|unique:users,last_name,' . $id,
 				'username' => 'required|unique:users,username,' . $id,
 				'email' => 'required|email|unique:users,email,' . $id,
 				'contact_no' => 'required|unique:users,contact_no,' . $id,
@@ -279,6 +286,8 @@ class DashboardController extends Controller {
 		$contact_no = $request->contact_no;
 		$email = strtolower(trim($request->email));
 
+		$user->first_name = $request->first_name;
+		$user->last_name = $request->last_name;
 		$user->username = $username;
 		$user->contact_no = $contact_no;
 		$user->email = $email;
@@ -397,6 +406,28 @@ class DashboardController extends Controller {
 	}
 
 
+	protected function getIp($ip)
+    {
+        $data  = [];
+        $data  = str_split($ip);
+        $length= strlen($ip).'<br>';
+
+        $count = 0;
+        $get_ip ="";
+        for ($i=0; $i < $length ; $i++) { 
+            if ($data[$i]=='.') {
+                $count++;
+            }
+            $get_ip .= $data[$i];
+            if ($count==3) {
+                break;
+            }
+        }
+
+        return $get_ip;
+    }
+
+
 	public function employeeDashboard(Request $request)
 	{
 		$user = auth()->user();
@@ -428,8 +459,8 @@ class DashboardController extends Controller {
 		},])
 			->where('employee_id', $employee->id)->get();
 
-
 		$assigned_projects_count = $assigned_projects->count();
+
 
 		$assigned_tasks = EmployeeTask::with(['assignedTasks' => function ($query) use ($employee)
 		{
@@ -440,6 +471,7 @@ class DashboardController extends Controller {
 
 		$assigned_tasks_count = $assigned_tasks->count();
 
+
 		$assigned_tickets = EmployeeTicket::with(['assignedTickets' => function ($query) use ($employee)
 		{
 			$query->where('ticket_status', '=', 'open')->select('id', 'subject', 'ticket_code', 'ticket_status');
@@ -449,14 +481,28 @@ class DashboardController extends Controller {
 
 		$assigned_tickets_count = $assigned_tickets->count();
 
+		// return $assigned_tickets_count;
+
+
 
 		//checking if emoloyee has attendance on current day
 		$employee_attendance = Attendance::where('attendance_date', now()->format('Y-m-d'))
 				->where('employee_id', $employee->id)->orderBy('id', 'desc')->first() ?? null;
-		
+
 		//IP Check
-		$ipCheck = IpSetting::where('ip_address',$request->ip())->exists();
-		
+		$ip_setting = IpSetting::latest()->first();
+        $db_ip = $this->getIp($ip_setting->ip_address);
+
+        $client_ip = $this->getIp($request->ip());
+
+        if ($db_ip==$client_ip) {
+            $ipCheck =  true;
+        }else {
+            $ipCheck =  false;
+        }
+
+		//$ipCheck = IpSetting::where('ip_address',$request->ip())->exists();
+
 
 		return view('dashboard.employee_dashboard', compact('user', 'employee', 'employee_attendance',
 			'shift_in', 'shift_out', 'shift_name', 'announcements',
@@ -464,6 +510,7 @@ class DashboardController extends Controller {
 			'assigned_projects', 'assigned_projects_count',
 			'assigned_tasks', 'assigned_tasks_count', 'assigned_tickets', 'assigned_tickets_count','ipCheck'));
 	}
+
 
 
 	public function clientDashboard()

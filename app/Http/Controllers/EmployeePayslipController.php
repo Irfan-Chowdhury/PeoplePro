@@ -24,7 +24,8 @@ class EmployeePayslipController extends Controller
 					{
 						if ($logged_user->can('modify-details-employee')||$logged_user->id==$employee)
 						{
-							$button  = '<button type="button" name="show" id="' . $employee . '" class="show_payslip btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
+							// $button  = '<button type="button" name="show" id="' . $employee . '" class="show_payslip btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
+							$button  = '<a id="' . $data->payslip_key . '" class="show btn btn-primary btn-sm" href="' . route('payslip_details.show', $data->payslip_key) . '"><i class="dripicons-preview"></i></a>';
 							$button .= '&nbsp;&nbsp;';
 							$button .= '<a id="' . $data->payslip_key . '" class="download btn btn-info btn-sm" href="' . route('payslip.pdf', $data->payslip_key) . '"><i class="dripicons-download"></i></a>';
 							return $button;

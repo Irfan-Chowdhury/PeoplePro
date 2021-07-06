@@ -17,7 +17,7 @@ class ClientInvoiceController extends Controller
 			{
 				return datatables()->of(Invoice::with('project:id,title')
 					->where('client_id',$logged_user->id)
-					->where('status','=','2')
+					->where('status','=','0')
 					->get())
 					->setRowId(function ($invoice)
 					{
