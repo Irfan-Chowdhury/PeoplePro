@@ -1,5 +1,5 @@
 <div id="eventModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -18,7 +18,7 @@
                             <div class="form-group">
                                 <label for="event_company_id">{{trans('file.Company')}}</label>
                                 <select name="company_id" id="event_company_id" class="form-control selectpicker dynamic"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-dependent="department_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
@@ -34,7 +34,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Department')}}</label>
                                 <select name="department_id"  class="selectpicker form-control department"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
                                 </select>
                             </div>
@@ -71,7 +71,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Status')}}</label>
                             <select name="status" id="event_status" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                 <option value="pending">{{trans('file.Pending')}}</option>
                                 <option value="approved">{{trans('file.Approved')}}</option>

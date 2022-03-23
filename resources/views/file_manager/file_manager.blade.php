@@ -55,7 +55,7 @@
 
 
     <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -73,7 +73,7 @@
                                 <div class="form-group">
                                     <label>{{trans('file.Department')}}</label>
                                     <select name="department_id" id="department_id" class="form-control selectpicker"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
                                         @foreach($departments as $department)
                                             <option value="{{$department->id}}">{{$department->department_name}}</option>
@@ -123,7 +123,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -144,9 +144,9 @@
 
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
-            
+
             $(document).ready(function () {
 
 
@@ -186,7 +186,7 @@
 
                     columns: [
                         {
-                            data: null,
+                            data: 'id',
                             orderable: false,
                             searchable: false
                         },
@@ -242,7 +242,7 @@
                         },
                         {
                             'render': function (data, type, row, meta) {
-                                if (type === 'display') {
+                                if (type == 'display') {
                                     data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                 }
 
@@ -301,12 +301,13 @@
                 $('.modal-title').text('{{__('Add File')}}');
                 $('#action_button').val('{{trans("file.Add")}}');
                 $('#action').val('{{trans("file.Add")}}');
+                $('.file_hide').show();
                 $('#formModal').modal('show');
             });
 
             $('#sample_form').on('submit', function (event) {
                 event.preventDefault();
-                if ($('#action').val() === '{{trans('file.Add')}}') {
+                if ($('#action').val() == '{{trans('file.Add')}}') {
 
                     $.ajax({
                         url: "{{ route('files.store') }}",
@@ -336,7 +337,7 @@
                     })
                 }
 
-                if ($('#action').val() === '{{trans('file.Edit')}}') {
+                if ($('#action').val() == '{{trans('file.Edit')}}') {
                     $.ajax({
                         url: "{{ route('files.update') }}",
                         method: "POST",
@@ -478,7 +479,7 @@
                     }
                 })
             });
-        })(jQuery); 
+        })(jQuery);
     </script>
 
 @endsection

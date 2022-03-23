@@ -1,5 +1,5 @@
 <div id="leaveModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -18,7 +18,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{__('Leave Type')}}</label>
                             <select name="leave_type" id="leave_type" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>__('Leave Type')])}}...'>
                                 @foreach($leave_types as $leave_type)
                                     <option value="{{$leave_type->id}}">{{$leave_type->leave_type}} ({{$leave_type->allocated_day}} Days)</option>
@@ -31,7 +31,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Company')}}</label>
                                 <select name="company_id" id="leave_company_id" class="form-control selectpicker dynamic"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-dependent="department_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
@@ -46,7 +46,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Department')}}</label>
                                 <select name="department_id"  class="selectpicker form-control department"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
                                     
@@ -57,7 +57,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Employee')}}</label>
                             <select name="employee_id"  class="selectpicker form-control employee"
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                             </select>
                         </div>
@@ -90,7 +90,7 @@
                         <div class="col-md-6 form-group">
                             <label for="leave_status">{{trans('file.Status')}}</label>
                             <select name="status" id="leave_status" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                 <option value="pending">{{trans('file.Pending')}}</option>
                                 <option value="first level approval">{{__('First Level Approval')}}</option>

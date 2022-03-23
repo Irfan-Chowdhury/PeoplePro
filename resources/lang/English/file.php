@@ -58,11 +58,11 @@ return array (
   'Debit' => 'Debit',
   'Deductions' => 'Deductions',
   'Deferred' => 'Deferred',
-  'Deleting' => 
+  'Deleting' =>
   array (
-    '' => 
+    '' =>
     array (
-      '' => 
+      '' =>
       array (
         '' => 'Deleting...',
       ),
@@ -105,6 +105,8 @@ return array (
   'Finance' => 'Finance',
   'Fixed' => 'Fixed',
   'Flat' => 'Flat',
+  'Footer' => 'Footer',
+  'Footer_Link' => 'Footer Link',
   'Freelance' => 'Freelance',
   'Fresh' => 'Fresh',
   'Friday' => 'Friday',
@@ -127,6 +129,7 @@ return array (
   'Internship' => 'Internship',
   'Interviewers' => 'Interviewers',
   'Invoice' => 'Invoice',
+  'Irfan' => 'Irfan',
   'Item' => 'Item',
   'Job' => 'Job',
   'Jobs' => 'Jobs',
@@ -155,8 +158,8 @@ return array (
   'Notification' => 'Notification',
   'Notify' => 'Notify',
   'Number' => 'Number',
-  'Office_Shift' => 'Office Shift',
   'OK' => 'OK',
+  'Office_Shift' => 'Office Shift',
   'Ongoing' => 'Ongoing',
   'Optional' => 'Optional',
   'Options' => 'Options',
@@ -296,4 +299,42 @@ return array (
   'submit' => 'submit',
   'unpublished' => 'unpublished',
   'update' => 'update',
+  'RTL Layout' => 'RTL Layout',
+
+  'Payslip Type' => 'Payslip Type',
+  'Goal Type' => 'Goal Type',
+  'Add New Type' => 'Add New Type',
+  'Bulk Delete' => 'Bulk Delete',
+  'Edit Goal Type' => 'Edit Goal Type',
+  'Are you sure you want to remove this data?' => 'Are you sure you want to remove this data?',
+  'Goal Tracking' => 'Goal Tracking',
+  'Add New Goal' => 'Add New Goal',
+  'Target Achievement' => 'Target Achievement',
+  'Start Date' => 'Start Date',
+  'End Date' => 'End Date',
+  'Add New Goal Tracking' => 'Add New Goal Tracking',
+  'Edit Goal Tracking' => 'Edit Goal Tracking',
+  'Performance Indicator' => 'Performance Indicator',
+  'Add New Indicator' => 'Add New Indicator',
+  'Added By' => 'Added By',
+  'Created At' => 'Created At',
+  'Set New Indicator' => 'Set New Indicator',
+  'Technical Competencies' => 'Technical Competencies',
+  'Organizational Competencies' => 'Organizational Competencies',
+  'Professionalism' => 'Professionalism',
+  'Marketing' => 'Marketing',
+  'Integrity' => 'Integrity',
+  'Administration' => 'Administration',
+  'Edit Indicator' => 'Edit Indicator',
+  'Customer Experience' => 'Customer Experience',
+  'Performance Appraisal' => 'Performance Appraisal',
+  'Add New' => 'Add New',
+  'Appraisal Date' => 'Appraisal Date',
+  'Give Performance Appraisal' => 'Give Performance Appraisal',
+  'Select Date' => 'Select Date',
+  'Edit Appraisal' => 'Edit Appraisal',
+
+  'Monthly'=>'Monthly',
+  'Hourly'=>'Hourly',
+  'Others'=>'Others',
 );

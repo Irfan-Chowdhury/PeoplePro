@@ -34,7 +34,7 @@
 
 
     <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -60,7 +60,7 @@
                                 <div class="form-group hide-edit">
                                     <label>{{trans('file.Company')}}</label>
                                     <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-first_name="first_name" data-last_name="last_name"
                                             title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                         @foreach($companies as $company)
@@ -89,7 +89,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Project')}}</label>
                                 <select name="project_id" id="project_id" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Project')])}}...'>
                                     @foreach($projects as $project)
                                         <option value="{{$project->id}}">{{$project->title}}</option>
@@ -130,7 +130,7 @@
     </div>
 
     <div id="editModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -157,7 +157,7 @@
                                 <div class="form-group hide-edit">
                                     <label>{{trans('file.Company')}}</label>
                                     <select name="edit_company_id" id="edit_company_id" class="form-control selectpicker dynamic"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-first_name="first_name" data-last_name="last_name"
                                             title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                         @foreach($companies as $company)
@@ -186,7 +186,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Project')}}</label>
                                 <select name="edit_project_id" id="edit_project_id" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Project')])}}...'>
                                     @foreach($projects as $project)
                                         <option value="{{$project->id}}">{{$project->title}}</option>
@@ -234,7 +234,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -376,7 +376,7 @@
                         },
                         {
                             'render': function (data, type, row, meta) {
-                                if (type === 'display') {
+                                if (type == 'display') {
                                     data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                 }
 
@@ -570,7 +570,7 @@
             function htmlDecode(input){
                 let e = document.createElement('div');
                 e.innerHTML = input;
-                return e.childNodes.length === 0 ? "" : e.childNodes[0].nodeValue;
+                return e.childNodes.length == 0 ? "" : e.childNodes[0].nodeValue;
             }
 
             $(document).on('click', '.edit', function () {

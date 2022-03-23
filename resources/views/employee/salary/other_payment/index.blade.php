@@ -17,7 +17,7 @@
                 <tr>
                     <th>{{__('Month-Year')}}</th>
                     <th>{{trans('file.Title')}}</th>
-                    @if(config('variable.currency_format')==='suffix')
+                    @if(config('variable.currency_format')=='suffix')
                         <th>{{__('Amount')}} ({{config('variable.currency')}})</th>
                     @else
                         <th>({{config('variable.currency')}}) {{__('Amount')}}</th>
@@ -31,7 +31,7 @@
     </div>
 
     <div id="OtherPaymentformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -47,21 +47,21 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year" name="month_year" type="text" id="month_year">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Title')}}</label>
+                                <label>{{trans('file.Title')}} *</label>
                                 <input type="text" name="other_payment_title" id="other_payment_title"
                                        placeholder={{trans('file.Title')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Amount')}} ({{config('variable.currency')}})</label>
+                                @if(config('variable.currency_format')=='suffix')
+                                    <label>{{__('Amount')}} ({{config('variable.currency')}}) *</label>
                                 @else
-                                    <label>({{config('variable.currency')}}) {{__('Amount')}}</label>
+                                    <label>({{config('variable.currency')}}) {{__('Amount')}} *</label>
                                 @endif <input type="text" name="other_payment_amount" id="other_payment_amount"
                                               placeholder={{trans('file.Amount')}}
                                                       required class="form-control">
@@ -88,7 +88,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

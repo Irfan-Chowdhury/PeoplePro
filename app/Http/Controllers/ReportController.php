@@ -483,23 +483,27 @@ class ReportController extends Controller {
 					$employees = Employee::with('company:id,company_name', 'user:id,username',
 						'department:id,department_name', 'designation:id,designation_name')
 						->where('designation_id', $request->designation_id)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				} elseif (!empty($request->department_id))
 				{
 					$employees = Employee::with('company:id,company_name', 'user:id,username',
 						'department:id,department_name', 'designation:id,designation_name')
 						->where('department_id', $request->department_id)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				} elseif (!empty($request->company_id))
 				{
 					$employees = Employee::with('company:id,company_name', 'user:id,username',
 						'department:id,department_name', 'designation:id,designation_name')
 						->where('company_id', $request->company_id)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				} else
 				{
 					$employees = Employee::with('company:id,company_name', 'user:id,username',
 						'department:id,department_name', 'designation:id,designation_name')
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
 
@@ -577,7 +581,7 @@ class ReportController extends Controller {
 					})
 					->addColumn('type', function ($row)
 					{
-						if ($row->category === 'transfer')
+						if ($row->category == 'transfer')
 						{
 							return trans('file.Transfer');
 						} else

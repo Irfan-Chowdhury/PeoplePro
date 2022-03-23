@@ -3,14 +3,14 @@
 
 <section>
     <div class="container-fluid"><span id="general_result"></span></div>
-    
+
     <div class="container-fluid mb-3">
-        <h4 class="font-weight-bold mt-3">Performance Appraisal</h4>
+        <h4 class="font-weight-bold mt-3">@lang('file.Performance Appraisal')</h4>
         <div id="success_alert" role="alert"></div>
         <br>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New')}}</button>
-        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__('file.Add New')}}</button>
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__('file.Bulk Delete')}}</button>
     </div>
 
     <div class="table-responsive">
@@ -22,7 +22,7 @@
                     <th>{{trans('file.Employee')}}</th>
                     <th>{{trans('file.Department')}}</th>
                     <th>{{trans('file.Designation')}}</th>
-                    <th>Appraisal Date</th>
+                    <th>@lang('file.Appraisal Date')</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
@@ -36,6 +36,12 @@
 @include('performance.indicator.delete-modal')
 @include('performance.goal-type.delete-checkbox-confirm-modal')
 
+
+
+@endsection
+
+
+@push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -57,9 +63,9 @@
                 {data: 'designation_name', name: 'designation_name'},
                 {data: 'date', name: 'date'},
                 {
-                    data: 'action', 
-                    name: 'action', 
-                    orderable: true, 
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
                     searchable: true
                 },
             ],
@@ -77,7 +83,7 @@
                         'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
                     },
                     'render': function (data, type, row, meta) {
-                        if (type === 'display') {
+                        if (type == 'display') {
                             data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                         }
 
@@ -142,8 +148,8 @@
             var companyId = $(this).val();
             if (companyId){
                 $.get("{{route('performance.appraisal.get-employee')}}",{company_id:companyId}, function (data){
-                    // $('#designationId').empty().html(data); 
-                    
+                    // $('#designationId').empty().html(data);
+
                     let all_employees = '';
                     $.each(data.employees, function (index, value) {
                         all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';
@@ -161,7 +167,7 @@
         //----------Insert Data----------------------
         $("#save-button").on("click",function(e){
             e.preventDefault();
-            
+
             $.ajax({
                 url: "{{route('performance.appraisal.store')}}",
                 type: "POST",
@@ -203,7 +209,7 @@
                     console.log(data)
                     $('#appraisalIdEdit').val(data.appraisal.id);
                     $('#companyIdEdit').selectpicker('val', data.appraisal.company_id);
-                    
+
                     let all_employees = '';
                     $.each(data.employees, function (index, value) {
                         all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + value['last_name'] + '</option>';
@@ -254,7 +260,7 @@
                         setTimeout(function() {
                             $('#success_alert').fadeOut("slow");
                         }, 3000);
-                    } 
+                    }
                 }
             });
         });
@@ -283,7 +289,7 @@
                             setTimeout(function() {
                                 $('#success_alert').fadeOut("slow");
                             }, 3000);
-                        }                        
+                        }
                     }
                 });
             });
@@ -297,7 +303,7 @@
             console.log(allCheckboxId);
 
 
-            if(allCheckboxId.length === 0){
+            if(allCheckboxId.length == 0){
                 alert("Please Select at least one checkbox.");
             }
             else{
@@ -328,11 +334,5 @@
 
     });
 
-
-
-
-
 </script>
-
-
-@endsection
+@endpush

@@ -16,7 +16,7 @@
                 <div class="tab-pane active" id="tab_1">
                     <div class="box-widget widget-user">
 
-                        <div class="widget-user-image"> <img  src={{ URL::to('/public/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='100'  class='rounded-circle'> </div>
+                        <div class="widget-user-image"> <img  src={{ URL::to('/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='100'  class='rounded-circle'> </div>
                         <div class="box-footer">
                             <div class="row">
                                 <div class="col-sm-12">
@@ -44,7 +44,7 @@
                                                 <input type="hidden" value="" name="in_out_value" id="in_out">
 
                                                 <div class="row">
-                                                    @if(!$employee_attendance || $employee_attendance->clock_in_out=== 0)
+                                                    @if(!$employee_attendance || $employee_attendance->clock_in_out== 0)
                                                     <div class="col-md-6">
                                                         <button class="btn btn-success btn-block text-uppercase" type="submit" id="clock_in_btn"><i class="fa fa-arrow-circle-right"></i>{{__('Clock IN')}}</button>
                                                     </div>

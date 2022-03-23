@@ -15,7 +15,7 @@
                         the order of columns in csv file.</p>
                     <p class="card-text">The correct column order is (Employee Email,Attendance Date, Clock In, Clock Out) and you must follow the csv file,
                         otherwise you will get an error while importing the csv file.</p>
-                    <h6><a href="{{url('public/sample_file/sample_attendance.csv')}}" class="btn btn-primary"> <i
+                    <h6><a href="{{url('sample_file/sample_attendance.csv')}}" class="btn btn-primary"> <i
                                     class="fa fa-download"></i> {{__('Download sample File')}} </a></h6>
                     <form action="{{ route('attendances.importPost') }}" name="import_attendance" id="import_attendance" autocomplete="off" enctype="multipart/form-data"
                           method="post" accept-charset="utf-8">

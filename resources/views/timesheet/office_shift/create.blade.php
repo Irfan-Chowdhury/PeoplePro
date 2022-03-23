@@ -24,7 +24,7 @@
                                         <div class="form-group">
                                             <label>{{trans('file.Company')}} *</label>
                                             <select name="company_id" id="company_id" class="form-control selectpicker"
-                                                    data-live-search="true" data-live-search-style="begins"
+                                                    data-live-search="true" data-live-search-style="contains"
                                                     title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                                 @foreach($companies as $company)
                                                     <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -164,47 +164,51 @@
         </div>
     </section>
 
-    <script>
 
-        (function($) { 
-            "use strict"; 
-            $('.time').clockpicker({
-                placement: 'top',
-                align: 'left',
-                donetext: 'done',
-                twelvehour: true,
-            });
-
-            $('#sample_form').on('submit', function (event) {
-                event.preventDefault();
-
-                    $.ajax({
-                        url: "{{ route('office_shift.store') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            var html = '';
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">';
-                                for (var count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#sample_form')[0].reset();
-                                $('select').selectpicker('refresh');
-                            }
-                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    })
-            });
-
-        })(jQuery);
-    </script>
 @endsection
+
+@push('scripts')
+<script>
+
+    (function($) {
+        "use strict";
+        $('.time').clockpicker({
+            placement: 'top',
+            align: 'left',
+            donetext: 'done',
+            twelvehour: true,
+        });
+
+        $('#sample_form').on('submit', function (event) {
+            event.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('office_shift.store') }}",
+                    method: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (data) {
+                        var html = '';
+                        if (data.errors) {
+                            html = '<div class="alert alert-danger">';
+                            for (var count = 0; count < data.errors.length; count++) {
+                                html += '<p>' + data.errors[count] + '</p>';
+                            }
+                            html += '</div>';
+                        }
+                        if (data.success) {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                            $('#sample_form')[0].reset();
+                            $('select').selectpicker('refresh');
+                        }
+                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                    }
+                })
+        });
+
+    })(jQuery);
+</script>
+@endpush

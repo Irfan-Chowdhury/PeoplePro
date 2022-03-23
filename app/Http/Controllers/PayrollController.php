@@ -13,16 +13,10 @@ use App\SalaryLoan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
 use Illuminate\Support\Str;
 use Throwable;
-
 use App\Http\traits\MonthlyWorkedHours;
-use App\SalaryAllowance;
 use App\SalaryBasic;
-use App\SalaryCommission;
-use App\SalaryDeduction;
-use App\SalaryOtherPayment;
 
 class PayrollController extends Controller {
 
@@ -31,6 +25,7 @@ class PayrollController extends Controller {
 
 	public function index(Request $request)
 	{
+
 		$logged_user = auth()->user();
 		$companies = company::all();
 
@@ -90,6 +85,7 @@ class PayrollController extends Controller {
 						->where('department_id', $request->filter_department)
 						->whereIn('id',$salary_basic_employees)
 						->whereNotIn('id',$paid_employees)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 
 				} elseif (!empty($request->filter_company))
@@ -134,6 +130,7 @@ class PayrollController extends Controller {
 						->where('company_id', $request->filter_company)
 						->whereIn('id',$salary_basic_employees)
 						->whereNotIn('id',$paid_employees)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				} else
 				{
@@ -176,7 +173,7 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount')
                         ->whereIn('id',$salary_basic_employees)
 						->whereNotIn('id',$paid_employees)
-						// ->where('id',9)
+						->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
 
@@ -237,11 +234,24 @@ class PayrollController extends Controller {
 						else{
 							$total = 0;
 							$total_hours = $this->totalWorkedHours($row);
-
 							sscanf($total_hours, '%d:%d', $hour, $min);
-							//converting in minute
-							$total += $hour * 60 + $min;
-							$total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount, $deduction_amount, $pension_amount, $total);
+                            //converting in minute
+                            $total += $hour * 60 + $min;
+
+
+                            //********** Test *********/
+                            // $total_overtime = 0;
+							// $total_overtimes = $this->totalOvertimeHours($row);
+                            // sscanf($total_overtimes, '%d:%d', $overtimeHour, $overtimeMin);
+							// $total_overtime += $overtimeHour * 60 + $overtimeMin;
+
+                            // return $total_overtime;
+
+                            //********** Test End*********/
+
+                            $total_salary = $this->totalSalary($row, $payslip_type, $basicsalary, $allowance_amount, $deduction_amount, $pension_amount, $total);
+
+
 						}
 
 						return $total_salary;
@@ -362,16 +372,16 @@ class PayrollController extends Controller {
         $allowances    = $this->allowances($employee, $first_date, $type);
         $deductions    = $this->deductions($employee, $first_date, $type);
 		$data = [];
-		$data['basic_salary'] = $basic_salary; //----New Correction ---
-		$data['basic_total']  = $basic_salary; //----New Correction ---
-		$data['allowances']   = $allowances;  //----New Correction ---
+		$data['basic_salary'] = $basic_salary;
+		$data['basic_total']  = $basic_salary;
+		$data['allowances']   = $allowances;
 		$data['commissions']  = $employee->commissions;
 		$data['loans']        = $employee->loans;
-		$data['deductions']   = $deductions; //----New Correction ---
+		$data['deductions']   = $deductions;
 		$data['overtimes']    = $employee->overtimes;
 		$data['other_payments'] = $employee->otherPayments;
 		$data['pension_type']   = $employee->pension_type;
-        $data['pension_amount'] = $pension_amount; //----New Added ---
+        $data['pension_amount'] = $pension_amount;
 
 		$data['employee_id']          = $employee->id;
 		$data['employee_full_name']   = $employee->full_name;
@@ -381,9 +391,9 @@ class PayrollController extends Controller {
 		$data['employee_username']    = $employee->user->username;
 		$data['employee_pp']          = $employee->user->profile_photo ?? '';
 
-		$data['payslip_type'] = $payslip_type; //----New Correction ---
+		$data['payslip_type'] = $payslip_type;
 
-		if ($payslip_type === 'Hourly') //----New Correction ---
+		if ($payslip_type == 'Hourly')
 		{
 			$total = 0;
 			$total_hours_worked = $this->totalWorkedHours($employee);
@@ -393,7 +403,7 @@ class PayrollController extends Controller {
 			//converting in minute
 			$total += $hour * 60 + $min;
 
-			$data['monthly_worked_amount'] = ($basic_salary / 60) * $total; //----New Correction ---
+			$data['monthly_worked_amount'] = ($basic_salary / 60) * $total;
 
 			$data['basic_total'] = $data['monthly_worked_amount'];
 		}
@@ -461,15 +471,6 @@ class PayrollController extends Controller {
             $pension_amount = $employee->pension_amount;
         }
 
-		//allowance
-		// $allowance_amount = 0;
-		// if (!$employee->allowances->isEmpty()) {
-		// 	foreach($employee->allowances as $item) {
-		// 		if($item->first_date <= $first_date){
-		// 			$allowance_amount = SalaryAllowance::where('month_year',$item->month_year)->where('employee_id',$item->employee_id)->sum('allowance_amount');
-		// 		}
-		// 	}
-		// }
 
 		$type              = "getAmount";
         $allowance_amount  = $this->allowances($employee, $first_date, $type);
@@ -604,7 +605,7 @@ class PayrollController extends Controller {
 					{
 						foreach ($employee->loans as $loan)
 						{
-							if($loan->time_remaining === '0')
+							if($loan->time_remaining == '0')
 							{
 								$amount_remaining = 0;
 								$time_remaining = 0;
@@ -649,7 +650,6 @@ class PayrollController extends Controller {
 	//--- Updated ----
 	public function payBulk(Request $request)
 	{
-        //return response()->json($request->all_checkbox_id);
 
 		$logged_user = auth()->user();
 		if ($logged_user->can('make-bulk_payment'))
@@ -695,6 +695,7 @@ class PayrollController extends Controller {
 						->where('company_id', $request->filter_company)
 						->where('department_id', $request->filter_department)
 						->whereIn('id', $employeeArrayId)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
                 elseif (!empty($request->filter_company)) //No Need
@@ -731,6 +732,7 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount','company_id')
 						->where('company_id', $request->filter_company)
 						->whereIn('id', $employeeArrayId)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
                 else
@@ -766,6 +768,7 @@ class PayrollController extends Controller {
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount','company_id')
 						->whereIn('id', $employeeArrayId)
+                        ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
 
@@ -823,8 +826,8 @@ class PayrollController extends Controller {
 
 							$data = [];
 							$data['payslip_key']    = Str::random('20');
-							$data['payslip_number'] = mt_rand(1000000000,9999999999);//Added
-							$data['payment_type']   = $payslip_type; //
+							$data['payslip_number'] = mt_rand(1000000000,9999999999);
+							$data['payment_type']   = $payslip_type;
 							$data['basic_salary']   = $basicsalary; //
 							$data['allowances']     = $allowances;
 							$data['commissions']    = $employee->commissions;
@@ -847,7 +850,7 @@ class PayrollController extends Controller {
 							{
 								foreach ($employee->loans as $loan)
 								{
-									if($loan->time_remaining === '0')
+									if($loan->time_remaining == '0')
 									{
 										$amount_remaining = 0;
 										$time_remaining = 0;
@@ -874,8 +877,6 @@ class PayrollController extends Controller {
 
 							Payslip::create($data);
 						}
-
-                        //return response()->json("OK");
 
 
 						$account_balance = DB::table('finance_bank_cashes')->where('id', config('variable.account_id'))->pluck('account_balance')->first();

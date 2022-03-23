@@ -1,40 +1,40 @@
 <!--Edit Modal -->
 <div class="modal fade" id="EditformModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="createModalLabel"><b>Edit Appraisal</b></h5>
+          <h5 class="modal-title" id="createModalLabel"><b>@lang('file.Edit Appraisal')</b></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body" id="edit-body">
           <form action="" method="POST" id="updatetForm">
-            @csrf 
+            @csrf
             <input type="hidden" name="appraisal_id" id="appraisalIdEdit">
-            
+
             <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Company</b></label>
+                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>@lang('file.Company')</b></label>
                 <div class="col-sm-6">
                     <select name="company_id" id="companyIdEdit" class="form-control selectpicker dynamic"
-                    data-live-search="true" data-live-search-style="begins"  title='{{__('Selecting',['key'=>trans('file.Company')])}}'>
+                    data-live-search="true" data-live-search-style="contains"  title='{{__('Selecting',['key'=>trans('file.Company')])}}'>
                         @foreach ($companies as $company)
                             <option value="{{$company->id}}">{{$company->company_name}}</option>
                         @endforeach
-                    </select>                     
+                    </select>
                 </div>
             </div>
-        
+
             <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Employee</b></label>
+                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>@lang('file.Employee')</b></label>
                 <div class="col-sm-6" id="designation-selection">
-                    <select name="employee_id" id="employeeIdEdit" class="form-control selectpicker" data-live-search="true" data-live-search-style="begins"  title='{{__('Selecting',['key'=>trans('file.Employee')])}}'>
-                        
+                    <select name="employee_id" id="employeeIdEdit" class="form-control selectpicker" data-live-search="true" data-live-search-style="contains"  title='{{__('Selecting',['key'=>trans('file.Employee')])}}'>
+
                     </select>
                 </div>
             </div>
             <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Select Date</b></label>
+                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>@lang('file.Select Date')</b></label>
                 <div class="col-sm-6" id="designation-selection">
                     <input type="text" class="form-control" name="date" id="dateEdit" readonly>
                 </div>
@@ -47,12 +47,11 @@
                   <br>
 
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Customer
-                              Experience</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Customer Experience')</b></label>
                       <div class="col-sm-6">
                           <select name="customer_experience" id="customerExperienceEdit"
                               class="form-control selectpicker dynamic" data-live-search="true"
-                              data-live-search-style="begins">
+                              data-live-search-style="contains">
                               <option value="None">None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -62,10 +61,10 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Marketing</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Marketing')</b></label>
                       <div class="col-sm-6">
                           <select name="marketing" id="marketingEdit" class="form-control selectpicker dynamic"
-                              data-live-search="true" data-live-search-style="begins">
+                              data-live-search="true" data-live-search-style="contains">
                               <option value="None">None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -75,11 +74,11 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Administration</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Administration')</b></label>
                       <div class="col-sm-6">
                           <select name="administration" id="administrationEdit"
                               class="form-control selectpicker dynamic" data-live-search="true"
-                              data-live-search-style="begins">
+                              data-live-search-style="contains">
                               <option value="None">None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -94,11 +93,11 @@
                   <br>
 
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Professionalism</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Professionalism')</b></label>
                       <div class="col-sm-6">
                           <select name="professionalism" id="professionalismEdit"
                               class="form-control selectpicker dynamic" data-live-search="true"
-                              data-live-search-style="begins">
+                              data-live-search-style="contains">
                               <option value="None" selected>None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -108,10 +107,10 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Integrity</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Integrity')</b></label>
                       <div class="col-sm-6">
                           <select name="integrity" id="integrityEdit" class="form-control selectpicker dynamic"
-                              data-live-search="true" data-live-search-style="begins">
+                              data-live-search="true" data-live-search-style="contains">
                               <option value="None">None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -121,10 +120,10 @@
                       </div>
                   </div>
                   <div class="form-group row">
-                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>Attendance</b></label>
+                      <label for="inputEmail3" class="col-sm-6 col-form-label"><b>@lang('file.Attendance')</b></label>
                       <div class="col-sm-6">
                           <select name="attendance" id="attendanceEdit" class="form-control selectpicker dynamic"
-                              data-live-search="true" data-live-search-style="begins">
+                              data-live-search="true" data-live-search-style="contains">
                               <option value="None">None</option>
                               <option value="Beginner">Beginner</option>
                               <option value="Intermidiate">Intermidiate</option>
@@ -136,17 +135,17 @@
               </div>
             </div>
             <div class="form-group row">
-                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>Remarks</b></label>
+                <label for="inputEmail3" class="col-sm-2 col-form-label"><b>@lang('file.Remarks')</b></label>
                 <div class="col-sm-12">
                     <textarea name="remarks" id="remarksEdit" rows="5" class="form-control" placeholder="Remarks"></textarea>
                 </div>
             </div>
-        
+
         </form>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary" id="update-button">Update</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" id="update-button">@lang('file.Update')</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">@lang('file.Close')</button>
         </div>
       </div>
     </div>
@@ -158,8 +157,8 @@
             var companyIdEdit = $(this).val();
             if (companyIdEdit){
                 $.get("{{route('performance.appraisal.get-employee')}}",{company_id:companyIdEdit}, function (data) {
-                    // $('#designationId').empty().html(data); 
-                    
+                    // $('#designationId').empty().html(data);
+
                     let all_employees = '';
                     $.each(data.employees, function (index, value) {
                         all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';

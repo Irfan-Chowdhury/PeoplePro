@@ -14,7 +14,8 @@
                             <h3 class="mb-3">{{$ticket->subject}}</h3>
                             <div class="d-flex justify-content-between">
                                 <div class="text-muted">{{__('Posted by')}}
-                                    : {{$ticket->employee->first_name.' '.$ticket->employee->last_name}}</div>
+                                    {{-- : {{$ticket->employee->first_name.' '.$ticket->employee->last_name}}</div> --}}
+                                    : {{$ticket->full_name}}</div>
                                 <div class="text-muted">{{trans('file.Priority')}} : {{$ticket->ticket_priority}}</div>
                                 <div class="text-muted">{{trans('file.Date')}} :{{$ticket->created_at}}</div>
                             </div>
@@ -89,7 +90,7 @@
                                                     <label>{{trans('file.Status')}}</label>
                                                     <select name="ticket_status" id="ticket_status"
                                                             class="form-control selectpicker "
-                                                            data-live-search="true" data-live-search-style="begins"
+                                                            data-live-search="true" data-live-search-style="contains"
                                                             title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                                         <option value="open">Open</option>
                                                         <option value="closed">Closed</option>
@@ -434,5 +435,6 @@
         })(jQuery);
 
     </script>
+
 
 @endsection

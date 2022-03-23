@@ -15,6 +15,17 @@
                 <div class="w-20">
                     @include('translation::forms.select', ['name' => 'language', 'items' => $languages, 'submit' => true, 'selected' => $language])
                 </div>
+
+                <div class=" ml-3 w-20">
+                    <select class="form-control" id='lang_del'>
+                        <option selected="selected" >Delete Language</option>
+                        <option>--------------------------</option>
+                        @foreach($languages as $lang)
+                            <option value="{{$lang}}">{{$lang}}</option>
+                        @endforeach
+                  </select>
+                </div>
+                
             </div>
         </div>
 
@@ -72,7 +83,7 @@
     </form>
 
     <script type="text/javascript">
-        (function($) { 
+        (function($) {
             "use strict";
 
             $(document).ready(function () {
@@ -92,15 +103,32 @@
                         }
                     },
 
-
-
                     'select': {style: 'multi', selector: 'td:first-child'},
                     'lengthMenu': [[100, 200, 500,-1], [100, 200, 500,"All"]],
-
-
                 });
 
             });
+
+            $(document).ready(function() {
+                $("#lang_del").change(function(){
+                    var proceed = confirm("Are You Sure To Delete ?");
+                    if (proceed) {
+                        var langVal = $('#lang_del :selected').text()
+                        $.ajax({
+                            url: "{{route('language.delete')}}",
+                            method: "GET",
+                            data: {langVal:langVal},
+                            success: function (data) {
+                                console.log(data);
+                                if (data =='success') {
+                                    window.location.href = "English";
+                                }
+                            }
+                        })
+                    }
+                });
+            });
+
         })(jQuery);
     </script>
 

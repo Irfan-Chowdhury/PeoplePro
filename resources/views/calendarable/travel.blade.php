@@ -1,5 +1,5 @@
 <div id="travelModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -20,7 +20,7 @@
                                 <div class="form-group">
                                     <label>{{trans('file.Company')}}</label>
                                     <select name="company_id" id="travel_company_id" class="form-control selectpicker get_employee"
-                                            data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                            data-live-search="true" data-live-search-style="contains"  data-first_name="first_name" data-last_name="last_name"
                                             title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                         @foreach($companies as $company)
                                             <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -33,7 +33,7 @@
                                 <div class="form-group">
                                     <label>{{trans('file.Employee')}}</label>
                                     <select name="employee_id"   class="selectpicker form-control employee"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                                     </select>
                                 </div>
@@ -42,7 +42,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{__('Arrangement Type')}}</label>
                                 <select name="travel_type_id" id="travel_type_id" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Arrangement')])}}...'>
                                     @foreach($travel_types as $travel_type)
                                         <option value="{{$travel_type->id}}">{{$travel_type->arrangement_type}}</option>
@@ -96,7 +96,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{__('Travel Mode')}}</label>
                                 <select name="travel_mode" id="travel_mode" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Travel Mode')}}'>
                                     <option value="By Bus">{{__('By Bus')}}</option>>
                                     <option value="By Train">{{__('By Train')}}</option>
@@ -111,7 +111,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Status')}}</label>
                                 <select name="status" id="travel_status" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                     <option value="pending">{{trans('file.Pending')}}</option>
                                     <option value="first level approval">{{__('First Level Approval')}}</option>

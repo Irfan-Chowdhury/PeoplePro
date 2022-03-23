@@ -46,7 +46,7 @@
                 data: 'other_payment_amount',
                 name: 'other_payment_amount',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     } else {
                         return '{{config('variable.currency')}} ' + data;
@@ -95,7 +95,7 @@
 
     $('#other_payment_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#other_payment_action').val() === '{{trans('file.Add')}}') {
+        if ($('#other_payment_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('other_payment.store',$employee) }}",
@@ -125,7 +125,7 @@
             });
         }
 
-        if ($('#other_payment_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#other_payment_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('other_payment.update') }}",
                 method: "POST",

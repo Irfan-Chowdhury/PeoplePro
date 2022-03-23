@@ -112,12 +112,12 @@ $('#leave_employee_id_show').html(result.employee_name);
             $('#leave_leave_reason_id').html(result.data.leave_reason);
             $('#leave_remarks_id').html(result.data.remarks);
 
-            if (result.data.is_half===1)
+            if (result.data.is_half==1)
                 $('#leave_is_half_id').html('Yes');
             else{
                 $('#leave_is_half_id').html('No');
             }
-            if (result.data.is_notify===1)
+            if (result.data.is_notify==1)
                 $('#leave_is_notify_id').html('On');
             else{
                 $('#leave_is_notify_id').html('Off');

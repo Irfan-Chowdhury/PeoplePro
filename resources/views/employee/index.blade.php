@@ -32,7 +32,7 @@
                                     <label class="text-bold"><strong>{{trans('file.Company')}}</strong></label>
                                     <select name="company_id" id="company_id_filter"
                                             class="form-control selectpicker dynamic"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-shift_name="shift_name" data-dependent="department_name"
                                             title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
                                             <option value=""></option>
@@ -50,7 +50,7 @@
                                     <label class="text-bold"><b>{{trans('file.Department')}}</b></label>
                                     <select name="department_id" id="department_id_filter"
                                             class="selectpicker form-control designationFilter"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-designation_name="designation_name"
                                             title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
                                     </select>
@@ -62,7 +62,7 @@
                             <div class="col-md-3 form-group">
                                 <label class="text-bold"><b>{{trans('file.Designation')}}</b></label>
                                 <select name="designation_id" id="designation_id_filter" class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
                                 </select>
                             </div>
@@ -72,7 +72,7 @@
                             <div class="col-md-2 form-group">
                                 <label class="text-bold"><b>{{__('Office Shift')}}</b></label>
                                 <select name="office_shift_id" id="office_shift_id_filter" class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting Office Shift')}}...">
                                 </select>
                             </div>
@@ -111,7 +111,7 @@
 
 
     <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -159,7 +159,7 @@
                             <div class="col-md-6 form-group">
                                 <label class="text-bold">{{trans('file.Gender')}} <span class="text-danger">*</span></label>
                                 <select name="gender" id="gender" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Gender')])}}...">
                                     <option value="Male">{{trans('file.Male')}}</option>
                                     <option value="Female">{{trans('file.Female')}}</option>
@@ -173,7 +173,7 @@
                                     <label class="text-bold">{{trans('file.Company')}} <span class="text-danger">*</span></label>
                                     <select name="company_id" id="company_id" required
                                             class="form-control selectpicker dynamic"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-shift_name="shift_name" data-dependent="department_name"
                                             title="{{__('Selecting',['key'=>trans('file.Company')])}}...">
                                         @foreach($companies as $company)
@@ -187,7 +187,7 @@
                                     <label class="text-bold">{{trans('file.Department')}} <span class="text-danger">*</span></label>
                                     <select name="department_id" id="department_id" required
                                             class="selectpicker form-control designation"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             data-designation_name="designation_name"
                                             title="{{__('Selecting',['key'=>trans('file.Department')])}}...">
                                     </select>
@@ -198,7 +198,7 @@
                             <div class="col-md-6 form-group">
                                 <label class="text-bold">{{trans('file.Designation')}} <span class="text-danger">*</span></label>
                                 <select name="designation_id" id="designation_id" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Designation')])}}...">
                                 </select>
                             </div>
@@ -206,7 +206,7 @@
                             <div class="col-md-6 form-group">
                                 <label class="text-bold">{{trans('file.Office_Shift')}} <span class="text-danger">*</span></label>
                                 <select name="office_shift_id" id="office_shift_id" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Office_Shift')])}}...">
                                 </select>
                             </div>
@@ -222,7 +222,7 @@
                                 <label class="text-bold">{{trans('file.Role')}} <span class="text-danger">*</span></label>
                                 <select name="role_users_id" id="role_users_id" required
                                         class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
                                     @foreach ($roles as $item)
                                         <option value="{{$item->id}}">{{$item->name}}</option>
@@ -258,7 +258,7 @@
                             <div class="col-md-6 form-group">
                                 <label class="text-bold">{{__('Attendance Type')}} <span class="text-danger">*</span></label>
                                 <select name="attendance_type" id="attendance_type" required class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins" title="{{__('Select Attendance Type...')}}">
+                                        data-live-search="true" data-live-search-style="contains" title="{{__('Select Attendance Type...')}}">
                                     <option value="general">{{__('General')}}</option>
                                     <option value="ip_based">{{__('IP Based')}}</option>
                                 </select>
@@ -297,7 +297,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -316,445 +316,447 @@
         </div>
     </div>
 
-    <script type="text/javascript">
-
-        $(document).ready(function () {
-
-            if (window.location.href.indexOf('#formModal') != -1) {
-                $('#formModal').modal('show');
-            }
-
-            var date = $('.date');
-            date.datepicker({
-                format: '{{ env('Date_Format_JS')}}',
-                autoclose: true,
-                todayHighlight: true
-            });
-
-            var table_table = $('#employee-table').DataTable({
-                initComplete: function () {
-                    this.api().columns([2, 4]).every(function () {
-                        var column = this;
-                        var select = $('<select><option value=""></option></select>')
-                            .appendTo($(column.footer()).empty())
-                            .on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
-                            });
-
-                        column.data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>');
-                            $('select').selectpicker('refresh');
-                        });
-                    });
-                },
-                responsive: true,
-                fixedHeader: {
-                    header: true,
-                    footer: true
-                },
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('employees.index') }}",
-                    type: 'GET',
-                    data: function (d) {
-                        d.company_id     = $("#company_id_filter").val();
-                        d.department_id  = $('#department_id_filter').val();
-                        d.designation_id = $('#designation_id_filter').val();
-                        d.office_shift_id = $('#office_shift_id_filter').val();
-                    }
-                },
-
-                columns: [
-
-                    {
-                        data: null,
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'name',
-                        name: 'name',
-
-                    },
-                    {
-                        data: 'company',
-                        name: 'company',
-                    },
-                    {
-                        data: 'contacts',
-                        name: 'contacts',
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false
-                    }
-                ],
-
-
-                "order": [],
-                'language': {
-                    'lengthMenu': '_MENU_ {{__('records per page')}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
-                    'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
-                    }
-                },
-                'columnDefs': [
-                    {
-                        "orderable": false,
-                        'targets': [0,4],
-                        "className": "text-left"
-                    },
-                    {
-                        'render': function (data, type, row, meta) {
-                            if (type === 'display') {
-                                data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>';
-                            }
-
-                            return data;
-                        },
-                        'checkboxes': {
-                            'selectRow': true,
-                            'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>'
-                        },
-                        'targets': [0]
-                    }
-                ],
-
-
-                'select': {style: 'multi', selector: 'td:first-child'},
-                'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                dom: '<"row"lfB>rtip',
-                buttons: [
-                    {
-                        extend: 'pdf',
-                        text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
-                    },
-                    {
-                        extend: 'csv',
-                        text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i title="print" class="fa fa-print"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
-                        },
-                    },
-                    {
-                        extend: 'colvis',
-                        text: '<i title="column visibility" class="fa fa-eye"></i>',
-                        columns: ':gt(0)'
-                    },
-                ],
-            });
-            new $.fn.dataTable.FixedHeader(table_table);
-
-        });
-
-
-        //-------------- Filter -----------------------
-
-        $('#filterSubmit').on("click",function(e){
-            $('#employee-table').DataTable().draw(true);
-            //$('#filter_form')[0].reset();
-            //$('select').selectpicker('refresh');
-        });
-        //--------------/ Filter ----------------------
-
-
-        $('#create_record').click(function () {
-
-            $('.modal-title').text("Add Employee");
-            $('#action_button').val('{{trans('file.Add')}}');
-            $('#action').val('{{trans('file.Add')}}');
-            $('#formModal').modal('show');
-        });
-
-        $('#sample_form').on('submit', function (event) {
-            event.preventDefault();
-            // var attendance_type = $("#attendance_type").val();
-            // console.log(attendance_type);
-
-            $.ajax({
-                url: "{{ route('employees.store') }}",
-                method: "POST",
-                data: new FormData(this),
-                contentType: false,
-                cache: false,
-                processData: false,
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var html = '';
-                    if (data.errors) {
-                        html = '<div class="alert alert-danger">';
-                        for (var count = 0; count < data.errors.length; count++) {
-                            html += '<p>' + data.errors[count] + '</p>';
-                        }
-                        html += '</div>';
-                    }
-                    if (data.error) {
-                        html = '<div class="alert alert-danger">' + data.error + '</div>';
-                    }
-                    if (data.success) {
-                        html = '<div class="alert alert-success">' + data.success + '</div>';
-                        $('#sample_form')[0].reset();
-                        $('select').selectpicker('refresh');
-                        $('.date').datepicker('update');
-                        $('#employee-table').DataTable().ajax.reload();
-                    }
-                    $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                }
-            });
-        });
-
-
-        let employee_delete_id;
-
-        $(document).on('click', '.delete', function () {
-            employee_delete_id = $(this).attr('id');
-            $('#confirmModal').modal('show');
-            $('.modal-title').text('{{__('DELETE Record')}}');
-            $('#ok_button').text('{{trans('file.OK')}}');
-
-        });
-
-
-        $(document).on('click', '#bulk_delete', function () {
-
-            var id = [];
-            let table = $('#employee-table').DataTable();
-            id = table.rows({selected: true}).ids().toArray();
-            if (id.length > 0) {
-                if (confirm('{{__('Delete Selection',['key'=>trans('file.Employee')])}}')) {
-                    $.ajax({
-                        url: '{{route('mass_delete_employees')}}',
-                        method: 'POST',
-                        data: {
-                            employeeIdArray: id
-                        },
-                        success: function (data) {
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                            }
-                            if (data.error) {
-                                html = '<div class="alert alert-danger">' + data.error + '</div>';
-                            }
-                            table.ajax.reload();
-                            table.rows('.selected').deselect();
-                            $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-
-                        }
-
-                    });
-                }
-            } else {
-                alert('{{__('Please select atleast one checkbox')}}');
-            }
-        });
-
-
-        $('#close').click(function () {
-            $('#sample_form')[0].reset();
-            $('select').selectpicker('refresh');
-            $('.date').datepicker('update');
-            $('#employee-table').DataTable().ajax.reload();
-        });
-
-        $('#ok_button').click(function () {
-            let target = "{{ route('employees.index') }}/" + employee_delete_id + '/delete';
-            $.ajax({
-                url: target,
-                beforeSend: function () {
-                    $('#ok_button').text('{{trans('file.Deleting...')}}');
-                },
-                success: function (data) {
-                    if (data.success) {
-                        html = '<div class="alert alert-success">' + data.success + '</div>';
-                    }
-                    if (data.error) {
-                        html = '<div class="alert alert-danger">' + data.error + '</div>';
-                    }
-                    setTimeout(function () {
-                        $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        $('#confirmModal').modal('hide');
-                        $('#employee-table').DataTable().ajax.reload();
-                    }, 2000);
-                }
-            })
-        });
-
-
-
-
-        $('#confirm_pass').on('input', function () {
-
-            if ($('input[name="password"]').val() != $('input[name="password_confirmation"]').val())
-                $("#divCheckPasswordMatch").html('{{__('Password does not match! please type again')}}');
-            else
-                $("#divCheckPasswordMatch").html('{{__('Password matches!')}}');
-
-        });
-
-
-        $('.dynamic').change(function () {
-            if ($(this).val() !== '') {
-                let value = $(this).val();
-                let dependent = $(this).data('dependent');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_department') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, dependent: dependent},
-                    success: function (result) {
-
-                        $('select').selectpicker("destroy");
-                        $('#department_id').html(result);
-                        $('select').selectpicker();
-
-                    }
-                });
-            }
-        });
-
-
-        $('.dynamic').change(function () {
-            if ($(this).val() !== '') {
-                let value = $(this).val();
-                let dependent = $(this).data('shift_name');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_office_shifts') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, dependent: dependent},
-                    success: function (result) {
-                        $('select').selectpicker("destroy");
-                        $('#office_shift_id').html(result);
-                        $('select').selectpicker();
-                    }
-                });
-            }
-        });
-
-        $('.designation').change(function () {
-            if ($(this).val() !== '') {
-                let value = $(this).val();
-                let designation_name = $(this).data('designation_name');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_designation_department') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, designation_name: designation_name},
-                    success: function (result) {
-                        $('select').selectpicker("destroy");
-                        $('#designation_id').html(result);
-                        $('select').selectpicker();
-
-                    }
-                });
-            }
-        });
-
-
-        // Login Type Change
-        // $('#login_type').change(function() {
-        //     var login_type = $('#login_type').val();
-        //     if (login_type=='ip') {
-        //         data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
-        //         data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
-        //         $('#ipField').html(data)
-        //     }else{
-        //         $('#ipField').empty();
-        //     }
-        // });
-
-
-
-        //--------  Filter  ---------
-
-        // Company--> Department
-        $('.dynamic').change(function () {
-            if ($(this).val() !== '') {
-                let value = $('#company_id_filter').val();
-                let dependent = $(this).data('dependent');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_department') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, dependent: dependent},
-                    success: function (result) {
-
-                        $('select').selectpicker("destroy");
-                        $('#department_id_filter').html(result);
-                        $('select').selectpicker();
-
-                    }
-                });
-            }
-        });
-
-        //Department--> Designation
-        $('.designationFilter').change(function () {
-            if ($(this).val() !== '') {
-                // let value = $(this).val();
-                // let value = $('#company_id_filter').val();
-                let value = $('#department_id_filter').val();
-                let designation_name = $(this).data('designation_name');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_designation_department') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, designation_name: designation_name},
-                    success: function (result) {
-                        $('select').selectpicker("destroy");
-                        $('#designation_id_filter').html(result);
-                        $('select').selectpicker();
-
-                    }
-                });
-            }
-        });
-
-        //Company--> Office Shift
-        $('.dynamic').change(function () {
-            if ($(this).val() !== '') {
-                // let value = $(this).val();
-                let value = $('#company_id_filter').val();
-                let dependent = $(this).data('shift_name');
-                let _token = $('input[name="_token"]').val();
-                $.ajax({
-                    url: "{{ route('dynamic_office_shifts') }}",
-                    method: "POST",
-                    data: {value: value, _token: _token, dependent: dependent},
-                    success: function (result) {
-                        $('select').selectpicker("destroy");
-                        $('#office_shift_id_filter').html(result);
-                        $('select').selectpicker();
-                    }
-                });
-            }
-        });
-
-    </script>
-
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+        if (window.location.href.indexOf('#formModal') != -1) {
+            $('#formModal').modal('show');
+        }
+
+        var date = $('.date');
+        date.datepicker({
+            format: '{{ env('Date_Format_JS')}}',
+            autoclose: true,
+            todayHighlight: true
+        });
+
+        var table_table = $('#employee-table').DataTable({
+            initComplete: function () {
+                this.api().columns([2, 4]).every(function () {
+                    var column = this;
+                    var select = $('<select><option value=""></option></select>')
+                        .appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex(
+                                $(this).val()
+                            );
+
+                            column
+                                .search(val ? '^' + val + '$' : '', true, false)
+                                .draw();
+                        });
+
+                    column.data().unique().sort().each(function (d, j) {
+                        select.append('<option value="' + d + '">' + d + '</option>');
+                        $('select').selectpicker('refresh');
+                    });
+                });
+            },
+            responsive: true,
+            fixedHeader: {
+                header: true,
+                footer: true
+            },
+            processing: true,
+            serverSide: true,
+            ajax: {
+                url: "{{ route('employees.index') }}",
+                type: 'GET',
+                data: function (d) {
+                    d.company_id     = $("#company_id_filter").val();
+                    d.department_id  = $('#department_id_filter').val();
+                    d.designation_id = $('#designation_id_filter').val();
+                    d.office_shift_id = $('#office_shift_id_filter').val();
+                }
+            },
+
+            columns: [
+
+                {
+                    data: 'id',
+                    orderable: false,
+                    searchable: false
+                },
+                {
+                    data: 'name',
+                    name: 'name',
+
+                },
+                {
+                    data: 'company',
+                    name: 'company',
+                },
+                {
+                    data: 'contacts',
+                    name: 'contacts',
+                },
+                {
+                    data: 'action',
+                    name: 'action',
+                    orderable: false
+                }
+            ],
+
+
+            "order": [],
+            'language': {
+                'lengthMenu': '_MENU_ {{__('records per page')}}',
+                "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                "search": '{{trans("file.Search")}}',
+                'paginate': {
+                    'previous': '{{trans("file.Previous")}}',
+                    'next': '{{trans("file.Next")}}'
+                }
+            },
+            'columnDefs': [
+                {
+                    "orderable": false,
+                    'targets': [0,4],
+                    "className": "text-left"
+                },
+                {
+                    'render': function (data, type, row, meta) {
+                        if (type == 'display') {
+                            data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>';
+                        }
+
+                        return data;
+                    },
+                    'checkboxes': {
+                        'selectRow': true,
+                        'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label class="text-bold"></label></div>'
+                    },
+                    'targets': [0]
+                }
+            ],
+
+
+            'select': {style: 'multi', selector: 'td:first-child'},
+            'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+            dom: '<"row"lfB>rtip',
+            buttons: [
+                {
+                    extend: 'pdf',
+                    text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
+                    },
+                },
+                {
+                    extend: 'csv',
+                    text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
+                    },
+                },
+                {
+                    extend: 'print',
+                    text: '<i title="print" class="fa fa-print"></i>',
+                    exportOptions: {
+                        columns: ':visible:Not(.not-exported)',
+                        rows: ':visible'
+                    },
+                },
+                {
+                    extend: 'colvis',
+                    text: '<i title="column visibility" class="fa fa-eye"></i>',
+                    columns: ':gt(0)'
+                },
+            ],
+        });
+        new $.fn.dataTable.FixedHeader(table_table);
+
+    });
+
+
+    //-------------- Filter -----------------------
+
+    $('#filterSubmit').on("click",function(e){
+        $('#employee-table').DataTable().draw(true);
+        //$('#filter_form')[0].reset();
+        //$('select').selectpicker('refresh');
+    });
+    //--------------/ Filter ----------------------
+
+
+    $('#create_record').click(function () {
+
+        $('.modal-title').text("Add Employee");
+        $('#action_button').val('{{trans('file.Add')}}');
+        $('#action').val('{{trans('file.Add')}}');
+        $('#formModal').modal('show');
+    });
+
+    $('#sample_form').on('submit', function (event) {
+        event.preventDefault();
+        // var attendance_type = $("#attendance_type").val();
+        // console.log(attendance_type);
+
+        $.ajax({
+            url: "{{ route('employees.store') }}",
+            method: "POST",
+            data: new FormData(this),
+            contentType: false,
+            cache: false,
+            processData: false,
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                var html = '';
+                if (data.errors) {
+                    html = '<div class="alert alert-danger">';
+                    for (var count = 0; count < data.errors.length; count++) {
+                        html += '<p>' + data.errors[count] + '</p>';
+                    }
+                    html += '</div>';
+                }
+                if (data.error) {
+                    html = '<div class="alert alert-danger">' + data.error + '</div>';
+                }
+                if (data.success) {
+                    html = '<div class="alert alert-success">' + data.success + '</div>';
+                    $('#sample_form')[0].reset();
+                    $('select').selectpicker('refresh');
+                    $('.date').datepicker('update');
+                    $('#employee-table').DataTable().ajax.reload();
+                }
+                $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+            }
+        });
+    });
+
+
+    let employee_delete_id;
+
+    $(document).on('click', '.delete', function () {
+        employee_delete_id = $(this).attr('id');
+        $('#confirmModal').modal('show');
+        $('.modal-title').text('{{__('DELETE Record')}}');
+        $('#ok_button').text('{{trans('file.OK')}}');
+
+    });
+
+
+    $(document).on('click', '#bulk_delete', function () {
+
+        var id = [];
+        let table = $('#employee-table').DataTable();
+        id = table.rows({selected: true}).ids().toArray();
+        if (id.length > 0) {
+            if (confirm('{{__('Delete Selection',['key'=>trans('file.Employee')])}}')) {
+                $.ajax({
+                    url: '{{route('mass_delete_employees')}}',
+                    method: 'POST',
+                    data: {
+                        employeeIdArray: id
+                    },
+                    success: function (data) {
+                        if (data.success) {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                        }
+                        if (data.error) {
+                            html = '<div class="alert alert-danger">' + data.error + '</div>';
+                        }
+                        table.ajax.reload();
+                        table.rows('.selected').deselect();
+                        $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+
+                    }
+
+                });
+            }
+        } else {
+            alert('{{__('Please select atleast one checkbox')}}');
+        }
+    });
+
+
+    $('#close').click(function () {
+        $('#sample_form')[0].reset();
+        $('select').selectpicker('refresh');
+        $('.date').datepicker('update');
+        $('#employee-table').DataTable().ajax.reload();
+    });
+
+    $('#ok_button').click(function () {
+        let target = "{{ route('employees.index') }}/" + employee_delete_id + '/delete';
+        $.ajax({
+            url: target,
+            beforeSend: function () {
+                $('#ok_button').text('{{trans('file.Deleting...')}}');
+            },
+            success: function (data) {
+                if (data.success) {
+                    html = '<div class="alert alert-success">' + data.success + '</div>';
+                }
+                if (data.error) {
+                    html = '<div class="alert alert-danger">' + data.error + '</div>';
+                }
+                setTimeout(function () {
+                    $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                    $('#confirmModal').modal('hide');
+                    $('#employee-table').DataTable().ajax.reload();
+                }, 2000);
+            }
+        })
+    });
+
+
+
+
+    $('#confirm_pass').on('input', function () {
+
+        if ($('input[name="password"]').val() != $('input[name="password_confirmation"]').val())
+            $("#divCheckPasswordMatch").html('{{__('Password does not match! please type again')}}');
+        else
+            $("#divCheckPasswordMatch").html('{{__('Password matches!')}}');
+
+    });
+
+
+    $('.dynamic').change(function () {
+        if ($(this).val() !== '') {
+            let value = $(this).val();
+            let dependent = $(this).data('dependent');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_department') }}",
+                method: "POST",
+                data: {value: value, _token: _token, dependent: dependent},
+                success: function (result) {
+
+                    $('select').selectpicker("destroy");
+                    $('#department_id').html(result);
+                    $('select').selectpicker();
+
+                }
+            });
+        }
+    });
+
+
+    $('.dynamic').change(function () {
+        if ($(this).val() !== '') {
+            let value = $(this).val();
+            let dependent = $(this).data('shift_name');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_office_shifts') }}",
+                method: "POST",
+                data: {value: value, _token: _token, dependent: dependent},
+                success: function (result) {
+                    $('select').selectpicker("destroy");
+                    $('#office_shift_id').html(result);
+                    $('select').selectpicker();
+                }
+            });
+        }
+    });
+
+    $('.designation').change(function () {
+        if ($(this).val() !== '') {
+            let value = $(this).val();
+            let designation_name = $(this).data('designation_name');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_designation_department') }}",
+                method: "POST",
+                data: {value: value, _token: _token, designation_name: designation_name},
+                success: function (result) {
+                    $('select').selectpicker("destroy");
+                    $('#designation_id').html(result);
+                    $('select').selectpicker();
+
+                }
+            });
+        }
+    });
+
+
+    // Login Type Change
+    // $('#login_type').change(function() {
+    //     var login_type = $('#login_type').val();
+    //     if (login_type=='ip') {
+    //         data = '<label class="text-bold">{{__("IP Address")}} <span class="text-danger">*</span></label>';
+    //         data += '<input type="text" name="ip_address" id="ip_address" placeholder="Type IP Address" required class="form-control">';
+    //         $('#ipField').html(data)
+    //     }else{
+    //         $('#ipField').empty();
+    //     }
+    // });
+
+
+
+    //--------  Filter  ---------
+
+    // Company--> Department
+    $('.dynamic').change(function () {
+        if ($(this).val() !== '') {
+            let value = $('#company_id_filter').val();
+            let dependent = $(this).data('dependent');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_department') }}",
+                method: "POST",
+                data: {value: value, _token: _token, dependent: dependent},
+                success: function (result) {
+
+                    $('select').selectpicker("destroy");
+                    $('#department_id_filter').html(result);
+                    $('select').selectpicker();
+
+                }
+            });
+        }
+    });
+
+    //Department--> Designation
+    $('.designationFilter').change(function () {
+        if ($(this).val() !== '') {
+            // let value = $(this).val();
+            // let value = $('#company_id_filter').val();
+            let value = $('#department_id_filter').val();
+            let designation_name = $(this).data('designation_name');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_designation_department') }}",
+                method: "POST",
+                data: {value: value, _token: _token, designation_name: designation_name},
+                success: function (result) {
+                    $('select').selectpicker("destroy");
+                    $('#designation_id_filter').html(result);
+                    $('select').selectpicker();
+
+                }
+            });
+        }
+    });
+
+    //Company--> Office Shift
+    $('.dynamic').change(function () {
+        if ($(this).val() !== '') {
+            // let value = $(this).val();
+            let value = $('#company_id_filter').val();
+            let dependent = $(this).data('shift_name');
+            let _token = $('input[name="_token"]').val();
+            $.ajax({
+                url: "{{ route('dynamic_office_shifts') }}",
+                method: "POST",
+                data: {value: value, _token: _token, dependent: dependent},
+                success: function (result) {
+                    $('select').selectpicker("destroy");
+                    $('#office_shift_id_filter').html(result);
+                    $('select').selectpicker();
+                }
+            });
+        }
+    });
+
+</script>
+@endpush

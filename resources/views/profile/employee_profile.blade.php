@@ -113,7 +113,7 @@
                                             <hr>
                                             <div class="container">
                                                 <div class="widget-user-image">
-                                                    <img src={{ URL::to('/public/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
+                                                    <img src={{ URL::to('/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
                                                          class='rounded-circle'>
                                                     <div class="mt-2">
                                                         <h4 class="font-weight-bold mb-0">{{$employee->full_name}} <span
@@ -171,7 +171,7 @@
                                                             <select name="gender" id="gender"
                                                                     class="selectpicker form-control"
                                                                     data-live-search="true"
-                                                                    data-live-search-style="begins"
+                                                                    data-live-search-style="contains"
                                                                     title="{{__('Selecting',['key'=>trans('file.Gender')])}}...">
                                                                 <option value="Male">{{trans('file.Male')}}</option>
                                                                 <option value="Female">{{trans('file.Female')}}</option>
@@ -187,7 +187,7 @@
                                                             <select name="marital_status" id="marital_status"
                                                                     class="selectpicker form-control"
                                                                     data-live-search="true"
-                                                                    data-live-search-style="begins"
+                                                                    data-live-search-style="contains"
                                                                     title="{{__('Selecting',['key'=>__('Marital Status')])}}...">
                                                                 <option value="single">{{trans('file.Single')}}</option>
                                                                 <option value="married">{{trans('file.Married')}}</option>
@@ -233,7 +233,7 @@
                                                                 <select name="country" id="country"
                                                                         class="form-control selectpicker"
                                                                         data-live-search="true"
-                                                                        data-live-search-style="begins"
+                                                                        data-live-search-style="contains"
                                                                         title='{{__('Selecting',['key'=>trans('file.Country')])}}...'>
                                                                     @foreach($countries as $country)
                                                                         <option value="{{$country->id}}" {{ ($employee->country == $country->id) ? "selected" : '' }}>{{$country->name}}</option>

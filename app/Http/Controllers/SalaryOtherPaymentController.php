@@ -51,7 +51,7 @@ class SalaryOtherPaymentController extends Controller
 				[
 					'month_year' 		  => 'required',
 					'other_payment_title' => 'required',
-					'other_payment_amount'=> 'required',
+					'other_payment_amount'=> 'required|numeric',
 				]
 			);
 
@@ -98,7 +98,7 @@ class SalaryOtherPaymentController extends Controller
 				[
 					'month_year' => 'required',
 					'other_payment_title' => 'required',
-					'other_payment_amount' => 'required',
+					'other_payment_amount' => 'required|numeric',
 				]
 			);
 
@@ -122,7 +122,7 @@ class SalaryOtherPaymentController extends Controller
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	
+
 	public function destroy($id)
 	{
 		if (auth()->user()->can('modify-details-employee'))

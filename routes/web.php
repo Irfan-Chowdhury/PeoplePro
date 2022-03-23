@@ -13,6 +13,7 @@
 
 
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
@@ -27,7 +28,8 @@ Route::group(['middleware' => ['XSS']], function ()
 	});
 
 	Route::get('/', 'RouteClosureHandlerController@redirectToLogin')->name('redirectToLogin');
-	Route::get('help', 'RouteClosureHandlerController@help')->name('help');
+
+
 
 	Route::get('home', 'FrontEnd\HomeController@index')->name('home.front');
 	Route::get('about', 'FrontEnd\AboutController@index')->name('about.front');
@@ -52,6 +54,7 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::post('/profile/change_password/{id}', 'DashboardController@change_password')->name('change_password');
 
 	Route::get('switch/language/{lang}', 'LocaleController@languageSwitch')->name('language.switch');
+	Route::get('delete/language', 'LocaleController@languageDelete')->name('language.delete');
 
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function ()
@@ -362,6 +365,12 @@ Route::group(['middleware' => ['XSS']], function ()
 
 	Route::prefix('report')->group(function ()
 	{
+        //New Added
+        Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+		Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
+		Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
+        //New Added
+        
 		Route::get('payslip', 'ReportController@payslip')->name('report.payslip');
 		Route::get('attendance', 'ReportController@attendance')->name('report.attendance');
 		Route::get('training', 'ReportController@training')->name('report.training');
@@ -373,7 +382,6 @@ Route::group(['middleware' => ['XSS']], function ()
 		Route::get('deposit', 'ReportController@deposit')->name('report.deposit');
 		Route::get('transaction', 'ReportController@transaction')->name('report.transaction');
 		Route::get('pension', 'ReportController@pension')->name('report.pension');
-
 	});
 
 	Route::prefix('organization')->group(function ()
@@ -438,6 +446,7 @@ Route::group(['middleware' => ['XSS']], function ()
 
 	Route::prefix('core_hr')->group(function ()
 	{
+
 		{
 			Route::post('awards/update', 'AwardController@update')->name('awards.update');
 			Route::resource('awards', 'AwardController')->except([
@@ -511,9 +520,9 @@ Route::group(['middleware' => ['XSS']], function ()
 
 	Route::prefix('timesheet')->group(function ()
 	{
-		Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
-		Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
-		Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
+		// Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+		// Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
+		// Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
 
 		Route::get('update_attendances', 'AttendanceController@updateAttendance')->name('update_attendances.index');
 		Route::get('update_attendances/{id}/get', 'AttendanceController@updateAttendanceGet')->name('update_attendances.get');
@@ -718,7 +727,7 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::get('meetings/{id}/calendarable', 'MeetingController@calendarableDetails')->name('meetings.calendarable');
 
 
-	
+
 	Route::post('tickets/update', 'SupportTicketController@update')->name('tickets.update');
 	Route::resource('tickets', 'SupportTicketController')->except([
 		'destroy', 'create', 'update'

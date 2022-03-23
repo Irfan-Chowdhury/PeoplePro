@@ -1,5 +1,5 @@
 <div id="meetingModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -19,7 +19,7 @@
                             <div class="form-group">
                                 <label for="meeting_company_id" >{{trans('file.Company')}} *</label>
                                 <select name="company_id" id="meeting_company_id"  class="form-control selectpicker get_employee"
-                                        data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                        data-live-search="true" data-live-search-style="contains"  data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -32,7 +32,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Employee')}} *</label>
                             <select name="employee_id[]"   class="selectpicker form-control employee"
-                                    data-live-search="true" data-live-search-style="begins" multiple
+                                    data-live-search="true" data-live-search-style="contains" multiple
                                     title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                             </select>
                         </div>
@@ -68,7 +68,7 @@
                         <div class="col-md-6 form-group">
                             <label for="meeting_status">{{trans('file.Status')}}</label>
                             <select name="status" id="meeting_status" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                 <option value="pending">{{trans('file.Pending')}}</option>
                                 <option value="ongoing">{{trans('file.Ongoing')}}</option>

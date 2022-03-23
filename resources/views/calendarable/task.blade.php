@@ -1,5 +1,5 @@
 <div id="taskModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -25,7 +25,7 @@
                             <div class="form-group hide-edit">
                                 <label for="task_company_id">{{trans('file.Company')}}</label>
                                 <select name="company_id" id="task_company_id" class="form-control selectpicker get_employee"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
@@ -54,7 +54,7 @@
                         <div class="col-md-6 form-group">
                             <label for="task_project_id">{{trans('file.Project')}}</label>
                             <select name="project_id" id="task_project_id" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Project')])}}...'>
                                 @foreach($projects as $project)
                                     <option value="{{$project->id}}">{{$project->title}}</option>

@@ -16,7 +16,7 @@
                 <tr>
                     <th>{{__('Month-Year')}}</th>
                     <th>{{trans('file.Loan')}}</th>
-                    @if(config('variable.currency_format')==='suffix')
+                    @if(config('variable.currency_format')=='suffix')
                         <th>{{__('Loan Amount')}} ({{config('variable.currency')}})</th>
                     @else
                         <th>({{config('variable.currency')}}) {{__('Loan Amount')}}</th>
@@ -32,7 +32,7 @@
     </div>
 
     <div id="LoanformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -48,14 +48,14 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year"  name="month_year" type="text" id="month_year">
                             </div>
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Loan Option')}} *</label>
                                 <select name="loan_type" id="loan_type" required class="form-control selectpicker"
-                                        {{-- data-live-search="true" data-live-search-style="begins" --}}
+                                        {{-- data-live-search="true" data-live-search-style="contains" --}}
                                         title='{{__('Loan Option')}}'>
                                     <option value="Social Security System Loan">{{__('Social Security System Loan')}}</option>
                                     <option value="Home Development Mutual Fund Loan">{{__('Home Development Mutual Fund Loan')}}</option>
@@ -64,15 +64,15 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Title')}}</label>
+                                <label>{{trans('file.Title')}} *</label>
                                 <input type="text" name="loan_title" id="loan_title" placeholder={{trans('file.Title')}}
                                         required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Amount')}} ({{config('variable.currency')}})</label>
+                                @if(config('variable.currency_format')=='suffix')
+                                    <label>{{__('Amount')}} ({{config('variable.currency')}}) *</label>
                                 @else
-                                    <label>({{config('variable.currency')}}) {{__('Amount')}}</label>
+                                    <label>({{config('variable.currency')}}) {{__('Amount')}} *</label>
                                 @endif <input type="text" name="loan_amount" id="loan_amount"
                                               placeholder={{trans('file.Amount')}}
                                                       required class="form-control">
@@ -115,7 +115,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

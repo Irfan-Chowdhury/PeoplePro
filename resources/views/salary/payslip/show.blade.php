@@ -24,10 +24,10 @@
                                 <div>
                                     @if(!empty($employee->user()->profile_photo))
                                         <img class="profile-photo sm mr-1"
-                                             src="{{ asset('public/uploads/profile_photos/')}}/{{$employee->user()->profile_photo}}">
+                                             src="{{ asset('uploads/profile_photos/')}}/{{$employee->user()->profile_photo}}">
                                     @else
                                         <img class="profile-photo sm mr-1"
-                                             src="{{ asset('public/uploads/profile_photos/avatar.jpg')}}">
+                                             src="{{ asset('uploads/profile_photos/avatar.jpg')}}">
                                     @endif
                                     {{$employee->full_name}} ({{$employee->user->username ?? ''}})
                                 </div>
@@ -63,7 +63,7 @@
                             (function ($) {
                                 "use strict";
                                 $('.collapse-head').on('click', function () {
-                                    if ($(this).attr('aria-expanded') === "true") {
+                                    if ($(this).attr('aria-expanded') == "true") {
                                         $(this + ' .show').html('<i class="dripicons-chevron-down"></i>');
                                     } else {
                                         $(this + ' .show').html('<i class="dripicons-chevron-up"></i>');
@@ -92,7 +92,7 @@
                                         <table class="table  table-bordered dataTable no-footer">
                                             <tbody>
                                             <tr>
-                                                @if($payslip->payment_type === 'Hourly')
+                                                @if($payslip->payment_type == 'Hourly')
                                                     <td><strong>{{__('Per Hour Salary')}}:</strong> <span
                                                                 class="pull-right">{{$payslip->basic_salary}}</span>
                                                     </td>
@@ -464,7 +464,7 @@
                                             </tbody>
                                             <tfooter>
                                                 <tr>
-                                                    @if(config('variable.currency_format') ==='suffix')
+                                                    @if(config('variable.currency_format') =='suffix')
                                                         <th class="text-dark"><strong>Paid Amount:</strong> <span
                                                                     class="pull-right">{{$payslip->net_salary}} {{config('variable.currency')}}</span>
                                                         </th>

@@ -36,11 +36,14 @@ class EmployeeController extends Controller {
 
 	public function index(Request $request)
 	{
+
 		$logged_user = auth()->user();
         if ($logged_user->can('view-details-employee'))
 		{
             $companies = company::select('id', 'company_name')->get();
             $roles = Role::where('id', '!=', 3)->where('is_active',1)->select('id', 'name')->get();
+
+
 
             if (request()->ajax())
             {
@@ -50,30 +53,48 @@ class EmployeeController extends Controller {
                                 ->where('department_id','=',$request->department_id)
                                 ->where('designation_id','=',$request->designation_id)
                                 ->where('office_shift_id','=',$request->office_shift_id)
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }elseif ($request->company_id && $request->department_id && $request->designation_id) {
                     $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
                                 ->where('company_id','=',$request->company_id)
                                 ->where('department_id','=',$request->department_id)
                                 ->where('designation_id','=',$request->designation_id)
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }elseif ($request->company_id && $request->department_id) {
                     $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
                                 ->where('company_id','=',$request->company_id)
                                 ->where('department_id','=',$request->department_id)
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }elseif ($request->company_id && $request->office_shift_id) {
                     $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
                                 ->where('company_id','=',$request->company_id)
                                 ->where('office_shift_id','=',$request->office_shift_id)
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }elseif ($request->company_id) {
                     $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
                                 ->where('company_id','=',$request->company_id)
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }else {
                     $employees = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name')
                                 ->orderBy('company_id')
+                                ->where('is_active',1)
+                                ->where('exit_date',NULL)
+                                ->orWhere('exit_date','0000-00-00')
                                 ->get();
                 }
 
@@ -86,23 +107,31 @@ class EmployeeController extends Controller {
                     {
                         if ($row->user->profile_photo)
                         {
-                            $url = url("public/uploads/profile_photos/".$row->user->profile_photo);
+                            $url = url("uploads/profile_photos/".$row->user->profile_photo);
                             $profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
                         }
                         else {
-                            $url = url("public//logo/avatar.jpg");
+                            $url = url("logo/avatar.jpg");
                             $profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
                         }
                         $name  = '<span><a href="employees/' . $row->id .'" class="d-block text-bold" style="color:#24ABF2">'.$row->full_name.'</a></span>';
-                        $username = "<span>Username: &nbsp;".($row->user->username ?? '')."</span>";
-                        $gender= "<span>Gender: &nbsp;".($row->gender ?? '')."</span>";
-                        $shift = "<span>Shift: &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
-                        if(config('variable.currency_format') ==='suffix'){
-							$salary= "<span>Salary: &nbsp;".($row->basic_salary ?? '')." ".config('variable.currency')."</span>";
+                        $username = "<span>".__('file.Username').": &nbsp;".($row->user->username ?? '')."</span>";
+
+                        // $gender= "<span>".__('file.Gender').": &nbsp;". ($row->gender ?? '')."</span>";
+                        $gender= "<span>".__('file.Gender').": &nbsp;".__('file.'.$row->gender ?? '')."</span>";
+
+                        $shift = "<span>".__('file.Shift').": &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
+                        if(config('variable.currency_format') =='suffix'){
+							$salary= "<span>".__('file.Salary').": &nbsp;".($row->basic_salary ?? '')." ".config('variable.currency')."</span>";
 						}else{
-							$salary= "<span>Salary: &nbsp;".config('variable.currency')." ".($row->basic_salary ?? '')."</span>";
+							$salary= "<span>".__('file.Salary').": &nbsp;".config('variable.currency')." ".($row->basic_salary ?? '')."</span>";
 						}
-                        $payslip_type = "<span>Payslip Type: &nbsp;".($row->payslip_type ?? '')."</span>";
+
+                        if ($row->payslip_type) {
+                            $payslip_type = "<span>".__('file.Payslip Type').": &nbsp;".__('file.'.$row->payslip_type)."</span>";
+                        }else {
+                            $payslip_type = " ";
+                        }
 
                         return "<div class='d-flex'>
                                         <div class='mr-2'>".$profile_photo."</div>
@@ -114,8 +143,8 @@ class EmployeeController extends Controller {
                     ->addColumn('company', function ($row)
                     {
                         $company     = "<span class='text-bold'>".strtoupper($row->company->company_name ?? '')."</span>";
-                        $department  = "<span>Department : ".($row->department->department_name ?? '')."</span>";
-                        $designation = "<span>Designation : ".($row->designation->designation_name ?? '')."</span>";
+                        $department  = "<span>".__('file.Department')." : ".($row->department->department_name ?? '')."</span>";
+                        $designation = "<span>".__('file.Designation')." : ".($row->designation->designation_name ?? '')."</span>";
 
                         return $company.'</br>'.$department.'</br>'.$designation;
                     })
@@ -154,17 +183,8 @@ class EmployeeController extends Controller {
 		{
 			return response()->json(['success' => __('You are not authorized')]);
 		}
-
-
-
 	}
 
-
-
-	public function create()
-	{
-		//
-	}
 
 	public function store(Request $request)
 	{
@@ -248,7 +268,6 @@ class EmployeeController extends Controller {
 				try
 				{
 					$created_user = User::create($user);
-					// $created_user->syncRoles(5);
 					$created_user->syncRoles($request->role_users_id); //new
 
 					$data['id'] = $created_user->id;
@@ -402,7 +421,7 @@ class EmployeeController extends Controller {
 			{
 				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'company_id', 'department_id', 'designation_id', 'office_shift_id', 'location_id', 'status_id',
-					'marital_status', 'joining_date', 'exit_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type','total_leave'
+					'marital_status', 'joining_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type','total_leave'
 				),
 					[
 						'first_name' => 'required',
@@ -416,6 +435,7 @@ class EmployeeController extends Controller {
 						'attendance_type' => 'required',
 						'total_leave' => 'numeric|min:0',
 						'joining_date' => 'required',
+						'exit_date' => 'nullable',
 					]
 				);
 
@@ -440,10 +460,14 @@ class EmployeeController extends Controller {
 				{
 					$data ['joining_date'] = $request->joining_date;
 				}
-				if ($request->exit_date)
-				{
+
+				if ($request->exit_date){
 					$data['exit_date'] = $request->exit_date;
 				}
+                // else {
+                //     $data['exit_date'] = NULL;
+                // }
+
 				$data ['address'] = $request->address;
 				$data ['city'] = $request->city;
 				$data['state'] = $request->state;
@@ -694,6 +718,7 @@ class EmployeeController extends Controller {
 
 	public function import()
 	{
+
 		if (auth()->user()->can('import-employee'))
 		{
 			return view('employee.import');
@@ -702,9 +727,9 @@ class EmployeeController extends Controller {
 		return abort(404, __('You are not authorized'));
 	}
 
-	public
-	function importPost()
+	public function importPost()
 	{
+
 		if (!env('USER_VERIFIED'))
 		{
 			$this->setSuccessMessage(__('This feature is disabled for demo!'));

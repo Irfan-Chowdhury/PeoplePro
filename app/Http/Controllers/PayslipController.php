@@ -288,7 +288,7 @@ class PayslipController extends Controller {
 		$employee['hours_amount'] = $amount_hours;
         $employee['pension_amount'] = $payslip->pension_amount;
 
-		// return view('salary.payslip.pdf',compact('payslip','employee'));
+		//return view('salary.payslip.pdf',compact('payslip','employee'));
 
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
         $pdf = PDF::loadView('salary.payslip.pdf', $payslip, $employee);

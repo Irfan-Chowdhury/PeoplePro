@@ -60,11 +60,10 @@ class DashboardController extends Controller {
 	 */
 	public function index()
 	{
-
-
 		$employees = Employee::with('department:id,department_name', 'designation:id,designation_name')
 			->select('id', 'department_id', 'designation_id', 'is_active')
-			->where('is_active', '=', 1)->get();
+			->where('is_active', '=', 1)->where('is_active',1)
+            ->where('exit_date',NULL)->get();
 
 		$departments = $employees->groupBy('department_id');
 
@@ -137,13 +136,15 @@ class DashboardController extends Controller {
 
 		if (config('variable.currency_format') == 'suffix')
 		{
-			$total_expense = $total_expense_raw . config('variable.currency');
+			// $total_expense = $total_expense_raw . config('variable.currency');
+            $total_expense = number_format((float)$total_expense_raw, 3, '.', '') . config('variable.currency');
 			$total_deposit = $total_deposit_raw . config('variable.currency');
 			$total_salaries_paid = $total_salaries_paid . config('variable.currency');
 
 		} else
 		{
-			$total_expense = config('variable.currency') . $total_expense_raw;
+			// $total_expense = config('variable.currency') . $total_expense_raw;
+			$total_expense = config('variable.currency') . number_format((float)$total_expense_raw, 3, '.', '');
 			$total_deposit = config('variable.currency') . $total_deposit_raw;
 			$total_salaries_paid = config('variable.currency') . $total_salaries_paid;
 		}
@@ -210,7 +211,6 @@ class DashboardController extends Controller {
 
 	public function profile()
 	{
-
 		$user = auth()->user();
 
 		$employee = Employee::find($user->id);
@@ -414,7 +414,7 @@ class DashboardController extends Controller {
 
         $count = 0;
         $get_ip ="";
-        for ($i=0; $i < $length ; $i++) { 
+        for ($i=0; $i < $length ; $i++) {
             if ($data[$i]=='.') {
                 $count++;
             }
@@ -453,23 +453,34 @@ class DashboardController extends Controller {
 		$leave_types = LeaveType::select('id', 'leave_type', 'allocated_day')->get();
 		$travel_types = TravelType::select('id', 'arrangement_type')->get();
 
+
 		$assigned_projects = EmployeeProject::with(['assignedProjects' => function ($query) use ($employee)
 		{
 			$query->where('project_status', '!=', 'completed')->select('id', 'title', 'project_status');
 		},])
 			->where('employee_id', $employee->id)->get();
-
-		$assigned_projects_count = $assigned_projects->count();
+		// $assigned_projects_count = $assigned_projects->count();
+        $assigned_projects_count = 0;
+        foreach($assigned_projects as $task){
+            if (count($task->assignedProjects)!=0) {
+                $assigned_projects_count++;
+            }
+        }
 
 
 		$assigned_tasks = EmployeeTask::with(['assignedTasks' => function ($query) use ($employee)
 		{
 			$query->where('task_status', '!=', 'completed')->select('id', 'task_name', 'task_status');
 		},])
-			->where('employee_id', $employee->id)->get();
+           ->where('employee_id', $employee->id)->get();
 
-
-		$assigned_tasks_count = $assigned_tasks->count();
+		// $assigned_tasks_count = $assigned_tasks->count();
+        $assigned_tasks_count = 0;
+        foreach($assigned_tasks as $task){
+            if (count($task->assignedTasks)!=0) {
+                $assigned_tasks_count++;
+            }
+        }
 
 
 		$assigned_tickets = EmployeeTicket::with(['assignedTickets' => function ($query) use ($employee)
@@ -478,10 +489,13 @@ class DashboardController extends Controller {
 		},])
 			->where('employee_id', $employee->id)->get();
 
-
-		$assigned_tickets_count = $assigned_tickets->count();
-
-		// return $assigned_tickets_count;
+        //$assigned_tickets_count = $assigned_tickets->count();
+        $assigned_tickets_count = 0;
+        foreach($assigned_tickets as $ticket){
+            if (count($ticket->assignedTickets)!=0) {
+                $assigned_tickets_count++;
+            }
+        }
 
 
 
@@ -490,19 +504,25 @@ class DashboardController extends Controller {
 				->where('employee_id', $employee->id)->orderBy('id', 'desc')->first() ?? null;
 
 		//IP Check
-		$ip_setting = IpSetting::latest()->first();
-        $db_ip = $this->getIp($ip_setting->ip_address);
 
-        $client_ip = $this->getIp($request->ip());
+        $ip_setting = IpSetting::get();
 
-        if ($db_ip==$client_ip) {
-            $ipCheck =  true;
-        }else {
+        if (count($ip_setting)==0) {
             $ipCheck =  false;
+        }else {
+            foreach ($ip_setting as $key => $value) {
+                $db_ip = $this->getIp($value->ip_address);
+
+                $client_ip = $this->getIp($request->ip());
+
+                if ($db_ip==$client_ip) {
+                    $ipCheck =  true;
+                    break;
+                }else {
+                    $ipCheck =  false;
+                }
+            }
         }
-
-		//$ipCheck = IpSetting::where('ip_address',$request->ip())->exists();
-
 
 		return view('dashboard.employee_dashboard', compact('user', 'employee', 'employee_attendance',
 			'shift_in', 'shift_out', 'shift_name', 'announcements',
@@ -515,6 +535,9 @@ class DashboardController extends Controller {
 
 	public function clientDashboard()
 	{
+        // Auth::logout();
+        // return redirect()->back();
+
 		$user = auth()->user();
 
 		$client = Client::with('invoices', 'projects')->findOrFail($user->id);

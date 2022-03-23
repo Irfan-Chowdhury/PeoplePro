@@ -21,6 +21,7 @@ class SupportTicketController extends Controller {
 
 	public function index()
 	{
+
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 
@@ -172,7 +173,7 @@ class SupportTicketController extends Controller {
 
 			$ticket = SupportTicket::create($data);
 
-			if ($ticket->ticket_status === 'open')
+			if ($ticket->ticket_status == 'open')
 			{
 				$notificable = User::where('role_users_id', 1)
 					->orWhere('id', $data['employee_id'])
@@ -189,6 +190,7 @@ class SupportTicketController extends Controller {
 
 	public function ticketId()
 	{
+
 		$unique = Str::random(8);
 
 		$check = SupportTicket::where('ticket_code', $unique)->first();
@@ -203,7 +205,6 @@ class SupportTicketController extends Controller {
 
 	public function show(SupportTicket $ticket)
 	{
-
 		try
 		{
 			$name = DB::table('employee_support_ticket')->where('support_ticket_id', $ticket->id)->pluck('employee_id')->toArray();
@@ -214,14 +215,13 @@ class SupportTicketController extends Controller {
 
 		$logged_user = auth()->user();
 
+
 		if ($logged_user->can('view-ticket') || in_array($logged_user->id, $name))
 		{
 
 			$employees = DB::table('employees')
 				->select('employees.id', DB::raw("CONCAT(employees.first_name,' ',employees.last_name) as full_name"))
 				->get();
-
-
 
 			return view('SupportTicket.details', compact('ticket', 'employees', 'name'));
 		}
@@ -243,7 +243,7 @@ class SupportTicketController extends Controller {
 			$departments = department::select('id', 'department_name')
 				->where('company_id', $data->company_id)->get();
 
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->where('is_active',1)->where('exit_date',NULL)->get();
 
 			return response()->json(['data' => $data, 'employees' => $employees, 'departments' => $departments]);
 		}
@@ -412,6 +412,7 @@ class SupportTicketController extends Controller {
 
 	public function detailsStore(Request $request, SupportTicket $ticket)
 	{
+
 			$validator = Validator::make($request->only('ticket_remarks', 'ticket_status'),
 				[
 					'ticket_remarks' => 'required',

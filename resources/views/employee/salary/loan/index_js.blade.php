@@ -58,7 +58,7 @@
                 data: 'loan_amount',
                 name: 'loan_amount',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     } else {
                         return '{{config('variable.currency')}} ' + data;
@@ -116,7 +116,7 @@
 
     $('#loan_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#loan_action').val() === '{{trans('file.Add')}}') {
+        if ($('#loan_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_loan.store',$employee) }}",
@@ -147,7 +147,7 @@
             });
         }
 
-        if ($('#loan_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#loan_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_loan.update') }}",
                 method: "POST",

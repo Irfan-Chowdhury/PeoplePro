@@ -54,14 +54,14 @@
             {
                 data: 'overtime_rate',
                 name: 'overtime_rate',
-    render: function (data) {
-    if ('{{config('variable.currency_format') ==='suffix'}}') {
-    return data + ' {{config('variable.currency')}}';
-    } else {
-    return '{{config('variable.currency')}} ' + data;
-
-    }
-    }
+                render: function (data) {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
+                        return data + ' {{config('variable.currency')}}';
+                    }
+                    else {
+                        return '{{config('variable.currency')}} ' + data;
+                    }
+                }
             },
             {
                 data: 'action',
@@ -106,7 +106,7 @@
 
     $('#overtime_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#overtime_action').val() === '{{trans('file.Add')}}') {
+        if ($('#overtime_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_overtime.store',$employee) }}",
@@ -136,7 +136,7 @@
             });
         }
 
-        if ($('#overtime_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#overtime_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_overtime.update') }}",
                 method: "POST",

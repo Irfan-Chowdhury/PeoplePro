@@ -153,7 +153,7 @@
 
                         columns: [
                             {
-                                data: null,
+                                data: 'id',
                                 orderable:false,
                                 searchable:false
                             },
@@ -198,7 +198,7 @@
                             },
                             {
                                 'render': function(data, type, row, meta){
-                                    if(type === 'display'){
+                                    if(type == 'display'){
                                         data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                     }
 

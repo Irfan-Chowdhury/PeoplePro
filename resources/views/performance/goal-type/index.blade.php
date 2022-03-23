@@ -3,15 +3,15 @@
 
 <section>
     <div class="container-fluid"><span id="general_result"></span></div>
-    
+
     <div class="container-fluid mb-3">
 
-        <h4 class="font-weight-bold mt-3">Goal Type</h4>
+        <h4 class="font-weight-bold mt-3">@lang('file.Goal Type')</h4>
         <div id="success_alert" role="alert"></div>
         <br>
-        
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__(' Add New Type')}}</button>
-        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModal"><i class="fa fa-plus"></i>{{__('file.Add New Type')}}</button>
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__('file.Bulk Delete')}}</button>
 
     </div>
 
@@ -21,7 +21,7 @@
                 <thead>
                     <tr>
                         <th class="not-exported"></th>
-                        <th>Type</th>
+                        <th>@lang('file.Type')</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
                     </tr>
                 </thead>
@@ -37,6 +37,11 @@
 
 
 
+
+
+@endsection
+
+@push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -55,9 +60,9 @@
                 {data: 'DT_RowIndex', name: 'DT_RowIndex'},
                 {data: 'goal_type', name: 'goal_type'},
                 {
-                    data: 'action', 
-                    name: 'action', 
-                    orderable: true, 
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
                     searchable: true
                 },
             ],
@@ -75,7 +80,7 @@
                         'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
                     },
                     'render': function (data, type, row, meta) {
-                        if (type === 'display') {
+                        if (type == 'display') {
                             data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                         }
 
@@ -137,7 +142,7 @@
         $("#save-button").on("click",function(e){
             e.preventDefault();
             var goalType = $("#goalType").val();
-            
+
             $.ajax({
                 url: "{{route('performance.goal-type.store')}}",
                 type: "POST",
@@ -176,8 +181,8 @@
                 data: {goal_type_id:goalTypeId},
                 success: function(data){
                     // console.log(data);
-                    $('#edit-body').html(data);      
-                    $('#EditformModal').modal('show');              
+                    $('#edit-body').html(data);
+                    $('#EditformModal').modal('show');
                 }
             });
         });
@@ -195,7 +200,7 @@
                 data: {goal_type_id:goalTypeId, goal_type:goalEditType},
                 success: function(data){
                     console.log(data);
-                    
+
                     if (data.errors) {
                         $(".goal_type_edit").addClass('is-invalid');
                         $("#error_edit_message").html(data.errors) //Check in edit modal
@@ -211,7 +216,7 @@
                         setTimeout(function() {
                             $('#success_alert').fadeOut("slow");
                         }, 3000);
-                    } 
+                    }
                 }
             });
         });
@@ -240,7 +245,7 @@
                             setTimeout(function() {
                                 $('#success_alert').fadeOut("slow");
                             }, 3000);
-                        }                        
+                        }
                     }
                 });
 
@@ -255,7 +260,7 @@
             allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
 
-            if(allCheckboxId.length === 0){
+            if(allCheckboxId.length == 0){
                 alert("Please Select at least one checkbox.");
             }
             else{
@@ -283,9 +288,8 @@
                 });
             }
         });
-        
+
 
     });
 </script>
-
-@endsection
+@endpush

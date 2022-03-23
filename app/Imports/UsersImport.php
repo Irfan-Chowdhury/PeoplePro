@@ -36,7 +36,6 @@ class UsersImport implements ToModel,WithHeadingRow, ShouldQueue,WithChunkReadin
         $shift_name       =  $row['shift_name'];
         $name             =  $row['role_name'];
 
-
         $company = company::where('company_name',$comapny_name)->select('id')->first();
         $department = department::where('department_name',$department_name)->where('company_id',$company->id)->select('id')->first();
         $designation = designation::where('designation_name',$designation_name)->where('company_id',$company->id)->where('department_id',$department->id)->select('id')->first();
@@ -45,7 +44,6 @@ class UsersImport implements ToModel,WithHeadingRow, ShouldQueue,WithChunkReadin
 
 
 		$user = User::create([
-			//
 			'first_name' => $row['first_name'],
 			'last_name' => $row['last_name'],
 			'username' => $row['username'],

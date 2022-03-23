@@ -18,7 +18,7 @@
                     <th>{{__('Month-Year')}}</th>
                     <th>{{__('Deduction Type')}}</th>
                     <th>{{trans('file.Title')}}</th>
-                    @if(config('variable.currency_format')==='suffix')
+                    @if(config('variable.currency_format')=='suffix')
                         <th>{{__('Amount')}} ({{config('variable.currency')}})</th>
                     @else
                         <th>({{config('variable.currency')}}) {{__('Amount')}}</th>
@@ -32,7 +32,7 @@
     </div>
 
     <div id="DeductionformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -48,7 +48,7 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year"  name="month_year" type="text" id="month_year">
                             </div>
 
@@ -56,7 +56,7 @@
                                 <label>{{__('Deduction Option')}} *</label>
                                 <select name="deduction_type" id="deduction_type" required
                                         class="form-control selectpicker"
-                                        data-live-search="false" data-live-search-style="begins"
+                                        data-live-search="false" data-live-search-style="contains"
                                         title='{{__('Deduction Option')}}'>
                                     <option value="Social Security System">{{__('Social Security System')}}</option>
                                     <option value="Health Insurance Corporation">{{__('Health Insurance Corporation')}}</option>
@@ -66,16 +66,16 @@
                                 </select>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{__('Deduction Title')}}</label>
+                                <label>{{__('Deduction Title')}} *</label>
                                 <input type="text" name="deduction_title" id="deduction_title"
                                        placeholder={{__('Deduction Title')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Deduction Amount')}} ({{config('variable.currency')}})</label>
+                                @if(config('variable.currency_format')=='suffix')
+                                    <label>{{__('Deduction Amount')}} ({{config('variable.currency')}}) *</label>
                                 @else
-                                    <label>({{config('variable.currency')}}) {{__('Deduction Amount')}}</label>
+                                    <label>({{config('variable.currency')}}) {{__('Deduction Amount')}} *</label>
                                 @endif <input type="text" name="deduction_amount" id="deduction_amount"
                                               placeholder={{__('Deduction Amount')}}
                                                       required class="form-control">
@@ -102,7 +102,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

@@ -79,18 +79,13 @@ class SalaryLoanController extends Controller {
 			$data['employee_id'] = $employee->id;
 			$data['loan_amount'] = $request->loan_amount;
 			$data['loan_type'] = $request->loan_type;
-
 			$data['loan_time'] = $request->loan_time;
-
 			$data['time_remaining'] = $request->loan_time;
-
-
 			$data['amount_remaining'] = $request->loan_amount;
 
-			$data ['monthly_payable'] = number_format ( ($data['loan_amount'] / $data['loan_time']) ,3);
-
+			// $data ['monthly_payable'] = number_format ( ($data['loan_amount'] / $data['loan_time']) ,3);
+			$data ['monthly_payable'] = bcdiv(($data['loan_amount'] / $data['loan_time']), 1, 2);
 			$data ['reason'] = $request->reason;
-
 
 			SalaryLoan::create($data);
 
@@ -148,7 +143,8 @@ class SalaryLoanController extends Controller {
 			$paid_month = $loan->loan_time - $loan->time_remaining;
 
 			$data['time_remaining'] = $data['loan_time'] - $paid_month ;
-			$data ['monthly_payable'] = number_format(($data['loan_amount'] / $data['time_remaining']), 3);
+			// $data ['monthly_payable'] = number_format(($data['loan_amount'] / $data['time_remaining']), 3);
+            $data ['monthly_payable'] = bcdiv(($data['loan_amount'] / $data['loan_time']), 1, 2);
 
 			$data ['reason'] = $request->reason;
 

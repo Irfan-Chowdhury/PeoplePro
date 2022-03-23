@@ -1,5 +1,5 @@
 <div class="modal fade confirmModal" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

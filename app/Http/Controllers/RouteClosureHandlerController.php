@@ -20,7 +20,7 @@ class RouteClosureHandlerController extends Controller {
 	public function allNotifications()
 	{
 		$all_notification = auth()->user()->notifications()->get();
-		if(auth()->user()->role_users_id === 3)
+		if(auth()->user()->role_users_id == 3)
 		{
 			return view('shared.client_all_notifications', compact('all_notification'));
 		}

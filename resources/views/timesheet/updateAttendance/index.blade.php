@@ -24,7 +24,7 @@
                                         <div class="form-group">
                                             <select name="company_id" id="company_id"
                                                     class="form-control selectpicker dynamic"
-                                                    data-live-search="true" data-live-search-style="begins"
+                                                    data-live-search="true" data-live-search-style="contains"
                                                     data-first_name="first_name" data-last_name="last_name"
                                                     title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                                 @foreach($companies as $company)
@@ -39,7 +39,7 @@
                                         <div class="form-group">
                                             <select name="employee_id" id="employee_id"
                                                     class="selectpicker form-control"
-                                                    data-live-search="true" data-live-search-style="begins"
+                                                    data-live-search="true" data-live-search-style="contains"
                                                     title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                                             </select>
                                         </div>
@@ -78,7 +78,7 @@
         </div>
 
         <div id="editModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -130,7 +130,7 @@
         </div>
 
         <div id="confirmModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -149,298 +149,302 @@
 
     </section>
 
-    <script type="text/javascript">
-        (function($) {
-            "use strict";
-            $(document).ready(function () {
 
-                let date = $('.date');
-                date.datepicker({
-                    format: '{{ env('Date_Format_JS')}}',
-                    autoclose: true,
-                    todayHighlight: true,
-                    endDate: new Date()
-                }).datepicker("setDate", new Date());
+@endsection
+
+@push('scripts')
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        $(document).ready(function () {
+
+            let date = $('.date');
+            date.datepicker({
+                format: '{{ env('Date_Format_JS')}}',
+                autoclose: true,
+                todayHighlight: true,
+                endDate: new Date()
+            }).datepicker("setDate", new Date());
+
+        });
+
+
+        fill_datatable();
+
+        function fill_datatable(attendance_date = '',company_id = '', employee_id = '') {
+
+            let table_table = $('#update_attendance-table').DataTable({
+                initComplete: function () {
+                    this.api().columns([1]).every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                            $('select').selectpicker('refresh');
+                        });
+                    });
+                },
+                responsive: true,
+
+                fixedHeader: {
+                    header: true,
+                    footer: true
+                },
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('update_attendances.index') }}",
+                    data: {
+                        attendance_date: attendance_date,
+                        company_id: company_id,
+                        employee_id: employee_id,
+                        "_token": "{{ csrf_token()}}",
+                    }
+                },
+
+
+                columns: [
+                    {
+                        data: 'clock_in',
+                        name: 'clock_in'
+                    },
+                    {
+                        data: 'clock_out',
+                        name: 'clock_out'
+                    },
+                    {
+                        data: 'total_work',
+                        name: 'total_work',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    },
+                ],
+
+
+                "order": [],
+                'language': {
+                    'lengthMenu': '_MENU_ {{__("records per page")}}',
+                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                    "search": '{{trans("file.Search")}}',
+                    'paginate': {
+                        'previous': '{{trans("file.Previous")}}',
+                        'next': '{{trans("file.Next")}}'
+                    }
+                },
+
+
+                'select': {style: 'multi', selector: 'td:first-child'},
+                'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
 
             });
+            new $.fn.dataTable.FixedHeader(table_table);
 
+        }
 
-            fill_datatable();
-
-            function fill_datatable(attendance_date = '',company_id = '', employee_id = '') {
-
-                let table_table = $('#update_attendance-table').DataTable({
-                    initComplete: function () {
-                        this.api().columns([1]).every(function () {
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo($(column.footer()).empty())
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>');
-                                $('select').selectpicker('refresh');
-                            });
-                        });
-                    },
-                    responsive: true,
-
-                    fixedHeader: {
-                        header: true,
-                        footer: true
-                    },
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('update_attendances.index') }}",
-                        data: {
-                            attendance_date: attendance_date,
-                            company_id: company_id,
-                            employee_id: employee_id,
-                            "_token": "{{ csrf_token()}}",
-                        }
-                    },
-
-
-                    columns: [
-                        {
-                            data: 'clock_in',
-                            name: 'clock_in'
-                        },
-                        {
-                            data: 'clock_out',
-                            name: 'clock_out'
-                        },
-                        {
-                            data: 'total_work',
-                            name: 'total_work',
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false
-                        },
-                    ],
-
-
-                    "order": [],
-                    'language': {
-                        'lengthMenu': '_MENU_ {{__("records per page")}}',
-                        "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                        "search": '{{trans("file.Search")}}',
-                        'paginate': {
-                            'previous': '{{trans("file.Previous")}}',
-                            'next': '{{trans("file.Next")}}'
-                        }
-                    },
-
-
-                    'select': {style: 'multi', selector: 'td:first-child'},
-                    'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
-
-                });
-                new $.fn.dataTable.FixedHeader(table_table);
-
+        $('#update_attendance_from').on('submit',function (e) {
+            e.preventDefault();
+            let attendance_date = $('#attendance_date').val();
+            let company_id = $('#company_id').val();
+            let employee_id = $('#employee_id').val();
+            if (attendance_date !== ''  && company_id !== '' && employee_id !== '') {
+                $('#update_attendance-table').DataTable().destroy();
+                fill_datatable(attendance_date,company_id, employee_id);
+                $('#add_attendance_btn').removeClass('d-none');
+                $('#hidden_employee_id').val($('#employee_id').val());
+            } else {
+                alert('{{__('Select Both filter option')}}');
             }
 
-            $('#update_attendance_from').on('submit',function (e) {
-                e.preventDefault();
-                let attendance_date = $('#attendance_date').val();
-                let company_id = $('#company_id').val();
-                let employee_id = $('#employee_id').val();
-                if (attendance_date !== ''  && company_id !== '' && employee_id !== '') {
-                    $('#update_attendance-table').DataTable().destroy();
-                    fill_datatable(attendance_date,company_id, employee_id);
-                    $('#add_attendance_btn').removeClass('d-none');
-                    $('#hidden_employee_id').val($('#employee_id').val());
-                } else {
-                    alert('{{__('Select Both filter option')}}');
-                }
-
-            });
+        });
 
 
-            $('#add_attendance_btn').on('click', function() {
+        $('#add_attendance_btn').on('click', function() {
 
-                $('.modal-title').text('{{__('Add Attendance')}}');
-                $('#action_button').val('{{trans("file.Add")}}');
-                $('#action').val('{{trans("file.Add")}}');
-                $('#editModal').modal('show');
+            $('.modal-title').text('{{__('Add Attendance')}}');
+            $('#action_button').val('{{trans("file.Add")}}');
+            $('#action').val('{{trans("file.Add")}}');
+            $('#editModal').modal('show');
 
-            });
+        });
 
-            $('#edit_form').on('submit', function(event){
-                event.preventDefault();
-                if($('#action').val() === '{{trans('file.Add')}}')
-                {
-
-                    $.ajax({
-                        url:"{{ route('update_attendances.store') }}",
-                        method:"POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache:false,
-                        processData: false,
-                        dataType:"json",
-                        success:function(data)
-                        {
-                            var html = '';
-                            if(data.errors)
-                            {
-                                html = '<div class="alert alert-danger">';
-                                for(var count = 0; count < data.errors.length; count++)
-                                {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if(data.success)
-                            {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#edit_form')[0].reset();
-                                $('#update_attendance-table').DataTable().ajax.reload();
-                                $('#add_attendance_btn').addClass('d-none');
-                            }
-                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    })
-                }
-
-                if($('#action').val() === '{{trans('file.Edit')}}')
-                {
-                    $.ajax({
-                        url:"{{ route('update_attendances.update') }}",
-                        method:"POST",
-                        data:new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType:"json",
-                        success:function(data)
-                        {
-                            var html = '';
-                            if(data.errors)
-                            {
-                                html = '<div class="alert alert-danger">';
-                                for(var count = 0; count < data.errors.length; count++)
-                                {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if(data.success)
-                            {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                setTimeout(function(){
-                                    $('#editModal').modal('hide');
-                                    $('#update_attendance-table').DataTable().ajax.reload();
-                                    $('#edit_form')[0].reset();
-
-                                }, 2000);
-
-                            }
-                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    });
-                }
-            });
-
-
-            $(document).on('click', '.edit', function() {
-
-
-                let id = $(this).attr('id');
-
-
-                let target = "{{ route('update_attendances.index') }}/"+id+'/get';
-
+        $('#edit_form').on('submit', function(event){
+            event.preventDefault();
+            if($('#action').val() == '{{trans('file.Add')}}')
+            {
 
                 $.ajax({
-                    url:target,
+                    url:"{{ route('update_attendances.store') }}",
+                    method:"POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache:false,
+                    processData: false,
                     dataType:"json",
-                    success:function(html){
-                        $('#attendance_date_edit').val(html.data.attendance_date);
-                        $('#clock_in_edit').val(html.data.clock_in);
-                        $('#clock_out_edit').val(html.data.clock_out);
-
-                        $('#hidden_id').val(html.data.id);
-                        $('.modal-title').text('{{trans('file.Edit')}}');
-                        $('#action').val('{{trans('file.Edit')}}');
-                        $('#action_button').val('{{trans('file.Edit')}}');
-                        $('#editModal').modal('show');
-                    }
-                })
-            });
-
-            let delete_id;
-            $(document).on('click', '.delete', function(){
-                delete_id = $(this).attr('id');
-
-                $('#confirmModal').modal('show');
-                $('.modal-title').text('{{__('DELETE Record')}}');
-                $('#ok_button').text('{{trans('file.OK')}}');
-
-            });
-
-
-            $('#ok_button').on('click', function() {
-                let target = "{{ route('update_attendances.index') }}/"+delete_id+'/delete';
-                $.ajax({
-                    url:target,
-                    beforeSend:function(){
-                        $('#ok_button').text('{{trans('file.Deleting...')}}');
-                    },
                     success:function(data)
                     {
-                        let html = '';
-                        if (data.error) {
-                            html = '<div class="alert alert-danger">' + data.error + '</div>';
+                        var html = '';
+                        if(data.errors)
+                        {
+                            html = '<div class="alert alert-danger">';
+                            for(var count = 0; count < data.errors.length; count++)
+                            {
+                                html += '<p>' + data.errors[count] + '</p>';
+                            }
+                            html += '</div>';
                         }
-                        if (data.success) {
+                        if(data.success)
+                        {
                             html = '<div class="alert alert-success">' + data.success + '</div>';
-                        }
-                        setTimeout(function(){
-                            $('#confirmModal').modal('hide');
+                            $('#edit_form')[0].reset();
                             $('#update_attendance-table').DataTable().ajax.reload();
-                        }, 2000);
+                            $('#add_attendance_btn').addClass('d-none');
+                        }
+                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
                     }
                 })
-            });
+            }
 
-            $('.dynamic').change(function () {
-                if ($(this).val() !== '') {
-                    let value = $(this).val();
-                    let first_name = $(this).data('first_name');
-                    let last_name = $(this).data('last_name');
-                    let _token = $('input[name="_token"]').val();
-                    $.ajax({
-                        url: "{{ route('dynamic_employee') }}",
-                        method: "POST",
-                        data: {value: value, _token: _token, first_name: first_name, last_name: last_name},
-                        success: function (result) {
-                            $('select').selectpicker("destroy");
-                            $('#employee_id').html(result);
-                            $('select').selectpicker();
+            if($('#action').val() == '{{trans('file.Edit')}}')
+            {
+                $.ajax({
+                    url:"{{ route('update_attendances.update') }}",
+                    method:"POST",
+                    data:new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType:"json",
+                    success:function(data)
+                    {
+                        var html = '';
+                        if(data.errors)
+                        {
+                            html = '<div class="alert alert-danger">';
+                            for(var count = 0; count < data.errors.length; count++)
+                            {
+                                html += '<p>' + data.errors[count] + '</p>';
+                            }
+                            html += '</div>';
+                        }
+                        if(data.success)
+                        {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                            setTimeout(function(){
+                                $('#editModal').modal('hide');
+                                $('#update_attendance-table').DataTable().ajax.reload();
+                                $('#edit_form')[0].reset();
+
+                            }, 2000);
 
                         }
-                    });
+                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                    }
+                });
+            }
+        });
+
+
+        $(document).on('click', '.edit', function() {
+
+
+            let id = $(this).attr('id');
+
+
+            let target = "{{ route('update_attendances.index') }}/"+id+'/get';
+
+
+            $.ajax({
+                url:target,
+                dataType:"json",
+                success:function(html){
+                    $('#attendance_date_edit').val(html.data.attendance_date);
+                    $('#clock_in_edit').val(html.data.clock_in);
+                    $('#clock_out_edit').val(html.data.clock_out);
+
+                    $('#hidden_id').val(html.data.id);
+                    $('.modal-title').text('{{trans('file.Edit')}}');
+                    $('#action').val('{{trans('file.Edit')}}');
+                    $('#action_button').val('{{trans('file.Edit')}}');
+                    $('#editModal').modal('show');
                 }
-            });
+            })
+        });
+
+        let delete_id;
+        $(document).on('click', '.delete', function(){
+            delete_id = $(this).attr('id');
+
+            $('#confirmModal').modal('show');
+            $('.modal-title').text('{{__('DELETE Record')}}');
+            $('#ok_button').text('{{trans('file.OK')}}');
+
+        });
 
 
-            $('#close').on('click', function() {
-                $('#edit_form')[0].reset();
-                $('#update_attendance-table').DataTable().ajax.reload();
+        $('#ok_button').on('click', function() {
+            let target = "{{ route('update_attendances.index') }}/"+delete_id+'/delete';
+            $.ajax({
+                url:target,
+                beforeSend:function(){
+                    $('#ok_button').text('{{trans('file.Deleting...')}}');
+                },
+                success:function(data)
+                {
+                    let html = '';
+                    if (data.error) {
+                        html = '<div class="alert alert-danger">' + data.error + '</div>';
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                    }
+                    setTimeout(function(){
+                        $('#confirmModal').modal('hide');
+                        $('#update_attendance-table').DataTable().ajax.reload();
+                    }, 2000);
+                }
+            })
+        });
 
-            });
-        })(jQuery);
-    </script>
-@endsection
+        $('.dynamic').change(function () {
+            if ($(this).val() !== '') {
+                let value = $(this).val();
+                let first_name = $(this).data('first_name');
+                let last_name = $(this).data('last_name');
+                let _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamic_employee') }}",
+                    method: "POST",
+                    data: {value: value, _token: _token, first_name: first_name, last_name: last_name},
+                    success: function (result) {
+                        $('select').selectpicker("destroy");
+                        $('#employee_id').html(result);
+                        $('select').selectpicker();
+
+                    }
+                });
+            }
+        });
+
+
+        $('#close').on('click', function() {
+            $('#edit_form')[0].reset();
+            $('#update_attendance-table').DataTable().ajax.reload();
+
+        });
+    })(jQuery);
+</script>
+@endpush

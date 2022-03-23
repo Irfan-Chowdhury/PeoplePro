@@ -55,50 +55,50 @@
 
             <div class="pt-0 tab-pane fade " id="Document_type" role="tab"  aria-labelledby="Document_type-tab">
                 @include('settings.variables.partials.document_type')
-            </div>  
+            </div>
         </div>
     </section>
 
-    <script type="text/javascript">
-        (function($) {  
-            "use strict";
-
-            let leaveLoad = 0;
-            $(document).ready(function() {
-                if (leaveLoad === 0) {
-                    @include('settings.variables.JS_DT.leave_type_js')
-                        leaveLoad = 1;
-                }
-            });
-
-
-            $('[data-table="award"]').one('click', function (e) {
-                @include('settings.variables.JS_DT.award_type_js')
-            });
-
-            $('[data-table="warning"]').one('click', function (e) {
-                @include('settings.variables.JS_DT.warning_type_js')
-            });
-
-            $('[data-table="termination"]').one('click', function (e) {
-                @include('settings.variables.JS_DT.termination_type_js')
-            });
-
-            $('[data-table="expense"]').one('click', function (e) {
-                @include('settings.variables.JS_DT.expense_type_js')
-            });
-
-            $('[data-table="status"]').one('click', function (e) {
-                @include('settings.variables.JS_DT.status_type_js')
-            });
-
-            $('[data-table="document"]').on('click', function (e) {
-                @include('settings.variables.JS_DT.document_type_js')
-            });
-        })(jQuery);
-    </script>
-
-
-
 
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+
+        let leaveLoad = 0;
+        $(document).ready(function() {
+            if (leaveLoad == 0) {
+                @include('settings.variables.JS_DT.leave_type_js')
+                    leaveLoad = 1;
+            }
+        });
+
+
+        $('[data-table="award"]').one('click', function (e) {
+            @include('settings.variables.JS_DT.award_type_js')
+        });
+
+        $('[data-table="warning"]').one('click', function (e) {
+            @include('settings.variables.JS_DT.warning_type_js')
+        });
+
+        $('[data-table="termination"]').one('click', function (e) {
+            @include('settings.variables.JS_DT.termination_type_js')
+        });
+
+        $('[data-table="expense"]').one('click', function (e) {
+            @include('settings.variables.JS_DT.expense_type_js')
+        });
+
+        $('[data-table="status"]').one('click', function (e) {
+            @include('settings.variables.JS_DT.status_type_js')
+        });
+
+        $('[data-table="document"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.document_type_js')
+        });
+    })(jQuery);
+</script>
+@endpush

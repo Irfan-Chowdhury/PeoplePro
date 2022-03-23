@@ -107,7 +107,7 @@
 
     $('#work_experience_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#work_experience_action').val() === '{{trans('file.Add')}}') {
+        if ($('#work_experience_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('work_experience.store',$employee->id) }}",
@@ -139,7 +139,7 @@
             });
         }
 
-        if ($('#work_experience_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#work_experience_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('work_experience.update') }}",
                 method: "POST",

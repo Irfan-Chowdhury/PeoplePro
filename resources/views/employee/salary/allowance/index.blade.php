@@ -18,7 +18,7 @@
                     <th>{{__('Month-Year')}}</th>
                     <th>{{__('Allowance Type')}}</th>
                     <th>{{__('Allowance Title')}}</th>
-                    @if(config('variable.currency_format')==='suffix')
+                    @if(config('variable.currency_format')=='suffix')
                         <th>{{__('Allowance Amount')}} ({{config('variable.currency')}})</th>
                     @else
                         <th>({{config('variable.currency')}}) {{__('Allowance Amount')}}</th>
@@ -32,7 +32,7 @@
     </div>
 
     <div id="AllowanceformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -48,7 +48,7 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year" id="month_year" name="month_year" type="text">
                             </div>
 
@@ -62,13 +62,13 @@
                                 </select>
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{__('Allowance Title')}}</label>
+                                <label>{{__('Allowance Title')}} *</label>
                                 <input type="text" name="allowance_title" id="allowance_title"
                                        placeholder={{__('Allowance Type')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
+                                @if(config('variable.currency_format')=='suffix')
                                     <label>{{__('Allowance Amount')}} ({{config('variable.currency')}})
                                             *</label>
                                 @else
@@ -100,7 +100,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

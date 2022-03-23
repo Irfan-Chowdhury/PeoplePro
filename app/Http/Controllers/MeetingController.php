@@ -189,7 +189,7 @@ class MeetingController extends Controller {
 		if (request()->ajax())
 		{
 			$data = Meeting::findOrFail($id);
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->where('is_active',1)->where('exit_date',NULL)->get();
 
 			$selected_employee = $data->employees->pluck('id');
 

@@ -1,6 +1,6 @@
     <script>
-        (function($) { 
-            "use strict"; 
+        (function($) {
+            "use strict";
 
             $(window).on('load',function () {
                 let calendarEl = document.getElementById('calendar');
@@ -453,8 +453,8 @@
                 ],
                 toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
                 branding: false
-            }); 
-        })(jQuery); 
+            });
+        })(jQuery);
 
     </script>
     <section>
@@ -521,7 +521,7 @@
 <div class="modal fade" id="details_model" tabindex="-1" role="dialog" aria-labelledby="basicModal"
      aria-hidden="true"
     >
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="myModalLabel"><span id="model_name"></span> {{trans('file.Info')}}</h4>

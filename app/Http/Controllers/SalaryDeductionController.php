@@ -55,7 +55,7 @@ class SalaryDeductionController extends Controller
 				[
 					'month_year' => 'required',
 					'deduction_title' => 'required',
-					'deduction_amount' => 'required',
+					'deduction_amount' => 'required|numeric',
 					'deduction_type' => 'required',
 				]
 			);
@@ -105,7 +105,7 @@ class SalaryDeductionController extends Controller
 				[
 					'month_year' => 'required',
 					'deduction_title' => 'required',
-					'deduction_amount' => 'required',
+					'deduction_amount' => 'required|numeric',
 					'deduction_type' =>'required',
 				]
 			);

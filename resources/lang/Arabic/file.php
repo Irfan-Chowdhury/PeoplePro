@@ -1,11 +1,11 @@
 <?php
 
 return array (
-	'About' => 'حول',
-	'Absent' => 'Absent',
-	'Account' => 'Account',
-	'Accounts' => 'Accounts',
-	'Active' => 'Active',
+  'About' => 'حول',
+  'Absent' => 'Absent',
+  'Account' => 'Account',
+  'Accounts' => 'Accounts',
+  'Active' => 'Active',
   'Add' => 'إضافة',
   'Address' => 'عنوان',
   'Admin' => 'مشرف',
@@ -272,7 +272,7 @@ return array (
   'Warranty/AMC' => 'الضمان / AMC',
   'Website' => 'موقع الكتروني',
   'Wednesday' => 'الأربعاء',
-  'Welcome' => '',
+  'Welcome' => 'مرحبا',
   'Widowed' => 'الأرامل',
   'Work' => 'عمل',
   'Years' => 'سنوات',

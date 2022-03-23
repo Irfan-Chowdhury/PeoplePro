@@ -14,9 +14,9 @@
 
                         <div class="card-body">
                             @if($user->profile_photo)
-                                <img src="{{url('public/uploads/profile_photos',$user->profile_photo)}}" height="120" width="120">
+                                <img src="{{url('uploads/profile_photos',$user->profile_photo)}}" height="120" width="120">
                             @else
-                                <img src="{{url('public/logo/avatar.jpg')}}" height="120" width="120" >
+                                <img src="{{url('logo/avatar.jpg')}}" height="120" width="120" >
                             @endif
                             <p class="italic"><small>{{__('The field labels marked with * are required input fields')}}.</small></p>
                             <form method="POST" action="{{ route('profile_update',$user->id)}}" enctype="multipart/form-data">

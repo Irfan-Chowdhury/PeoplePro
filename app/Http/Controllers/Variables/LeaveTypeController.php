@@ -24,12 +24,15 @@ class LeaveTypeController {
 				{
 					if (auth()->user()->can('user-edit'))
 					{
-						$button = '<button type="button" name="edit" id="' . $data->id . '" class="leave_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-						$button .= '&nbsp;&nbsp;';
-						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="leave_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-
+                        $button = "";
+                        if (!($data->leave_type=="Manual")) {
+                            $button .= '<button type="button" name="edit" id="' . $data->id . '" class="leave_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+                            $button .= '&nbsp;&nbsp;';
+                            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="leave_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+                        }
 						return $button;
-					} else
+					}
+                    else
 					{
 						return '';
 					}

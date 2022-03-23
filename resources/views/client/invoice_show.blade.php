@@ -40,7 +40,7 @@
                         <b>{{trans('file.Date')}}: </b>{{$invoice->invoice_date}} <br>
                         <b>{{__('Payment Due')}}: </b> {{$invoice->invoice_due_date}}<br/>
                         <span class="label label-danger">
-                        @if($invoice->status === 1)
+                        @if($invoice->status == 1)
                                 {{trans('file.Paid')}}
 
                             @else
@@ -136,7 +136,7 @@
                 let divToPrint = document.getElementById('invoice_details');
                 let newWin = window.open('', 'Print-Window');
                 newWin.document.open();
-                newWin.document.write('<link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css"><style type="text/css">@media print {.invoice_details { max-width:100%;} }</style><body onload="window.print()">' + divToPrint.innerHTML + '</body>');
+                newWin.document.write('<link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css"><style type="text/css">@media print {.invoice_details { max-width:100%;} }</style><body onload="window.print()">' + divToPrint.innerHTML + '</body>');
                 newWin.document.close();
                 setTimeout(function () {
                     newWin.close();

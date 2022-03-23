@@ -19,7 +19,7 @@
                     <th>{{trans('file.Title')}}</th>
                     <th>{{__('Number Of Days')}}</th>
                     <th>{{__('Total Hours')}}</th>
-                    @if(config('variable.currency_format')==='suffix')
+                    @if(config('variable.currency_format')=='suffix')
                         <th>{{__('Rate')}} ({{config('variable.currency')}})</th>
                     @else
                         <th>({{config('variable.currency')}}) {{__('Rate')}}</th>
@@ -33,7 +33,7 @@
     </div>
 
     <div id="OvertimeformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -49,34 +49,34 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year" name="month_year" type="text" id="month_year">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Title')}}</label>
+                                <label>{{trans('file.Title')}} *</label>
                                 <input type="text" name="overtime_title" id="overtime_title"
                                        placeholder={{trans('file.Title')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                <label>{{__('Number Of Days')}}</label>
+                                <label>{{__('Number Of Days')}} *</label>
                                 <input type="text" name="no_of_days" id="no_of_days"
                                        placeholder={{__('Number Of Days')}}
                                                required class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Total Hours')}}</label>
+                                <label>{{__('Total Hours')}} *</label>
                                 <input type="text" name="overtime_hours" id="overtime_hours"
                                        placeholder={{__('Total Hours')}}
                                                required class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Rate')}} ({{config('variable.currency')}})</label>
+                                @if(config('variable.currency_format')=='suffix')
+                                    <label>{{__('Rate')}} ({{config('variable.currency')}}) *</label>
                                 @else
-                                    <label>({{config('variable.currency')}}) {{__('Rate')}}</label>
+                                    <label>({{config('variable.currency')}}) {{__('Rate')}} *</label>
                                 @endif <input type="text" name="overtime_rate" id="overtime_rate"
                                               placeholder={{trans('file.Rate')}}
                                                       required class="form-control">
@@ -104,7 +104,7 @@
 
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

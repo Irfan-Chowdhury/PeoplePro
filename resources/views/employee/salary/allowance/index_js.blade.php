@@ -44,7 +44,7 @@
                 data: 'is_taxable',
                 name: 'is_taxable',
                 render: function (data, type, row) {
-                    if (data === 1) {
+                    if (data == 1) {
                         return "{{trans('file.Taxable')}}";
                     } else {
                         return "{{trans('file.Non-Taxable')}}"
@@ -60,7 +60,7 @@
                 data: 'allowance_amount',
                 name: 'allowance_amount',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     } else {
                         return '{{config('variable.currency')}} ' + data;
@@ -110,7 +110,7 @@
 
     $('#allowance_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#allowance_action').val() === '{{trans('file.Add')}}') {
+        if ($('#allowance_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_allowance.store',$employee) }}",
@@ -141,7 +141,7 @@
             });
         }
 
-        if ($('#allowance_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#allowance_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_allowance.update') }}",
                 method: "POST",

@@ -15,7 +15,7 @@ class LocationController extends Controller
 	public function index()
 	{
 		$countries = \DB::table('countries')->select('id','name')->get();
-		$employees = Employee::all('id','first_name','last_name');
+		$employees = Employee::select('id','first_name','last_name')->where('is_active',1)->where('exit_date',NULL)->get();
 
 		if(request()->ajax())
 		{
@@ -123,7 +123,7 @@ class LocationController extends Controller
 			$data = $request->only('location_name', 'location_head', 'address1', 'address2', 'city',
 				'state', 'country', 'zip');
 
-			if ($data['location_head'] === '')
+			if ($data['location_head'] == '')
 			{
 				$data['location_head'] = null;
 			}

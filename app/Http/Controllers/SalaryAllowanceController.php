@@ -21,7 +21,7 @@ class SalaryAllowanceController extends Controller {
 				$salaryAllowance = SalaryAllowance::where('employee_id', $employee->id)
 												->orderByRaw('DATE_FORMAT(first_date, "%y-%m")')
 												->get();
-												
+
 				return datatables()->of($salaryAllowance)
 					->setRowId(function ($allowance)
 					{
@@ -60,7 +60,7 @@ class SalaryAllowanceController extends Controller {
 				[
 					'month_year' => 'required',
 					'allowance_title' => 'required',
-					'allowance_amount' => 'required',
+					'allowance_amount' => 'required|numeric',
 					'is_taxable' => 'required',
 				]
 			);
@@ -113,7 +113,7 @@ class SalaryAllowanceController extends Controller {
 				[
 					'month_year' => 'required',
 					'allowance_title' => 'required',
-					'allowance_amount' => 'required',
+					'allowance_amount' => 'required|numeric',
 					'is_taxable' => 'required',
 				]
 			);

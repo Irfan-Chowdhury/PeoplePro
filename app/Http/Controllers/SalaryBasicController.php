@@ -70,7 +70,7 @@ class SalaryBasicController extends Controller
             $validator = Validator::make($request->only('month_year', 'payslip_type','basic_salary'),[
                 'month_year' => 'required',
                 'payslip_type' => 'required',
-                'basic_salary' => 'required',
+                'basic_salary' => 'required|numeric',
             ]);
 
             if ($validator->fails())
@@ -124,10 +124,9 @@ class SalaryBasicController extends Controller
 			$id = $request->hidden_id;
 
 			$validator = Validator::make($request->only('month_year', 'payslip_type','basic_salary'),[
-                // 'month_year' => 'required|unique:salary_basics,month_year,'.$id,
                 'month_year' => 'required',
                 'payslip_type' => 'required',
-                'basic_salary' => 'required',
+                'basic_salary' => 'required|numeric',
             ]);
 
 			if ($validator->fails())

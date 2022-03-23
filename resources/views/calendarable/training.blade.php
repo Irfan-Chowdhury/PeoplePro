@@ -1,5 +1,5 @@
 <div id="trainingModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -20,7 +20,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Company')}} *</label>
                                 <select name="company_id" id="training_company_id"  class="form-control selectpicker get_employee"
-                                        data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                        data-live-search="true" data-live-search-style="contains"  data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -34,7 +34,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{__('Training Type')}} *</label>
                             <select name="training_type" id="training_type_new"  class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>__('Training Type')])}}...'>
                                 @foreach($training_types as $training_type)
                                     <option value="{{$training_type->id}}">{{$training_type->type}} </option>
@@ -45,7 +45,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Trainer')}} *</label>
                             <select name="trainer_id" id="trainer_id"  class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Trainer')])}}...'>
                                 @foreach($trainers as $trainer)
                                     <option value="{{$trainer->id}}">{{$trainer->first_name}} {{$trainer->last_name}} </option>
@@ -58,7 +58,7 @@
                         <div class="col-md-6 form-group">
                             <label>{{trans('file.Employee')}} *</label>
                             <select name="employee_id[]" id="training_employee_id"  class="selectpicker form-control employee"
-                                    data-live-search="true" data-live-search-style="begins" multiple
+                                    data-live-search="true" data-live-search-style="contains" multiple
                                     title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                             </select>
                         </div>

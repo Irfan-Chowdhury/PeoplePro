@@ -1,5 +1,5 @@
 <div id="holidayModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -25,7 +25,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Company')}}</label>
                                 <select name="company_id" id="holiday_company_id" class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -57,7 +57,7 @@
                             <div class="form-group">
                                 <label>{{trans('file.Status')}}*</label>
                                 <select name="is_publish" id="holiday_is_publish" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Category')])}}...'>
                                     <option value="" disabled selected>{{trans('file.status')}}</option>
                                     <option value="1">{{trans('file.published')}}</option>

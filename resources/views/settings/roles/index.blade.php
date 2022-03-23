@@ -4,9 +4,9 @@
 
 @section('content')
 
-    <link rel="stylesheet" href="<?php echo asset('public/css/kendo.default.v2.min.css') ?>" type="text/css">
+    <link rel="stylesheet" href="<?php echo asset('css/kendo.default.v2.min.css') ?>" type="text/css">
 
-    <script type="text/javascript" src="<?php echo asset('public/js/kendo.all.min.js') ?>"></script>
+    <script type="text/javascript" src="<?php echo asset('js/kendo.all.min.js') ?>"></script>
 
     <section>
 
@@ -51,7 +51,7 @@
 
     <div id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
          class="modal fade text-left">
-        <div role="document" class="modal-dialog">
+        <div role="document" class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 id="exampleModalLabel" class="modal-title">{{__('Add Role')}}</h5>
@@ -108,7 +108,7 @@
 
     <div id="editModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
          class="modal fade text-left">
-        <div role="document" class="modal-dialog">
+        <div role="document" class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 id="exampleModalLabel" class="modal-title">{{trans('file.Edit')}}</h5>
@@ -173,7 +173,7 @@
 
     <div id="permissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true"
          class="modal fade text-left">
-        <div role="document" class="modal-dialog">
+        <div role="document" class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 id="exampleModalLabel" class="modal-title">{{trans('file.Permissions')}}</h1>
@@ -228,7 +228,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -246,8 +246,10 @@
             </div>
         </div>
     </div>
-    
+@endsection
 
+
+@push('scripts')
     <script type="text/javascript">
         (function($) {
             "use strict";
@@ -296,7 +298,7 @@
 
                     columns: [
                         {
-                            data: null,
+                            data: 'id',
                             orderable: false,
                             searchable: false
                         },
@@ -353,7 +355,7 @@
                         },
                         {
                             'render': function (data, type, row, meta) {
-                                if (type === 'display') {
+                                if (type == 'display') {
                                     data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                 }
 
@@ -450,7 +452,7 @@
                         $('#description').val(html.data.description);
                         $('.selectpicker').selectpicker('refresh');
 
-                        if (html.data.is_active === 1) {
+                        if (html.data.is_active == 1) {
                             $('#is_active_edit').prop('checked', true);
                         } else {
                             $('#is_active_edit').prop('checked', false);
@@ -712,7 +714,7 @@
             });
         })(jQuery);
     </script>
-@endsection
+@endpush
 
 
 

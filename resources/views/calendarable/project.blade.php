@@ -1,5 +1,5 @@
 <div id="projectModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -26,7 +26,7 @@
                                 <label for="project_client_id">{{trans('file.Client')}}*</label>
                                 <select name="client_id" id="project_client_id"
                                         class="form-control selectpicker dynamic"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Client')])}}...'>
                                     @foreach($clients as $client)
                                         <option value="{{$client->id}}">{{$client->name}}</option>
@@ -51,7 +51,7 @@
                         <div class="col-md-6 form-group">
                             <label for="project_priority" >{{trans('file.Priority')}}</label>
                             <select name="project_priority" id="project_priority" class="form-control selectpicker "
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Priority')])}}...'>
                                 <option value="low">{{trans('file.Low')}}</option>
                                 <option value="medium">{{trans('file.Medium')}}</option>
@@ -72,7 +72,7 @@
                             <div class="form-group">
                                 <label for="project_company_id">{{trans('file.Company')}}</label>
                                 <select name="company_id" id="project_company_id" class="form-control selectpicker get_employee"
-                                        data-live-search="true" data-live-search-style="begins"  data-first_name="first_name" data-last_name="last_name"
+                                        data-live-search="true" data-live-search-style="contains"  data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>

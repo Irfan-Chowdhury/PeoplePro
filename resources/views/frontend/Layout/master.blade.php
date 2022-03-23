@@ -8,9 +8,12 @@
 	<div class="frontend">
 	    @yield('content')
 	</div>
+    @php
+        $general_settings = \App\GeneralSetting::latest()->first();
+    @endphp
 	<footer class="footer mt-auto py-3 bg-dark text-center">
 		<div class="container">
-			<p class="mb-0 text-light">&copy; {{ __('PeoplePro') }}. {{ date('Y')}}</p>
+			<p class="mb-0 text-light">&copy; {{$general_settings->footer}} {{ date('Y')}}</p>
 		</div>
 	</footer>
 </body>

@@ -3,14 +3,14 @@
 
 <section>
     <div class="container-fluid"><span id="general_result"></span></div>
-    
+
     <div class="container-fluid mb-3">
-        <h4 class="font-weight-bold mt-3">Goal Tracking</h4>
+        <h4 class="font-weight-bold mt-3">@lang('file.Goal Tracking')</h4>
         <div id="success_alert" role="alert"></div>
         <br>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New Goal')}}</button>
-        <button type="button" class="btn btn-danger" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__('file.Add New Goal')}}</button>
+        <button type="button" class="btn btn-danger" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__('file.Bulk Delete')}}</button>
     </div>
 
     <div class="table-responsive">
@@ -18,18 +18,18 @@
             <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>Goal Type</th>
-                    <th>Company</th>
-                    <th>Target Achievement</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Progress</th>
+                    <th>@lang('file.Goal Type')</th>
+                    <th>@lang('file.Company')</th>
+                    <th>@lang('file.Target Achievement')</th>
+                    <th>@lang('file.Start Date')</th>
+                    <th>@lang('file.End Date')</th>
+                    <th>@lang('file.Progress')</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
         </table>
     </div>
-    
+
 </section>
 
 
@@ -38,6 +38,11 @@
 @include('performance.goal-tracking.delete-modal')
 @include('performance.goal-tracking.delete-checkbox-confirm-modal')
 
+
+
+@endsection
+
+@push('scripts')
 <script>
     $(document).ready(function(){
 
@@ -76,9 +81,9 @@
                     }
                 },
                 {
-                    data: 'action', 
-                    name: 'action', 
-                    orderable: true, 
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
                     searchable: true
                 },
             ],
@@ -96,7 +101,7 @@
                         'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
                     },
                     'render': function (data, type, row, meta) {
-                        if (type === 'display') {
+                        if (type == 'display') {
                             data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                         }
 
@@ -106,7 +111,7 @@
             ],
             'select': {style: 'multi', selector: 'td:first-child'},
             'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
-            //------ End Checkbox ------            
+            //------ End Checkbox ------
 
 
             "order": [],
@@ -200,7 +205,7 @@
 
 
 
-        
+
         //----------Edit Data----------------------
         //Fetch By Id
         $(document).on("click",".edit",function(e){
@@ -246,7 +251,7 @@
                 data: $('#updatetEditForm').serialize(),
                 success: function(data){
                     console.log(data);
-                    if (data.errors) 
+                    if (data.errors)
                     {
                         $("#alertMessageBoxEdit").addClass('bg-danger text-center p-1')
                         if (data.errors) {
@@ -302,7 +307,7 @@
                             setTimeout(function() {
                                 $('#success_alert').fadeOut("slow");
                             }, 3000);
-                        }                        
+                        }
                     }
                 });
             });
@@ -316,7 +321,7 @@
             allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
 
-            if(allCheckboxId.length === 0){
+            if(allCheckboxId.length == 0){
                 alert("Please Select at least one checkbox.");
             }
             else{
@@ -348,5 +353,4 @@
 
     });
 </script>
-
-@endsection
+@endpush

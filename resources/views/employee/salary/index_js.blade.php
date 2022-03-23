@@ -48,7 +48,7 @@
                 data: 'basic_salary',
                 name: 'basic_salary',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     } else {
                         return '{{config('variable.currency')}} ' + data;
@@ -98,7 +98,7 @@
 
     $('#basic_salary_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#basic_salary_action').val() === '{{trans('file.Add')}}') {
+        if ($('#basic_salary_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_basic.store',$employee) }}",
@@ -131,7 +131,7 @@
             });
         }
 
-        if ($('#basic_salary_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#basic_salary_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_basic.update') }}",
                 method: "POST",

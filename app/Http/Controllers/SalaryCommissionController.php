@@ -48,7 +48,7 @@ class SalaryCommissionController extends Controller
 	public function store(Request $request,Employee $employee)
 	{
 		//return response()->json($request->month_year);
-		
+
 		if (auth()->user()->can('store-details-employee'))
 		{
 			$validator = Validator::make($request->only('month_year', 'commission_title','commission_amount'
@@ -56,7 +56,7 @@ class SalaryCommissionController extends Controller
 				[
 					'month_year' 	   => 'required',
 					'commission_title' => 'required',
-					'commission_amount'=> 'required',
+					'commission_amount'=> 'required|numeric',
 				]
 			);
 
@@ -103,7 +103,7 @@ class SalaryCommissionController extends Controller
 				[
 					'month_year' => 'required',
 					'commission_title' => 'required',
-					'commission_amount' => 'required',
+					'commission_amount' => 'required|numeric',
 				]
 			);
 

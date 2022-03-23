@@ -70,7 +70,7 @@
 
                                             <select name="timezone" class="selectpicker form-control" data-live-search="true" title="{{__('Time Zone')}}...">
                                                 @foreach($zones_array as $zone)
-                                                    <option value="{{$zone['zone']}}" {{($general_settings_data->time_zone === $zone['zone']) ? "selected" : ''}} >{{$zone['diff_from_GMT'] . ' - ' . $zone['zone']}}</option>
+                                                    <option value="{{$zone['zone']}}" {{($general_settings_data->time_zone == $zone['zone']) ? "selected" : ''}} >{{$zone['diff_from_GMT'] . ' - ' . $zone['zone']}}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -81,7 +81,7 @@
                                         <div class="form-group">
                                             <label><strong>{{__('Default Bank')}} *</strong></label>
                                             <select name="account_id" id="account_id"  class="form-control selectpicker" required
-                                                    data-live-search="true" data-live-search-style="begins"
+                                                    data-live-search="true" data-live-search-style="contains"
                                                     title='{{__('Selecting',['key'=>trans('file.Account')])}}...'>
                                                 @foreach($accounts as $account)
                                                     <option value="{{$account->id}}" {{($account->id == $general_settings_data->default_payment_bank) ? 'selected':''}}>{{$account->account_name}}</option>
@@ -106,18 +106,32 @@
                                                 <option value="Y-M-d">yyyy-MM-dd(2020-May-23)</option>
                                                 <option value="M-d-Y">MM-dd-yyyy(May-23-2020)</option>
                                                 <option value="d-M-Y">dd-MM-yyyy(23-May-2020)</option>
-
-
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="col-md-6">
                                         <div class="form-group">
-                                            <input type="submit" id="submit" value="{{trans('file.submit')}}" class="btn btn-primary">
+                                            <label><strong>{{trans('file.Footer')}} </strong></label>
+                                            <input type="text" name="footer" class="form-control" value="{{$general_settings_data->footer ?? ''}}" required />
                                         </div>
                                     </div>
-
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><strong>{{trans('file.Footer_Link')}} </strong></label>
+                                            <input type="text" name="footer_link" placeholder="https://www.lion-coders.com" class="form-control" value="{{$general_settings_data->footer_link ?? ''}}" required />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mt-4 form-check">
+                                            <input type="checkbox" name="rtl_layout" class="form-check-input" value="1" {{env('RTL_LAYOUT')!=NULL ? 'checked':''}} />
+                                            <label class="mr-4 form-check-label"><strong>{{trans('file.RTL Layout')}} </strong></label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br><br>
+                                <div class="d-flex justify-content-center">
+                                    <input type="submit" id="submit" value="{{trans('file.submit')}}" class="btn btn-primary btn-lg btn-block">
                                 </div>
                             </form>
                         </div>
@@ -126,11 +140,14 @@
             </div>
         </div>
     </section>
+@endsection
 
+
+@push('scripts')
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
-            
+
             $("ul#setting").siblings('a').attr('aria-expanded','true');
             $("ul#setting").addClass("show");
             $("ul#setting #general-setting-menu").addClass("active");
@@ -147,5 +164,4 @@
             });
         })(jQuery);
     </script>
-
-@endsection
+@endpush

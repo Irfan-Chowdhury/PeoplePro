@@ -3,7 +3,7 @@
     <span id="immigration_general_result"></span>
 
 
-    @if(auth()->user()->can('store-details-employee') || auth()->user()->id === $employee->id)
+    @if(auth()->user()->can('store-details-employee') || auth()->user()->id == $employee->id)
         <button type="button" class="btn btn-info" name="create_record" id="create_immigration_record"><i class="fa fa-plus"></i>{{__('Add Immigration')}}</button>
     @endif
 
@@ -26,7 +26,7 @@
 
 
     <div id="ImmigrationformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -46,7 +46,7 @@
                                 <label>{{__('Document Type')}}</label>
                                 <select name="document_type_id" id="immigration_document_type_id" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>__('Document Type')])}}...'>
                                     @foreach($document_types as $document_type)
                                         <option value="{{$document_type->id}}">{{$document_type->document_type}}</option>
@@ -92,7 +92,7 @@
                                     <label>{{trans('file.Country')}} *</label>
                                     <select name="country" id="immigration_country" required
                                             class="form-control selectpicker"
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>trans('file.Country')])}}...'>
                                         @foreach($countries as $country)
                                             <option value="{{$country->id}}">{{$country->name}}</option>
@@ -120,7 +120,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

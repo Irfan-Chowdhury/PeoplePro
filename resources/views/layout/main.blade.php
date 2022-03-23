@@ -5,140 +5,148 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="icon" type="image/png" href="{{url('public/logo', $general_settings->site_logo) ?? 'NO Logo'}}">
+    <link rel="icon" type="image/png" href="{{url('logo', $general_settings->site_logo) ?? 'NO Logo'}}">
     <title>{{$general_settings->site_title ?? "NO Title"}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="{{ asset('public/vendor/bootstrap/css/bootstrap.min.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('public/vendor/bootstrap/css/awesome-bootstrap-checkbox.css') }}"
-          type="text/css">
-    <link rel="stylesheet" href="{{ asset('public/vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') }}"
-          type="text/css">
-    <link rel="stylesheet" href="{{ asset('public/vendor/bootstrap/css/bootstrap-datepicker.min.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap.min.css') }}"></noscript>
 
-    <link rel="stylesheet" href="{{ asset('public/vendor/jquery-clockpicker/bootstrap-clockpicker.min.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/awesome-bootstrap-checkbox.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/awesome-bootstrap-checkbox.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap-toggle/css/bootstrap-toggle.min.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap-datepicker.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap-datepicker.min.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.css') }}"></noscript>
+
     <!-- Boostrap Tag Inputs-->
-    <link rel="stylesheet" href="{{ asset('public/vendor/Tag_input/tagsinput.css') }}" type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/Tag_input/tagsinput.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/Tag_input/tagsinput.css') }}"></noscript>
 
-    <link rel="stylesheet" href="{{ asset('public/vendor/bootstrap/css/bootstrap-select.min.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap-select.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/bootstrap/css/bootstrap-select.min.css') }}"></noscript>
+
     <!-- Font Awesome CSS-->
-    <link rel="stylesheet" href="{{ asset('public/vendor/font-awesome/css/font-awesome.min.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/font-awesome/css/font-awesome.min.css') }}"></noscript>
+
     <!-- Dripicons icon font-->
-    <link rel="stylesheet" href="{{ asset('public/vendor/dripicons/webfont.css') }}" type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/dripicons/webfont.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/dripicons/webfont.css') }}"></noscript>
+
     <!-- Google fonts - Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,700">
+
     <!-- jQuery Circle-->
-    <link rel="stylesheet" href="{{ asset('public/css/grasp_mobile_progress_circle-1.0.0.min.css') }}" type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/grasp_mobile_progress_circle-1.0.0.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/grasp_mobile_progress_circle-1.0.0.min.css') }}"></noscript>
+
     <!-- Custom Scrollbar-->
-    <link rel="stylesheet"
-          href="{{ asset('public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.css') }}"></noscript>
+
     <!-- date range stylesheet-->
-    <link rel="stylesheet" href="{{ asset('public/vendor/daterange/css/daterangepicker.min.css') }}"
-          type="text/css">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/daterange/css/daterangepicker.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/daterange/css/daterangepicker.min.css') }}"></noscript>
+
     <!-- table sorter stylesheet-->
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/buttons.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/select.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/dataTables.checkboxes.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/select2/dist/css/select2.min.css') }}">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/RangeSlider/ion.rangeSlider.min.css') }}">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('public/vendor/datatable/datatable.responsive.boostrap.min.css') }}">
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}"></noscript>
+
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/select2/dist/css/select2.min.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.css') }}"></noscript>
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}">
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}"></noscript>
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="{{ asset('public/css/style.default.css') }}" id="theme-stylesheet"
-          type="text/css">
+
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet" >
+    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet" ></noscript>
+
+
+    @if (env('RTL_LAYOUT')!=NULL)
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/bootstrap/css/bootstrap-rtl.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/bootstrap/css/bootstrap-rtl.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('css/custom-rtl.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('css/custom-rtl.css') }}"></noscript>
+    @endif
+
 
     @if((request()->is('admin/dashboard*')) || (request()->is('calendar*')) )
         @include('calendarable.css')
     @endif
 
-    <script type="text/javascript" src="{{ asset('public/vendor/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/jquery/jquery-ui.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
 
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/popper.js/umd/popper.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('public/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
 
-    <script type="text/javascript"
-            src="{{ asset('public/js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
 
-    <script type="text/javascript" src="{{ asset('public/vendor/chart.js/Chart.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/charts-custom.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/js/front.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/daterange/js/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/daterange/js/knockout-3.4.2.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/daterange/js/daterangepicker.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+    <script type="text/javascript" src="{{ asset('js/charts-custom.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/front.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/daterange/js/moment.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/daterange/js/knockout-3.4.2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/daterange/js/daterangepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
     <!-- JS for Boostrap Tag Inputs-->
 
-    <script type="text/javascript" src="{{ asset('public/vendor/Tag_input/tagsinput.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
 
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
 
     <!-- table sorter js-->
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/vfs_fonts.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/dataTables.buttons.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/buttons.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/buttons.colVis.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/buttons.html5.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/buttons.print.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/dataTables.select.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('public/vendor/datatable/sum().js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/dataTables.checkboxes.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/datatable.fixedheader.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/datatable.responsive.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('public/vendor/datatable/datatable.responsive.boostrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.colVis.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.html5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.print.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/sum().js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.checkboxes.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.fixedheader.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.js') }}"></script>
 
     @if((request()->is('admin/dashboard*')) || (request()->is('calendar*')) )
         @include('calendarable.js')
@@ -154,10 +162,13 @@
         <div class="container-fluid">
             <div class="navbar-holder d-flex align-items-center justify-content-between">
                 <a id="toggle-btn" href="#" class="menu-btn"><i class="dripicons-menu"> </i></a>
-                <span class="brand-big" id="site_logo_main">@if($general_settings->site_logo ?? "no")<img
-                            src="{{url('public/logo', $general_settings->site_logo ?? "no")}}" width="50">&nbsp;
-                    &nbsp;@endif<h1 class="d-inline"
-                                    id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1></span>
+                <span class="brand-big" id="site_logo_main">
+                    @if($general_settings->site_logo)
+                        <img src="{{asset('/images/logo/logo.png')}}" width="50">
+                        &nbsp; &nbsp;
+                    @endif
+                        <h1 class="d-inline" id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1>
+                </span>
 
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
@@ -197,20 +208,24 @@
                             @endforeach
                         </ul>
                     </li>
+
+                @if (Auth::user()->role_users_id==1)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{route('help')}}" target="_blank" data-toggle="tooltip"
+                        <a class="nav-link" href="{{url('help/index.html')}}" target="_blank" data-toggle="tooltip"
                            title="{{__('Help')}}">
                             <i class="dripicons-information"></i>
                         </a>
                     </li>
+                @endif
+
                     <li class="nav-item">
                         <a rel="nofollow" href="#" class="nav-link dropdown-item">
                             @if(!empty(auth()->user()->profile_photo))
                                 <img class="profile-photo sm mr-1"
-                                     src="{{ asset('public/uploads/profile_photos/')}}/{{auth()->user()->profile_photo}}">
+                                     src="{{ asset('uploads/profile_photos/')}}/{{auth()->user()->profile_photo}}">
                             @else
                                 <img class="profile-photo sm mr-1"
-                                     src="{{ asset('public/uploads/profile_photos/avatar.jpg')}}">
+                                     src="{{ asset('uploads/profile_photos/avatar.jpg')}}">
                             @endif
                             <span> {{auth()->user()->username}}</span>
                         </a>
@@ -274,8 +289,12 @@
 
                 @can('user')
                     <li class="has-dropdown @if(request()->is('user*')){{ (request()->is('user*')) ? 'active' : '' }}@elseif(request()->is('add-user*')){{ (request()->is('add-user*')) ? 'active' : '' }}@endif">
-                        <a href="#users" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-user"></i><span>{{trans('file.User')}}</span></a>
+                        @if(auth()->user()->can('view-user'))
+                            <a href="#users" aria-expanded="false" data-toggle="collapse">
+                                <i class="dripicons-user"></i>
+                                <span>{{trans('file.User')}}</span>
+                            </a>
+                        @endif
                         <ul id="users" class="collapse list-unstyled ">
                             @can('view-user')
                                 <li id="users-menu"><a href="{{route('users-list')}}">{{__('Users List')}}</a></li>
@@ -315,14 +334,14 @@
 
                 @can('customize-setting')
                     <li class="has-dropdown {{ (request()->is('settings*')) ? 'active' : '' }}">
-                        
-                        
+
+
                         @if(auth()->user()->can('view-role')||auth()->user()->can('view-general-setting')||auth()->user()->can('access-language')||auth()->user()->can('access-variable_type')||auth()->user()->can('access-variable_method')||auth()->user()->can('view-general-setting'))
-                            <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> 
+                            <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse">
                                 <i class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span>
                             </a>
                         @endif
-                        {{-- <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse"> 
+                        {{-- <a href="#Customize_settings" aria-expanded="false" data-toggle="collapse">
                             <i class="dripicons-toggles"></i><span>{{__('Customize Setting')}}</span>
                         </a> --}}
 
@@ -367,11 +386,15 @@
                 @endcan
 
                 @can('core_hr')
-                    <li class="has-dropdown {{ (request()->is('core_hr*')) ? 'active' : '' }}"><a href="#Core_hr"
-                                                                                                  aria-expanded="false"
-                                                                                                  data-toggle="collapse">
-                            <i class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span></a>
-                        <ul id="Core_hr" class="collapse list-unstyled ">
+                    <li class="has-dropdown {{ (request()->is('core_hr*')) ? 'active' : '' }}">
+
+                        @if(auth()->user()->can('view-promotion')||auth()->user()->can('view-award') || auth()->user()->can('view-travel')||auth()->user()->can('view-transfer')||auth()->user()->can('view-resignation')||auth()->user()->can('view-complaint')||auth()->user()->can('view-warning')||auth()->user()->can('view-termination'))
+                            <a href="#Core_hr" aria-expanded="false" data-toggle="collapse">
+                                <i class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span>
+                            </a>
+                        @endcan
+
+                        <ul id="Core_hr" class="collapse list-unstyled">
 
                             @can('view-promotion')
                                 <li id="promotion"><a
@@ -446,15 +469,14 @@
                     </ul>
                 </li>
 
-
-                {{-- @can('timesheet') --}}
+                @can('timesheet')
                     <li class="has-dropdown {{ (request()->is('timesheet*')) ? 'active' : '' }}"><a href="#Timesheets"
                                                                                                     aria-expanded="false"
                                                                                                     data-toggle="collapse">
                             <i class="dripicons-clock"></i><span>{{trans('file.Timesheets')}}</span></a>
                         <ul id="Timesheets" class="collapse list-unstyled ">
                         {{-- @can('view-attendance') --}}
-                                <li id="attendance"><a
+                                {{-- <li id="attendance"><a
                                             href="{{route('attendances.index')}}">{{trans('file.Attendances')}}</a>
                                 </li>
                                 <li id="date_wise_attendance"><a
@@ -464,7 +486,7 @@
 
                                 <li id="monthly_attendance"><a
                                             href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a>
-                                </li>
+                                </li> --}}
                         {{-- @endcan  --}}
 
                             @can('edit-attendance')
@@ -491,14 +513,17 @@
                             @endcan
                         </ul>
                     </li>
-                {{-- @endcan --}}
+                @endcan
 
                 @can('payment-module')
-                    <li class="has-dropdown {{ (request()->is('payroll*')) ? 'active' : '' }}"><a href="#Payroll"
-                                                                                                  aria-expanded="false"
-                                                                                                  data-toggle="collapse">
-                            <i
-                                    class="dripicons-wallet"></i><span>{{trans('file.Payroll')}}</span></a>
+                    <li class="has-dropdown {{ (request()->is('payroll*')) ? 'active' : '' }}">
+
+                        @if(auth()->user()->can('view-payslip') || auth()->user()->can('view-paylist'))
+                            <a href="#Payroll" aria-expanded="false" data-toggle="collapse">
+                                <i class="dripicons-wallet"></i><span>{{trans('file.Payroll')}}</span>
+                            </a>
+                        @endif
+
                         <ul id="Payroll" class="collapse list-unstyled ">
                             @can('view-payslip')
                                 <li><a href="{{route('payroll.index')}}">{{__('New Payment')}}</a>
@@ -514,7 +539,12 @@
 
 
                 @can('performance')
-                        <li class="has-dropdown {{ (request()->is('performance*')) ? 'active' : '' }}"><a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i><span>Performance</span></a>
+                        <li class="has-dropdown {{ (request()->is('performance*')) ? 'active' : '' }}">
+                            @if(auth()->user()->can('view-goal-type') || auth()->user()->can('view-goal-tracking') || auth()->user()->can('view-indicator') || auth()->user()->can('view-appraisal'))
+                                <a href="#performance" aria-expanded="false" data-toggle="collapse"> <i class="fa fa-bar-chart"></i>
+                                    <span>Performance</span>
+                                </a>
+                            @endif
                             <ul id="performance" class="collapse list-unstyled ">
                                 @can('view-goal-type')
                                     <li id="goal-type"><a href="{{route('performance.goal-type.index')}}">{{__('Goal type')}}</a></li>
@@ -539,7 +569,7 @@
                     </li>
                 @endcan
 
-                @can('hr_report')
+                {{-- @can('hr_report') --}}
                     <li class="has-dropdown {{ (request()->is('report*')) ? 'active' : '' }}"><a href="#HR_Reports"
                                                                                                  aria-expanded="false"
                                                                                                  data-toggle="collapse">
@@ -552,11 +582,18 @@
                                 </li>
                             @endcan --}}
 
-                            @can('report-attendance')
+                            <!--New added-->
+                            <li id="attendance"><a href="{{route('attendances.index')}}">{{trans('file.Attendances')}}</a></li>
+                            <li id="date_wise_attendance"><a href="{{route('date_wise_attendances.index')}}"> {{__('Date wise Attendances')}}</a></li>
+                            <li id="monthly_attendance"><a href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a></li>
+                            <!--New added End-->
+
+                            {{-- @can('report-attendance')
                                 <li id="attendance_report"><a
                                             href="{{route('report.attendance')}}">{{__('Attendance Report')}}</a>
                                 </li>
-                            @endcan
+                            @endcan --}}
+
                             @can('report-training')
                                 <li id="training_report"><a
                                             href="{{route('report.training')}}">{{__('Training Report')}}</a>
@@ -598,15 +635,22 @@
                             @endcan
 
                             {{-- New --}}
-                            <li id="pension_report"><a href="{{route('report.pension')}}">{{__('Pension Report')}}</a></li>
+                            @can('report-pension')
+                                <li id="pension_report"><a href="{{route('report.pension')}}">{{__('Pension Report')}}</a></li>
+                            @endcan
                         </ul>
                     </li>
-                @endcan
+                {{-- @endcan --}}
 
                 @can('recruitment')
-                    <li class="has-dropdown {{ (request()->is('recruitment*')) ? 'active' : '' }}"><a
-                                href="#Recruitment" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-user-id"></i><span>{{trans('file.Recruitment')}}</span></a>
+                    <li class="has-dropdown {{ (request()->is('recruitment*')) ? 'active' : '' }}">
+
+                        @if(auth()->user()->can('view-job_post') || auth()->user()->can('view-job_candidate')|| auth()->user()->can('view-job_interview') || auth()->user()->can('view-cms'))
+                            <a href="#Recruitment" aria-expanded="false" data-toggle="collapse">
+                                <i class="dripicons-user-id"></i><span>{{trans('file.Recruitment')}}</span>
+                            </a>
+                        @endif
+
                         <ul id="Recruitment" class="collapse list-unstyled ">
 
                             @can('view-job_post')
@@ -634,8 +678,11 @@
 
                 @can('training_module')
                     <li class="has-dropdown @if(request()->is('training*')){{ (request()->is('training*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/training_type*')){{ (request()->is('dynamic_variable/training_type*')) ? 'active' : '' }}@endif">
-                        <a href="#Training" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-trophy"></i><span>{{trans('file.Training')}}</span></a>
+                        @if(auth()->user()->can('view-training') || auth()->user()->can('access-variable_type')|| auth()->user()->can('access-trainer'))
+                            <a href="#Training" aria-expanded="false" data-toggle="collapse"> <i
+                                        class="dripicons-trophy"></i><span>{{trans('file.Training')}}</span>
+                            </a>
+                        @endcan
                         <ul id="Training" class="collapse list-unstyled ">
                             @can('view-training')
                                 <li id="training_list"><a
@@ -658,8 +705,12 @@
 
                 @can('event-meeting')
                     <li class="has-dropdown @if(request()->is('events*')){{ (request()->is('events*')) ? 'active' : '' }}@elseif(request()->is('meetings*')){{ (request()->is('meetings*')) ? 'active' : '' }}@endif">
-                        <a href="#Events_Meetings" aria-expanded="false" data-toggle="collapse"> <i
-                                    class="dripicons-to-do"></i><span>{{trans('file.Events')}} & {{trans('file.Meetings')}}</span></a>
+
+                        @if(auth()->user()->can('view-event') || auth()->user()->can('view-meeting'))
+                            <a href="#Events_Meetings" aria-expanded="false" data-toggle="collapse"> <i
+                                        class="dripicons-to-do"></i><span>{{trans('file.Events')}} & {{trans('file.Meetings')}}</span>
+                            </a>
+                        @endcan
                         <ul id="Events_Meetings" class="collapse list-unstyled ">
                             @can('view-event')
                                 <li id="events"><a
@@ -676,9 +727,12 @@
                     </li>
 
                     @can('project-management')
-                        <li class="has-dropdown {{ (request()->is('project-management*')) ? 'active' : '' }}"><a
-                                    href="#Project_Management" aria-expanded="false" data-toggle="collapse"> <i
-                                        class="dripicons-checklist"></i><span>{{__('Project Management')}}</span></a>
+                        <li class="has-dropdown {{ (request()->is('project-management*')) ? 'active' : '' }}">
+                            @if(auth()->user()->can('view-project') || auth()->user()->can('view-task') || auth()->user()->can('client') || auth()->user()->can('view-invoice'))
+                                <a href="#Project_Management" aria-expanded="false" data-toggle="collapse">
+                                    <i class="dripicons-checklist"></i><span>{{__('Project Management')}}</span>
+                                </a>
+                            @endcan
                             <ul id="Project_Management" class="collapse list-unstyled ">
                                 @can('view-project')
                                     <li id="projects"><a
@@ -710,17 +764,21 @@
                     @endcan
 
                     @can('view-ticket')
-                        <li class="{{ (request()->is('tickets*')) ? 'active' : '' }}"><a
-                                    href="{{route('tickets.index')}}"> <i
-                                        class="dripicons-ticket"></i><span>{{__('Support Tickets')}}</span></a>
+                        <li class="{{ (request()->is('tickets*')) ? 'active' : '' }}">
+                                <a href="{{route('tickets.index')}}"> <i
+                                            class="dripicons-ticket"></i><span>{{__('Support Tickets')}}</span>
+                                </a>
                         </li>
                     @endcan
                     @can('finance')
-                        <li class="has-dropdown {{ (request()->is('accounting*')) ? 'active' : '' }}"><a href="#Finance"
-                                                                                                         aria-expanded="false"
-                                                                                                         data-toggle="collapse">
-                                <i
-                                        class="dripicons-graph-pie"></i><span>{{trans('file.Finance')}}</span></a>
+                        <li class="has-dropdown {{ (request()->is('accounting*')) ? 'active' : '' }}">
+
+                            @if(auth()->user()->can('view-account') || auth()->user()->can('view-payee') || auth()->user()->can('view-payer') ||auth()->user()->can('view-deposit')||auth()->user()->can('view-expense')||auth()->user()->can('view-transaction')||auth()->user()->can('view-balance_transfer'))
+                                <a href="#Finance" aria-expanded="false" data-toggle="collapse">
+                                    <i class="dripicons-graph-pie"></i><span>{{trans('file.Finance')}}</span>
+                                </a>
+                            @endcan
+
                             <ul id="Finance" class="collapse list-unstyled ">
                                 @can('view-account')
                                     <li id="accounting_list"><a
@@ -768,8 +826,11 @@
 
                     @can('assets-and-category')
                         <li class="has-dropdown @if(request()->is('assets*')){{ (request()->is('assets*')) ? 'active' : '' }}@elseif(request()->is('dynamic_variable/assets_category*')){{ (request()->is('dynamic_variable/assets_category*')) ? 'active' : '' }}@endif">
-                            <a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
-                                        class="dripicons-box"></i><span>{{trans(('file.Assets'))}}</span></a>
+                            @if(auth()->user()->can('category') || auth()->user()->can('assets'))
+                                <a href="#assets" aria-expanded="false" data-toggle="collapse"> <i
+                                            class="dripicons-box"></i><span>{{trans(('file.Assets'))}}</span>
+                                </a>
+                            @endcan
                             <ul id="assets" class="collapse list-unstyled ">
                                 @can('category')
                                     <li id="assets_category"><a
@@ -786,9 +847,14 @@
                     @endcan
 
                     @can('file_module')
-                        <li class="has-dropdown {{ (request()->is('file_manager*')) ? 'active' : '' }}"><a
-                                    href="#file_manager" aria-expanded="false" data-toggle="collapse"> <i
-                                        class="dripicons-archive"></i><span>{{__('File Manager')}}</span></a>
+                        <li class="has-dropdown {{ (request()->is('file_manager*')) ? 'active' : '' }}">
+
+                            @if(auth()->user()->can('view-file_manager') || auth()->user()->can('view-official_documents'))
+                                <a href="#file_manager" aria-expanded="false" data-toggle="collapse"> <i
+                                            class="dripicons-archive"></i><span>{{__('File Manager')}}</span>
+                                </a>
+                            @endcan
+
                             <ul id="file_manager" class="collapse list-unstyled ">
 
                                 @can('view-file_manager')
@@ -816,13 +882,16 @@
     </div>
 </nav>
 
+@php
+    $general_settings = \App\GeneralSetting::latest()->first();
+@endphp
 
 <div id="content" class="page animate-bottom d-none">
     @yield('content')
     <footer class="main-footer">
         <div class="container-fluid">
             <p>&copy; {{$general_settings->site_title ?? "no title"}} | {{ __('Developed by')}} <a
-                        href="https://lion-coders.com" class="external">{{ __('LionCoders')}}</a></p>
+                        href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a></p>
         </div>
     </footer>
 </div>
@@ -853,5 +922,9 @@
 
     })(jQuery);
 </script>
+
+@stack('scripts')
+
+
 </body>
 </html>

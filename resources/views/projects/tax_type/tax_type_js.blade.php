@@ -45,8 +45,8 @@
             {
                 data: null,
                 render: function (data,type,row) {
-                    if (row.type === 'fixed') {
-                        if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if (row.type == 'fixed') {
+                        if ('{{config('variable.currency_format') =='suffix'}}') {
                             return row.rate+ ' {{config('variable.currency')}}';
                         } else {
                             return '{{config('variable.currency')}} ' + row.rate;

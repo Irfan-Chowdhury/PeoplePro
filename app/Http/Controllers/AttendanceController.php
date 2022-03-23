@@ -30,8 +30,6 @@ class AttendanceController extends Controller {
 
 	public function index(Request $request)
 	{
-
-
 		$logged_user = auth()->user();
 		//checking if date is selected else date is current
 		// if ($logged_user->can('view-attendance'))
@@ -55,13 +53,15 @@ class AttendanceController extends Controller {
 						'company:id,company_name',
 						'employeeLeave' => function ($query) use ($selected_date)
 						{
-							$query->where('start_date', '>=', $selected_date)
-								->where('end_date', '<=', $selected_date);
+							$query->where('start_date', '<=', $selected_date)
+								->where('end_date', '>=', $selected_date);
 						}]
 					)
 					->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 					->where('joining_date', '<=', $selected_date)
 					->where('id', '=', $logged_user->id)
+                    ->where('is_active',1)
+                    ->where('exit_date',NULL)
 					->get();
 				}
 				else{
@@ -73,12 +73,14 @@ class AttendanceController extends Controller {
 						'company:id,company_name',
 						'employeeLeave' => function ($query) use ($selected_date)
 						{
-							$query->where('start_date', '>=', $selected_date)
-								->where('end_date', '<=', $selected_date);
+							$query->where('start_date', '<=', $selected_date)
+								->where('end_date', '>=', $selected_date);
 						}]
 					)
 					->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 					->where('joining_date', '<=', $selected_date)
+                    ->where('is_active',1)
+                    ->where('exit_date',NULL)
 					->get();
 				}
 
@@ -314,13 +316,20 @@ class AttendanceController extends Controller {
 			// if employee is late
 			if ($current_time > $shift_in)
 			{
-				$timeDifference = $shift_in->diff($current_time)->format('%H:%I');
 				$data['clock_in'] = $current_time->format('H:i');
+                $timeDifference = $shift_in->diff(new DateTime($data['clock_in']))->format('%H:%I');
 				$data['time_late'] = $timeDifference;
 			} // if employee is early or on time
 			else
 			{
-				$data['clock_in'] = $shift_in->format('H:i');
+                // if(early clockin shifter ketre jadi enable take) {
+                //     $data['clock_in'] = $current_time->format('H:i');
+                //     $timeDifference = $shift_in->diff(new DateTime($data['clock_in']))->format('%H:%I');
+                //     $data['overtime'] = $timeDifference; // এটা পরবর্তী overtime এর সাথে যোগ করতে হবে ।
+                // }
+                // else {
+				    $data['clock_in'] = $shift_in->format('H:i');
+                //}
 			}
 
 			$data['attendance_status'] = 'present';
@@ -336,26 +345,33 @@ class AttendanceController extends Controller {
 			return redirect()->back();
 		}
 
-
-
 		// if there is a record of employee attendance
 		//FOR CLOCK OUT
-		if ($employee_attendance_last)
+		//if ($employee_attendance_last)
+        else
 		{
 			//checking if the employee is not both clocked in + out (1)
 			if ($employee_attendance_last->clock_in_out == 1)
 			{
+                $employee_last_clock_in = new DateTime($employee_attendance_last->clock_in);
 				// if employee is early leaving
 				if ($current_time < $shift_out)
 				{
-					$timeDifference = $shift_out->diff($current_time)->format('%H:%I');
 					$data['clock_out'] = $current_time->format('H:i');
+                    $timeDifference = $shift_out->diff(new DateTime($data['clock_out']))->format('%H:%I');
 					$data['early_leaving'] = $timeDifference;
 				} // if employee is doing overtime
 				elseif ($current_time > $shift_out)
 				{
-					$timeDifference = $shift_out->diff($current_time)->format('%H:%I');
-					$data['clock_out'] = $current_time->format('H:i');
+                    $data['clock_out'] = $current_time->format('H:i');
+                    if ($employee_last_clock_in > $shift_out)
+                    {
+                        $timeDifference = $employee_last_clock_in->diff(new DateTime($data['clock_out']))->format('%H:%I');
+                    }
+                    else
+                    {
+                        $timeDifference = $shift_out->diff(new DateTime($data['clock_out']))->format('%H:%I');
+                    }
 					$data['overtime'] = $timeDifference;
 				} //if clocked out in time
 				else
@@ -363,26 +379,10 @@ class AttendanceController extends Controller {
 					$data['clock_out'] = $shift_out->format('H:i');
 				}
 
-				try
-				{
-					// last clock in (needed for calculation of overtime after shift)
-					$employee_last_clock_in = new DateTime($employee_attendance_last->clock_in);
-				} catch (Exception $e)
-				{
-					return $e;
-				}
-
-				// if employee clocked in after shift time is over
-				if ($employee_attendance_last->clock_in > $shift_out)
-				{
-					$data['overtime'] = $employee_last_clock_in->diff($current_time)->format('%H:%I');
-				}
-
-
 				$data['clock_out_ip'] = $request->ip();
 
 				// calculating total work
-				$total_work = $employee_last_clock_in->diff($current_time)->format('%H:%I');
+                $total_work = $employee_last_clock_in->diff(new DateTime($data['clock_out']))->format('%H:%I');
 				$data['total_work'] = $total_work;
 				$data['clock_in_out'] = 0;
 
@@ -395,25 +395,24 @@ class AttendanceController extends Controller {
 				return redirect()->back();
 			}
 			// if employee is both clocked in + out
-			if ($employee_attendance_last->clock_in_out == 0)
+			// if ($employee_attendance_last->clock_in_out == 0)
+            else
 			{
-//				$timeDifference = $shift_in->diff($current_time)->format('%H:%I');
 				// new clock in on that day
 				$data['clock_in'] = $current_time->format('H:i');
 				$data['clock_in_ip'] = $request->ip();
 				$data['clock_in_out'] = 1;
+                // last clock out (needed for calculation rest time)
+				$employee_last_clock_out = new DateTime($employee_attendance_last->clock_out);
+				// try
+				// {
 
-				try
-				{
-					// last clock out (needed for calculation rest time)
-					$employee_last_clock_out = new DateTime($employee_attendance_last->clock_out);
-				} catch (Exception $e)
-				{
-					return $e;
-				}
+				// } catch (Exception $e)
+				// {
+				// 	return $e;
+				// }
 				// calculating total rest (last clock out ~ current clock in)
-				$data['total_rest'] = $employee_last_clock_out->diff($current_time)->format('%H:%I');
-
+                $data['total_rest'] = $employee_last_clock_out->diff(new DateTime($data['clock_in']))->format('%H:%I');
 				// creating new attendance
 				Attendance::create($data);
 
@@ -436,253 +435,266 @@ class AttendanceController extends Controller {
 		// {
 			$companies = Company::all('id', 'company_name');
 
+            //$request->department_id = 3;
+            //$request->filter_start_date = '15-Dec-2021';
+            //$request->filter_end_date = '16-Dec-2021';
+
 			$start_date = Carbon::parse($request->filter_start_date)->format('Y-m-d') ?? '';
 			$end_date = Carbon::parse($request->filter_end_date)->format('Y-m-d') ?? '';
 
-            //New
-            if ($request->employee_id) {
-                $emp = Employee::find($request->employee_id);
-                $joining_date = Carbon::parse($emp->joining_date)->format('Y-m-d') ?? '';
-
-                if(($joining_date >= $start_date) && ($joining_date<= $end_date))
-                {
-                    $start_date = $joining_date;
-                }
-            }
-
 			if (request()->ajax())
 			{
-				if ($request->employee_id)
-				{
-					$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($start_date, $end_date)
-					{
-						$query->whereBetween('attendance_date', [$start_date, $end_date]);// start_date = joining_date
-					},
-						'employeeLeave' => function ($query) use ($start_date, $end_date)
-						{
-							$query->where('start_date', '>=', $start_date)
-								->where('end_date', '<=', $end_date);
-						},
-						'company:id,company_name',
-						'company.companyHolidays' => function ($query) use ($start_date, $end_date)
-						{
-							$query->where('start_date', '>=', $start_date)
-								->where('end_date', '<=', $end_date);
-						}
-					])
-						->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
-                        ->findOrFail($request->employee_id);
+				if (!$request->company_id && !$request->department_id && !$request->employee_id)
+                {
+					$emp_attendance_date_range = [];
+				}
+				else
+                {
+                    $employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($start_date, $end_date)
+                    {
+                        $query->whereBetween('attendance_date', [$start_date, $end_date]);
+                    },
+                        'employeeLeave',
+                        'company:id,company_name',
+                        'company.companyHolidays'
+                    ])
+                    ->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id', 'joining_date')
+                    ->where('is_active', '=', 1);
 
+                    if ($request->employee_id) {
+                        $employee = $employee->where('id', '=', $request->employee_id)->get();
+                    }
+                    elseif ($request->department_id) {
+                        $employee = $employee->where('department_id', '=', $request->department_id)->get();
+                    }
+                    elseif ($request->company_id) {
+                        $employee = $employee->where('company_id', '=', $request->company_id)->get();
+                    }
 
-					$all_attendances_array = $employee->employeeAttendance->groupBy('attendance_date')->toArray();
+                    $begin = new DateTime($start_date);
+                    $end = new DateTime($end_date);
+                    $end->modify('+1 day');
+                    $interval = DateInterval::createFromDateString('1 day');
+                    $period   = new DatePeriod($begin, $interval, $end);
+                    $date_range = [];
+                    foreach ($period as $dt) {
+                        $date_range[] = $dt->format(env('Date_Format'));
+                    }
+                    $emp_attendance_date_range = [];
+                    foreach ($employee as $key1 => $emp) {
+                        $all_attendances_array = $emp->employeeAttendance->groupBy('attendance_date')->toArray();
+                        $leaves = $emp->employeeLeave;
+                        $shift = $emp->officeShift->toArray();
+                        $holidays = $emp->company->companyHolidays;
+                        $joining_date = Carbon::parse($emp->joining_date)->format(env('Date_Format'));
+                        foreach ($date_range as $key2 => $dt_r) {
+                            $emp_attendance_date_range[$key1*count($date_range)+$key2]['id'] = $emp->id;
+                            $emp_attendance_date_range[$key1*count($date_range)+$key2]['employee_name'] = ($key2==0) ? '<strong>'.$emp->full_name.'</strong>' : $emp->full_name;
+                            $emp_attendance_date_range[$key1*count($date_range)+$key2]['company'] = $emp->company->company_name;
+                            $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_date'] = Carbon::parse($dt_r)->format(env('Date_Format'));
 
+                            //attendance status
+                            $day = strtolower(Carbon::parse($dt_r)->format('l')) . '_in';
+                            if (strtotime($dt_r) < strtotime($joining_date))
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('Not Join');
+                            }
+                            elseif (empty($shift[$day]))
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('Off Day');
+                            }
+                            elseif (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = trans('file.present');
+                            }
+                            else
+                            {
+                                foreach ($leaves as $leave)
+                                {
+                                    if ($leave->start_date <= $dt_r && $leave->end_date >= $dt_r)
+                                    {
+                                        $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('On Leave');
+                                    }
+                                }
+                                foreach ($holidays as $holiday)
+                                {
+                                    if ($holiday->start_date <= $dt_r && $holiday->end_date >= $dt_r)
+                                    {
+                                        $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('On Holiday');
+                                    }
+                                }
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = trans('Absent');
+                            }
+                            //attendance status
 
-					$leaves = $employee->employeeLeave;
+                            //clock in
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $first = current($all_attendances_array[$dt_r])['clock_in'];
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_in'] = $first;
+                            }
+                            else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_in'] = '---';
+                            }
+                            //clock in
 
-					$shift = $employee->officeShift;
+                            //clock out
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $last = end($all_attendances_array[$dt_r])['clock_out'];
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_out'] = $last;
+                            }
+                            else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_out'] = '---';
+                            }
+                            //clock out
 
-					$holidays = $employee->company->companyHolidays;
+                            //time late
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $first = current($all_attendances_array[$dt_r])['time_late'];
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['time_late'] = $first;
+                            } else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['time_late'] = '---';
+                            }
+                            //time late
 
+                            //early_leaving
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $last = end($all_attendances_array[$dt_r])['early_leaving'];
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['early_leaving'] = $last;
+                            } else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['early_leaving'] = '---';
+                            }
+                            //early_leaving
 
-					$begin = new DateTime($start_date);
-					$end = new DateTime($end_date);
-					$end->modify('+1 day');
+                            //overtime
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $total = 0;
+                                foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+                                {
+                                    sscanf($all_attendance_item['overtime'], '%d:%d', $hour, $min);
+                                    $total += $hour * 60 + $min;
+                                }
+                                if ($h = floor($total / 60))
+                                {
+                                    $total %= 60;
+                                }
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['overtime'] = sprintf('%02d:%02d', $h, $total);
+                            } else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['overtime'] = '---';
+                            }
+                            //overtime
 
-					$interval = DateInterval::createFromDateString('1 day');
-					$period   = new DatePeriod($begin, $interval, $end);
+                            //total_work
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $total = 0;
+                                foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+                                {
+                                    sscanf($all_attendance_item['total_work'], '%d:%d', $hour, $min);
+                                    $total += $hour * 60 + $min;
+                                }
+                                if ($h = floor($total / 60))
+                                {
+                                    $total %= 60;
+                                }
+                                $sum_total = 0 + $total;
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_work'] = sprintf('%02d:%02d', $h, $total);
+                            }
+                            else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_work'] = '---';
+                            }
+                            //total_work
 
-					$date_range = [];
-					foreach ($period as $dt)
-					{
-						$date_range[] = $dt->format(env('Date_Format'));
-					}
-				} else
-				{
-					$date_range = [];
-					$employee = null;
-					$all_attendances_array = null;
-					$leaves = null;
-					$holidays = null;
-					$shift = null;
+                            //total_rest
+                            if (array_key_exists($dt_r, $all_attendances_array))
+                            {
+                                $total = 0;
+                                foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+                                {
+                                    //formatting in hour:min and separating them
+                                    sscanf($all_attendance_item['total_rest'], '%d:%d', $hour, $min);
+                                    //converting in minute
+                                    $total += $hour * 60 + $min;
+                                }
+                                // if minute is greater than hour then $h= hour
+                                if ($h = floor($total / 60))
+                                {
+                                    //$total = minute (after excluding hour)
+                                    $total %= 60;
+                                }
+                                //returning back to hour:minute format
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_rest'] = sprintf('%02d:%02d', $h, $total);
+                            } else
+                            {
+                                $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_rest'] = '---';
+                            }
+                            //total_rest
+                        }
+                    }
 				}
 
-				return datatables()->of($date_range)
-					->setRowId(function ($row) use ($employee)
+
+				return datatables()->of($emp_attendance_date_range)
+					->setRowId(function ($row)
 					{
-						return $employee->id;
+						return $row['id'];
 					})
-					->addColumn('employee_name', function ($row) use ($employee)
+					->addColumn('employee_name', function ($row)
 					{
-						return $employee->full_name;
+						return $row['employee_name'];
 					})
-					->addColumn('company', function ($row) use ($employee)
+					->addColumn('company', function ($row)
 					{
-						return $employee->company->company_name;
+						return $row['company'];
 					})
 					->addColumn('attendance_date', function ($row)
 					{
-						return Carbon::parse($row)->format(env('Date_Format'));
+						return $row['attendance_date'];
 					})
-					->addColumn('attendance_status', function ($row) use ($all_attendances_array, $leaves, $holidays, $shift)
+					->addColumn('attendance_status', function ($row)
 					{
-						$day = strtolower(Carbon::parse($row)->format('l')) . '_in';
-
-						if (is_null($shift->$day))
-						{
-							return __('Off Day');
-						}
-
-						if (array_key_exists($row, $all_attendances_array))
-						{
-							return trans('file.present');
-						} else
-						{
-							foreach ($leaves as $leave)
-							{
-								if ($leave->start_date <= $row && $leave->end_date >= $row)
-								{
-									return __('On Leave');
-								}
-							}
-							foreach ($holidays as $holiday)
-							{
-								if ($holiday->start_date <= $row && $holiday->end_date >= $row)
-								{
-									return __('On Holiday');
-								}
-							}
-
-							return trans('Absent');
-						}
+						return $row['attendance_status'];
 					})
-					->addColumn('clock_in', function ($row) use ($all_attendances_array)
+					->addColumn('clock_in', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$first = current($all_attendances_array[$row])['clock_in'];
-
-							return $first;
-						} else
-						{
-							return '---';
-						}
+                        return $row['clock_in'];
 					})
-					->addColumn('clock_out', function ($row) use ($all_attendances_array)
+					->addColumn('clock_out', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$last = end($all_attendances_array[$row])['clock_out'];
-
-							return $last;
-						} else
-						{
-							return '---';
-						}
+                        return $row['clock_out'];
 					})
-					->addColumn('time_late', function ($row) use ($all_attendances_array)
+					->addColumn('time_late', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$first = current($all_attendances_array[$row])['time_late'];
-
-							return $first;
-						} else
-						{
-							return '---';
-						}
+                        return $row['time_late'];
 					})
-					->addColumn('early_leaving', function ($row) use ($all_attendances_array)
+					->addColumn('early_leaving', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$last = end($all_attendances_array[$row])['early_leaving'];
-
-							return $last;
-						} else
-						{
-							return '---';
-						}
+                        return $row['early_leaving'];
 					})
-					->addColumn('overtime', function ($row) use ($all_attendances_array)
+					->addColumn('overtime', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$total = 0;
-							foreach ($all_attendances_array[$row] as $all_attendance_item)
-							{
-								sscanf($all_attendance_item['overtime'], '%d:%d', $hour, $min);
-								$total += $hour * 60 + $min;
-							}
-							if ($h = floor($total / 60))
-							{
-								$total %= 60;
-							}
-
-							return sprintf('%02d:%02d', $h, $total);
-						} else
-						{
-							return '---';
-						}
-
+                        return $row['overtime'];
 					})
-					->addColumn('total_work', function ($row) use ($all_attendances_array)
+					->addColumn('total_work', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-
-							$total = 0;
-							foreach ($all_attendances_array[$row] as $all_attendance_item)
-							{
-								sscanf($all_attendance_item['total_work'], '%d:%d', $hour, $min);
-								$total += $hour * 60 + $min;
-							}
-							if ($h = floor($total / 60))
-							{
-								$total %= 60;
-							}
-
-							$sum_total = 0 + $total;
-
-							return sprintf('%02d:%02d', $h, $total);
-						} else
-						{
-							return '---';
-						}
+                        return $row['total_work'];
 					})
-					->addColumn('total_rest', function ($row) use ($all_attendances_array)
+					->addColumn('total_rest', function ($row)
 					{
-						if (array_key_exists($row, $all_attendances_array))
-						{
-							$total = 0;
-							foreach ($all_attendances_array[$row] as $all_attendance_item)
-							{
-								//formatting in hour:min and separating them
-								sscanf($all_attendance_item['total_rest'], '%d:%d', $hour, $min);
-								//converting in minute
-								$total += $hour * 60 + $min;
-							}
-							// if minute is greater than hour then $h= hour
-							if ($h = floor($total / 60))
-							{
-								//$total = minute (after excluding hour)
-								$total %= 60;
-							}
-
-							//returning back to hour:minute format
-							return sprintf('%02d:%02d', $h, $total);
-						} else
-						{
-							return '---';
-						}
+                        return $row['total_rest'];
 					})
-					->rawColumns(['action'])
+					->rawColumns(['action','employee_name'])
 					->make(true);
-
 			}
 
 			return view('timesheet.dateWiseAttendance.index', compact('companies'));
@@ -731,20 +743,15 @@ class AttendanceController extends Controller {
 					{
 						$query->whereBetween('attendance_date', [$first_date, $last_date]);
 					},
-						'employeeLeave' => function ($query) use ($first_date, $last_date)
-						{
-							$query->where('start_date', '>=', $first_date)
-								->where('end_date', '<=', $last_date);
-						},
+						'employeeLeave',
 						'company:id,company_name',
-						'company.companyHolidays' => function ($query) use ($first_date, $last_date)
-						{
-							$query->where('start_date', '>=', $first_date)
-								->where('end_date', '<=', $last_date);
-						},
+						'company.companyHolidays'
 					])
 					->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
-					->whereId($logged_user->id)->get();
+                    ->where('is_active',1)
+                    ->where('exit_date',NULL)
+                    ->whereId($logged_user->id)
+                    ->get();
 				}
 				else
 				{
@@ -756,17 +763,9 @@ class AttendanceController extends Controller {
 						{
 							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						},
-							'employeeLeave' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'employeeLeave',
 							'company:id,company_name',
-							'company.companyHolidays' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'company.companyHolidays'
 						])
 							->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
 							->whereId($request->filter_employee)->get();
@@ -777,60 +776,27 @@ class AttendanceController extends Controller {
 						{
 							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						},
-							'employeeLeave' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'employeeLeave',
 							'company:id,company_name',
-							'company.companyHolidays' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'company.companyHolidays'
 						])
 							->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
-							->where('company_id', $request->filter_company)->get();
+							->where('company_id', $request->filter_company)->where('is_active',1)
+                            ->where('exit_date',NULL)->get();
 					}
-					// else
-					// {
-					// 	$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($first_date, $last_date)
-					// 	{
-					// 		$query->whereBetween('attendance_date', [$first_date, $last_date]);
-					// 	},
-					// 		'employeeLeave' => function ($query) use ($first_date, $last_date)
-					// 		{
-					// 			$query->where('start_date', '>=', $first_date)
-					// 				->where('end_date', '<=', $last_date);
-					// 		},
-					// 		'company:id,company_name',
-					// 		'company.companyHolidays' => function ($query) use ($first_date, $last_date)
-					// 		{
-					// 			$query->where('start_date', '>=', $first_date)
-					// 				->where('end_date', '<=', $last_date);
-					// 		},
-					// 	])
-					// 		->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')->get();
-					// }
 					else
 					{
 						$employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($first_date, $last_date)
 						{
 							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						},
-							'employeeLeave' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'employeeLeave',
 							'company:id,company_name',
-							'company.companyHolidays' => function ($query) use ($first_date, $last_date)
-							{
-								$query->where('start_date', '>=', $first_date)
-									->where('end_date', '<=', $last_date);
-							},
+							'company.companyHolidays'
 						])
 							->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id')
+                            ->where('is_active',1)
+                            ->where('exit_date',NULL)
 							->get();
 					}
 				}
@@ -1026,7 +992,7 @@ class AttendanceController extends Controller {
 				$this->work_days++;
 
 				return 'P';
-			} elseif (is_null($emp->officeShift->$day ?? null))
+			} elseif (!$emp->officeShift->$day)
 			{
 				return 'O';
 			} elseif ($leave->isNotEmpty())

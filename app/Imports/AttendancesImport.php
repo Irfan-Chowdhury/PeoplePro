@@ -23,10 +23,7 @@ class AttendancesImport implements ToModel,WithHeadingRow, ShouldQueue,WithChunk
 	 */
 	public function model(array $row)
 	{
-
 		$attendance_date = date(env('Date_Format'),strtotime($row['attendance_date']));
-
-
 
 		try
 		{

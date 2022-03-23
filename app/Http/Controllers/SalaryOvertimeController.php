@@ -57,7 +57,7 @@ class SalaryOvertimeController extends Controller {
 					'overtime_title' => 'required',
 					'overtime_hours' => 'required',
 					'no_of_days' => 'required',
-					'overtime_rate' => 'required',
+					'overtime_rate' => 'required|numeric',
 				]
 			);
 
@@ -113,7 +113,7 @@ class SalaryOvertimeController extends Controller {
 					'overtime_title' => 'required',
 					'overtime_hours' => 'required',
 					'no_of_days' => 'required',
-					'overtime_rate' => 'required',
+					'overtime_rate' => 'required|numeric',
 				]
 			);
 

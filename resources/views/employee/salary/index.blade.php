@@ -81,7 +81,7 @@
                             </div>
 
                             <div class="col-md-3 form-group">
-                                @if(config('variable.currency_format')==='suffix')
+                                @if(config('variable.currency_format')=='suffix')
                                     <label>{{__('Amount')}} ({{config('variable.currency')}})</label>
                                 @else
                                     <label>({{config('variable.currency')}}) {{__('Amount')}}</label>

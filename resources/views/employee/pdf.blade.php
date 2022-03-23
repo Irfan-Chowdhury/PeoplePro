@@ -25,9 +25,9 @@
                             <tr>
                                 <th>{{__('Photo')}}</th>
                                 @if ($user['profile_photo']!==null)
-                                    <td> <img src="{{asset('public/uploads/profile_photos/'.$user['profile_photo'])}}" height="50px" width="60"> </td>
+                                    <td> <img src="{{asset('uploads/profile_photos/'.$user['profile_photo'])}}" height="50px" width="60"> </td>
                                 @else
-                                    <td> <img src="{{asset('public/uploads/profile_photos/blank.jpg')}}" height="50px" width="60"> </td>
+                                    <td> <img src="{{asset('uploads/profile_photos/blank.jpg')}}" height="50px" width="60"> </td>
                                 @endif
                             </tr>
                             <tr>
@@ -88,7 +88,7 @@
                             </tr>
                             <tr>
                                 <th>{{__('Salary')}}</th>
-                                @if(config('variable.currency_format') ==='suffix')
+                                @if(config('variable.currency_format') =='suffix')
                                     <td>{{$basic_salary}} {{config('variable.currency')}}</td>
                                 @else
                                     <td>{{config('variable.currency')}} {{$basic_salary}} </td>

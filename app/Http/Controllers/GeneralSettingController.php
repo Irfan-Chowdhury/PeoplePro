@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\FinanceBankCash;
 use App\GeneralSetting;
+use App\LeaveType;
 use DB;
 use Illuminate\Http\Request;
 use function config;
@@ -39,6 +40,7 @@ class GeneralSettingController extends Controller {
 
 	public function update(Request $request, $id)
 	{
+
 		if (auth()->user()->can('store-general-setting'))
 		{
 			if(!env('USER_VERIFIED'))
@@ -56,17 +58,27 @@ class GeneralSettingController extends Controller {
 
 			$js_format = config('date_format_conversion.' . $request->date_format);
 
+			$path = base_path('.env');
 
-
-			$path = '.env';
 			$searchArray = array('APP_TIMEZONE=' . env('APP_TIMEZONE'),'Date_Format=' . env('Date_Format'),'Date_Format_JS=' . env('Date_Format_JS'));
 			$replaceArray = array('APP_TIMEZONE=' . $data['timezone'],'Date_Format=' . $data['date_format'],'Date_Format_JS=' . $js_format);
 			file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
 
 
+            //RTL Layout Start
+            if ($request->rtl_layout) {
+                $rtl_data = $request->rtl_layout;
+            }else {
+                $rtl_data = '';
+            }
+            $path = '.env';
+            $searchArray = array('RTL_LAYOUT'.'='.env('RTL_LAYOUT'));
+            $replaceArray= array('RTL_LAYOUT'.'='.$rtl_data);
+            file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
+            //RTL Layout End
 
 
-			$path = 'config/variable.php';
+			$path = base_path('config/variable.php');
 
 			$searchArray = array(
 				config('variable.currency'),
@@ -85,6 +97,8 @@ class GeneralSettingController extends Controller {
 			$general_setting->currency_format = $data['currency_format'];
 			$general_setting->date_format = $data['date_format'];
 			$general_setting->default_payment_bank = $data['account_id'];
+			$general_setting->footer = $request->footer;
+			$general_setting->footer_link = $request->footer_link;
 
 			$logo = $request->site_logo;
 
@@ -96,7 +110,7 @@ class GeneralSettingController extends Controller {
 
 				if ($file_path)
 				{
-					$file_path = public_path('logo/' . $file_path);
+					$file_path = public_path('images/logo/' . $file_path);
 
 					if (file_exists($file_path))
 					{
@@ -106,7 +120,7 @@ class GeneralSettingController extends Controller {
 
 				$ext = pathinfo($logo->getClientOriginalName(), PATHINFO_EXTENSION);
 				$logoName = 'logo.' . $ext;
-				$logo->move('public/logo', $logoName);
+				$logo->move(public_path('images/logo'), $logoName);
 				$general_setting->site_logo = $logoName;
 
 			}
@@ -142,6 +156,7 @@ class GeneralSettingController extends Controller {
 			//writting mail info in .env file
 			$path = '.env';
 			$searchArray = array('MAIL_HOST="' . env('MAIL_HOST') . '"', 'MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_FROM_ADDRESS="' . env('MAIL_FROM_ADDRESS') . '"', 'MAIL_FROM_NAME="' . env('MAIL_FROM_NAME') . '"', 'MAIL_USERNAME="' . env('MAIL_USERNAME') . '"', 'MAIL_PASSWORD="' . env('MAIL_PASSWORD') . '"', 'MAIL_ENCRYPTION="' . env('MAIL_ENCRYPTION') . '"');
+			// $searchArray = array('MAIL_HOST=' . env('MAIL_HOST'),'MAIL_PORT=' . env('MAIL_PORT'),'MAIL_FROM_ADDRESS=' . env('MAIL_FROM_ADDRESS'),'MAIL_FROM_NAME=' . env('MAIL_FROM_NAME'),'MAIL_USERNAME=' . env('MAIL_USERNAME'),'MAIL_PASSWORD=' . env('MAIL_PASSWORD'),'MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'));
 
 			$replaceArray = array('MAIL_HOST="' . $data['mail_host'] . '"', 'MAIL_PORT=' . $data['port'], 'MAIL_FROM_ADDRESS="' . $data['mail_address'] . '"', 'MAIL_FROM_NAME="' . $data['mail_name'] . '"', 'MAIL_USERNAME="' . $data['mail_address'] . '"', 'MAIL_PASSWORD="' . $data['password'] . '"', 'MAIL_ENCRYPTION="' . $data['encryption'] . '"');
 
@@ -167,6 +182,8 @@ class GeneralSettingController extends Controller {
 				DB::table($table->$str)->truncate();
 			}
 		}
+        $leave_type = LeaveType::create(['leave_type'=>'Manual','allocated_day'=>NULL]);
+
 		DB::statement("SET foreign_key_checks=1");
 
 		return redirect()->back()->with('msg', 'Database cleared successfully');
@@ -265,6 +282,6 @@ class GeneralSettingController extends Controller {
 			readfile($backup_file_name);
 			exec('rm ' . $backup_file_name); */
 		}
-		return redirect('public/' . $zipFileName);
+		return redirect('/' . $zipFileName);
 	}
 }

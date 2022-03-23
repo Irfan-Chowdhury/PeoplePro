@@ -99,7 +99,7 @@ $('#bank_account-table').DataTable().clear().destroy();
 
     $('#bank_account_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#bank_account_action').val() === '{{trans('file.Add')}}') {
+        if ($('#bank_account_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('bank_account.store',$employee->id) }}",
@@ -129,7 +129,7 @@ $('#bank_account-table').DataTable().clear().destroy();
             });
         }
 
-        if ($('#bank_account_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#bank_account_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('bank_account.update') }}",
                 method: "POST",

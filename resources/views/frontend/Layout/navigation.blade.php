@@ -3,7 +3,7 @@
     <div class="container">
         <div class="d-flex flex-column flex-md-row align-items-center pt-2 pb-2">
             <div>
-                <a class="navbar-brand" href="#">@if($general_settings->site_logo ?? "no")<img src="{{url('public/logo', $general_settings->site_logo ?? "no")}}" width="50">&nbsp; &nbsp;@endif{{$general_settings->site_title ?? "PeoplePro"}}</a>
+                <a class="navbar-brand" href="#">@if($general_settings->site_logo ?? "no")<img src="{{url('logo', $general_settings->site_logo ?? "no")}}" width="50">&nbsp; &nbsp;@endif{{$general_settings->site_title ?? "PeoplePro"}}</a>
             </div>
 
             <div class="collapse navbar-collapse show" id="navbarTogglerDemo03">

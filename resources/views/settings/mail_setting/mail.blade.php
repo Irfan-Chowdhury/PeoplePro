@@ -60,17 +60,21 @@
         </div>
     </section>
 
-    <script type="text/javascript">
-        (function($) {  
-            "use strict";
 
-            $("ul#setting").siblings('a').attr('aria-expanded','true');
-            $("ul#setting").addClass("show");
-            $("ul#setting #mail-setting-menu").addClass("active");
-
-            $('.selectpicker').selectpicker({
-                style: 'btn-link',
-            });
-        })(jQuery);
-    </script>
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+
+        $("ul#setting").siblings('a').attr('aria-expanded','true');
+        $("ul#setting").addClass("show");
+        $("ul#setting #mail-setting-menu").addClass("active");
+
+        $('.selectpicker').selectpicker({
+            style: 'btn-link',
+        });
+    })(jQuery);
+</script>
+@endpush

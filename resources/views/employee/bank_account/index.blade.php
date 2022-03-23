@@ -4,7 +4,7 @@
 
 
     <div class="container-fluid">
-        @if(auth()->user()->can('store-details-employee') || auth()->user()->id === $employee->id)
+        @if(auth()->user()->can('store-details-employee') || auth()->user()->id == $employee->id)
             <button type="button" class="btn btn-info" name="create_record" id="create_bank_account_record"><i
                         class="fa fa-plus"></i>{{__('Add Bank Account')}}</button>
         @endif
@@ -29,7 +29,7 @@
 
 
     <div id="BankAccountformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -95,7 +95,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

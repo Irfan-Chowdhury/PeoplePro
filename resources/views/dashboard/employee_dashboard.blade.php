@@ -12,7 +12,7 @@
             <div class="row">
 
                 <div class="col-3 col-md-2 mb-3">
-                    <img src={{ URL::to('/public/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
+                    <img src={{ URL::to('/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
                          class='rounded-circle'>
                 </div>
 
@@ -171,11 +171,13 @@
                             <table class="table">
                                 <tbody>
                                     @foreach($assigned_projects as $project)
-                                    <tr>
-                                        <td>
-                                            <a href="{{route('projects.show',$project->assignedProjects[0]->id)}}"><h5>{{$project->assignedProjects[0]->title}}</h5></a>
-                                        </td>
-                                    </tr>
+                                        @if (count($project->assignedProjects)!=0)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('projects.show',$project->assignedProjects[0]->id)}}"><h5>{{$project->assignedProjects[0]->title}}</h5></a>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -192,11 +194,13 @@
                             <table class="table">
                                 <tbody>
                                     @foreach($assigned_tasks as $task)
-                                    <tr>
-                                        <td>
-                                            <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$task->assignedTasks[0]->task_name}}</h5></a>
-                                        </td>
-                                    </tr>
+                                        @if (count($task->assignedTasks)!=0)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('tasks.show',$task->assignedTasks[0]->id)}}"><h5>{{$task->assignedTasks[0]->task_name}}</h5></a>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -213,11 +217,13 @@
                             <table class="table">
                                 <tbody>
                                     @foreach($assigned_tickets as $ticket)
-                                        <tr>
-                                            <td>
-                                                <a href="{{route('tickets.show',$ticket->assignedTickets[0]->ticket_code)}}"><h5>{{$ticket->assignedTickets[0]->subject}}</h5></a>
-                                            </td>
-                                        </tr>
+                                        @if (count($ticket->assignedTickets)!=0)
+                                            <tr>
+                                                <td>
+                                                    <a href="{{route('tickets.show',$ticket->assignedTickets[0]->ticket_code)}}"><h5>{{$ticket->assignedTickets[0]->subject}}</h5></a>
+                                                </td>
+                                            </tr>
+                                        @endif
                                     @endforeach
                                 </tbody>
                             </table>
@@ -228,7 +234,7 @@
         </div>
 
         <div id="holidayModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -248,7 +254,7 @@
         </div>
 
         <div id="leaveModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -276,7 +282,7 @@
                                 <div class="col-md-6 form-group">
                                     <label>{{__('Leave Type')}}</label>
                                     <select name="leave_type" id="leave_type" class="form-control selectpicker "
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>__('Leave Type')])}}...'>
                                         @foreach($leave_types as $leave_type)
                                             <option value="{{$leave_type->id}}">{{$leave_type->leave_type}}
@@ -340,7 +346,7 @@
         </div>
 
         <div id="travelModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -360,7 +366,7 @@
                                 <div class="col-md-6 form-group">
                                     <label>{{__('Arrangement Type')}}</label>
                                     <select name="travel_type_id" class="form-control selectpicker "
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>trans('file.Arrangement')])}}...'>
                                         @foreach($travel_types as $travel_type)
                                             <option value="{{$travel_type->id}}">{{$travel_type->arrangement_type}}</option>
@@ -410,7 +416,7 @@
                                 <div class="col-md-6 form-group">
                                     <label>{{__('Travel Mode')}}</label>
                                     <select name="travel_mode" class="form-control selectpicker "
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Travel Mode')}}'>
                                         <option value="By Bus">{{__('By Bus')}}</option>
                                         >
@@ -445,7 +451,7 @@
         </div>
 
         <div id="ticketModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -468,7 +474,7 @@
                                     <label>{{trans('file.Priority')}}</label>
                                     <select name="ticket_priority" id="ticket_priority"
                                             class="form-control selectpicker "
-                                            data-live-search="true" data-live-search-style="begins"
+                                            data-live-search="true" data-live-search-style="contains"
                                             title='{{__('Selecting',['key'=>trans('file.Priority')])}}...'>
                                         <option value="low">{{trans('file.Low')}}</option>
                                         <option value="medium">{{trans('file.Medium')}}</option>

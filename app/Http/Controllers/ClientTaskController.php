@@ -21,7 +21,7 @@ class ClientTaskController extends Controller {
 
 		$companies = company::all('id', 'company_name');
 
-		if ($logged_user->role_users_id === 3)
+		if ($logged_user->role_users_id == 3)
 		{
 			$client = Client::with('projects')->findOrFail($logged_user->id);
 			$projects = $client->projects;

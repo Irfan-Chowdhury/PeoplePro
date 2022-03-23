@@ -4,7 +4,7 @@
 
 
     <div class="container-fluid">
-        @if(auth()->user()->can('store-details-employee') || auth()->user()->id === $employee->id)
+        @if(auth()->user()->can('store-details-employee') || auth()->user()->id == $employee->id)
             <button type="button" class="btn btn-info" name="create_record" id="create_qualification_record"><i
                         class="fa fa-plus"></i>{{__('Add Qualification')}}</button>
         @endif
@@ -27,7 +27,7 @@
 
 
     <div id="QualificationformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -53,7 +53,7 @@
                                 <label>{{__('Education Level')}}</label>
                                 <select name="education_level_id" id="education_level_id" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__("Select Education Level...")}}'>
                                     @foreach($education_levels as $education_level)
                                         <option value="{{$education_level->id}}">{{$education_level->name}}</option>
@@ -78,7 +78,7 @@
                                 <label>{{trans('file.Language')}}</label>
                                 <select name="language_skill_id" id="language_skill_id" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Language')])}}...'>
                                     @foreach($language_skills as $language_skill)
                                         <option value="{{$language_skill->id}}">{{$language_skill->name}}</option>
@@ -90,7 +90,7 @@
                                 <label>{{__('Professional Skills')}}</label>
                                 <select name="general_skill_id" id="general_skill_id" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>__('Professional Skills')])}}...'>
                                     @foreach($general_skills as $general_skill)
                                         <option value="{{$general_skill->id}}">{{$general_skill->name}}</option>
@@ -126,7 +126,7 @@
     </div>
 
     <div class="modal fade confirmModal" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

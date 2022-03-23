@@ -29,7 +29,11 @@ class EmployeeProjectController extends Controller {
 					})
 					->addColumn('client', function ($row)
 					{
-						return $row->client->first_name.' '.$row->client->last_name;
+                        if ($row->client) {
+                            return $row->client->first_name.' '.$row->client->last_name ?? null;
+                        }else {
+                            return '';
+                        }
 					})
 					->addColumn('assigned_employee', function ($row)
 					{

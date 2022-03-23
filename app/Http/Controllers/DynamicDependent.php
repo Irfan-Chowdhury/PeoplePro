@@ -47,7 +47,10 @@ class DynamicDependent extends Controller {
 		$value = $request->get('value');
 		$first_name = $request->get('first_name');
 		$last_name = $request->get('last_name');
-		$data = Employee::whereCompany_id($value)->groupBy('first_name')->get();
+		$data = Employee::whereCompany_id($value)
+                            ->where('is_active',1)
+                            ->where('exit_date',NULL)
+                            ->get();
 		$output = '';
 		foreach ($data as $row)
 		{
@@ -62,7 +65,10 @@ class DynamicDependent extends Controller {
 		$value = $request->get('value');
 		$first_name = $request->get('first_name');
 		$last_name = $request->get('last_name');
-		$data = Employee::wheredepartment_id($value)->groupBy('first_name')->get();
+		$data = Employee::wheredepartment_id($value)
+                    ->where('is_active',1)
+                    ->where('exit_date',NULL)
+                    ->get();
 		$output = '';
 		foreach ($data as $row)
 		{
@@ -99,7 +105,10 @@ class DynamicDependent extends Controller {
 
 	public function companyEmployee(SupportTicket $ticket){
 		$value = $ticket->company_id;
-		$data = Employee::whereCompany_id($value)->groupBy('first_name')->get();
+		$data = Employee::whereCompany_id($value)
+                ->where('is_active',1)
+                ->where('exit_date',NULL)
+                ->get();
 		$output = '';
 		foreach ($data as $row)
 		{
@@ -118,7 +127,7 @@ class DynamicDependent extends Controller {
 
 		$data = TaxType::findorFail($value);
 		$total_cost = $qty * $unit_price;
-		if($data->type==='fixed')
+		if($data->type=='fixed')
 		{
 			$tax = $data->rate;
 			$sub_total = $total_cost + $tax;

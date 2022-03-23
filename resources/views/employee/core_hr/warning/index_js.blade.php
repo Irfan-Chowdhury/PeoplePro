@@ -52,7 +52,7 @@
     data: 'status',
     name: 'status',
     render: function(data) {
-    if (data === 'solved') {
+    if (data == 'solved') {
     return "<td><div class = 'badge badge-success'>{{trans('file.Solved')}}</div>"
         } else {
         return "<td><div class = 'badge badge-danger'>{{trans('file.Unsolved')}}</div>"

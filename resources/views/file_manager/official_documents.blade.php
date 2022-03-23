@@ -40,7 +40,7 @@
 
 
     <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -66,7 +66,7 @@
                                 <label>{{__('Document Type')}}</label>
                                 <select name="document_type_id" id="document_type_id" required
                                         class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>__('Document Type')])}}...'>
                                     @foreach($document_types as $document_type)
                                         <option value="{{$document_type->id}}">{{$document_type->document_type}}</option>
@@ -85,7 +85,7 @@
                                 <div class="form-group">
                                     <label>{{trans('file.Company')}}</label>
                                     <select name="company_id" id="company_id" class="form-control selectpicker"
-                                            data-live-search="true" data-live-search-style="begins" required
+                                            data-live-search="true" data-live-search-style="contains" required
                                             title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                         @foreach($companies as $company)
                                             <option value="{{$company->id}}">{{$company->company_name}}</option>
@@ -103,7 +103,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Notification')}}</label>
                                 <select name="is_notify" id="is_notify" required class="form-control selectpicker"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{trans('file.Notification')}}'>
                                     <option value="0">{{__('No Alarm')}}</option>
                                     <option value="7">{{__('One Week')}}</option>
@@ -146,7 +146,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -167,9 +167,9 @@
 
 
     <script type="text/javascript">
-        (function($) { 
-            "use strict"; 
-        
+        (function($) {
+            "use strict";
+
             $(document).ready(function () {
 
                 let date = $('.date');
@@ -195,7 +195,7 @@
 
                     columns: [
                         {
-                            data: null,
+                            data: 'id',
                             orderable: false,
                             searchable: false
                         },
@@ -251,7 +251,7 @@
                         },
                         {
                             'render': function (data, type, row, meta) {
-                                if (type === 'display') {
+                                if (type == 'display') {
                                     data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                 }
 
@@ -315,7 +315,7 @@
 
             $('#sample_form').on('submit', function (event) {
                 event.preventDefault();
-                if ($('#action').val() === '{{trans('file.Add')}}') {
+                if ($('#action').val() == '{{trans('file.Add')}}') {
 
                     $.ajax({
                         url: "{{ route('official_documents.store') }}",
@@ -345,7 +345,7 @@
                     })
                 }
 
-                if ($('#action').val() === '{{trans('file.Edit')}}') {
+                if ($('#action').val() == '{{trans('file.Edit')}}') {
                     $.ajax({
                         url: "{{ route('official_documents.update') }}",
                         method: "POST",
@@ -493,7 +493,7 @@
                 })
             });
 
-        })(jQuery); 
+        })(jQuery);
     </script>
 
 @endsection

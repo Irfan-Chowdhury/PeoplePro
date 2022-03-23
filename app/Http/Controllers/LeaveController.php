@@ -22,19 +22,20 @@ class LeaveController extends Controller {
 
 	public function index()
 	{
-
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$leave_types = LeaveType::select('id', 'leave_type', 'allocated_day')->get();
+        $leave = leave::with('employee', 'department', 'LeaveType')->get();
+
 
 		if ($logged_user->can('view-leave'))
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(leave::with('employee', 'department', 'LeaveType')->latest())
-					->setRowId(function ($leave)
+				return datatables()->of($leave)
+					->setRowId(function ($row)
 					{
-						return $leave->id;
+						return $row->id;
 					})
 					->addColumn('leave_type', function ($row)
 					{
@@ -79,9 +80,7 @@ class LeaveController extends Controller {
 		{
 			//return response()->json($request->diff_date_hidden);
 
-			$validator = Validator::make($request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date', 'diff_date_hidden',
-				'leave_reason', 'remarks', 'status', 'is_half', 'is_notify'
-			),
+			$validator = Validator::make($request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date','status'),
 				[
 					'company_id' => 'required',
 					'department_id' => 'required',
@@ -147,7 +146,7 @@ class LeaveController extends Controller {
 
 			//Employee Remaining Leave --- Start
 			$employee_leave_info = Employee::find($request->employee_id);
-			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave) 
+			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave)
 			{
 				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
 			}
@@ -219,7 +218,7 @@ class LeaveController extends Controller {
 			$departments = department::select('id', 'department_name')
 				->where('company_id', $data->company_id)->get();
 
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->where('is_active',1)->where('exit_date',NULL)->get();
 
 			return response()->json(['data' => $data, 'employees' => $employees, 'departments' => $departments]);
 		}
@@ -304,13 +303,13 @@ class LeaveController extends Controller {
 					$total = 0;
 					$employee_leaves = $employee->get();
 
-					
+
 					foreach ($employee_leaves as $employee_leave)
 					{
 						$total = $total + $employee_leave->total_days;
 					}
 					$total = $total + $request->diff_date_hidden;
-					
+
 					// $total_days_count = $employee_leaves->sum('total_days');
 					// $total = $total + $request->diff_date_hidden;
 
@@ -319,7 +318,7 @@ class LeaveController extends Controller {
 					{
 						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
 					}
-				} 
+				}
 				else
 				{
 					if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
@@ -364,7 +363,7 @@ class LeaveController extends Controller {
 
 			//Employee Remaining Leave --- Start
 			$employee_leave_info = Employee::find($employee_id);
-			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave) 
+			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave)
 			{
 				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
 			}

@@ -17,7 +17,7 @@
                     <tr>
                         <th>{{__('Month-Year')}}</th>
                         <th>{{__('Payslip Type')}}</th>
-                        @if(config('variable.currency_format')==='suffix')
+                        @if(config('variable.currency_format')=='suffix')
                             <th>{{__('Basic Salary')}} ({{config('variable.currency')}})</th>
                         @else
                             <th>({{config('variable.currency')}}) {{__('Basic Salary')}}</th>
@@ -30,7 +30,7 @@
     </div>
 
     <div id="basicSalaryformModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -48,7 +48,7 @@
 
                         <div class="row">
                             <div class="col-md-6 form-group">
-                                <label>{{__('Month Year')}}</label>
+                                <label>{{__('Month Year')}} *</label>
                                 <input class="form-control month_year"  name="month_year" type="text" id="month_year">
                             </div>
 
@@ -60,10 +60,10 @@
                                 </select>
                             </div>
                             <div class="col-md-6 form-group">
-                                @if(config('variable.currency_format')==='suffix')
-                                    <label>{{__('Basic Salary')}} ({{config('variable.currency')}})</label>
+                                @if(config('variable.currency_format')=='suffix')
+                                    <label>{{__('Basic Salary')}} ({{config('variable.currency')}}) *</label>
                                 @else
-                                    <label>({{config('variable.currency')}}) {{__('Basic Salary')}}</label>
+                                    <label>({{config('variable.currency')}}) {{__('Basic Salary')}} *</label>
                                 @endif
 
                                 <input type="text" name="basic_salary" id="basic_salary_edit" placeholder="{{__('0.00')}}"  class="form-control">
@@ -90,7 +90,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>

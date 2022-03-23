@@ -48,13 +48,18 @@
 
     </section>
 
+
+@endsection
+
+
+@push('scripts')
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             let travelLoad = 0;
             $(document).ready(function() {
-                if (travelLoad === 0) {
+                if (travelLoad == 0) {
                     @include('settings.variables_method.JS_DT.travel_method_js')
                         travelLoad = 1;
                 }
@@ -81,8 +86,4 @@
             });
         })(jQuery);
     </script>
-
-
-
-
-@endsection
+@endpush

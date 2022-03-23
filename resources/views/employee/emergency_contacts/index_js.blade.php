@@ -96,7 +96,7 @@
 
     $('#contact_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#contact_action').val() === '{{trans('file.Add')}}') {
+        if ($('#contact_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('contacts.store',$employee->id) }}",
@@ -127,7 +127,7 @@
             });
         }
 
-        if ($('#contact_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#contact_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('contacts.update') }}",
                 method: "POST",
@@ -192,12 +192,12 @@
                 $('#contact_city').val(html.data.city);
                 $('#contact_state').val(html.data.state);
                 $('#contact_zip').val(html.data.zip);
-                if (html.data.is_primary === 1) {
+                if (html.data.is_primary == 1) {
                     $('#contact_is_primary').prop('checked', true);
                 } else {
                     $('#contact_is_primary').prop('checked', false);
                 }
-                if (html.data.is_dependent === 1) {
+                if (html.data.is_dependent == 1) {
                     $('#contact_is_dependent').prop('checked', true);
                 } else {
                     $('#contact_is_dependent').prop('checked', false);

@@ -1,4 +1,4 @@
-@if(auth()->user()->can('store-details-employee') || auth()->user()->id === $employee->id)
+@if(auth()->user()->can('store-details-employee') || auth()->user()->id == $employee->id)
 
     <div class="modal-body">
         <span id="social_form_result"></span>

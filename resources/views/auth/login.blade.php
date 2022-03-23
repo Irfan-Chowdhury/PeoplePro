@@ -9,14 +9,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
     <!-- Bootstrap CSS-->
-    <link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
+    <link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css">
     <!-- Google fonts - Roboto -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
     <!-- theme stylesheet-->
-    <link rel="stylesheet" href="<?php echo asset('public/css/style.default.css') ?>" id="theme-stylesheet"
+    <link rel="stylesheet" href="<?php echo asset('css/style.default.css') ?>" id="theme-stylesheet"
           type="text/css">
     <!-- Custom stylesheet - for your changes-->
-    <link rel="stylesheet" href="<?php echo asset('public/css/custom-' . $general_setting->theme) ?>" type="text/css">
+    <link rel="stylesheet" href="<?php echo asset('css/custom-' . $general_setting->theme) ?>" type="text/css">
     <!-- Favicon-->
     <link rel="shortcut icon" href="img/favicon.ico">
 </head>
@@ -72,9 +72,9 @@
                     </div>
                 </form>
                 <!-- This three buttons for demo only-->
-                <button type="submit" class="btn btn-success btn-sm default admin-btn">LogIn as Admin</button>
+                <!-- <button type="submit" class="btn btn-success btn-sm default admin-btn">LogIn as Admin</button>
                 <button type="submit" class="btn btn-info btn-sm default staff-btn">LogIn as Staff</button>
-                <button type="submit" class="btn btn-warning btn-sm default client-btn">LogIn as Client</button>
+                <button type="submit" class="btn btn-warning btn-sm default client-btn">LogIn as Client</button>-->
                 <br><br>
                 @if (Route::has('password.request'))
                     <a class="forgot-pass" href="{{ route('password.request') }}">
@@ -82,13 +82,16 @@
                     </a>
                 @endif
             </div>
+            @php
+                $general_settings = \App\GeneralSetting::latest()->first();
+            @endphp
             <div class="copyrights text-center">
-                <p>{{ __('Developed by')}} <a href="https://lion-coders.com" class="external">{{ __('LionCoders')}}</a></p>
+                <p>{{ __('Developed by')}} <a href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a></p>
             </div>
         </div>
     </div>
 </div>
-<script type="text/javascript" src="<?php echo asset('public/vendor/jquery/jquery.min.js') ?>"></script>
+<script type="text/javascript" src="<?php echo asset('vendor/jquery/jquery.min.js') ?>"></script>
 </body>
 </html>
 

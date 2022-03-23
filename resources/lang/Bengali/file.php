@@ -1,11 +1,11 @@
 <?php
 
 return array (
-	'About' => 'About',
-	'Absent' => 'Absent',
-	'Account' => 'Account',
-	'Accounts' => 'Accounts',
-	'Active' => 'Active',
+  'About' => 'সম্পর্ক',
+  'Absent' => 'Absent',
+  'Account' => 'Account',
+  'Accounts' => 'Accounts',
+  'Active' => 'Active',
   'Add' => 'যোগ করুন',
   'Address' => 'ঠিকানা',
   'Admin' => 'অ্যাডমিন',
@@ -58,11 +58,11 @@ return array (
   'Debit' => 'ডেবিট',
   'Deductions' => 'Deductions',
   'Deferred' => 'বিলম্বিত',
-  'Deleting' => 
+  'Deleting' =>
   array (
-    '' => 
+    '' =>
     array (
-      '' => 
+      '' =>
       array (
         '' => 'মোছা হচ্ছে ...',
       ),
@@ -127,6 +127,7 @@ return array (
   'Internship' => 'ইন্টার্নশীপ',
   'Interviewers' => 'সাক্ষাতকারীরা',
   'Invoice' => 'চালান',
+  'Irfan' => 'ইরফান',
   'Item' => 'আইটেম',
   'Job' => 'ইয়োব',
   'Jobs' => 'চাকরি',
@@ -295,4 +296,9 @@ return array (
   'submit' => 'জমা দিন',
   'unpublished' => 'অপ্রকাশিত',
   'update' => 'হালনাগাদ',
+  
+  'Payslip Type' => 'পে স্লিপ টাইপ',
+  'Monthly'=>'মাসিক',
+  'Hourly'=>'ঘন্টা',
+  'Others'=>'অন্যান্য',
 );

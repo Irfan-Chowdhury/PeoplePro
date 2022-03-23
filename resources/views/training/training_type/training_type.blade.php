@@ -5,7 +5,7 @@
         <div class="container-fluid">
             <div class="card">
                 <div class="card-header"><h3 class="card-title">{{__('Add Training Type')}}</h3></div>
-                <div class="card-body">   
+                <div class="card-body">
                     <form method="post" id="training_type_form" class="form-horizontal" >
                         @csrf
                         <div class="input-group">
@@ -33,7 +33,7 @@
 
 
         <div id="TrainingEditModal" class="modal fade" role="dialog">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
 
                     <div class="modal-header">
@@ -65,13 +65,17 @@
 
     </section>
 
-    <script type="text/javascript">
-        (function($) {
-            "use strict";
-            $(document).ready(function() {
-                @include('training.training_type.training_type_js')
-            });
-        })(jQuery);
-    </script>
+
 
  @endsection
+
+@push('scripts')
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        $(document).ready(function() {
+            @include('training.training_type.training_type_js')
+        });
+    })(jQuery);
+</script>
+@endpush

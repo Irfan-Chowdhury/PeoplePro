@@ -45,7 +45,7 @@
                 data: 'commission_amount',
                 name: 'commission_amount',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     }else {
                         return '{{config('variable.currency')}} ' + data;
@@ -94,7 +94,7 @@
 
     $('#commission_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#commission_action').val() === '{{trans('file.Add')}}') {
+        if ($('#commission_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_commission.store',$employee) }}",
@@ -125,7 +125,7 @@
             });
         }
 
-        if ($('#commission_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#commission_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_commission.update') }}",
                 method: "POST",

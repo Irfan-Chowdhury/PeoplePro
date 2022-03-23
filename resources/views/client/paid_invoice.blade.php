@@ -96,7 +96,7 @@
                             data: 'status',
                             name: 'status',
                             render: function (data, type, row) {
-                                if (data === 1) {
+                                if (data == 1) {
                                     return "<td><div class = 'badge badge-success'>{{trans('file.Paid')}}</div></td>";
                                 }
                                 else {
@@ -130,7 +130,7 @@
                         },
                         {
                             'render': function (data, type, row, meta) {
-                                if (type === 'display') {
+                                if (type == 'display') {
                                     data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                                 }
 

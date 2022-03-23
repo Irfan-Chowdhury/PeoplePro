@@ -7,7 +7,7 @@
 
                 <div class="input-group">
                     <select name="company_id" id="company_id" class="form-control selectpicker"
-                            data-live-search="true" data-live-search-style="begins"
+                            data-live-search="true" data-live-search-style="contains"
                             title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                         @php
                         $companies = App\company::select('id', 'company_name')->get();
@@ -39,7 +39,7 @@
 </div>
 
 <div id="ExpenseEditModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -59,7 +59,7 @@
                         <div class="form-group">
                             <label>{{trans('file.Company')}}</label>
                             <select name="company_id_edit" id="company_id_edit" class="form-control selectpicker"
-                                    data-live-search="true" data-live-search-style="begins"
+                                    data-live-search="true" data-live-search-style="contains"
                                     title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                 @php
                                     $companies = App\company::select('id', 'company_name')->get();

@@ -16,7 +16,7 @@
                placeholder="{{__('Tax Name')}}">
     </div>
     <div class="col-md-4 form-group">
-        @if(config('variable.currency_format')==='suffix')
+        @if(config('variable.currency_format')=='suffix')
             <label>{{__('Tax Rate')}} ({{config('variable.currency')}}) *</strong>
             </label>
         @else
@@ -36,7 +36,7 @@
     <div class="col-md-6 form-group">
         <label>{{__('Tax Type')}}</label>
         <select name="type" id="type" class="form-control selectpicker "
-                data-live-search="true" data-live-search-style="begins"
+                data-live-search="true" data-live-search-style="contains"
                 title='{{__('Tax Type')}}'>
             <option value="fixed">{{trans('file.Fixed')}}</option>
             <option value="percentage">{{trans('file.Percentage')}}</option>
@@ -70,7 +70,7 @@
 
 
 <div id="TaxEditModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -91,7 +91,7 @@
                                placeholder="{{__('Tax Name')}}">
                     </div>
                     <div class="col-md-4 form-group">
-                        @if(config('variable.currency_format')==='suffix')
+                        @if(config('variable.currency_format')=='suffix')
                             <label>{{__('Tax Rate')}} ({{config('variable.currency')}}) *</strong>
                             </label>
                         @else
@@ -110,7 +110,7 @@
                     <div class="col-md-6 form-group">
                         <label>{{__('Tax Type')}}</label>
                         <select name="type_edit" id="type_edit" class="form-control selectpicker "
-                                data-live-search="true" data-live-search-style="begins"
+                                data-live-search="true" data-live-search-style="contains"
                                 title='{{__('Tax Type')}}'>
                             <option value="fixed">{{trans('file.Fixed')}}</option>
                             <option value="percentage">{{trans('file.Percentage')}}</option>
@@ -134,13 +134,17 @@
 
     </section>
 
-    <script type="text/javascript">
-        (function($) {
-            "use strict";
-            $(document).ready(function() {
-                @include('projects.tax_type.tax_type_js')
-            });
-        })(jQuery);
-    </script>
+
 
  @endsection
+
+@push('scripts')
+ <script type="text/javascript">
+    (function($) {
+        "use strict";
+        $(document).ready(function() {
+            @include('projects.tax_type.tax_type_js')
+        });
+    })(jQuery);
+</script>
+@endpush

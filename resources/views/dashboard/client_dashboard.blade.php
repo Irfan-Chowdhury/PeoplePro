@@ -11,7 +11,7 @@
             <div class="row">
 
                 <div class="col-3 col-md-2 mb-3">
-                    <img src={{ URL::to('/public/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
+                    <img src={{ URL::to('/uploads/profile_photos')}}/{{$user->profile_photo ?? 'avatar.jpg'}}  width='150'
                          class='rounded-circle'>
                 </div>
 

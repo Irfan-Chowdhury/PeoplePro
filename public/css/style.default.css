@@ -77,7 +77,7 @@ i[class*='icon-'] {
 table {
     font-size: 13px;
     color: #666;
-    width: 100% !important;
+    width: 100%;
 }
 
 table th,

@@ -99,7 +99,7 @@
 
     $('#qualification_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#qualification_action').val() === '{{trans('file.Add')}}') {
+        if ($('#qualification_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('qualifications.store',$employee->id) }}",
@@ -131,7 +131,7 @@
             });
         }
 
-        if ($('#qualification_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#qualification_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('qualifications.update') }}",
                 method: "POST",

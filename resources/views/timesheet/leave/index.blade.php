@@ -38,7 +38,7 @@
 
 
     <div id="formModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
 
                 <div class="modal-header">
@@ -54,8 +54,8 @@
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Leave Type')}}</label>
-                                <select name="leave_type" id="leave_type" class="form-control selectpicker " data-live-search="true" data-live-search-style="begins" title='{{__('Leave Type')}}'>
+                                <label>{{__('Leave Type')}} *</label>
+                                <select name="leave_type" id="leave_type" class="form-control selectpicker " data-live-search="true" data-live-search-style="contains" title='{{__('Leave Type')}}'>
                                     @foreach($leave_types as $leave_type)
                                         <option value="{{$leave_type->id}}">{{$leave_type->leave_type}}
                                             ({{$leave_type->allocated_day}} Days)
@@ -66,9 +66,9 @@
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Company')}}</label>
+                                <label>{{trans('file.Company')}} *</label>
                                 <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-dependent="department_name"
                                         title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
                                     @foreach($companies as $company)
@@ -80,10 +80,10 @@
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Department')}}</label>
+                                <label>{{trans('file.Department')}} *</label>
                                 <select name="department_id" id="department_id"
                                         class="selectpicker form-control employee"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         data-first_name="first_name" data-last_name="last_name"
                                         title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
 
@@ -91,21 +91,26 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Employee')}}</label>
+                                <label>{{trans('file.Employee')}} *</label>
                                 <select name="employee_id" id="employee_id" class="selectpicker form-control"
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
                                 </select>
                             </div>
 
-                            <div class="col-md-6 form-group">
-                                <label>{{__('Start Date')}}</label>
+                            <div class="col-md-4 form-group">
+                                <label>{{__('Start Date')}} *</label>
                                 <input type="text" name="start_date" id="start_date" class="form-control date" value="">
                             </div>
 
-                            <div class="col-md-6 form-group">
-                                <label>{{__('End Date')}}</label>
-                                <input type="text" name="end_date" id="end_date" class="form-control date" value="">
+                            <div class="col-md-4 form-group">
+                                <label>{{__('End Date')}} *</label>
+                                <input type="text" name="end_date" id="end_date" class="form-control test date" value="">
+                            </div>
+
+                            <div class="col-md-4 form-group">
+                                <label>{{__('Total Days')}}</label>
+                                <input type="text" readonly id="total_days" class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
@@ -123,7 +128,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Status')}}</label>
                                 <select name="status" id="status" class="form-control selectpicker "
-                                        data-live-search="true" data-live-search-style="begins"
+                                        data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                     <option value="pending">{{trans('file.Pending')}}</option>
                                     <option value="first level approval">{{__('First Level Approval')}}</option>
@@ -174,7 +179,7 @@
 
 
     <div class="modal fade" id="leave_model" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="myModalLabel">{{__('Leave Info')}}</h4>
@@ -275,7 +280,7 @@
 
 
     <div id="confirmModal" class="modal fade" role="dialog">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
@@ -294,526 +299,526 @@
         </div>
     </div>
 
-    <script type="text/javascript">
 
-        (function($) {
-            "use strict";
-
-            let global_start_date;
-            let global_end_date;
-            let global_diff;
-
-            $(document).ready(function () {
-
-                let date = $('.date');
-                date.datepicker({
-                    format: '{{ env('Date_Format_JS')}}',
-                    autoclose: true,
-                    todayHighlight: true
-                });
-
-
-                let table_table = $('#leave-table').DataTable({
-                    initComplete: function () {
-                        this.api().columns([1]).every(function () {
-                            var column = this;
-                            var select = $('<select><option value=""></option></select>')
-                                .appendTo($(column.footer()).empty())
-                                .on('change', function () {
-                                    var val = $.fn.dataTable.util.escapeRegex(
-                                        $(this).val()
-                                    );
-
-                                    column
-                                        .search(val ? '^' + val + '$' : '', true, false)
-                                        .draw();
-                                });
-
-                            column.data().unique().sort().each(function (d, j) {
-                                select.append('<option value="' + d + '">' + d + '</option>');
-                                $('select').selectpicker('refresh');
-                            });
-                        });
-                    },
-                    responsive: true,
-                    fixedHeader: {
-                        header: true,
-                        footer: true
-                    },
-                    processing: true,
-                    serverSide: true,
-                    ajax: {
-                        url: "{{ route('leaves.index') }}",
-                    },
-
-                    columns: [
-                        {
-                            data: null,
-                            orderable: false,
-                            searchable: false
-                        },
-                        {
-                            data: null,
-                            render: function (data) {
-                                return data.leave_type + "<br><td><div class = 'badge badge-success'> (" + data.status + ")</div></td><br>";
-
-                            }
-
-                        },
-                        {
-                            data: 'employee',
-                            name: 'employee',
-                        },
-                        {
-                            data: 'department',
-                            name: 'department',
-
-                        },
-
-                        {
-                            data: null,
-                            render: function (data) {
-
-                                return data.start_date + ' {{trans('file.To')}} ' + data.end_date
-                                    + "<br>" + ' {{trans('file.Total')}} ' + data.total_days + ' {{trans('file.Days')}} ';
-
-
-                            }
-
-                        },
-                        {
-                            data: 'created_at',
-                            name: 'created_at',
-                        },
-                        {
-                            data: 'action',
-                            name: 'action',
-                            orderable: false
-                        }
-                    ],
-
-
-                    "order": [],
-                    'language': {
-                        'lengthMenu': '_MENU_ {{__("records per page")}}',
-                        "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                        "search": '{{trans("file.Search")}}',
-                        'paginate': {
-                            'previous': '{{trans("file.Previous")}}',
-                            'next': '{{trans("file.Next")}}'
-                        }
-                    },
-                    'columnDefs': [
-                        {
-                            "orderable": false,
-                            'targets': [0, 6],
-                        },
-                        {
-                            'render': function (data, type, row, meta) {
-                                if (type === 'display') {
-                                    data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
-                                }
-
-                                return data;
-                            },
-                            'checkboxes': {
-                                'selectRow': true,
-                                'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
-                            },
-                            'targets': [0]
-                        }
-                    ],
-
-
-                    'select': {style: 'multi', selector: 'td:first-child'},
-                    'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                    dom: '<"row"lfB>rtip',
-                    buttons: [
-                        {
-                            extend: 'pdf',
-                            text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
-                            exportOptions: {
-                                columns: ':visible:Not(.not-exported)',
-                                rows: ':visible'
-                            },
-                        },
-                        {
-                            extend: 'csv',
-                            text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
-                            exportOptions: {
-                                columns: ':visible:Not(.not-exported)',
-                                rows: ':visible'
-                            },
-                        },
-                        {
-                            extend: 'print',
-                            text: '<i title="print" class="fa fa-print"></i>',
-                            exportOptions: {
-                                columns: ':visible:Not(.not-exported)',
-                                rows: ':visible'
-                            },
-                        },
-                        {
-                            extend: 'colvis',
-                            text: '<i title="column visibility" class="fa fa-eye"></i>',
-                            columns: ':gt(0)'
-                        },
-                    ],
-                });
-                new $.fn.dataTable.FixedHeader(table_table);
-            });
-
-
-            $('#create_record').on('click', function () {
-
-                $('.modal-title').text('{{__('Add Leave')}}');
-                $('#action_button').val('{{trans("file.Add")}}');
-                $('#action').val('{{trans("file.Add")}}');
-                $('#formModal').modal('show');
-            });
-
-            $('#sample_form').on('submit', function (event) {
-                event.preventDefault();
-                if ($('#action').val() === '{{trans('file.Add')}}') {
-
-                    let start_date = $("#start_date").datepicker('getDate');
-                    let end_date = $("#end_date").datepicker('getDate');
-                    let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
-
-                    $('#diff_date_hidden').val(dayDiff);
-
-                    //console.log(dayDiff);
-
-
-                    $.ajax({
-                        url: "{{ route('leaves.store') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            let html = '';
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">';
-                                for (let count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if (data.limit) {
-                                html = '<div class="alert alert-danger">' + data.limit + '</div>';
-                            }
-                            if (data.remaining_leave) {
-                                html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#sample_form')[0].reset();
-                                $('select').selectpicker('refresh');
-                                $('.date').datepicker('update');
-                                $('#leave-table').DataTable().ajax.reload();
-                            }
-                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    })
-                }
-
-                if ($('#action').val() === '{{trans('file.Edit')}}') {
-
-                    
-                    // let start_date_edit = $("#start_date").datepicker('getDate');
-                    // let end_date_edit = $("#end_date").datepicker('getDate');
-
-                    let start_date_edit = new Date($("#start_date").val()); 
-                    let end_date_edit = new Date($("#end_date").val());
-                    let timeDiff_edit;
-                    let dayDiff_edit;
-
-                    if (start_date_edit != null && end_date_edit != null) {
-                        // dayDiff_edit = Math.ceil((end_date_edit - start_date_edit) / (1000 * 60 * 60 * 24)) + 1;
-                        timeDiff_edit = end_date_edit.getTime() - start_date_edit.getTime();
-                        dayDiff_edit  = timeDiff_edit / (1000 * 3600 * 24) + 1 ;
-
-                    } else if (start_date_edit == null && end_date_edit == null) {
-                        dayDiff_edit = null;
-                    } else {
-                        dayDiff_edit = 'dummy';
-                    }
-
-                    $('#diff_date_hidden').val(dayDiff_edit);
-                    //console.log(dayDiff_edit);
-
-                    $.ajax({
-                        url: "{{ route('leaves.update') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-                            let html = '';
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">';
-                                for (let count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if (data.limit) {
-                                html = '<div class="alert alert-danger">' + data.limit + '</div>';
-                            }
-                            if (data.remaining_leave) {
-                                html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                setTimeout(function () {
-                                    $('#formModal').modal('hide');
-                                    $('.date').datepicker('update');
-                                    $('select').selectpicker('refresh');
-                                    $('#leave-table').DataTable().ajax.reload();
-                                    $('#sample_form')[0].reset();
-                                }, 2000);
-
-                            }
-                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    });
-                }
-            });
-
-            $(document).on('click', '.show_new', function () {
-
-                let id = $(this).attr('id');
-                $('#form_result').html('');
-
-                let target = '{{route('leaves.index')}}/' + id;
-
-                $.ajax({
-                    url: target,
-                    dataType: "json",
-                    success: function (result) {
-
-                        $('#leave_type_id').html(result.leave_type_name);
-                        $('#company_id_show').html(result.company_name);
-                        $('#employee_id_show').html(result.employee_name);
-                        $('#department_id_show').html(result.department);
-                        $('#start_date_id').html(result.start_date_name);
-                        $('#end_date_id').html(result.end_date_name);
-                        $('#applied_date_id').html(result.data.created_at);
-                        $('#total_days_id').html(result.data.total_days);
-                        $('#status_id').html(result.data.status);
-                        $('#leave_reason_id').html(result.data.leave_reason);
-                        $('#remarks_id').html(result.data.remarks);
-
-                        if (result.data.is_half === 1)
-                            $('#is_half_id').html('Yes');
-                        else {
-                            $('#is_half_id').html('No');
-                        }
-                        if (result.data.is_notify === 1)
-                            $('#is_notify_id').html('On');
-                        else {
-                            $('#is_notify_id').html('Off');
-                        }
-
-
-                        $('#leave_model').modal('show');
-                        $('.modal-title').text("{{__('Leave Info')}}");
-                    }
-                });
-            });
-
-
-            $(document).on('click', '.edit', function () {
-
-                let id = $(this).attr('id');
-                $('#form_result').html('');
-
-
-                let target = "{{ route('leaves.index') }}/" + id + '/edit';
-
-
-                $.ajax({
-                    url: target,
-                    dataType: "json",
-                    success: function (html) {
-                        //console.log(html.data.end_date);
-
-                        $('#status').selectpicker('val', html.data.status);
-                        $('#remarks').val(html.data.remarks);
-                        $('#leave_reason').val(html.data.leave_reason);
-                        $('#leave_type').selectpicker('val', html.data.leave_type_id);
-                        $('#company_id').selectpicker('val', html.data.company_id);
-
-                        let all_departments = '';
-                        $.each(html.departments, function (index, value) {
-                            all_departments += '<option value=' + value['id'] + '>' + value['department_name'] + '</option>';
-                        });
-                        $('#department_id').empty().append(all_departments);
-                        $('#department_id').selectpicker('refresh');
-                        $('#department_id').selectpicker('val', html.data.department_id);
-                        $('#department_id').selectpicker('refresh');
-
-                        let all_employees = '';
-                        $.each(html.employees, function (index, value) {
-                            all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';
-                        });
-                        $('#employee_id').empty().append(all_employees);
-                        $('#employee_id').selectpicker('refresh');
-                        $('#employee_id').selectpicker('val', html.data.employee_id);
-                        $('#employee_id').selectpicker('refresh');
-                        $('#start_date').val(html.data.start_date);
-                        $('#end_date').val(html.data.end_date);
-
-                        if (html.data.is_half === 1) {
-                            $('#is_half').prop('checked', true);
-                        } else {
-                            $('#is_half').prop('checked', false);
-                        }
-
-                        if (html.data.is_notify === 1) {
-                            $('#is_notify').prop('checked', true);
-                        } else {
-                            $('#is_notify').prop('checked', false);
-                        }
-
-
-                        $('#hidden_id').val(html.data.id);
-                        $('#employee_id_hidden').val(html.data.employee_id);
-                        $('#leave_type_hidden').val(html.data.leave_type_id);
-                        $('.modal-title').text('{{trans('file.Edit')}}');
-                        $('#action_button').val('{{trans('file.Edit')}}');
-                        $('#action').val('{{trans('file.Edit')}}');
-                        $('#formModal').modal('show');
-                    }
-                })
-            });
-
-
-            let delete_id;
-
-            $(document).on('click', '.delete', function () {
-                delete_id = $(this).attr('id');
-                $('#confirmModal').modal('show');
-                $('.modal-title').text('{{__('DELETE Record')}}');
-                $('#ok_button').text('{{trans('file.OK')}}');
-
-            });
-
-
-            $(document).on('click', '#bulk_delete', function () {
-
-                let id = [];
-                let table = $('#leave-table').DataTable();
-                id = table.rows({selected: true}).ids().toArray();
-                if (id.length > 0) {
-                    if (confirm('{{__('Delete Selection',['key'=>trans('file.Leave')])}}')) {
-                        $.ajax({
-                            url: '{{route('mass_delete_leaves')}}',
-                            method: 'POST',
-                            data: {
-                                leaveIdArray: id
-                            },
-                            success: function (data) {
-                                let html = '';
-                                if (data.success) {
-                                    html = '<div class="alert alert-success">' + data.success + '</div>';
-                                }
-                                if (data.error) {
-                                    html = '<div class="alert alert-danger">' + data.error + '</div>';
-                                }
-                                table.ajax.reload();
-                                table.rows('.selected').deselect();
-                                if (data.errors) {
-                                    html = '<div class="alert alert-danger">' + data.error + '</div>';
-                                }
-                                $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-
-                            }
-
-                        });
-                    }
-                } else {
-                    alert('{{__('Please select atleast one checkbox')}}');
-                }
-            });
-
-
-            $('#close').on('click', function () {
-                $('#sample_form')[0].reset();
-                $('select').selectpicker('refresh');
-                $('.date').datepicker('update');
-                $('#leave-table').DataTable().ajax.reload();
-            });
-
-            $('#ok_button').on('click', function () {
-                let target = "{{ route('leaves.index') }}/" + delete_id + '/delete';
-                $.ajax({
-                    url: target,
-                    beforeSend: function () {
-                        $('#ok_button').text('{{trans('file.Deleting...')}}');
-                    },
-                    success: function (data) {
-                        let html = '';
-                        if (data.success) {
-                            html = '<div class="alert alert-success">' + data.success + '</div>';
-                        }
-                        if (data.error) {
-                            html = '<div class="alert alert-danger">' + data.error + '</div>';
-                        }
-                        setTimeout(function () {
-                            $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                            $('#confirmModal').modal('hide');
-                            $('#leave-table').DataTable().ajax.reload();
-                        }, 2000);
-                    }
-                })
-            });
-
-            $('.dynamic').change(function () {
-                if ($(this).val() !== '') {
-                    let value = $(this).val();
-                    let dependent = $(this).data('dependent');
-                    let _token = $('input[name="_token"]').val();
-                    $.ajax({
-                        url: "{{ route('dynamic_department') }}",
-                        method: "POST",
-                        data: {value: value, _token: _token, dependent: dependent},
-                        success: function (result) {
-                            $('select').selectpicker("destroy");
-                            $('#department_id').html(result);
-                            $('select').selectpicker();
-
-                        }
-                    });
-                }
-            });
-
-            $('.employee').change(function () {
-                if ($(this).val() !== '') {
-                    let value = $(this).val();
-                    let first_name = $(this).data('first_name');
-                    let last_name = $(this).data('last_name');
-                    let _token = $('input[name="_token"]').val();
-                    $.ajax({
-                        url: "{{ route('dynamic_employee_department') }}",
-                        method: "POST",
-                        data: {value: value, _token: _token, first_name: first_name, last_name: last_name},
-                        success: function (result) {
-                            $('select').selectpicker("destroy");
-                            $('#employee_id').html(result);
-                            $('select').selectpicker();
-
-                        }
-                    });
-                }
-            });
-        })(jQuery);
-    </script>
 
 @endsection
+
+@push('scripts')
+<script type="text/javascript">
+
+    (function($) {
+        "use strict";
+
+        let global_start_date;
+        let global_end_date;
+        let global_diff;
+
+        $(document).ready(function () {
+
+            let date = $('.date');
+            date.datepicker({
+                format: '{{ env('Date_Format_JS')}}',
+                autoclose: true,
+                todayHighlight: true,
+            }).on('change', function(){
+                let start_date = $("#start_date").datepicker('getDate');
+                let end_date = $("#end_date").datepicker('getDate');
+                if (start_date!=null && end_date!=null && end_date>=start_date) {
+                let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
+                    $('#total_days').val(dayDiff);
+                }
+                else if(start_date!=null && end_date!=null && end_date<start_date){
+                    $('#total_days').val(0);
+                }
+            });
+
+
+
+            let table_table = $('#leave-table').DataTable({
+                initComplete: function () {
+                    this.api().columns([1]).every(function () {
+                        var column = this;
+                        var select = $('<select><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>');
+                            $('select').selectpicker('refresh');
+                        });
+                    });
+                },
+                responsive: true,
+                fixedHeader: {
+                    header: true,
+                    footer: true
+                },
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ route('leaves.index') }}",
+                },
+
+                columns: [
+                    {
+                        data: 'id',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: null,
+                        render: function (data) {
+                            return data.leave_type + "<br><td><div class = 'badge badge-success'> (" + data.status + ")</div></td><br>";
+                        }
+                    },
+                    {
+                        data: 'employee',
+                        name: 'employee',
+                    },
+                    {
+                        data: 'department',
+                        name: 'department',
+                    },
+                    {
+                        data: null,
+                        render: function (data) {
+
+                            return data.start_date + ' {{trans('file.To')}} ' + data.end_date
+                                + "<br>" + ' {{trans('file.Total')}} ' + data.total_days + ' {{trans('file.Days')}} ';
+                        }
+                    },
+                    {
+                        data: 'created_at',
+                        name: 'created_at',
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false
+                    }
+                ],
+
+
+                "order": [],
+                'language': {
+                    'lengthMenu': '_MENU_ {{__("records per page")}}',
+                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                    "search": '{{trans("file.Search")}}',
+                    'paginate': {
+                        'previous': '{{trans("file.Previous")}}',
+                        'next': '{{trans("file.Next")}}'
+                    }
+                },
+                'columnDefs': [
+                    {
+                        "orderable": false,
+                        // 'targets': [0, 6],
+                        'targets': [0, 5],
+                    },
+                    {
+                        'render': function (data, type, row, meta) {
+                            if (type == 'display') {
+                                data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                            }
+
+                            return data;
+                        },
+                        'checkboxes': {
+                            'selectRow': true,
+                            'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
+                        },
+                        'targets': [0]
+                    }
+                ],
+
+
+                'select': {style: 'multi', selector: 'td:first-child'},
+                'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                dom: '<"row"lfB>rtip',
+                buttons: [
+                    {
+                        extend: 'pdf',
+                        text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'print',
+                        text: '<i title="print" class="fa fa-print"></i>',
+                        exportOptions: {
+                            columns: ':visible:Not(.not-exported)',
+                            rows: ':visible'
+                        },
+                    },
+                    {
+                        extend: 'colvis',
+                        text: '<i title="column visibility" class="fa fa-eye"></i>',
+                        columns: ':gt(0)'
+                    },
+                ],
+            });
+            new $.fn.dataTable.FixedHeader(table_table);
+        });
+
+
+        $('#create_record').on('click', function () {
+
+            $('.modal-title').text('{{__('Add Leave')}}');
+            $('#action_button').val('{{trans("file.Add")}}');
+            $('#action').val('{{trans("file.Add")}}');
+            $('#formModal').modal('show');
+        });
+
+        $('#sample_form').on('submit', function (event) {
+            event.preventDefault();
+            if ($('#action').val() == '{{trans('file.Add')}}') {
+
+                let start_date = $("#start_date").datepicker('getDate');
+                let end_date = $("#end_date").datepicker('getDate');
+                let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
+
+                $('#diff_date_hidden').val(dayDiff);
+
+                //console.log(dayDiff);
+
+
+                $.ajax({
+                    url: "{{ route('leaves.store') }}",
+                    method: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (data) {
+                        let html = '';
+                        if (data.errors) {
+                            html = '<div class="alert alert-danger">';
+                            for (let count = 0; count < data.errors.length; count++) {
+                                html += '<p>' + data.errors[count] + '</p>';
+                            }
+                            html += '</div>';
+                        }
+                        if (data.limit) {
+                            html = '<div class="alert alert-danger">' + data.limit + '</div>';
+                        }
+                        if (data.remaining_leave) {
+                            html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                        }
+                        if (data.success) {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                            $('#sample_form')[0].reset();
+                            $('select').selectpicker('refresh');
+                            $('.date').datepicker('update');
+                            $('#leave-table').DataTable().ajax.reload();
+                        }
+                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                    }
+                })
+            }
+
+            if ($('#action').val() == '{{trans('file.Edit')}}') {
+
+                // let start_date_edit = new Date($("#start_date").val());
+                // let end_date_edit = new Date($("#end_date").val());
+                // let timeDiff_edit;
+                // let dayDiff_edit;
+                // if (start_date_edit != null && end_date_edit != null) {
+                //     // dayDiff_edit = Math.ceil((end_date_edit - start_date_edit) / (1000 * 60 * 60 * 24)) + 1;
+                //     timeDiff_edit = end_date_edit.getTime() - start_date_edit.getTime();
+                //     dayDiff_edit  = timeDiff_edit / (1000 * 3600 * 24) + 1 ;
+                // } else if (start_date_edit == null && end_date_edit == null) {
+                //     dayDiff_edit = null;
+                // }
+                // $('#diff_date_hidden').val(dayDiff_edit);
+
+                var totalDays = $('#total_days').val();
+                $('#diff_date_hidden').val(totalDays);
+                console.log(totalDays);
+
+                $.ajax({
+                    url: "{{ route('leaves.update') }}",
+                    method: "POST",
+                    data: new FormData(this),
+                    contentType: false,
+                    cache: false,
+                    processData: false,
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        let html = '';
+                        if (data.errors) {
+                            html = '<div class="alert alert-danger">';
+                            for (let count = 0; count < data.errors.length; count++) {
+                                html += '<p>' + data.errors[count] + '</p>';
+                            }
+                            html += '</div>';
+                        }
+                        if (data.limit) {
+                            html = '<div class="alert alert-danger">' + data.limit + '</div>';
+                        }
+                        if (data.remaining_leave) {
+                            html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                        }
+                        if (data.success) {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                            setTimeout(function () {
+                                $('#formModal').modal('hide');
+                                $('.date').datepicker('update');
+                                $('select').selectpicker('refresh');
+                                $('#leave-table').DataTable().ajax.reload();
+                                $('#sample_form')[0].reset();
+                            }, 2000);
+
+                        }
+                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                    }
+                });
+            }
+        });
+
+        $(document).on('click', '.show_new', function () {
+
+            let id = $(this).attr('id');
+            $('#form_result').html('');
+
+            let target = '{{route('leaves.index')}}/' + id;
+
+            $.ajax({
+                url: target,
+                dataType: "json",
+                success: function (result) {
+
+                    $('#leave_type_id').html(result.leave_type_name);
+                    $('#company_id_show').html(result.company_name);
+                    $('#employee_id_show').html(result.employee_name);
+                    $('#department_id_show').html(result.department);
+                    $('#start_date_id').html(result.start_date_name);
+                    $('#end_date_id').html(result.end_date_name);
+                    $('#applied_date_id').html(result.data.created_at);
+                    $('#total_days_id').html(result.data.total_days);
+                    $('#status_id').html(result.data.status);
+                    $('#leave_reason_id').html(result.data.leave_reason);
+                    $('#remarks_id').html(result.data.remarks);
+
+                    if (result.data.is_half == 1)
+                        $('#is_half_id').html('Yes');
+                    else {
+                        $('#is_half_id').html('No');
+                    }
+                    if (result.data.is_notify == 1)
+                        $('#is_notify_id').html('On');
+                    else {
+                        $('#is_notify_id').html('Off');
+                    }
+
+
+                    $('#leave_model').modal('show');
+                    $('.modal-title').text("{{__('Leave Info')}}");
+                }
+            });
+        });
+
+
+        $(document).on('click', '.edit', function () {
+
+            let id = $(this).attr('id');
+            $('#form_result').html('');
+
+
+            let target = "{{ route('leaves.index') }}/" + id + '/edit';
+
+
+            $.ajax({
+                url: target,
+                dataType: "json",
+                success: function (html) {
+                    //console.log(html.data.end_date);
+
+                    $('#status').selectpicker('val', html.data.status);
+                    $('#remarks').val(html.data.remarks);
+                    $('#leave_reason').val(html.data.leave_reason);
+                    $('#leave_type').selectpicker('val', html.data.leave_type_id);
+                    $('#company_id').selectpicker('val', html.data.company_id);
+
+                    let all_departments = '';
+                    $.each(html.departments, function (index, value) {
+                        all_departments += '<option value=' + value['id'] + '>' + value['department_name'] + '</option>';
+                    });
+                    $('#department_id').empty().append(all_departments);
+                    $('#department_id').selectpicker('refresh');
+                    $('#department_id').selectpicker('val', html.data.department_id);
+                    $('#department_id').selectpicker('refresh');
+
+                    let all_employees = '';
+                    $.each(html.employees, function (index, value) {
+                        all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';
+                    });
+                    $('#employee_id').empty().append(all_employees);
+                    $('#employee_id').selectpicker('refresh');
+                    $('#employee_id').selectpicker('val', html.data.employee_id);
+                    $('#employee_id').selectpicker('refresh');
+                    $('#start_date').val(html.data.start_date);
+                    $('#end_date').val(html.data.end_date);
+                    $('#total_days').val(html.data.total_days);
+
+                    if (html.data.is_half == 1) {
+                        $('#is_half').prop('checked', true);
+                    } else {
+                        $('#is_half').prop('checked', false);
+                    }
+
+                    if (html.data.is_notify == 1) {
+                        $('#is_notify').prop('checked', true);
+                    } else {
+                        $('#is_notify').prop('checked', false);
+                    }
+
+                    $('#hidden_id').val(html.data.id);
+                    $('#employee_id_hidden').val(html.data.employee_id);
+                    $('#leave_type_hidden').val(html.data.leave_type_id);
+                    $('.modal-title').text('{{trans('file.Edit')}}');
+                    $('#action_button').val('{{trans('file.Edit')}}');
+                    $('#action').val('{{trans('file.Edit')}}');
+                    $('#formModal').modal('show');
+                }
+            })
+        });
+
+
+        let delete_id;
+
+        $(document).on('click', '.delete', function () {
+            delete_id = $(this).attr('id');
+            $('#confirmModal').modal('show');
+            $('.modal-title').text('{{__('DELETE Record')}}');
+            $('#ok_button').text('{{trans('file.OK')}}');
+
+        });
+
+
+        $(document).on('click', '#bulk_delete', function () {
+
+            let id = [];
+            let table = $('#leave-table').DataTable();
+            id = table.rows({selected: true}).ids().toArray();
+            if (id.length > 0) {
+                if (confirm('{{__('Delete Selection',['key'=>trans('file.Leave')])}}')) {
+                    $.ajax({
+                        url: '{{route('mass_delete_leaves')}}',
+                        method: 'POST',
+                        data: {
+                            leaveIdArray: id
+                        },
+                        success: function (data) {
+                            let html = '';
+                            if (data.success) {
+                                html = '<div class="alert alert-success">' + data.success + '</div>';
+                            }
+                            if (data.error) {
+                                html = '<div class="alert alert-danger">' + data.error + '</div>';
+                            }
+                            table.ajax.reload();
+                            table.rows('.selected').deselect();
+                            if (data.errors) {
+                                html = '<div class="alert alert-danger">' + data.error + '</div>';
+                            }
+                            $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+
+                        }
+
+                    });
+                }
+            } else {
+                alert('{{__('Please select atleast one checkbox')}}');
+            }
+        });
+
+
+        $('#close').on('click', function () {
+            $('#sample_form')[0].reset();
+            $('select').selectpicker('refresh');
+            $('.date').datepicker('update');
+            $('#leave-table').DataTable().ajax.reload();
+        });
+
+        $('#ok_button').on('click', function () {
+            let target = "{{ route('leaves.index') }}/" + delete_id + '/delete';
+            $.ajax({
+                url: target,
+                beforeSend: function () {
+                    $('#ok_button').text('{{trans('file.Deleting...')}}');
+                },
+                success: function (data) {
+                    let html = '';
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                    }
+                    if (data.error) {
+                        html = '<div class="alert alert-danger">' + data.error + '</div>';
+                    }
+                    setTimeout(function () {
+                        $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                        $('#confirmModal').modal('hide');
+                        $('#leave-table').DataTable().ajax.reload();
+                    }, 2000);
+                }
+            })
+        });
+
+        $('.dynamic').change(function () {
+            if ($(this).val() !== '') {
+                let value = $(this).val();
+                let dependent = $(this).data('dependent');
+                let _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamic_department') }}",
+                    method: "POST",
+                    data: {value: value, _token: _token, dependent: dependent},
+                    success: function (result) {
+                        $('select').selectpicker("destroy");
+                        $('#department_id').html(result);
+                        $('select').selectpicker();
+
+                    }
+                });
+            }
+        });
+
+        $('.employee').change(function () {
+            if ($(this).val() !== '') {
+                let value = $(this).val();
+                let first_name = $(this).data('first_name');
+                let last_name = $(this).data('last_name');
+                let _token = $('input[name="_token"]').val();
+                $.ajax({
+                    url: "{{ route('dynamic_employee_department') }}",
+                    method: "POST",
+                    data: {value: value, _token: _token, first_name: first_name, last_name: last_name},
+                    success: function (result) {
+                        $('select').selectpicker("destroy");
+                        $('#employee_id').html(result);
+                        $('select').selectpicker();
+
+                    }
+                });
+            }
+        });
+    })(jQuery);
+</script>
+@endpush

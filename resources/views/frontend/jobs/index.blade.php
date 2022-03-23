@@ -25,13 +25,13 @@
                                 <h6>{{$job_post->Company->company_name ?? ''}}</h6>
                             </div>
                             <div> 
-                                @if($job_post->job_type === 'full_time')
+                                @if($job_post->job_type == 'full_time')
                                 <span class="badge badge-primary">{{__('Full Time')}}</span>
-                                @elseif($job_post->job_type === 'part_time')
+                                @elseif($job_post->job_type == 'part_time')
                                 <span class="badge badge-primary">{{__('Part Time')}}</span>
-                                @elseif($job_post->job_type === 'internship')
+                                @elseif($job_post->job_type == 'internship')
                                 <span class="badge badge-primary">{{trans('file.Internship')}}</span>
-                                @elseif($job_post->job_type === 'freelance')
+                                @elseif($job_post->job_type == 'freelance')
                                 <span class="badge badge-primary">{{trans('file.Freelance')}}</span>
                                 @endif
                             </div>
@@ -67,13 +67,13 @@
                         @foreach($job_types as $job_type)
                         <a href="{{route('jobs.searchByJobType',$job_type->job_type)}}">
                             <p class="mb-1 text-muted"> 
-                                @if($job_type->job_type === 'full_time')
+                                @if($job_type->job_type == 'full_time')
                                     {{__('Full Time')}}
-                                @elseif($job_type->job_type === 'part_time')
+                                @elseif($job_type->job_type == 'part_time')
                                     {{__('Part Time')}}
-                                @elseif($job_type->job_type === 'internship')
+                                @elseif($job_type->job_type == 'internship')
                                     {{trans('file.Internship')}}
-                                @elseif($job_type->job_type === 'freelance')
+                                @elseif($job_type->job_type == 'freelance')
                                     {{trans('file.Freelance')}}
                                 @endif
                             </p>

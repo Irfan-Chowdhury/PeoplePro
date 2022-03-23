@@ -51,7 +51,7 @@
                 data: 'deduction_amount',
                 name: 'deduction_amount',
                 render: function (data) {
-                    if ('{{config('variable.currency_format') ==='suffix'}}') {
+                    if ('{{config('variable.currency_format') =='suffix'}}') {
                         return data + ' {{config('variable.currency')}}';
                     }
                     else {
@@ -101,7 +101,7 @@
 
     $('#deduction_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#deduction_action').val() === '{{trans('file.Add')}}') {
+        if ($('#deduction_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('salary_deduction.store',$employee) }}",
@@ -132,7 +132,7 @@
             });
         }
 
-        if ($('#deduction_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#deduction_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('salary_deduction.update') }}",
                 method: "POST",

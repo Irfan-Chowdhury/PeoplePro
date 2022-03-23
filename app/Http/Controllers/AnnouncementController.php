@@ -15,11 +15,6 @@ use Illuminate\Support\Facades\Validator;
 
 class AnnouncementController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
 
@@ -78,7 +73,7 @@ class AnnouncementController extends Controller {
 
 		return view('organization.announcement.index', compact('companies'));
 	}
-	
+
 	/**
 	 * Store a newly created resource in storage.
 	 *
@@ -133,12 +128,12 @@ class AnnouncementController extends Controller {
 
 			if ($data['department_id'] == null)
 			{
-				$employee_id = Employee::where('company_id',$data ['company_id'])->pluck('id');
+				$employee_id = Employee::where('company_id',$data ['company_id'])->where('is_active',1)->pluck('id');
 				$notifiable = User::whereIn('id',$employee_id)->get();
 			}
 			else
 			{
-				$employee_id = Employee::where('department_id',$data ['department_id'])->pluck('id');
+				$employee_id = Employee::where('department_id',$data ['department_id'])->where('is_active',1)->pluck('id');
 				$notifiable = User::whereIn('id',$employee_id)->get();
 			}
 
@@ -245,12 +240,12 @@ class AnnouncementController extends Controller {
 
 			if ($data['department_id'] == null)
 			{
-				$employee_id = Employee::where('company_id',$data ['company_id'])->pluck('id');
+				$employee_id = Employee::where('company_id',$data ['company_id'])->where('is_active',1)->pluck('id');
 				$notifiable = User::whereIn('id',$employee_id)->get();
 			}
 			else
 			{
-				$employee_id = Employee::where('department_id',$data ['department_id'])->pluck('id');
+				$employee_id = Employee::where('department_id',$data ['department_id'])->where('is_active',1)->pluck('id');
 				$notifiable = User::whereIn('id',$employee_id)->get();
 			}
 

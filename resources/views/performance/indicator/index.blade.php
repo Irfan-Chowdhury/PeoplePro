@@ -3,14 +3,14 @@
 
 <section>
     <div class="container-fluid"><span id="general_result"></span></div>
-    
+
     <div class="container-fluid mb-3">
-        <h4 class="font-weight-bold mt-3">Performance Indicator</h4>
+        <h4 class="font-weight-bold mt-3">@lang('file.Performance Indicator')</h4>
         <div id="success_alert" role="alert"></div>
         <br>
 
-        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__(' Add New Indicator')}}</button>
-        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__(' Bulk Delete')}}</button>
+        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#createModalForm"><i class="fa fa-plus"></i>{{__('file.Add New Indicator')}}</button>
+        <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i>{{__('file.Bulk Delete')}}</button>
     </div>
 
     <div class="table-responsive">
@@ -21,8 +21,8 @@
                     <th>{{trans('file.Designation')}}</th>
                     <th>{{trans('file.Company')}}</th>
                     <th>{{trans('file.Department')}}</th>
-                    <th>Added By</th>
-                    <th>Created_At</th>
+                    <th>@lang('file.Added By')</th>
+                    <th>@lang('file.Created At')</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
             </thead>
@@ -37,6 +37,12 @@
 
 
 
+
+
+
+@endsection
+
+@push('scripts')
 <script type="text/javascript">
     $(document).ready(function(){
 
@@ -59,9 +65,9 @@
                 {data: 'added_by',    name: 'added_by'},
                 {data: 'created_at',  name: 'created_at'},
                 {
-                    data: 'action', 
-                    name: 'action', 
-                    orderable: true, 
+                    data: 'action',
+                    name: 'action',
+                    orderable: true,
                     searchable: true
                 },
             ],
@@ -79,7 +85,7 @@
                         'selectAllRender': '<div class="checkbox"><input type="checkbox" id="checkbox"><label></label></div>'
                     },
                     'render': function (data, type, row, meta) {
-                        if (type === 'display') {
+                        if (type == 'display') {
                             data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
                         }
 
@@ -143,8 +149,8 @@
             var companyId = $(this).val();
             if (companyId){
                 $.get("{{route('performance.indicator.get-designation-by-company')}}",{company_id:companyId}, function (data) {
-                    // $('#designationId').empty().html(data); 
-                    
+                    // $('#designationId').empty().html(data);
+
                     let all_designations = '';
                     $.each(data.designations, function (index, value) {
                         all_designations += '<option value=' + value['id'] + '>' + value['designation_name'] + '</option>';
@@ -162,7 +168,7 @@
         $("#save-button").on("click",function(e){
             e.preventDefault();
             var companyId = $("#companyId").val();
-            
+
             $.ajax({
                 url: "{{route('performance.indicator.store')}}",
                 type: "POST",
@@ -204,7 +210,7 @@
                     console.log(data)
                     $('#indicatorHiddenIdEdit').val(data.indicator.id);
                     $('#companyIdEdit').selectpicker('val', data.indicator.company_id);
-                    
+
                     let all_designations = '';
                     $.each(data.designations, function (index, value) {
                         all_designations += '<option value=' + value['id'] + '>' + value['designation_name'] + '</option>';
@@ -237,7 +243,7 @@
                 data: $('#updatetForm').serialize(),
                 success: function(data){
                     console.log(data);
-                    
+
                     // if (data.errors) {
                     //     $(".goal_type_edit").addClass('is-invalid');
                     //     $("#error_edit_message").html(data.errors) //Check in edit modal
@@ -253,7 +259,7 @@
                         setTimeout(function() {
                             $('#success_alert').fadeOut("slow");
                         }, 3000);
-                    } 
+                    }
                 }
             });
         });
@@ -282,7 +288,7 @@
                             setTimeout(function() {
                                 $('#success_alert').fadeOut("slow");
                             }, 3000);
-                        }                        
+                        }
                     }
                 });
 
@@ -291,7 +297,7 @@
         });
 
 
-        // 
+        //
 
 
         // Multiple Data Delete using checkbox
@@ -301,7 +307,7 @@
             allCheckboxId = table.rows({selected: true}).ids().toArray();
             console.log(allCheckboxId);
 
-            if(allCheckboxId.length === 0){
+            if(allCheckboxId.length == 0){
                 alert("Please Select at least one checkbox.");
             }
             else{
@@ -330,11 +336,9 @@
             }
         });
 
-        
+
 
     });
 </script>
 
-
-
-@endsection
+@endpush

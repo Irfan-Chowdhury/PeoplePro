@@ -40,7 +40,7 @@
                         <b>{{trans('file.Date')}}: </b>{{$invoice->invoice_date}} <br>
                         <b>{{__('Payment Due')}}: </b> {{$invoice->invoice_due_date}}<br/>
                         <span class="label label-danger">
-                        @if($invoice->status === 1)
+                        @if($invoice->status == 1)
                                 {{trans('file.Paid')}}
 
                             @else
@@ -126,22 +126,26 @@
         </div>
     </div>
 
-    <script>
-        (function($) { 
-            "use strict"; 
-            $("#print-btn").on("click", function () {
-                var divToPrint = document.getElementById('invoice_details');
-                var newWin = window.open('', 'Print-Window');
-                newWin.document.open();
-                newWin.document.write('<link rel="stylesheet" href="<?php echo asset('public/vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css"><style type="text/css">@media print {.invoice_details { max-width:100%;} }</style><body onload="window.print()">' + divToPrint.innerHTML + '</body>');
-                newWin.document.close();
-                setTimeout(function () {
-                    newWin.close();
-                }, 10);
-            });
 
- 
-        })(jQuery);
-    </script>
 
 @endsection
+
+@push('scripts')
+<script>
+    (function($) {
+        "use strict";
+        $("#print-btn").on("click", function () {
+            var divToPrint = document.getElementById('invoice_details');
+            var newWin = window.open('', 'Print-Window');
+            newWin.document.open();
+            newWin.document.write('<link rel="stylesheet" href="<?php echo asset('vendor/bootstrap/css/bootstrap.min.css') ?>" type="text/css"><style type="text/css">@media print {.invoice_details { max-width:100%;} }</style><body onload="window.print()">' + divToPrint.innerHTML + '</body>');
+            newWin.document.close();
+            setTimeout(function () {
+                newWin.close();
+            }, 10);
+        });
+
+
+    })(jQuery);
+</script>
+@endpush

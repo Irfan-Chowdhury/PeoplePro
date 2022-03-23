@@ -98,7 +98,7 @@
 
     $('#document_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#document_action').val() === '{{trans('file.Add')}}') {
+        if ($('#document_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('documents.store',$employee->id) }}",
@@ -130,7 +130,7 @@
             });
         }
 
-        if ($('#document_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#document_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('documents.update') }}",
                 method: "POST",
@@ -188,7 +188,7 @@
                 $('#document_expiry_date').val(html.data.expiry_date);
                 $('#document_description').val(html.data.description);
                 $('#document_document_type_id').selectpicker('val', html.data.document_type_id);
-                if (html.data.is_notify === 1) {
+                if (html.data.is_notify == 1) {
                     $('#document_is_notify').prop('checked', true);
                 } else {
                     $('#document_is_notify').prop('checked', false);

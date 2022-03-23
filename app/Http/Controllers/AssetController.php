@@ -32,7 +32,7 @@ class AssetController extends Controller {
 			}else{
 				$assets = Asset::with('company', 'employee', 'Category')->get();
 			}
-			
+
 			return datatables()->of($assets)
 				->setRowId(function ($row)
 				{
@@ -169,7 +169,11 @@ class AssetController extends Controller {
 		{
 			$data = Asset::findOrFail($id);
 
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')
+                        ->where('company_id', $data->company_id)
+                        ->where('is_active',1)
+                        ->orWhere('exit_date',NULL)
+                        ->get();
 
 			return response()->json(['data' => $data, 'employees' => $employees]);
 		}

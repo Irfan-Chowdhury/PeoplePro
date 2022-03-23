@@ -160,7 +160,7 @@ class TerminationController extends Controller {
 		if (request()->ajax())
 		{
 			$data = Termination::findOrFail($id);
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->where('is_active',1)->where('exit_date',NULL)->get();
 
 			return response()->json(['data' => $data, 'employees' => $employees]);
 		}

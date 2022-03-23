@@ -106,7 +106,7 @@
 
     $('#immigration_sample_form').on('submit', function (event) {
         event.preventDefault();
-        if ($('#immigration_action').val() === '{{trans('file.Add')}}') {
+        if ($('#immigration_action').val() == '{{trans('file.Add')}}') {
 
             $.ajax({
                 url: "{{ route('immigrations.store',$employee->id) }}",
@@ -138,7 +138,7 @@
             });
         }
 
-        if ($('#immigration_action').val() === '{{trans('file.Edit')}}') {
+        if ($('#immigration_action').val() == '{{trans('file.Edit')}}') {
             $.ajax({
                 url: "{{ route('immigrations.update') }}",
                 method: "POST",

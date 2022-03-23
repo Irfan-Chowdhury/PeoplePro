@@ -24,7 +24,10 @@ class JobInterviewController extends Controller {
 	public function index()
 	{
 		$jobs = JobPost::whereStatus(1)->select('id', 'job_title')->get();
-		$employees = Employee::select('id', 'first_name', 'last_name')->get();
+		$employees = Employee::select('id', 'first_name', 'last_name')
+                        ->where('is_active',1)
+                        ->where('exit_date',NULL)
+                        ->get();
 
 		$logged_user = auth()->user();
 		if ($logged_user->can('view-job_interview'))
