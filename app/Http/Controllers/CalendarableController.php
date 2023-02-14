@@ -11,7 +11,7 @@ use App\Project;
 use App\Trainer;
 use App\TrainingType;
 use App\TravelType;
-
+use DateTime;
 
 class CalendarableController extends Controller {
 
@@ -38,6 +38,7 @@ class CalendarableController extends Controller {
 
 	public function load()
 	{
+
 		$data = [];
 		$a = [];
 		$data['holidays'] = $this->getHolidays();
@@ -49,7 +50,6 @@ class CalendarableController extends Controller {
 		$data['events'] = $this->getEvents();
 		$data['meetings'] = $this->getMeetings();
 
-
 		foreach ($data['holidays'] as $row)
 		{
 			$a[] = array(
@@ -58,7 +58,7 @@ class CalendarableController extends Controller {
 				'title' => $row["event_name"],
 				'start' => $row->getAttributes()["start_date"],
 				'groupId' => route('holidays.calendarable',$row['id']),
-				'end' => $row->getAttributes()["end_date"]
+				'end' => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d'),
 			);
 		}
 
@@ -68,14 +68,14 @@ class CalendarableController extends Controller {
 			$a[] = array(
 				'id' => $row["id"],
 				'overlap' => 'Leave',
-				'title' => $row['LeaveType']['leave_type'] . ' leave by '
-					. $row['employee']['first_name'],
+				'title' => $row['LeaveType']['leave_type'] . ' leave by '. $row['employee']['first_name'],
 				'backgroundColor' => '#fc486b',
 				'start' => $row->getAttributes()["start_date"],
-				'end' => $row->getAttributes()["end_date"],
+				'end' => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d'),
 				'groupId' => route('leaves.calendarable',$row['id'])
 			);
 		}
+
 
 		foreach ($data['travels'] as $row)
 		{
@@ -86,7 +86,7 @@ class CalendarableController extends Controller {
 				'backgroundColor' => '#03ccac',
 				'groupId' => route('travels.calendarable',$row['id']),
 				'start' => $row->getAttributes()["start_date"],
-				'end' => $row->getAttributes()["end_date"]
+                'end' => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d')
 			);
 		}
 
@@ -99,9 +99,10 @@ class CalendarableController extends Controller {
 				'backgroundColor' => '#f4ce17',
 				'groupId' => route('training_lists.calendarable',$row['id']),
 				'start' => $row->getAttributes()["start_date"],
-				'end' => $row->getAttributes()["end_date"],
+                'end' => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d')
 			);
 		}
+
 		foreach ($data['projects'] as $row)
 		{
 			$a[] = array(
@@ -109,20 +110,20 @@ class CalendarableController extends Controller {
 				'title' => $row["title"],
 				'backgroundColor' => '#168D7E',
 				'start' => $row->getAttributes()["start_date"],
-				'end' => $row->getAttributes()["end_date"],
+                'end' => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d'),
 				'url' => route('projects.show',$row['id']),
 			);
 		}
 
 		foreach ($data['tasks'] as $row)
-		{
+        {
 			$a[] = array(
-				'id' => $row["id"],
+				'id'    => $row["id"],
 				'title' => $row["task_name"],
 				'backgroundColor' => '#19aed9',
 				'start' => $row->getAttributes()["start_date"],
-				'end' => $row->getAttributes()["end_date"],
-				'url' => route('tasks.show',$row['id']),
+                'end'   => (new DateTime($row->getAttributes()["end_date"]))->modify('+1 day')->format('Y-m-d'),
+				'url'   => route('tasks.show',$row['id']),
 			);
 		}
 

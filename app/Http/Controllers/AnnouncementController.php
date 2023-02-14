@@ -129,12 +129,12 @@ class AnnouncementController extends Controller {
 			if ($data['department_id'] == null)
 			{
 				$employee_id = Employee::where('company_id',$data ['company_id'])->where('is_active',1)->pluck('id');
-				$notifiable = User::whereIn('id',$employee_id)->get();
+				$notifiable = User::whereIntegerInRaw('id',$employee_id)->get();
 			}
 			else
 			{
 				$employee_id = Employee::where('department_id',$data ['department_id'])->where('is_active',1)->pluck('id');
-				$notifiable = User::whereIn('id',$employee_id)->get();
+				$notifiable = User::whereIntegerInRaw('id',$employee_id)->get();
 			}
 
 			Notification::send($notifiable,new AnnouncementPublished());
@@ -241,12 +241,12 @@ class AnnouncementController extends Controller {
 			if ($data['department_id'] == null)
 			{
 				$employee_id = Employee::where('company_id',$data ['company_id'])->where('is_active',1)->pluck('id');
-				$notifiable = User::whereIn('id',$employee_id)->get();
+				$notifiable = User::whereIntegerInRaw('id',$employee_id)->get();
 			}
 			else
 			{
 				$employee_id = Employee::where('department_id',$data ['department_id'])->where('is_active',1)->pluck('id');
-				$notifiable = User::whereIn('id',$employee_id)->get();
+				$notifiable = User::whereIntegerInRaw('id',$employee_id)->get();
 			}
 
 			Notification::send($notifiable,new AnnouncementPublished());
@@ -266,8 +266,7 @@ class AnnouncementController extends Controller {
 	 * @param int $id
 	 * @return Response
 	 */
-	public
-	function destroy($id)
+	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED'))
 		{
@@ -286,11 +285,9 @@ class AnnouncementController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public
-	function delete_by_selection(Request $request)
+	public function delete_by_selection(Request $request)
 	{
-		if(!env('USER_VERIFIED'))
-		{
+		if(!env('USER_VERIFIED')){
 			return response()->json(['error' => 'This feature is disabled for demo!']);
 		}
 		$logged_user = auth()->user();
@@ -299,7 +296,7 @@ class AnnouncementController extends Controller {
 		{
 
 			$announcement_id = $request['announcementIdArray'];
-			$announcement = Announcement::whereIn('id', $announcement_id);
+			$announcement = Announcement::whereIntegerInRaw('id', $announcement_id);
 			if ($announcement->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Announcement')])]);

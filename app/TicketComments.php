@@ -20,6 +20,10 @@ class TicketComments extends Model
 		return $this->hasOne('App\User','id','user_id');
 	}
 
+	public function employee(){
+		return $this->hasOne('App\Employee','id','user_id');
+	}
+
 	public function getCreatedAtAttribute($value)
 	{
 		return Carbon::parse($value)->format(env('Date_Format').'--H:i');

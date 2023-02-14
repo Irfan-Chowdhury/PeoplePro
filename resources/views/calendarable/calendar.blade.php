@@ -21,6 +21,9 @@
                     events: {
                         url: '{{route('calendar.load')}}',
                         textColor: 'white',
+                        success: function (result) {
+                            console.log(result);
+                        }
                     },
 
                     eventTimeFormat: { // like '14:30:00'
@@ -29,9 +32,7 @@
                         meridiem: true
                     },
 
-
                     eventClick: function (event) {
-
                         $.ajax({
                             url: event.event.groupId,
                             success: function (data) {
@@ -45,11 +46,9 @@
 
                     },
 
-
                 });
                 $('.close').on('click', function () {
                     calendar.refetchEvents();
-
                 });
                 calendar.render();
 

@@ -12,7 +12,7 @@
 
 
     <div class="table-responsive">
-        <table id="work_experience-table" class="table ">
+        <table id="work_experience-table" class="table">
             <thead>
             <tr>
                 <th>{{trans('file.Company')}}</th>

@@ -256,7 +256,7 @@ class PromotionController extends Controller {
 		{
 
 			$promotion_id = $request['promotionIdArray'];
-			$promotion = Promotion::whereIn('id', $promotion_id);
+			$promotion = Promotion::whereIntegerInRaw('id', $promotion_id);
 			if ($promotion->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Promotion')])]);

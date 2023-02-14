@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Employee;
+use App\Client;
 use App\Role_User;
 use App\User;
 use Illuminate\Http\Request;
@@ -53,10 +54,14 @@ class AllUserController extends Controller {
                         })
                         ->addColumn('contacts', function ($row)
                         {
-                            $email 		= "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
                             $contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
-
-                            return $email.'</br>'.$contact_no;
+                            if ($row->email != null) {
+                                $email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
+                                return $email.'</br>'.$contact_no;
+                            }
+                            else {
+                                return $contact_no;
+                            }
                         })
                         ->addColumn('login_info', function ($row)
                         {
@@ -107,87 +112,6 @@ class AllUserController extends Controller {
 		}
 	}
 
-
-	public function process_update(Request $request)
-	{
-
-		if (!env('USER_VERIFIED'))
-		{
-			return response()->json(['success' => 'This feature is disabled for demo!']);
-		}
-
-		$logged_user = auth()->user();
-
-		if ($logged_user->can('edit-user'))
-		{
-			$id = $request->hidden_id;
-
-			$validator = Validator::make($request->all(),
-				[
-					'first_name' => 'required',
-					'last_name'  => 'required',
-					'username' => 'required|unique:users,username,' . $id,
-					'email' => 'required|email|unique:users,email,' . $id,
-					'contact_no' => 'required|unique:users,contact_no,' . $id,
-					'password' => 'nullable|min:4|confirmed',
-					'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
-				]
-			);
-
-			if ($validator->fails())
-			{
-				return response()->json(['errors' => $validator->errors()->all()]);
-			}
-
-
-			$data = [];
-
-			$data['first_name'] = $request->first_name;
-			$data['last_name']  = $request->last_name;
-			$data['username']   = strtolower(trim($request->username));
-			$data['contact_no'] = $request->contact_no;
-			$data['email']      = strtolower(trim($request->email));
-			$data['is_active']  = $request->is_active;
-
-
-
-
-			$photo = $request->profile_photo;
-			$file_name = null;
-
-
-			if (isset($photo))
-			{
-				$new_user = $request->username;
-				if ($photo->isValid())
-				{
-					$file_name = preg_replace('/\s+/', '', $new_user) . '_' . time() . '.' . $photo->getClientOriginalExtension();
-					$photo->storeAs('profile_photos', $file_name);
-					$data['profile_photo'] = $file_name;
-				}
-			}
-
-			// if (isset($request->password))
-			// {
-			// 	$data['password'] = bcrypt($request->password);
-			// }
-            if ($request->password)
-			{
-				$data['password'] = bcrypt($request->password);
-			}
-
-			User::whereId($id)->update($data);
-			Employee::whereId($id)->update(['email' => $data['email'], 'contact_no' => $data['contact_no'], 'is_active' => $data['is_active']]);
-
-
-			return response()->json(['success' => __('Data is successfully updated')]);
-		}
-
-		return response()->json(['success' => __('You are not authorized')]);
-
-	}
-
-
 	// public function add_user_form()
 	// {
 
@@ -207,8 +131,6 @@ class AllUserController extends Controller {
 
 	public function add_user_process(Request $request)
 	{
-		//return response()->json($request->last_name);
-
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('store-employee'))
@@ -219,7 +141,7 @@ class AllUserController extends Controller {
 					'first_name' => 'required',
 					'last_name'  => 'required',
 					'username'   => 'required|unique:users',
-					'email'      => 'required|email|unique:users',
+                    'email'      => 'nullable|email|unique:users',
 					'contact_no' => 'required|unique:users',
 					'password'   => 'required|min:4|confirmed',
 					'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
@@ -271,6 +193,83 @@ class AllUserController extends Controller {
 
 	}
 
+	public function process_update(Request $request)
+	{
+		if (!env('USER_VERIFIED'))
+		{
+			return response()->json(['success' => 'This feature is disabled for demo!']);
+		}
+
+		$logged_user = auth()->user();
+
+		if ($logged_user->can('edit-user'))
+		{
+			$id = $request->hidden_id;
+
+			$validator = Validator::make($request->all(),
+				[
+					'first_name' => 'required',
+					'last_name'  => 'required',
+					'username' => 'required|unique:users,username,' . $id,
+                    'email'      => 'nullable|email|unique:users,email,' . $id,
+					'contact_no' => 'required|unique:users,contact_no,' . $id,
+					'password' => 'nullable|min:4|confirmed',
+					'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
+				]
+			);
+
+			if ($validator->fails())
+			{
+				return response()->json(['errors' => $validator->errors()->all()]);
+			}
+
+
+			$data = [];
+
+			$data['first_name'] = $request->first_name;
+			$data['last_name']  = $request->last_name;
+			$data['username']   = strtolower(trim($request->username));
+			$data['contact_no'] = $request->contact_no;
+			$data['email']      = strtolower(trim($request->email));
+			$data['is_active']  = $request->is_active;
+
+
+
+
+			$photo = $request->profile_photo;
+			$file_name = null;
+
+
+			if (isset($photo))
+			{
+				$new_user = $request->username;
+				if ($photo->isValid())
+				{
+					$file_name = preg_replace('/\s+/', '', $new_user) . '_' . time() . '.' . $photo->getClientOriginalExtension();
+					$photo->storeAs('profile_photos', $file_name);
+					$data['profile_photo'] = $file_name;
+				}
+			}
+
+			// if (isset($request->password))
+			// {
+			// 	$data['password'] = bcrypt($request->password);
+			// }
+            if ($request->password)
+			{
+				$data['password'] = bcrypt($request->password);
+			}
+
+			User::whereId($id)->update($data);
+
+            Employee::whereId($id)->update(['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'contact_no' => $data['contact_no'], 'is_active' => $data['is_active']]);
+
+			return response()->json(['success' => __('Data is successfully updated')]);
+		}
+
+		return response()->json(['success' => __('You are not authorized')]);
+
+	}
 
 	public function login_info()
 	{
@@ -383,12 +382,9 @@ class AllUserController extends Controller {
 
 		if ($logged_user->can('delete-user'))
 		{
-
 			$user_id = $request['userIdArray'];
 
-			$user = User::whereIn('id', $user_id);
-			// $filepaths= $user->pluck('profile_photo');
-
+			$user = User::whereIntegerInRaw('id', $user_id)->where('role_users_id','!=',1);
 
 			if ($user->delete())
 			{

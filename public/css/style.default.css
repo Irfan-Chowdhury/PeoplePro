@@ -1541,8 +1541,8 @@ STYLE SWITCHER FOR DEMO
     color: #495057;
 }
 
-/* ========================================= 
-   THEMING OF BOOTSTRAP COMPONENTS           
+/* =========================================
+   THEMING OF BOOTSTRAP COMPONENTS
    ========================================= */
 /*
  * 1. NAVBAR
@@ -2256,7 +2256,7 @@ STYLE SWITCHER FOR DEMO
 }
 
 /*
- * 3. TYPE  
+ * 3. TYPE
  */
 body {
     font-family: "Roboto", sans-serif;
@@ -3481,6 +3481,7 @@ table.dataTable {
     border-collapse: collapse !important;
     border-radius: 5px;
     box-shadow: 0 0 35px 0 rgba(154, 161, 171, .15);
+    width: 100% !important;
 }
 
 table.dataTable.no-shadow {
@@ -3639,6 +3640,14 @@ div.dataTables_wrapper div.dataTables_info {
 .buttons-csv {
     background: #ffc107;
     border: none;
+}
+.export-for-device.buttons-csv {
+    background: #1ec38b;
+    border: none;
+}
+.export-for-device:hover {
+    background-color: #727b84;
+    border-color: #6c757d;
 }
 
 .buttons-print {

@@ -15,7 +15,7 @@
                                 <div class="row">
 
 
-                                    @if ((Auth::user()->can('view-attendance')))
+                                    @if ((Auth::user()->can('date-wise-attendances')))
                                     {{-- @if (Auth::user()->role_users_id==1) --}}
 
                                         <div class="col-md-4">

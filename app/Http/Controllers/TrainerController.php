@@ -242,7 +242,7 @@ class TrainerController extends Controller {
 		{
 
 			$trainer_id = $request['trainerIdArray'];
-			$trainer = Trainer::whereIn('id', $trainer_id);
+			$trainer = Trainer::whereIntegerInRaw('id', $trainer_id);
 			if ($trainer->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Trainer')])]);

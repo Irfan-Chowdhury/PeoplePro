@@ -303,7 +303,7 @@ class AwardController extends Controller {
 		{
 
 			$award_id = $request['awardIdArray'];
-			$award = Award::whereIn('id', $award_id);
+			$award = Award::whereIntegerInRaw('id', $award_id);
 			if ($award->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Award')])]);

@@ -312,7 +312,7 @@ class FileManagerController extends Controller
 		if ($logged_user->can('delete-file_manager'))
 		{
 			$files_id = $request['file_managerIdArray'];
-			$files = FileManager::whereIn('id', $files_id)->get();
+			$files = FileManager::whereIntegerInRaw('id', $files_id)->get();
 
 			foreach ($files as $file)
 			{

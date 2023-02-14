@@ -188,7 +188,7 @@ class LocationController extends Controller
 		{
 
 			$location_id = $request['locationIdArray'];
-			$location = location::whereIn('id', $location_id);
+			$location = location::whereIntegerInRaw('id', $location_id);
 			if ($location->delete())
 			{
 				return response()->json(['success' => __('Multi Delete',['key'=>trans('file.Location')])]);

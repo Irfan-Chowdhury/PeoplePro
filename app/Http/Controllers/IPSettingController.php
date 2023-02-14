@@ -119,7 +119,7 @@ class IPSettingController extends Controller
     {
         if ($request->ajax()) {
 
-            IpSetting::whereIn('id',$request->idsArray)->delete();
+            IpSetting::whereIntegerInRaw('id',$request->idsArray)->delete();
             return response()->json(['success' => '<div class="alert alert-success">Data Deleted Successfully</div>']);
         }
     }

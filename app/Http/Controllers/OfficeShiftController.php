@@ -263,7 +263,7 @@ class OfficeShiftController extends Controller {
 		{
 
 			$office_shift_id = $request['officeShiftIdArray'];
-			$office_shift = office_shift::whereIn('id', $office_shift_id);
+			$office_shift = office_shift::whereIntegerInRaw('id', $office_shift_id);
 			if ($office_shift->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => __('Office Shift')])]);

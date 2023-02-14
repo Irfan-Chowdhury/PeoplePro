@@ -1,6 +1,6 @@
 @extends('frontend.Layout.master')
 
-@section('title','Home')
+@section('title_front','Home')
 
 @section('content')
 <div class="container">

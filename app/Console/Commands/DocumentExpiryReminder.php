@@ -45,13 +45,10 @@ class DocumentExpiryReminder extends Command
      */
     public function handle()
     {
-
 		$document_employee = EmployeeDocument::with('employee','DocumentType')
 			->where('expiry_date','=',now()->addDays(3)->format('Y-m-d'))
 			->where('is_notify','=',1)
 			->get();
-
-
 
 		if($document_employee->isNotEmpty())
 		{
@@ -84,12 +81,10 @@ class DocumentExpiryReminder extends Command
                     $item->notify(new EmployeeDocumentExpiryNotifyToAdmin());
                 }
             }
-
-
 		}
 		else
 		{
-			return '';
+			return $this->info('Not available right now');
 		}
         $this->info('Successfully sent.');
     }
@@ -101,3 +96,9 @@ class DocumentExpiryReminder extends Command
 //Employee Document Expiry Notification send to Dept.Head through mail
 
 //Employee Document Expiry Notification send to Admin through the system default notification
+
+
+// How to test in the loacally
+// Check Artisan List: php artisan list
+// php artisan document:expiry
+//https://www.positronx.io/laravel-cron-job-task-scheduling-tutorial-with-example/

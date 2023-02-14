@@ -59,11 +59,11 @@
                         @enderror
                     </div>
 
-                    <div class="custom-control custom-checkbox">
+                    {{-- <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" name="remember"
                                id="remember" {{ old('remember') ? 'checked' : '' }}>
                         <label class="custom-control-label" for="remember">{{ __('Remember Me') }}</label>
-                    </div>
+                    </div> --}}
                     <br>
                     <div class="form-group mb-0">
                         <button type="submit" class="btn btn-primary btn-block">
@@ -72,9 +72,14 @@
                     </div>
                 </form>
                 <!-- This three buttons for demo only-->
-                <!-- <button type="submit" class="btn btn-success btn-sm default admin-btn">LogIn as Admin</button>
-                <button type="submit" class="btn btn-info btn-sm default staff-btn">LogIn as Staff</button>
-                <button type="submit" class="btn btn-warning btn-sm default client-btn">LogIn as Client</button>-->
+
+                @if (env('APP_ENV')=="local")
+                    <button type="submit" class="btn btn-success btn-sm default admin-btn">LogIn as Admin</button>
+                    <button type="submit" class="btn btn-info btn-sm default staff-btn">LogIn as Staff</button>
+                    <button type="submit" class="btn btn-warning btn-sm default client-btn">LogIn as Client</button>
+                    <p class="text-center mt-4 text-danger font-weight-bold font-italic">[For attendance device related features, Need to purchase attendance device addon.]</p>
+                @endif
+
                 <br><br>
                 @if (Route::has('password.request'))
                     <a class="forgot-pass" href="{{ route('password.request') }}">

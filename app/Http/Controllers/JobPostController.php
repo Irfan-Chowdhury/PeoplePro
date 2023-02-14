@@ -251,7 +251,7 @@ class JobPostController extends Controller {
 		if ($logged_user->can('delete-job_post'))
 		{
 			$job_post_id = $request['job_postIdArray'];
-			$job_post = JobPost::whereIn('id', $job_post_id);
+			$job_post = JobPost::whereIntegerInRaw('id', $job_post_id);
 			if ($job_post->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => __('Job Post')])]);

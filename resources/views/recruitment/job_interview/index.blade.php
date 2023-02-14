@@ -151,11 +151,6 @@
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Employer')}}</th>
-                                        <td id="show_job_employer"></td>
-                                    </tr>
-
-                                    <tr>
                                         <th>{{__('Interview Place')}}</th>
                                         <td id="show_interview_place"></td>
                                     </tr>
@@ -208,8 +203,6 @@
     </div>
 
 
-
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -229,10 +222,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 @endsection
 
 @push('scripts')
@@ -444,7 +433,6 @@
         });
 
         $('#sample_form').on('submit', function (event) {
-
             event.preventDefault();
 
             $.ajax({
@@ -482,32 +470,29 @@
 
 
         $(document).on('click', '.details', function () {
-
             let id = $(this).attr('id');
             $('#form_result').html('');
-
             let target = '{{route('job_interviews.index')}}/' + id;
 
             $.ajax({
                 url: target,
                 dataType: "json",
                 success: function (result) {
-
                     function htmlDecode(input){
                         var e = document.createElement('div');
                         e.innerHTML = input;
                         return e.childNodes.length == 0 ? "" : e.childNodes[0].nodeValue;
                     }
-
-                    $('#show_job_description').html(result.data.job_title
-                        + '<br><h6>' + result.data.short_description + '</h6>');
-                    $('#show_job_employer').html(result.data.job_employer
-                        + '<br><h6>' + result.data.company_name + '</h6>');
+                    $('#show_job_description').html(result.data.job_title)
                     $('#show_interview_place').html(result.data.interview_place);
                     $('#show_interview_date').html(result.data.interview_date);
                     $('#show_interview_time').html(result.data.interview_time);
-                    $('#show_candidates').html(result.candidates);
-                    $('#show_interviewers').html(result.interviewers);
+
+                    let candidatesArr = result.data.candidates.join(', ');
+                    let interviewersArr = result.data.interviewers.join(', ');
+
+                    $('#show_candidates').html(candidatesArr);
+                    $('#show_interviewers').html(interviewersArr);
                     $('#show_description').html(htmlDecode(result.data.description));
                     $('#show_added_by').html(result.data.added_by);
 

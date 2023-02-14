@@ -17,19 +17,18 @@ class EmployeeWorkExperienceController extends Controller
 		{
 			if (request()->ajax())
 			{
-				return datatables()->of(EmployeeWorkExperience::where('employee_id', $employee->id)->get())
+                $work_experience = EmployeeWorkExperience::where('employee_id', $employee->id)->get();
+				return datatables()->of($work_experience)
 					->setRowId(function ($work_experience)
 					{
 						return $work_experience->id;
 					})
-					->addColumn('action', function ($data) use ($logged_user,$employee)
+					->addColumn('action', function ($data) use ($logged_user, $employee)
 					{
-						if ($logged_user->can('modify-details-employee')||$logged_user->id==$employee)
-						{
+						if ($logged_user->can('modify-details-employee')||$logged_user->id==$employee->id){
 							$button = '<button type="button" name="edit" id="' . $data->id . '" class="work_experience_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 							$button .= '&nbsp;&nbsp;';
 							$button .= '<button type="button" name="delete" id="' . $data->id . '" class="work_experience_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-
 							return $button;
 						} else
 						{

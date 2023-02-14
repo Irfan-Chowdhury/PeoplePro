@@ -148,6 +148,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     var html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';

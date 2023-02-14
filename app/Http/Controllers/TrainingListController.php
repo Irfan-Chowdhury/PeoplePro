@@ -301,7 +301,7 @@ class TrainingListController extends Controller {
 		{
 
 			$TrainingList_id = $request['TrainingListIdArray'];
-			$TrainingList = TrainingList::whereIn('id', $TrainingList_id);
+			$TrainingList = TrainingList::whereIntegerInRaw('id', $TrainingList_id);
 
 
 			if ($TrainingList->delete())

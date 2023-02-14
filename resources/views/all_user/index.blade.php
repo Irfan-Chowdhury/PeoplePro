@@ -7,9 +7,8 @@
 
         <div class="container-fluid mb-3">
             <div class="d-flex flex-row">
-                <div class="p-2">
                     @can('store-user')
-                        <div class="dropdown">
+                        <div class="dropdown mr-1">
                             <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-plus"></i> {{__('Add User')}}
                             </button>
@@ -22,14 +21,11 @@
                             </div>
                         </div>
                     @endcan
-                </div>
-                <div class="p-2">
                     @can('delete-user')
                         <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
                                     class="fa fa-minus-circle"></i> {{__('Bulk delete')}}
                         </button>
                     @endcan
-                </div>
             </div>
         </div>
 
@@ -53,7 +49,7 @@
                 <div class="modal-content">
 
                     <div class="modal-header">
-                        <h5 id="exampleModalLabel" class="modal-title">{{__('Add User')}}</h5>
+                        <h5 id="exampleModalLabel" class="modal-title">{{__('Add Admin')}}</h5>
                         <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
                     </div>
 
@@ -83,9 +79,9 @@
                                 </div>
 
                                 <div class="col-md-6 form-group">
-                                    <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
-                                    <input type="email" name="email" id="email" placeholder="example@example.com" required
-                                           class="form-control" value="{{ old('email') }}">
+                                    <label>{{trans('file.Email')}}</label>
+                                    <input type="email" name="email" id="email" placeholder="example@example.com"
+                                    class="form-control" value="{{ old('email') }}">
 
                                 </div>
                                 <div class="col-md-6 form-group">
@@ -112,7 +108,7 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6 form-group">
-                                    <label for="profile_photo" class=""><strong>{{ __('Image') }}</strong></label>
+                                    <label for="profile_photo">{{ __('Image') }}</label>
                                     <input type="file" id="profile_photo"
                                            class="form-control @error('photo') is-invalid @enderror"
                                            name="profile_photo" placeholder="{{__('Upload',['key'=>trans('file.Photo')])}}">
@@ -131,7 +127,7 @@
                                             <input type="hidden" name="action" id="action"/>
                                             <input type="hidden" name="hidden_id" id="hidden_id"/>
                                             <button type="submit" name="action_button" id="action_button"
-                                                    class="btn btn-primary btn-block">{{__('Add User')}}</button>
+                                                    class="btn btn-primary btn-block">{{__('Add')}}</button>
                                         </div>
                                     </div>
 
@@ -184,9 +180,9 @@
 
 
                                 <div class="col-md-6 form-group">
-                                    <label>{{trans('file.Email')}} <span class="text-danger">*</span></label>
+                                    <label>{{trans('file.Email')}}</label>
                                     <input type="email" name="email" id="email_edit" placeholder="example@example.com"
-                                           required class="form-control">
+                                    class="form-control">
                                 </div>
 
 
@@ -425,7 +421,6 @@
         });
 
         $('#create_record').on('click', function () {
-            $('.modal-title').text('{{__('Add User')}}');
             $('#action_button').val('{{trans('file.Add')}}');
             $('#action').val('{{trans('file.Add')}}');
             $('select').selectpicker('refresh');
@@ -476,6 +471,7 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
                     let html = '';
                     if (data.errors) {
                         html = '<div class="alert alert-danger">';
@@ -516,7 +512,6 @@
                     $('#last_name_edit').val(html.data.last_name);
                     $('#username_edit').val(html.data.username);
                     $('#email_edit').val(html.data.email);
-                    $('#role_id_edit').selectpicker('val', html.data.role_users_id);
                     $('#contact_no_edit').val(html.data.contact_no);
                     if (html.data.is_active == 1) {
                         $('#is_active_edit').prop('checked', true);

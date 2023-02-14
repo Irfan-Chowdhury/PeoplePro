@@ -72,15 +72,13 @@ class EmployeeImmigrationController extends Controller {
 		$logged_user = auth()->user();
 		if ($logged_user->can('store-details-employee') || $logged_user->id == $employee)
 		{
-
 			$validator = Validator::make($request->only('document_number', 'document_type_id', 'issue_date', 'expiry_date',
 				'eligible_review_date', 'document_file', 'country'),
 				[
 					'document_number' => 'required|unique:employee_immigrations',
 					'document_type_id' => 'required',
-					'document_file' => 'nullable|file|max:10240|mimes:jpeg,png,jpg,gif,ppt,pptx,doc,docx,pdf',
+					'document_file' => 'required|file|max:10240|mimes:jpeg,png,jpg,gif,ppt,pptx,doc,docx,pdf',
 				]
-//				,
 //				[
 //					'document_number.required' => 'Document Number can not be empty',
 //					'document_number.unique' => 'Document Number must be unique',
@@ -198,7 +196,7 @@ class EmployeeImmigrationController extends Controller {
 				}
 			}
 
-			EmployeeImmigration::find($id)->update($data);
+			EmployeeImmigration::whereId($id)->update($data);
 
 			return response()->json(['success' => __('Data is successfully updated')]);
 		} else

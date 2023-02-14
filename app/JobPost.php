@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobPost extends Model
 {
-    //
 	protected $guarded=[];
 
 	public function Company(){

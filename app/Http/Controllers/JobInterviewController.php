@@ -19,8 +19,6 @@ use Throwable;
 
 class JobInterviewController extends Controller {
 
-	//
-
 	public function index()
 	{
 		$jobs = JobPost::whereStatus(1)->select('id', 'job_title')->get();
@@ -36,8 +34,6 @@ class JobInterviewController extends Controller {
 			{
 
 				$job_interviews = JobInterview::with('InterviewJob')->get();
-
-
 				return datatables()->of($job_interviews)
 					->setRowId(function ($row)
 					{
@@ -55,7 +51,6 @@ class JobInterviewController extends Controller {
 					})
 					->addColumn('action', function ($data)
 					{
-
 						$button = '<button type="button" name="show" id="' . $data->id . '" class="details btn btn-success btn-sm">Details</button>';
 						$button .= '&nbsp;&nbsp;';
 
@@ -69,7 +64,6 @@ class JobInterviewController extends Controller {
 					->rawColumns(['action', 'job_description'])
 					->make(true);
 			}
-
 			return view('recruitment.job_interview.index', compact('jobs', 'employees'));
 		}
 
@@ -98,11 +92,11 @@ class JobInterviewController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()){
 				return response()->json(['errors' => $validator->errors()->all()]);
-			}
-
+			}elseif (!env('MAIL_MAILER')  && !env('MAIL_HOST') && !env('MAIL_PORT') && !env('MAIL_USERNAME') && !env('MAIL_PASSWORD') && !env('MAIL_ENCRYPTION') && !env('MAIL_FROM_ADDRESS')) {
+                return response()->json(['errors' => ['Please setup your mail setting properly']]);
+            }
 
 			DB::beginTransaction();
 				try
@@ -118,17 +112,16 @@ class JobInterviewController extends Controller {
 
 					$interview = JobInterview::create($data);
 
-
 					$employees = $request->input('employee_id');
 					$candidates = $request->input('candidate_id');
 
 					$interview->employees()->attach($employees);
 					$interview->candidates()->attach($candidates);
 
-					JobCandidate::WhereIn('id', $candidates)->update(['status' => 'Called For Interview']);
+					JobCandidate::whereIntegerInRaw('id', $candidates)->update(['status' => 'Called For Interview']);
 
-					$mailable_candiadtes = JobCandidate::WhereIn('id', $candidates)->get();
-					$notificable_employees = User::WhereIn('id', $employees)->get();;
+					$mailable_candiadtes = JobCandidate::whereIntegerInRaw('id', $candidates)->get();
+					$notificable_employees = User::whereIntegerInRaw('id', $employees)->get();
 
 					Notification::send($mailable_candiadtes, new JobInterviewNotification($interview));
 					Notification::send($notificable_employees, new InterviewHostNotification($interview));
@@ -153,33 +146,36 @@ class JobInterviewController extends Controller {
 
 	public function show($id)
 	{
+
 		if (request()->ajax())
 		{
-			$data = JobInterview::with('InterviewJob.PostJobEmployer:id,first_name,last_name,company_name',
-				'employees:id,first_name,last_name', 'candidates:id,full_name', 'User:id,username')->findOrFail($id);
+            // ------ Test ----------
 
-			$data['job_title'] = $data->InterviewJob->job_title;
-			$data['short_description'] = $data->InterviewJob->short_description;
-			$data['job_employer'] = $data->InterviewJob->PostJobEmployer->full_name ?? '';
-			$data['company_name'] = $data->InterviewJob->PostJobEmployer->company_name ?? '';
-			$data['added_by'] = $data->User->username;
+            $jobinterview = JobInterview::with('InterviewJob','employees:id,first_name,last_name','candidates:id,full_name')->findOrFail($id);
+            $data         = [];
+            $candidates   = [];
+            $interviewers = [];
+            $data['job_title']       = $jobinterview->InterviewJob->job_title; //Job Description
+            $data['interview_place'] = $jobinterview->interview_place; //Interview Place
+            $data ['interview_date'] = $jobinterview->interview_date; //Interview Date
+            $data ['interview_time'] = $jobinterview->interview_time; //Interview time
 
-			$interviewers = [];
-			$candidates = [];
-			foreach ($data->employees as $employee)
-			{
-				$employee_name = $employee->full_name . '<br>';
-				array_push($interviewers, $employee_name);
-			}
-			foreach ($data->candidates as $candidate)
-			{
-				$candidate_name = $candidate->full_name . '<br>';
-				array_push($candidates, $candidate_name);
+            if (!$jobinterview->candidates->isEmpty()) {
+                foreach ($jobinterview->candidates as $key => $value) {
+                    array_push($candidates, $value->full_name);
+                }
+            }
+            if (!$jobinterview->employees->isEmpty()) {
+                foreach ($jobinterview->employees as $key => $value) {
+                    array_push($interviewers, $value->first_name.' '.$value->last_name);
+                }
+            }
+            $data['candidates']   = $candidates;
+            $data['interviewers'] = $interviewers;
+            $data['description']  = $jobinterview->description; //Interview Description
+            $data['added_by']     = $jobinterview->User->username;
 
-			}
-
-			return response()->json(['data' => $data, 'interviewers' => $interviewers,
-				'candidates' => $candidates]);
+			return response()->json(['data' => $data]);
 		}
 	}
 

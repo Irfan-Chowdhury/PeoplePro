@@ -1,6 +1,6 @@
 @extends('frontend.Layout.master')
 
-@section('title','Job-Details')
+@section('title_front','Job-Details')
 
 @section('content')
 
@@ -72,7 +72,7 @@
                 <form autocomplete="off" method="post" id="apply_form" class="form-horizontal mb-0" enctype="multipart/form-data">
                 @csrf
                     <div class="modal-body">
-                    
+
                         <div class="row">
 
                             <div class="col-md-6 form-group">
@@ -84,12 +84,12 @@
                                 <label for="email">{{trans('file.Email')}} *</label>
                                 <input type="email" name="email" id="email"  placeholder="{{trans('file.Email')}}" required class="form-control">
                             </div>
-                            
+
                             <div class="col-md-6 form-group">
                                 <label for="email">{{trans('file.Phone')}} *</label>
                                 <input type="text" name="phone" id="phone" placeholder="{{trans('file.Phone')}}" required class="form-control">
                             </div>
-                            
+
                             <div class="col-md-12 form-group">
                                 <label for="email">{{trans('file.Address')}} </label>
                                 <textarea name="address" id="address" placeholder="{{trans('file.Address')}}" class="form-control" cols="30" rows="3"></textarea>
@@ -143,7 +143,7 @@
 
 
     <script type="text/javascript">
-        (function($) {  
+        (function($) {
             "use strict";
 
             $(document).ready(function () {
@@ -252,7 +252,7 @@
                 toolbar: 'insert | undo redo |  formatselect | bold italic backcolor  | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat',
                 branding: false
             });
-        })(jQuery); 
+        })(jQuery);
 
     </script>
 

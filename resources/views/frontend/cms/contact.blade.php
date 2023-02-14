@@ -1,6 +1,6 @@
 @extends('frontend.Layout.master')
 
-@section('title','Contact')
+@section('title_front','Contact')
 
 @section('content')
 <section class="jumbotron">

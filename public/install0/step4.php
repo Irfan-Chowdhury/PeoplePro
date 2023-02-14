@@ -89,7 +89,7 @@ if ($object->codecheck) {
             <p>
                     <h5><strong class="theme-color">Congratulations!</strong>
                     You have successfully installed PeoplePro!</h5><br>
-                    Please login here -  <strong><a href="<?php echo '../../'; ?>">Login</a></strong>
+                    Please login here -  <strong><a href="<?php echo '../'; ?>">Login</a></strong>
                     <br>
                     Username: <strong>admin</strong><br>
                     Password: <strong>admin</strong><br><br>

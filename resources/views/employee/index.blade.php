@@ -137,10 +137,14 @@
                                 <input type="text" name="last_name" id="last_name" placeholder="{{__('Last Name')}}"
                                        required class="form-control">
                             </div>
-
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Email')}} <span class="text-danger">*</span></label>
-                                <input type="email" name="email" id="email" placeholder="example@example.com" required
+                                <label class="text-bold">{{__('Staff Id')}} <span class="text-danger">*</span></label>
+                                <input type="text" name="staff_id" id="staff_id" placeholder="{{__('Staff Id')}}"
+                                       required class="form-control">
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="text-bold">{{trans('file.Email')}}</label>
+                                <input type="email" name="email" id="email" placeholder="example@example.com"
                                        class="form-control">
                             </div>
                             <div class="col-md-6 form-group">
@@ -157,8 +161,8 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label class="text-bold">{{trans('file.Gender')}} <span class="text-danger">*</span></label>
-                                <select name="gender" id="gender" required class="selectpicker form-control"
+                                <label class="text-bold">{{trans('file.Gender')}}</label>
+                                <select name="gender" id="gender" class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="contains"
                                         title="{{__('Selecting',['key'=>trans('file.Gender')])}}...">
                                     <option value="Male">{{trans('file.Male')}}</option>
@@ -454,6 +458,32 @@
                         columns: ':visible:Not(.not-exported)',
                         rows: ':visible'
                     },
+                },
+                {
+                    extend: 'csv',
+                    text: '<i title="export for device" class="fa fa-tablet"></i>',
+                    className: 'export-for-device',
+                    exportOptions: {
+                        columns: [1,2],
+                        rows: ':visible',
+                        format: {
+                            body: function ( data, row, column, node ) {
+                                if (column === 0) {
+                                    var id = data.match(/<span>Staff Id: (.*?)<\/span>/)[1];
+                                    name = data.match(/<[a][^>]*>(.+?)<\/[a]>/)[1];
+                                    return id;
+                                }
+                                else {
+                                    return name;
+                                }
+                            }
+                        }
+                    },
+                    customize: function (csv) {
+                        var csvRows = csv.split('\n');
+                        csvRows[0] = csvRows[0].replace(['"Employee"', '"Company"'], ['"Staff Id"','"Name"']);
+                        return csvRows.join('\n');
+                    }
                 },
                 {
                     extend: 'print',

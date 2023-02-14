@@ -137,7 +137,7 @@ class ProjectController extends Controller {
 
 
 			$notificable = User::where('role_users_id', 1)
-				->orWhereIn('id', $employees)
+				->orwhereIntegerInRaw('id', $employees)
 				->get();
 
 			Notification::send($notificable, new ProjectCreatedNotifiaction($project));
@@ -319,7 +319,7 @@ class ProjectController extends Controller {
 		} else
 		{
 			$notificable = User::where('role_users_id', 1)
-				->orWhereIn('id', $assigned)
+				->orwhereIntegerInRaw('id', $assigned)
 				->orWhere('id', $project->client_id)
 				->get();
 			Notification::send($notificable, new ProjectUpdatedNotification($project));

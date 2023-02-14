@@ -57,7 +57,7 @@ class CompanyPolicyNotify extends Notification
         return [
             //
 			'data' => __('Company Policy has been published'),
-			'link' => 'organization/policy',
+			'link' => route('policy.index')
         ];
     }
 }

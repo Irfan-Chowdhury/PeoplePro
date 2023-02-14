@@ -8,47 +8,40 @@ use App\TicketComments;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class SupportTicketCommentController extends Controller {
 
-	public function index()
+	public function index(SupportTicket $ticket)
 	{
 		if (request()->ajax())
 		{
-			return datatables()->of(TicketComments::with('user:id,username')->get())
+			return datatables()->of(TicketComments::with('user:id,username','employee.department')->where('ticket_id',$ticket->id)->get())
 				->setRowId(function ($comment)
 				{
 					return $comment->id;
 				})
-				->addColumn('user', function ($row)
+				->addColumn('user', function ($row) use ($ticket)
 				{
 					$username = $row->user->username;
+                    $department_name = '';
 
-					try
-					{
-						$department_name = Employee::where('employee_id', $row->user->id)->select('department_name')->first();
-					} catch (Exception $e)
-					{
-						$department_name = trans('file.Admin');
-					}
-
-					$department_name = empty($department_name) ? '' : $department_name;
-
-					return $username . ' (' . $department_name . ')';
+                    if (isset($row->employee->department->department_name)) {
+                        $department_name = ' (' .$row->employee->department->department_name. ')';
+                    }
+                    return $username . $department_name;
 
 				})
 				->addColumn('action', function ($data)
 				{
-
-					$button = '<button type="button" name="delete" id="' . $data->id . '" class="delete-comment btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-
-					return $button;
-
+                    if (Auth::user()->role_users_id == 1 || (Auth::user()->id == $data->user_id)) {
+                        $button = '<button type="button" name="delete" id="' . $data->id . '" class="delete-comment btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+                        return $button;
+                    }
 				})
 				->rawColumns(['action'])
 				->make(true);
-
 		}
 	}
 

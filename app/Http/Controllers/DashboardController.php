@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Announcement;
 use App\Attendance;
 use App\Award;
+use App\GeneralSetting;
 use App\Client;
 use App\company;
 use App\DocumentType;
@@ -12,9 +13,11 @@ use App\Employee;
 use App\EmployeeProject;
 use App\EmployeeTask;
 use App\EmployeeTicket;
+use App\EmployeeWorkExperience;
 use App\FinanceDeposit;
 use App\FinanceExpense;
 use App\Holiday;
+use App\Http\traits\CalendarableModelTrait;
 use App\Http\traits\ShiftTimingOnDay;
 use App\Invoice;
 use App\IpSetting;
@@ -43,11 +46,8 @@ use Throwable;
 
 class DashboardController extends Controller {
 
-	/**
-	 * Create a new controller instance.
-	 *
-	 * @return void
-	 */
+    use CalendarableModelTrait;
+
 	public function __construct()
 	{
 		$this->middleware(['auth']);
@@ -430,9 +430,10 @@ class DashboardController extends Controller {
 
 	public function employeeDashboard(Request $request)
 	{
+        // return EmployeeWorkExperience::where('employee_id', 52)->get();
+
 		$user = auth()->user();
 		$employee = Employee::with('department:id,department_name', 'officeShift')->findOrFail($user->id);
-
 		$current_day_in = strtolower(Carbon::now()->format('l')) . '_in';
 		$current_day_out = strtolower(Carbon::now()->format('l')) . '_out';
 
@@ -523,7 +524,6 @@ class DashboardController extends Controller {
                 }
             }
         }
-
 		return view('dashboard.employee_dashboard', compact('user', 'employee', 'employee_attendance',
 			'shift_in', 'shift_out', 'shift_name', 'announcements',
 			'employee_award_count', 'holidays', 'leave_types', 'travel_types',

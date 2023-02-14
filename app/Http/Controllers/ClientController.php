@@ -12,11 +12,6 @@ use Illuminate\Support\Facades\Validator;
 
 class ClientController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
 	public function index()
 	{
 		$logged_user = auth()->user();
@@ -57,12 +52,6 @@ class ClientController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
 
 	public function store(Request $request)
 	{
@@ -72,12 +61,12 @@ class ClientController extends Controller {
 			$validator = Validator::make($request->only('username', 'company_name', 'first_name','last_name', 'password', 'contact_no', 'email', 'website', 'address1', 'address2',
 				'city', 'state', 'country', 'zip', 'profile_photo'),
 				[
-					'username' => 'required|unique:users,username,',
-					'email' => 'required|email|unique:users',
+					'username' => 'required|unique:users',
+                    'email'    => 'nullable|email|unique:users',
 					'company_name' => 'required',
 					'first_name' => 'required',
 					'last_name' => 'required',
-					'contact_no' => 'nullable|numeric',
+					'contact_no' => 'required|unique:users',
 					'zip' => 'nullable|numeric',
 					'password' => 'required|min:4',
 					'profile_photo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
@@ -141,7 +130,7 @@ class ClientController extends Controller {
 			$data['id'] = $user->id;
 
 			client::create($data);
-			
+
 
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
@@ -180,18 +169,17 @@ class ClientController extends Controller {
 		if ($logged_user->can('edit-client'))
 		{
 			$id = $request->hidden_id;
-
 			$client = Client::findOrFail($id);
 
 			$validator = Validator::make($request->only('username', 'company_name', 'first_name', 'last_name', 'contact_no', 'email', 'website', 'address1', 'address2',
 				'city', 'state', 'country', 'zip', 'profile_photo'),
 				[
 					'username' => 'required|unique:users,username,' . $id,
-					'email' => 'required|email|unique:users,email,' . $id,
+                    'email'    => 'nullable|email|unique:users,email,' . $id,
 					'company_name' => 'required',
 					'first_name' => 'required',
 					'last_name' => 'required',
-					'contact_no' => 'nullable|numeric',
+					'contact_no' => 'required|unique:users,contact_no,' . $id,
 					'zip' => 'nullable|numeric',
 					'profile_photo' => 'nullable|image|max:2048|mimes:jpeg,png,jpg,gif'
 				]
@@ -324,7 +312,7 @@ class ClientController extends Controller {
 		if ($logged_user->can('delete-client'))
 		{
 			$client_id = $request['clientIdArray'];
-			$clients = Client::whereIn('id', $client_id)->get();
+			$clients = Client::whereIntegerInRaw('id', $client_id)->get();
 
 			foreach ($clients as $client)
 			{

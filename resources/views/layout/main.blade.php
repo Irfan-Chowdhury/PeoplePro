@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="icon" type="image/png" href="{{url('logo', $general_settings->site_logo) ?? 'NO Logo'}}">
+    <link rel="icon" type="image/png" href="{{asset('/images/logo/'.$general_settings->site_logo)}}"/>
     <title>{{$general_settings->site_title ?? "NO Title"}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -131,8 +131,18 @@
     <script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
 
     <!-- table sorter js-->
-    <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
+
+    @if(Config::get('app.locale') == 'Arabic')
+        <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake_arabic.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts_arabic.js') }}"></script>
+    @else
+        <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
+    @endif
+
+
+
+
     <script type="text/javascript" src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.buttons.min.js') }}"></script>
@@ -164,14 +174,17 @@
                 <a id="toggle-btn" href="#" class="menu-btn"><i class="dripicons-menu"> </i></a>
                 <span class="brand-big" id="site_logo_main">
                     @if($general_settings->site_logo)
-                        <img src="{{asset('/images/logo/logo.png')}}" width="50">
+						<img src="{{asset('/images/logo/'.$general_settings->site_logo)}}" width="140" height="70">
                         &nbsp; &nbsp;
                     @endif
-                        <h1 class="d-inline" id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1>
+                        <!-- <h1 class="d-inline" id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1> -->
                 </span>
 
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                    <li class="nav-item">
+                        <a class="dropdown-header-name" style="padding-right: 10px" href="{{url('/optimize')}}" title="Clear all cache with refresh"><i class="fa fa-refresh"></i></a>
+                    </li>
                     <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip"
                                             title="{{__('Full Screen')}}"><i class="dripicons-expand"></i></a></li>
                     <li class="nav-item">
@@ -211,8 +224,8 @@
 
                 @if (Auth::user()->role_users_id==1)
                     <li class="nav-item">
-                        <a class="nav-link" href="{{url('help/index.html')}}" target="_blank" data-toggle="tooltip"
-                           title="{{__('Help')}}">
+                        <a class="nav-link" href="{{url('/documentation')}}" target="_blank" data-toggle="tooltip"
+                           title="{{__('Documentation')}}">
                             <i class="dripicons-information"></i>
                         </a>
                     </li>
@@ -436,9 +449,7 @@
                 @endcan
 
 
-                <li class="has-dropdown {{ (request()->is('organization*')) ? 'active' : '' }}"><a href="#Organization"
-                                                                                                   aria-expanded="false"
-                                                                                                   data-toggle="collapse">
+                <li class="has-dropdown {{ (request()->is('organization*')) ? 'active' : '' }}"><a href="#Organization" aria-expanded="false" data-toggle="collapse">
                         <i
                                 class="dripicons-view-thumb"></i><span>{{trans('file.Organization')}}</span></a>
                     <ul id="Organization" class="collapse list-unstyled ">
@@ -460,12 +471,13 @@
                             </li>
                         @endcan
 
-                        <li id="announcements"><a
-                                    href="{{route('announcements.index')}}">{{trans('file.Announcements')}}</a></li>
+                        {{-- @can('announcement') --}}
+                            <li id="announcements"><a href="{{route('announcements.index')}}">{{trans('file.Announcements')}}</a></li>
+                        {{-- @endcan --}}
 
-                        <li id="company_policy"><a href="{{route('policy.index')}}">{{__('Company Policy')}}</a>
-                        </li>
-
+                        {{-- @can('policy') --}}
+                            <li id="company_policy"><a href="{{route('policy.index')}}">{{__('Company Policy')}}</a></li>
+                        {{-- @endcan --}}
                     </ul>
                 </li>
 
@@ -491,7 +503,7 @@
 
                             @can('edit-attendance')
                                 <li id="update_attendance"><a
-                                            href="{{route('update_attendances.index')}}"> {{__('Update Attendances')}}</a>
+                                            href="{{route('update_attendances.index')}}"> {{__('Add/Update Attendances')}}</a>
                                 </li>
                             @endcan
 
@@ -583,7 +595,7 @@
                             @endcan --}}
 
                             <!--New added-->
-                            <li id="attendance"><a href="{{route('attendances.index')}}">{{trans('file.Attendances')}}</a></li>
+                            <li id="attendance"><a href="{{route('attendances.index')}}">{{__('Daily Attendances')}}</a></li>
                             <li id="date_wise_attendance"><a href="{{route('date_wise_attendances.index')}}"> {{__('Date wise Attendances')}}</a></li>
                             <li id="monthly_attendance"><a href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a></li>
                             <!--New added End-->
@@ -891,7 +903,7 @@
     <footer class="main-footer">
         <div class="container-fluid">
             <p>&copy; {{$general_settings->site_title ?? "no title"}} | {{ __('Developed by')}} <a
-                        href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a></p>
+                        href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a>|| Version - {{env('VERSION')}}</p></p>
         </div>
     </footer>
 </div>
@@ -924,7 +936,6 @@
 </script>
 
 @stack('scripts')
-
 
 </body>
 </html>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\company;
 use App\location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller {
@@ -26,11 +27,11 @@ class CompanyController extends Controller {
 				})
 				->addColumn('city',function ($row)
 				{
-					return $row->Location->city ;
+					return $row->Location->city ?? "" ;
 				})
 				->addColumn('country',function ($row)
 				{
-					return $row->Location->Country->name ;
+					return $row->Location->Country->name ?? "" ;
 				})
 				->addColumn('action', function ($data)
 				{
@@ -267,7 +268,7 @@ class CompanyController extends Controller {
 		{
 
 			$company_id = $request['companyIdArray'];
-			$company = company::whereIn('id', $company_id);
+			$company = company::whereIntegerInRaw('id', $company_id);
 
 			if ($company->delete())
 			{

@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Http\traits\ENVFilePutContent;
 use App\FinanceBankCash;
 use App\GeneralSetting;
 use App\LeaveType;
@@ -11,7 +11,9 @@ use function config;
 use ZipArchive;
 
 
-class GeneralSettingController extends Controller {
+class GeneralSettingController extends Controller
+{
+    use ENVFilePutContent;
 
 	public function index()
 	{
@@ -19,7 +21,6 @@ class GeneralSettingController extends Controller {
 		{
 			$general_settings_data = GeneralSetting::latest()->first();
 			$accounts = FinanceBankCash::all('id', 'account_name');
-
 			$zones_array = array();
 			$timestamp = time();
 
@@ -45,7 +46,8 @@ class GeneralSettingController extends Controller {
 		{
 			if(!env('USER_VERIFIED'))
 			{
-				return redirect()->back()->with('msg', 'This feature is disabled for demo!');
+                $this->setErrorMessage('This feature is disabled for demo!');
+                return redirect()->back();
 			}
 
 			$this->validate($request, [
@@ -53,30 +55,15 @@ class GeneralSettingController extends Controller {
 			]);
 
 			$data = $request->all();
-
 			//writting timezone info in .env file
-
+            $this->dataWriteInENVFile('APP_TIMEZONE',$request->timezone);
+            $this->dataWriteInENVFile('Date_Format',$request->date_format);
 			$js_format = config('date_format_conversion.' . $request->date_format);
-
-			$path = base_path('.env');
-
-			$searchArray = array('APP_TIMEZONE=' . env('APP_TIMEZONE'),'Date_Format=' . env('Date_Format'),'Date_Format_JS=' . env('Date_Format_JS'));
-			$replaceArray = array('APP_TIMEZONE=' . $data['timezone'],'Date_Format=' . $data['date_format'],'Date_Format_JS=' . $js_format);
-			file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
-
-
-            //RTL Layout Start
-            if ($request->rtl_layout) {
-                $rtl_data = $request->rtl_layout;
-            }else {
-                $rtl_data = '';
-            }
-            $path = '.env';
-            $searchArray = array('RTL_LAYOUT'.'='.env('RTL_LAYOUT'));
-            $replaceArray= array('RTL_LAYOUT'.'='.$rtl_data);
-            file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
-            //RTL Layout End
-
+            $this->dataWriteInENVFile('Date_Format_JS',$js_format);
+            $this->dataWriteInENVFile('RTL_LAYOUT',$request->input('rtl_layout', NULL));
+            $this->dataWriteInENVFile('ENABLE_CLOCKIN_CLOCKOUT',$request->input('enable_clockin_clockout', NULL));
+            $this->dataWriteInENVFile('ENABLE_EARLY_CLOCKIN',$request->input('enable_early_clockin', NULL));
+            $this->dataWriteInENVFile('ATTENDANCE_DEVICE_DATE_FORMAT',$request->Attendance_Device_date_format ? $request->Attendance_Device_date_format : 'm/d/Y');
 
 			$path = base_path('config/variable.php');
 
@@ -151,18 +138,24 @@ class GeneralSettingController extends Controller {
 
 		if (auth()->user()->can('view-mail-setting'))
 		{
-			$data = $request->all();
+
+            $this->dataWriteInENVFile('MAIL_HOST',$request->mail_host);
+            $this->dataWriteInENVFile('MAIL_PORT',$request->port);
+            $this->dataWriteInENVFile('MAIL_FROM_ADDRESS',$request->mail_address);
+            $this->dataWriteInENVFile('MAIL_PASSWORD',$request->password);
+            $this->dataWriteInENVFile('MAIL_FROM_NAME',".'$request->mail_name'.");
+            $this->dataWriteInENVFile('MAIL_ENCRYPTION',$request->encryption);
+			return redirect()->back()->with('message', 'Data updated successfully');
+
 
 			//writting mail info in .env file
-			$path = '.env';
-			$searchArray = array('MAIL_HOST="' . env('MAIL_HOST') . '"', 'MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_FROM_ADDRESS="' . env('MAIL_FROM_ADDRESS') . '"', 'MAIL_FROM_NAME="' . env('MAIL_FROM_NAME') . '"', 'MAIL_USERNAME="' . env('MAIL_USERNAME') . '"', 'MAIL_PASSWORD="' . env('MAIL_PASSWORD') . '"', 'MAIL_ENCRYPTION="' . env('MAIL_ENCRYPTION') . '"');
-			// $searchArray = array('MAIL_HOST=' . env('MAIL_HOST'),'MAIL_PORT=' . env('MAIL_PORT'),'MAIL_FROM_ADDRESS=' . env('MAIL_FROM_ADDRESS'),'MAIL_FROM_NAME=' . env('MAIL_FROM_NAME'),'MAIL_USERNAME=' . env('MAIL_USERNAME'),'MAIL_PASSWORD=' . env('MAIL_PASSWORD'),'MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'));
-
-			$replaceArray = array('MAIL_HOST="' . $data['mail_host'] . '"', 'MAIL_PORT=' . $data['port'], 'MAIL_FROM_ADDRESS="' . $data['mail_address'] . '"', 'MAIL_FROM_NAME="' . $data['mail_name'] . '"', 'MAIL_USERNAME="' . $data['mail_address'] . '"', 'MAIL_PASSWORD="' . $data['password'] . '"', 'MAIL_ENCRYPTION="' . $data['encryption'] . '"');
-
-			file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
-
-			return redirect()->back()->with('message', 'Data updated successfully');
+            // $data = $request->all();
+			// $path = '.env';
+			// $searchArray = array('MAIL_HOST="' . env('MAIL_HOST') . '"', 'MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_FROM_ADDRESS="' . env('MAIL_FROM_ADDRESS') . '"', 'MAIL_FROM_NAME="' . env('MAIL_FROM_NAME') . '"', 'MAIL_USERNAME="' . env('MAIL_USERNAME') . '"', 'MAIL_PASSWORD="' . env('MAIL_PASSWORD') . '"', 'MAIL_ENCRYPTION="' . env('MAIL_ENCRYPTION') . '"');
+			// // $searchArray = array('MAIL_HOST=' . env('MAIL_HOST'),'MAIL_PORT=' . env('MAIL_PORT'),'MAIL_FROM_ADDRESS=' . env('MAIL_FROM_ADDRESS'),'MAIL_FROM_NAME=' . env('MAIL_FROM_NAME'),'MAIL_USERNAME=' . env('MAIL_USERNAME'),'MAIL_PASSWORD=' . env('MAIL_PASSWORD'),'MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'));
+			// $replaceArray = array('MAIL_HOST="' . $data['mail_host'] . '"', 'MAIL_PORT=' . $data['port'], 'MAIL_FROM_ADDRESS="' . $data['mail_address'] . '"', 'MAIL_FROM_NAME="' . $data['mail_name'] . '"', 'MAIL_USERNAME="' . $data['mail_address'] . '"', 'MAIL_PASSWORD="' . $data['password'] . '"', 'MAIL_ENCRYPTION="' . $data['encryption'] . '"');
+			// file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
+			// return redirect()->back()->with('message', 'Data updated successfully');
 		}
 		return abort('403', __('You are not authorized'));
 	}

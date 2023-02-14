@@ -318,8 +318,8 @@ class JobEmployerController extends Controller {
 		if ($logged_user->can('delete-job_employer'))
 		{
 			$employer_id = $request['job_employerIdArray'];
-			$job_employer = JobEmployer::whereIn('id', $employer_id);
-			$user =  User::whereIn('id', $employer_id);
+			$job_employer = JobEmployer::whereIntegerInRaw('id', $employer_id);
+			$user =  User::whereIntegerInRaw('id', $employer_id);
 			if ($job_employer->delete() && $user->delete() )
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => __('Job Employer')])]);

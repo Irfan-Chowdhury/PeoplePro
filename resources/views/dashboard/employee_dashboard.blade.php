@@ -31,6 +31,7 @@
                     <a class="btn btn-default btn-sm" id="my_profile" href="{{route('profile')}}">
                         <i class="dripicons-user"></i> {{trans('file.Profile')}}
                     </a>
+                    @if (env('ENABLE_CLOCKIN_CLOCKOUT')!=NULL)
                     <form class="d-inline m1-2" action="{{route('employee_attendance.post',$employee->id)}}" name="set_clocking"
                           id="set_clocking" autocomplete="off" class="form" method="post" accept-charset="utf-8">
                         @csrf
@@ -47,6 +48,7 @@
                         {{-- <br> --}}
                         @if($employee->attendance_type=='ip_based' && $ipCheck!=true) <small class="text-danger"><i>[Please login with your office's internet to clock in or clock out]</i></small> @endif
                     </form>
+                    @endif
                 </div>
             </div>
         </div>

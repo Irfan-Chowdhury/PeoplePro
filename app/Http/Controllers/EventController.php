@@ -126,11 +126,11 @@ class EventController extends Controller {
 				if ($data['department_id'] == null)
 				{
 					$employee_id = Employee::where('company_id', $data ['company_id'])->pluck('id');
-					$notifiable = User::whereIn('id', $employee_id)->get();
+					$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 				} else
 				{
 					$employee_id = Employee::where('department_id', $data ['department_id'])->pluck('id');
-					$notifiable = User::whereIn('id', $employee_id)->get();
+					$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 				}
 				Notification::send($notifiable, new EventNotify($data));
 			}
@@ -252,14 +252,14 @@ class EventController extends Controller {
                                     ->where('is_active',1)
                                     ->where('exit_date',NULL)
                                     ->pluck('id');
-					$notifiable = User::whereIn('id', $employee_id)->get();
+					$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 				} else
 				{
 					$employee_id = Employee::where('department_id', $data ['department_id'])
                                     ->where('is_active',1)
                                     ->where('exit_date',NULL)
                                     ->pluck('id');
-					$notifiable = User::whereIn('id', $employee_id)->get();
+					$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 				}
 				Notification::send($notifiable, new EventNotify($data));
 			}
@@ -308,7 +308,7 @@ class EventController extends Controller {
 		{
 
 			$event_id = $request['eventIdArray'];
-			$event = Event::whereIn('id', $event_id);
+			$event = Event::whereIntegerInRaw('id', $event_id);
 			if ($event->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Event')])]);

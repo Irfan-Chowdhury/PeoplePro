@@ -216,7 +216,7 @@ class AccountListController extends Controller {
 		{
 
 			$bankCash_id = $request['AccountListIdArray'];
-			$bankCash = FinanceBankCash::whereIn('id', $bankCash_id);
+			$bankCash = FinanceBankCash::whereIntegerInRaw('id', $bankCash_id);
 			if ($bankCash->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Account')])]);

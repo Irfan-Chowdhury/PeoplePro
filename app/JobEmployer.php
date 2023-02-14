@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class JobEmployer extends Model
 {
-    //
-
 	protected $guarded=[];
 
 	public function getFullNameAttribute() {

@@ -17,8 +17,7 @@
 
                         <div class="col-md-6 form-group">
                             <label for="project_title">{{trans('file.Title')}} *</label>
-                            <input type="text" name="title" id="project_title" required class="form-control"
-                                   placeholder="{{trans('file.Title')}}">
+                            <input type="text" name="title" id="project_title" required class="form-control" placeholder="{{trans('file.Title')}}">
                         </div>
 
                         <div class="col-md-6">
@@ -29,7 +28,7 @@
                                         data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Client')])}}...'>
                                     @foreach($clients as $client)
-                                        <option value="{{$client->id}}">{{$client->name}}</option>
+                                        <option value="{{$client->id}}">{{$client->first_name.' '.$client->last_name}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -77,7 +76,7 @@
                                     @foreach($companies as $company)
                                         <option value="{{$company->id}}">{{$company->company_name}}</option>
                                     @endforeach
-                                    
+
                                 </select>
                             </div>
                         </div>

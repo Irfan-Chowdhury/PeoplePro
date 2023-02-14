@@ -299,7 +299,7 @@ class AssetController extends Controller {
 		}
 
 		$asset_id = $request['assetIdArray'];
-		$assets = Asset::whereIn('id', $asset_id)->get();
+		$assets = Asset::whereIntegerInRaw('id', $asset_id)->get();
 
 		foreach ($assets as $asset)
 		{

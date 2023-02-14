@@ -2,7 +2,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>{{ __('PeoplePro') }}</title>
+    {{-- <title>{{ __('PeoplePro') }}</title> --}}
+    <title>@yield('title_front')</title>
+    <link rel="icon" type="image/png" href="{{asset('/images/logo/'.$general_settings->site_logo)}}"/>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">

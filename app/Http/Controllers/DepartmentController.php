@@ -11,15 +11,8 @@ use Illuminate\Support\Facades\Validator;
 
 class DepartmentController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-
 	public function index()
 	{
-
 		$companies = company::select('id', 'company_name')->get();
 
 		if (request()->ajax())
@@ -90,8 +83,7 @@ class DepartmentController extends Controller {
 
 			$data['department_name'] = str_replace('&amp;', '&', $request->department_name);
 			$data['company_id'] = $request->company_id;
-			if($request->employee_id)
-			{
+			if($request->employee_id){
 				$data ['department_head'] = $request->employee_id;
 			}
 
@@ -213,7 +205,7 @@ class DepartmentController extends Controller {
 		{
 
 			$department_id = $request['departmentIdArray'];
-			$department = department::whereIn('id', $department_id);
+			$department = department::whereIntegerInRaw('id', $department_id);
 			if ($department->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Department')])]);

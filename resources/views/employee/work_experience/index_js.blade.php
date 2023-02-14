@@ -69,7 +69,7 @@
                 data: 'action',
                 name: 'action',
                 orderable: false
-            }
+            } 
         ],
 
 
@@ -86,7 +86,7 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 5],
+                'targets': [0],
             },
         ],
 

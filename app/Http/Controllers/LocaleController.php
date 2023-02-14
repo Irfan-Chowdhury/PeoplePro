@@ -16,6 +16,10 @@ class LocaleController extends Controller
 
     public function languageDelete(Request $request)
     {
+		if (!env('USER_VERIFIED'))
+		{
+			return response()->json(['error' => 'This feature is disabled for demo!']);
+		}
         File::deleteDirectory('resources/lang/'.$request->langVal);
         return response()->json('success');
     }

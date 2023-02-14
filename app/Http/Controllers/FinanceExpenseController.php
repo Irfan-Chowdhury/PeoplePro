@@ -55,13 +55,15 @@ class FinanceExpenseController extends Controller {
 					{
 						$button = '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
 						$button .= '&nbsp;&nbsp;';
-						if (auth()->user()->can('edit-expense') && $data->expense_reference !== trans('file.Payroll'))
+						// if (auth()->user()->can('edit-expense') && $data->expense_reference !== trans('file.Payroll'))
+						if (auth()->user()->can('edit-expense'))
 						{
 
 							$button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 							$button .= '&nbsp;&nbsp;';
 						}
-						if (auth()->user()->can('delete-expense') && $data->expense_reference !== trans('file.Payroll'))
+						// if (auth()->user()->can('delete-expense') && $data->expense_reference !== trans('file.Payroll'))
+						if (auth()->user()->can('delete-expense'))
 						{
 
 							$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';

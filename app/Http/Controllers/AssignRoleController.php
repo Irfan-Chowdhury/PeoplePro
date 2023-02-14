@@ -51,7 +51,7 @@ class AssignRoleController extends Controller {
 
 			if ($role)
 			{
-				$users = User::whereIn('id', $user_id)->get();
+				$users = User::whereIntegerInRaw('id', $user_id)->get();
 
 				foreach ($users as $user)
 				{

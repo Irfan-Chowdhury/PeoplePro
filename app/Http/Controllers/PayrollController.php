@@ -25,7 +25,6 @@ class PayrollController extends Controller {
 
 	public function index(Request $request)
 	{
-
 		$logged_user = auth()->user();
 		$companies = company::all();
 
@@ -38,10 +37,9 @@ class PayrollController extends Controller {
 			if (request()->ajax())
 			{
 				$paid_employees = Payslip::where('month_year',$selected_date)->pluck('employee_id');
-
 				$salary_basic_employees = SalaryBasic::where('first_date','<=',$first_date)->distinct()->pluck('employee_id');
 
-
+                
 				if (!empty($request->filter_company && $request->filter_department))
 				{
 					$employees = Employee::with(['salaryBasic' => function ($query)
@@ -83,9 +81,10 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount')
 						->where('company_id', $request->filter_company)
 						->where('department_id', $request->filter_department)
-						->whereIn('id',$salary_basic_employees)
-						->whereNotIn('id',$paid_employees)
-                        ->where('is_active',1)->where('exit_date',NULL)
+						->whereIntegerInRaw('id',$salary_basic_employees)
+						->whereIntegerNotInRaw('id',$paid_employees)
+                        ->where('is_active',1)
+                        ->where('exit_date',NULL)
 						->get();
 
 				} elseif (!empty($request->filter_company))
@@ -128,8 +127,8 @@ class PayrollController extends Controller {
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount')
 						->where('company_id', $request->filter_company)
-						->whereIn('id',$salary_basic_employees)
-						->whereNotIn('id',$paid_employees)
+						->whereIntegerInRaw('id',$salary_basic_employees)
+						->whereIntegerNotInRaw('id',$paid_employees)
                         ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				} else
@@ -171,9 +170,12 @@ class PayrollController extends Controller {
 							$query->whereBetween('attendance_date', [$first_date, $last_date]);
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount')
-                        ->whereIn('id',$salary_basic_employees)
-						->whereNotIn('id',$paid_employees)
-						->where('is_active',1)->where('exit_date',NULL)
+                        // ->whereIntegerInRaw('id',$salary_basic_employees)
+                        // ->whereIntegerNotInRaw('id',$paid_employees)
+                        ->whereIntegerInRaw('id',$salary_basic_employees)
+						->whereIntegerNotInRaw('id',$paid_employees)
+						->where('is_active',1)
+                        ->where('exit_date',NULL)
 						->get();
 				}
 
@@ -487,7 +489,7 @@ class PayrollController extends Controller {
 		$data['total_overtime']   = $employee->overtimes->sum('overtime_amount');
 		$data['total_other_payment'] =$employee->otherPayments->sum('other_payment_amount');
 		$data['payslip_type']     = $payslip_type;
-		$data['pension_amount']  = $pension_amount;
+		$data['pension_amount']   = $pension_amount;
 
 		if ($payslip_type == 'Monthly')
 		{
@@ -608,14 +610,14 @@ class PayrollController extends Controller {
 							if($loan->time_remaining == '0')
 							{
 								$amount_remaining = 0;
-								$time_remaining = 0;
-								$monthly_payable = 0;
+								$time_remaining   = 0;
+								$monthly_payable  = 0;
 							}
 							else
 							{
-								$amount_remaining = $loan->amount_remaining - $loan->monthly_payable;
-								$time_remaining = $loan->time_remaining - 1;
-								$monthly_payable = $loan->monthly_payable;
+								$amount_remaining = (int) $loan->amount_remaining - (int) $loan->monthly_payable;
+								$time_remaining   = (int) $loan->time_remaining - 1;
+								$monthly_payable  = $amount_remaining !=0 ? $loan->monthly_payable : 0;
 							}
 							SalaryLoan::whereId($loan->id)->update(['amount_remaining' => $amount_remaining, 'time_remaining' => $time_remaining,
 								'monthly_payable' => $monthly_payable]);
@@ -641,16 +643,13 @@ class PayrollController extends Controller {
 
 				return response()->json(['success' => __('Data Added successfully.')]);
 		}
-
 		return response()->json(['success' => __('You are not authorized')]);
-
 	}
 
 
 	//--- Updated ----
 	public function payBulk(Request $request)
 	{
-
 		$logged_user = auth()->user();
 		if ($logged_user->can('make-bulk_payment'))
 		{
@@ -658,7 +657,7 @@ class PayrollController extends Controller {
 			{
                 $first_date = date('Y-m-d', strtotime('first day of ' . $request->month_year));
 				$employeeArrayId = $request->all_checkbox_id;
-				//$employeesId = Employee::whereIn('id',$employeeArrayId)->whereNotIn('id',$paid_employee)->pluck('id');
+				//$employeesId = Employee::whereIntegerInRaw('id',$employeeArrayId)->whereIntegerNotInRaw('id',$paid_employee)->pluck('id');
 
 				if (!empty($request->filter_company && $request->filter_department)) //No Need
 				{
@@ -694,7 +693,7 @@ class PayrollController extends Controller {
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount','company_id')
 						->where('company_id', $request->filter_company)
 						->where('department_id', $request->filter_department)
-						->whereIn('id', $employeeArrayId)
+						->whereIntegerInRaw('id', $employeeArrayId)
                         ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
@@ -731,7 +730,7 @@ class PayrollController extends Controller {
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount','company_id')
 						->where('company_id', $request->filter_company)
-						->whereIn('id', $employeeArrayId)
+						->whereIntegerInRaw('id', $employeeArrayId)
                         ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
@@ -767,7 +766,7 @@ class PayrollController extends Controller {
 							$query->where('first_date', $first_date);
 						}])
 						->select('id', 'first_name', 'last_name', 'basic_salary', 'payslip_type','pension_type','pension_amount','company_id')
-						->whereIn('id', $employeeArrayId)
+						->whereIntegerInRaw('id', $employeeArrayId)
                         ->where('is_active',1)->where('exit_date',NULL)
 						->get();
 				}
@@ -860,7 +859,7 @@ class PayrollController extends Controller {
 									{
 										$amount_remaining = $loan->amount_remaining - $loan->monthly_payable;
 										$time_remaining = $loan->time_remaining - 1;
-										$monthly_payable = $loan->monthly_payable;
+										$monthly_payable = $amount_remaining !=0 ? $loan->monthly_payable : 0;
 									}
 									SalaryLoan::whereId($loan->id)->update(['amount_remaining' => $amount_remaining, 'time_remaining' => $time_remaining,
 										'monthly_payable' => $monthly_payable]);
@@ -874,7 +873,6 @@ class PayrollController extends Controller {
 							if ($data['payment_type'] == NULL) { //New
 								return response()->json(['payment_type_error' => __('Please select payslip-type for the employees.')]);
 							}
-
 							Payslip::create($data);
 						}
 
@@ -1009,4 +1007,5 @@ class PayrollController extends Controller {
         }
     }
 }
+
 

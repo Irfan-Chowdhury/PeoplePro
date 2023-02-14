@@ -107,7 +107,7 @@ class PolicyController extends Controller {
 			Policy::create($data);
 
 			$employee_id = Employee::where('company_id', $data ['company_id'])->where('is_active',1)->where('exit_date',NULL)->pluck('id');
-			$notifiable = User::whereIn('id', $employee_id)->get();
+			$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 
 			Notification::send($notifiable, new CompanyPolicyNotify());
 
@@ -194,7 +194,7 @@ class PolicyController extends Controller {
 			Policy::whereId($id)->update($data);
 
 			$employee_id = Employee::where('company_id', $data ['company_id'])->pluck('id');
-			$notifiable = User::whereIn('id', $employee_id)->get();
+			$notifiable = User::whereIntegerInRaw('id', $employee_id)->get();
 
 
 			Notification::send($notifiable, new CompanyPolicyNotify());
@@ -242,7 +242,7 @@ class PolicyController extends Controller {
 		{
 
 			$policy_id = $request['policyIdArray'];
-			$policy = Policy::whereIn('id', $policy_id);
+			$policy = Policy::whereIntegerInRaw('id', $policy_id);
 			if ($policy->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Policy')])]);

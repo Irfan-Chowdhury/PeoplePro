@@ -83,7 +83,7 @@
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Document')}} {{trans('file.File')}} *</label>
                                 <input type="file" name="document_file" id="immigration_document_file"
-                                       required class="form-control">
+                                        class="form-control">
                                 <span id="stored_immigration_document"></span>
                             </div>
 

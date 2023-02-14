@@ -19,4 +19,9 @@ class department extends Model
 	}
 
 
+    public function employees(){
+		return $this->hasMany(Employee::class,'company_id')->orderBy("id", "ASC");
+	}
+
+
 }

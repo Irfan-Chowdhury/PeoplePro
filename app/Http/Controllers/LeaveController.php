@@ -18,6 +18,8 @@ use App\Notifications\LeaveNotificationToAdmin; //Database
 use App\User;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 class LeaveController extends Controller {
 
 	public function index()
@@ -25,7 +27,7 @@ class LeaveController extends Controller {
 		$logged_user = auth()->user();
 		$companies = company::select('id', 'company_name')->get();
 		$leave_types = LeaveType::select('id', 'leave_type', 'allocated_day')->get();
-        $leave = leave::with('employee', 'department', 'LeaveType')->get();
+        $leave = leave::with('employee', 'department', 'LeaveType')->orderBy('id','DESC')->get();
 
 
 		if ($logged_user->can('view-leave'))
@@ -168,21 +170,25 @@ class LeaveController extends Controller {
 			}
 			elseif ((Auth::user()->role_users_id !=1 ) && ($leave->is_notify==NULL))
 			{
-				$notifiable = User::where('role_users_id',1)->get();
-				foreach ($notifiable as $item) {
-					$item->notify(new LeaveNotificationToAdmin());
-				}
+                //get-leave-notification - 294
+                $role_ids = DB::table('role_has_permissions')->where('permission_id',294)->get()->pluck('role_id');
+                $role_ids[]=1;
+
+                $notifiable = User::whereIn('role_users_id',$role_ids)->get();
+                foreach ($notifiable as $item) {
+                    $item->notify(new LeaveNotificationToAdmin());
+                }
 
 				//Mail
-				// $department = department::with('DepartmentHead:id,email')->where('id',$request->department_id)->first();
-				// Notification::route('mail', $department->DepartmentHead->email)
-				// 				->notify(new EmployeeLeaveNotification(
-				// 					$leave->employee->full_name,
-				// 					$leave->total_days,
-				// 					$leave->start_date,
-				// 					$leave->end_date,
-				// 					$leave->leave_reason,
-				// 				));
+				$department = department::with('DepartmentHead:id,email')->where('id',$request->department_id)->first();
+				Notification::route('mail', $department->DepartmentHead->email)
+								->notify(new EmployeeLeaveNotification(
+									$leave->employee->full_name,
+									$leave->total_days,
+									$leave->start_date,
+									$leave->end_date,
+									$leave->leave_reason,
+								));
 			}
 
 			return response()->json(['success' => __('Data Added successfully.')]);
@@ -417,7 +423,7 @@ class LeaveController extends Controller {
 		{
 
 			$leave_id = $request['leaveIdArray'];
-			$leave = leave::whereIn('id', $leave_id);
+			$leave = leave::whereIntegerInRaw('id', $leave_id);
 			if ($leave->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Leave')])]);

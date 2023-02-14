@@ -260,7 +260,7 @@ class TerminationController extends Controller {
 		{
 
 			$termination_id = $request['terminationIdArray'];
-			$termination = Termination::whereIn('id', $termination_id);
+			$termination = Termination::whereIntegerInRaw('id', $termination_id);
 			if ($termination->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Termination')])]);

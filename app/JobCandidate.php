@@ -8,7 +8,6 @@ use Illuminate\Notifications\Notifiable;
 
 class JobCandidate extends Model
 {
-    //
 	use Notifiable;
 	protected $guarded=[];
 

@@ -14,7 +14,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <div class="card-title text-center"><h3>{{__('Daily Attendance Info')}}<span id="details_month_year"></span></h3></div>
+                    <div class="card-title text-center"><h3>{{__('Daily Attendances')}}<span id="details_month_year"></span></h3></div>
 
                     <form method="post" id="filter_form" class="form-horizontal">
                         @csrf

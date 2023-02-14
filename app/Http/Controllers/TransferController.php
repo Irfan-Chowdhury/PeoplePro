@@ -281,7 +281,7 @@ class TransferController extends Controller {
 		{
 
 			$transfer_id = $request['transferIdArray'];
-			$transfer = Transfer::whereIn('id', $transfer_id);
+			$transfer = Transfer::whereIntegerInRaw('id', $transfer_id);
 			if ($transfer->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Transfer')])]);

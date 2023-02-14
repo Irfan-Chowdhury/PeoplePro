@@ -31,3 +31,5 @@ Trait TotalSalaryTrait {
 		return $total;
 	}
 }
+
+

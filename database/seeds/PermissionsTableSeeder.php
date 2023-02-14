@@ -1476,8 +1476,33 @@ class PermissionsTableSeeder extends Seeder
 				'guard_name' => 'web',
 				'name' => 'delete-assets'
 			),
+            array(
+				'id' => 292,
+				'guard_name' => 'web',
+				'name' => 'daily-attendances'
+			),
+            array(
+				'id' => 293,
+				'guard_name' => 'web',
+				'name' => 'date-wise-attendances'
+			),
+            array(
+				'id' => 294,
+				'guard_name' => 'web',
+				'name' => 'monthly-attendances'
+			),
+            // New Added
+            array(
+				'id' => 295,
+				'guard_name' => 'web',
+				'name' => 'set-permission'
+			),
+            array(
+				'id' => 296,
+				'guard_name' => 'web',
+				'name' => 'get-leave-notification'
+			),
 		);
-
 		DB::table('permissions')->insert($permissions);
     }
 }

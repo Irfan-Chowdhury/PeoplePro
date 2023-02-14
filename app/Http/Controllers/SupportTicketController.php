@@ -366,7 +366,7 @@ class SupportTicketController extends Controller {
 		if ($logged_user->can('delete-ticket'))
 		{
 			$ticket_id = $request['ticketIdArray'];
-			$tickets = SupportTicket::whereIn('id', $ticket_id)->get();
+			$tickets = SupportTicket::whereIntegerInRaw('id', $ticket_id)->get();
 
 			foreach ($tickets as $ticket)
 			{

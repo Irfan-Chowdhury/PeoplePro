@@ -128,6 +128,28 @@
                                             <label class="mr-4 form-check-label"><strong>{{trans('file.RTL Layout')}} </strong></label>
                                         </div>
                                     </div>
+                                    <div class="col-md-6">
+                                        <div class="mt-4 form-check">
+                                            <input type="checkbox" name="enable_clockin_clockout" class="form-check-input" value="1" {{env('ENABLE_CLOCKIN_CLOCKOUT')!=NULL ? 'checked':''}}/>
+                                            <label class="mr-4 form-check-label"><strong>{{trans('file.Enable Clock In and Clock Out')}} </strong></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mt-4 form-check">
+                                            <input type="checkbox" name="enable_early_clockin" class="form-check-input" value="1" {{env('ENABLE_EARLY_CLOCKIN')!=NULL ? 'checked':''}}/>
+                                            <label class="mr-4 form-check-label"><strong>{{trans('file.Enable Early Clock In (Added to Worktime)')}} </strong></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group mt-4">
+                                            <label><strong>{{__('file.Attendance Device Date Format')}}</strong></label>
+                                            <select name="Attendance_Device_date_format" class="selectpicker form-control">
+                                                <option {{env('ATTENDANCE_DEVICE_DATE_FORMAT') =='d/m/Y' ? 'selected':''}} value="d/m/Y">dd/mm/yyyy(23/05/2022)</option>
+                                                <option {{env('ATTENDANCE_DEVICE_DATE_FORMAT') =='m/d/Y' ? 'selected':''}} value="m/d/Y">mm/dd/yyyy(05/23/2022)</option>
+                                                <option {{env('ATTENDANCE_DEVICE_DATE_FORMAT') =='Y/m/d' ? 'selected':''}} value="Y/m/d">yyyy/mm/dd(2022/05/23)</option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                                 <br><br>
                                 <div class="d-flex justify-content-center">

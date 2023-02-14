@@ -7,7 +7,6 @@ use App\Notifications\OfficialDocumentExpiry;
 use App\OfficialDocument;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
-
 use App\User;
 use App\Notifications\OfficialDocumentExpiryNotifyToAdmin;
 
@@ -57,7 +56,7 @@ class OfficialDocumentExpiryReminder extends Command
 			foreach ($official_document as $document)
 			{
 				$when = now()->addSeconds(30);
-				Notification::route('mail', 'irfanchowdhury434@gmail.com')
+				Notification::route('mail', env('MAIL_FROM_ADDRESS'))
 					->notify((new OfficialDocumentExpiry(
 						$document->document_title,
 						$document->expiry_date,
@@ -116,4 +115,13 @@ class OfficialDocumentExpiryReminder extends Command
 //DB Notification of Official document send to Admin
 //Mail Notification of Official document send to Admin
 
+// Command - php artisan officialDocument:expiry
 
+/**
+ *  let in database expiry data = 30.01.2022
+ *
+ *  $seven     = now()->addDays(7)->format('Y-m-d');
+ *  if current date ($seven) is 23.01.23 Then it will give result
+ *
+ * https://www.positronx.io/laravel-cron-job-task-scheduling-tutorial-with-example/
+ */

@@ -21,7 +21,7 @@ class EmployeeAssignedController extends Controller {
 			$ticket->assignedEmployees()->sync($employees);
 			$notificable = User::where('role_users_id', 1)
 				->orWhere('id', $ticket->employee->id)
-				->orWhereIn('id', $employees)
+				->orwhereIntegerInRaw('id', $employees)
 				->get();
 			Notification::send($notificable, new TicketAssignedNotification($ticket));
 

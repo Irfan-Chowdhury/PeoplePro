@@ -7,6 +7,8 @@ use App\department;
 use App\designation;
 use App\DocumentType;
 use App\Employee;
+use App\EmployeeDocument;
+use App\EmployeeImmigration;
 use App\Imports\UsersImport;
 use App\office_shift;
 use App\PaidSalary;
@@ -36,7 +38,6 @@ class EmployeeController extends Controller {
 
 	public function index(Request $request)
 	{
-
 		$logged_user = auth()->user();
         if ($logged_user->can('view-details-employee'))
 		{
@@ -115,20 +116,22 @@ class EmployeeController extends Controller {
                             $profile_photo = '<img src="'. $url .'" class="profile-photo md" style="height:35px;width:35px"/>';
                         }
                         $name  = '<span><a href="employees/' . $row->id .'" class="d-block text-bold" style="color:#24ABF2">'.$row->full_name.'</a></span>';
-                        $username = "<span>".__('file.Username').": &nbsp;".($row->user->username ?? '')."</span>";
+                        $username = "<span>".__('file.Username').": ".($row->user->username ?? '')."</span>";
+                        $staff_id = "<span>".__('file.Staff Id').": ".($row->staff_id ?? '')."</span>";
+                        $gender='';
+                        if ($row->gender != null) {
+                            $gender= "<span>".__('file.Gender').": ".__('file.'.$row->gender ?? '')."</span></br>";
+                        }
 
-                        // $gender= "<span>".__('file.Gender').": &nbsp;". ($row->gender ?? '')."</span>";
-                        $gender= "<span>".__('file.Gender').": &nbsp;".__('file.'.$row->gender ?? '')."</span>";
-
-                        $shift = "<span>".__('file.Shift').": &nbsp;".($row->officeShift->shift_name ?? '')."</span>";
+                        $shift = "<span>".__('file.Shift').": ".($row->officeShift->shift_name ?? '')."</span>";
                         if(config('variable.currency_format') =='suffix'){
-							$salary= "<span>".__('file.Salary').": &nbsp;".($row->basic_salary ?? '')." ".config('variable.currency')."</span>";
+							$salary= "<span>".__('file.Salary').": ".($row->basic_salary ?? '')." ".config('variable.currency')."</span>";
 						}else{
-							$salary= "<span>".__('file.Salary').": &nbsp;".config('variable.currency')." ".($row->basic_salary ?? '')."</span>";
+							$salary= "<span>".__('file.Salary').": ".config('variable.currency')." ".($row->basic_salary ?? '')."</span>";
 						}
 
                         if ($row->payslip_type) {
-                            $payslip_type = "<span>".__('file.Payslip Type').": &nbsp;".__('file.'.$row->payslip_type)."</span>";
+                            $payslip_type = "<span>".__('file.Payslip Type').": ".__('file.'.$row->payslip_type)."</span>";
                         }else {
                             $payslip_type = " ";
                         }
@@ -136,7 +139,7 @@ class EmployeeController extends Controller {
                         return "<div class='d-flex'>
                                         <div class='mr-2'>".$profile_photo."</div>
                                         <div>"
-                                            .$name.'</br>'.$username.'</br>'.$gender.'</br>'.$shift.'</br>'.$salary.'</br>'.$payslip_type;
+                                            .$name.'</br>'.$username.'</br>'.$staff_id.'</br>'.$gender.$shift.'</br>'.$salary.'</br>'.$payslip_type;
                                         "</div>
                                     </div>";
                     })
@@ -150,10 +153,10 @@ class EmployeeController extends Controller {
                     })
                     ->addColumn('contacts', function ($row)
                     {
-                        $email = "<i class='fa fa-envelope text-muted' title='Email'></i>&nbsp;".$row->email;
-                        $contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i>&nbsp;".$row->contact_no;
-                        $skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i>&nbsp;".$row->skype_id;
-                        $whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i>&nbsp;".$row->whatsapp_id;
+                        $email = "<i class='fa fa-envelope text-muted' title='Email'></i> ".$row->email;
+                        $contact_no = "<i class='text-muted fa fa-phone' title='Phone'></i> ".$row->contact_no;
+                        $skype_id = "<i class='text-muted fa fa-skype' title='Skype'></i> ".$row->skype_id;
+                        $whatsapp_id = "<i class='text-muted fa fa-whatsapp' title='Whats App'></i> ".$row->whatsapp_id;
 
                         return $email.'</br>'.$contact_no.'</br>'.$skype_id.'</br>'.$whatsapp_id;
                     })
@@ -167,8 +170,11 @@ class EmployeeController extends Controller {
                         }
                         if (auth()->user()->can('modify-details-employee'))
                         {
-                            $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
-                            $button .= '&nbsp;&nbsp;&nbsp;';
+                            if ($data->role_users_id!=1) {
+                                $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Delete"><i class="dripicons-trash"></i></button>';
+                                $button .= '&nbsp;&nbsp;&nbsp;';
+                            }
+
                             $button .= '<a class="download btn-sm" style="background:#FF7588; color:#fff" title="PDF" href="' . route('employees.pdf', $data->id ) . '"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>';
                         }
 
@@ -188,29 +194,28 @@ class EmployeeController extends Controller {
 
 	public function store(Request $request)
 	{
-		//return response()->json($request->first_name);
-
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('store-details-employee'))
 		{
 			if (request()->ajax())
 			{
-				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
+				$validator = Validator::make($request->only('first_name', 'last_name', 'staff_id', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'password', 'password_confirmation', 'company_id', 'department_id', 'designation_id','office_shift_id','attendance_type','joining_date'),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
-						'email' => 'required|email|unique:users,email',
-						'contact_no' => 'required|numeric|unique:users,contact_no',
+                        'staff_id' => 'required|numeric|unique:employees',
+                        'email'      => 'nullable|email|unique:users',
+						'contact_no' => 'required|numeric|unique:users',
 						'date_of_birth' => 'required',
-						'username' => 'required|unique:users,username',
-						'role_users_id' => 'required',
-						'password' => 'required|min:4|confirmed',
-						'company_id' => 'required',
+                        'company_id' => 'required',
 						'department_id' => 'required',
 						'designation_id' => 'required',
 						'office_shift_id' => 'required',
+						'username' => 'required|unique:users',
+						'role_users_id' => 'required',
+						'password' => 'required|min:4|confirmed',
 						'attendance_type' => 'required',
 						'joining_date' => 'required',
 						'profile_photo' => 'nullable|image|max:10240|mimes:jpeg,png,jpg,gif',
@@ -225,6 +230,7 @@ class EmployeeController extends Controller {
 				$data = [];
 				$data['first_name'] = $request->first_name;
 				$data['last_name'] = $request->last_name;
+                $data['staff_id'] = $request->staff_id;
 				$data['date_of_birth'] = $request->date_of_birth;
 				$data['gender'] = $request->gender;
 				$data['department_id'] = $request->department_id;
@@ -293,8 +299,6 @@ class EmployeeController extends Controller {
 
 		return response()->json(['success' => __('You are not authorized')]);
 	}
-
-
 
 	public function show(Employee $employee)
 	{
@@ -398,7 +402,7 @@ class EmployeeController extends Controller {
 		{
 			$employee_id = $request['employeeIdArray'];
 
-			$user = User::whereIn('id', $employee_id);
+			$user = User::whereIntegerInRaw('id', $employee_id)->where('role_users_id','!=',1);
 
 			if ($user->delete())
 			{
@@ -419,26 +423,29 @@ class EmployeeController extends Controller {
 		{
 			if (request()->ajax())
 			{
-				$validator = Validator::make($request->only('first_name', 'last_name', 'email', 'contact_no', 'date_of_birth', 'gender',
+				$validator = Validator::make($request->only('first_name', 'last_name', 'staff_id', 'email', 'contact_no', 'date_of_birth', 'gender',
 					'username', 'role_users_id', 'company_id', 'department_id', 'designation_id', 'office_shift_id', 'location_id', 'status_id',
 					'marital_status', 'joining_date', 'permission_role_id', 'address', 'city', 'state', 'country', 'zip_code','attendance_type','total_leave'
 				),
 					[
 						'first_name' => 'required',
 						'last_name' => 'required',
-						'email' => 'required|email|unique:users,email,' . $employee,
+                        'username' => 'required|unique:users,username,' . $employee,
+                        'staff_id' => 'required|numeric|unique:employees,staff_id,' . $employee,
+                        'email'      => 'nullable|email|unique:users,email,' . $employee,
 						'contact_no' => 'required|numeric|unique:users,contact_no,' . $employee,
 						'date_of_birth' => 'required',
-						'username' => 'required|unique:users,username,' . $employee,
+                        'company_id' => 'required',
+                        'department_id' => 'required',
+                        'designation_id' => 'required',
+                        'office_shift_id' => 'required',
 						'role_users_id' => 'required',
-						'status_id' => 'required',
 						'attendance_type' => 'required',
 						'total_leave' => 'numeric|min:0',
 						'joining_date' => 'required',
 						'exit_date' => 'nullable',
 					]
 				);
-
 
 				if ($validator->fails())
 				{
@@ -448,6 +455,7 @@ class EmployeeController extends Controller {
 				$data = [];
 				$data['first_name'] = $request->first_name;
 				$data['last_name'] = $request->last_name;
+                $data['staff_id'] = $request->staff_id;
 				$data['date_of_birth'] = $request->date_of_birth;
 				$data['gender'] = $request->gender;
 				$data['department_id'] = $request->department_id;
@@ -498,9 +506,6 @@ class EmployeeController extends Controller {
 					$data['total_leave'] = $request->total_leave;
 					$data['remaining_leave'] = $employee_leave_info->remaining_leave;
 				}
-				//return response()->json($data['remaining_leave']);
-
-
 
 				$user = [];
 				$user['first_name'] = $request->first_name;
@@ -732,7 +737,8 @@ class EmployeeController extends Controller {
 
 		if (!env('USER_VERIFIED'))
 		{
-			$this->setSuccessMessage(__('This feature is disabled for demo!'));
+            $this->setErrorMessage('This feature is disabled for demo!');
+            return redirect()->back();
 		}
 		try
 		{

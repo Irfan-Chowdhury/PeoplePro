@@ -261,7 +261,7 @@ class ComplaintController extends Controller {
 		{
 
 			$complaint_id = $request['complaintIdArray'];
-			$complaint = Complaint::whereIn('id', $complaint_id);
+			$complaint = Complaint::whereIntegerInRaw('id', $complaint_id);
 			if ($complaint->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Complaint')])]);

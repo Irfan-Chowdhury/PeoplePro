@@ -1,7 +1,7 @@
 
 @extends('frontend.Layout.master')
 
-@section('title','Jobs')
+@section('title_front','Jobs')
 
 @section('content')
 <section class="jumbotron">
@@ -24,7 +24,7 @@
                                     <h4>{{$job_post->job_title}}</h4></a>
                                 <h6>{{$job_post->Company->company_name ?? ''}}</h6>
                             </div>
-                            <div> 
+                            <div>
                                 @if($job_post->job_type == 'full_time')
                                 <span class="badge badge-primary">{{__('Full Time')}}</span>
                                 @elseif($job_post->job_type == 'part_time')
@@ -66,7 +66,7 @@
                         <h5 class="card-title">Job Type</h5>
                         @foreach($job_types as $job_type)
                         <a href="{{route('jobs.searchByJobType',$job_type->job_type)}}">
-                            <p class="mb-1 text-muted"> 
+                            <p class="mb-1 text-muted">
                                 @if($job_type->job_type == 'full_time')
                                     {{__('Full Time')}}
                                 @elseif($job_type->job_type == 'part_time')

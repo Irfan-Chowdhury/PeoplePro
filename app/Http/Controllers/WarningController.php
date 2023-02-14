@@ -278,7 +278,7 @@ class WarningController extends Controller {
 		{
 
 			$warning_id = $request['warningIdArray'];
-			$warning = Warning::whereIn('id', $warning_id);
+			$warning = Warning::whereIntegerInRaw('id', $warning_id);
 			if ($warning->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Warning')])]);

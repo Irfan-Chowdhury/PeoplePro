@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 
+
+
+
 Auth::routes(['register' => false]);
 
 
@@ -370,7 +373,7 @@ Route::group(['middleware' => ['XSS']], function ()
 		Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
 		Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
         //New Added
-        
+
 		Route::get('payslip', 'ReportController@payslip')->name('report.payslip');
 		Route::get('attendance', 'ReportController@attendance')->name('report.attendance');
 		Route::get('training', 'ReportController@training')->name('report.training');
@@ -532,6 +535,7 @@ Route::group(['middleware' => ['XSS']], function ()
 
 
 		Route::get('attendances/page/import', 'AttendanceController@import')->name('attendances.import');
+        Route::post('attendances/page/import_device', 'AttendanceController@importDeviceCsv')->name('attendances.importDeviceCsv');
 		Route::post('attendances/page/import', 'AttendanceController@importPost')->name('attendances.importPost');
 
 		Route::post('attendance/employee/{id}', 'AttendanceController@employeeAttendance')->name('employee_attendance.post');

@@ -131,7 +131,7 @@
                                                 <div class="row">
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('First Name')}}</label>
+                                                        <label>{{__('First Name')}} <span class="text-danger">*</span></label>
                                                         <input type="text" name="first_name" id="first_name"
                                                                placeholder="{{__('First Name')}}"
                                                                required class="form-control"
@@ -139,16 +139,22 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Last Name')}}</label>
+                                                        <label>{{__('Last Name')}} <span class="text-danger">*</span></label>
                                                         <input type="text" name="last_name" id="last_name"
                                                                placeholder="{{__('Last Name')}}"
                                                                required class="form-control"
                                                                value="{{ $employee->last_name }}">
                                                     </div>
-
+                                                    <div class="col-md-4 form-group">
+                                                        <label>{{__('Staff Id')}} <span class="text-danger">*</span></label>
+                                                        <input type="text" name="staff_id" id="staff_id"
+                                                               placeholder="{{__('Staff Id')}}"
+                                                               required class="form-control"
+                                                               value="{{ $employee->staff_id }}">
+                                                    </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Username')}}</label>
+                                                        <label>{{trans('file.Username')}} <span class="text-danger">*</span></label>
                                                         <input type="text" name="username" id="username"
                                                                placeholder="{{trans('file.Username')}}" required
                                                                class="form-control"
@@ -159,12 +165,12 @@
                                                         <label>{{trans('file.Email')}}</label>
                                                         <input type="text" name="email" id="email"
                                                                placeholder="{{trans('file.Email')}}"
-                                                               required class="form-control"
+                                                               class="form-control"
                                                                value="{{ $employee->email }}">
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Phone')}}</label>
+                                                        <label>{{trans('file.Phone')}} <span class="text-danger">*</span></label>
                                                         <input type="text" name="contact_no" id="contact_no"
                                                                placeholder="{{trans('file.Phone')}}"
                                                                required class="form-control"
@@ -224,7 +230,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Gender')}} <span class="text-danger">*</span></label>
+                                                        <label>{{trans('file.Gender')}}</label>
                                                         <input type="hidden" name="gender_hidden"
                                                                value="{{ $employee->gender }}"/>
                                                         <select name="gender" id="gender"
@@ -239,7 +245,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{__('Marital Status')}} <span class="text-danger">*</span></label>
+                                                        <label>{{__('Marital Status')}}</label>
                                                         <input type="hidden" name="marital_status_hidden"
                                                                value="{{ $employee->marital_status }}"/>
                                                         <select name="marital_status" id="marital_status"
@@ -326,7 +332,7 @@
 
                                                     <div class="col-md-4">
                                                         <div class="form-group">
-                                                            <label>{{trans('file.Status')}} <span class="text-danger">*</span></label>
+                                                            <label>{{trans('file.Status')}}</label>
                                                             <input type="hidden" name="status_id_hidden"
                                                                value="{{ $employee->status_id }}"/>
                                                             <select name="status_id" id="status_id"
@@ -342,7 +348,7 @@
                                                     </div>
 
                                                     <div class="col-md-4 form-group">
-                                                        <label>{{trans('file.Office Shift')}} <span class="text-danger">*</span></label>
+                                                        <label>{{trans('file.Office_Shift')}} <span class="text-danger">*</span></label>
                                                         <input type="hidden" name="office_shift_id_hidden"
                                                                value="{{ $employee->office_shift_id }}"/>
                                                         <select name="office_shift_id" id="office_shift_id"

@@ -272,7 +272,7 @@ class ResignationController extends Controller {
 		{
 
 			$resignation_id = $request['resignationIdArray'];
-			$resignation = Resignation::whereIn('id', $resignation_id);
+			$resignation = Resignation::whereIntegerInRaw('id', $resignation_id);
 			if ($resignation->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Resignation')])]);

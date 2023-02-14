@@ -211,7 +211,7 @@ class DesignationController extends Controller
 		{
 
 			$designation_id = $request['designationIdArray'];
-			$designation = designation::whereIn('id', $designation_id);
+			$designation = designation::whereIntegerInRaw('id', $designation_id);
 			if ($designation->delete())
 			{
 				return response()->json(['success' => __('Multi Delete',['key'=>trans('file.Designation')])]);

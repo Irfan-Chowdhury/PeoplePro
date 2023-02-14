@@ -230,7 +230,7 @@ class HolidayController extends Controller {
 		{
 
 			$holiday_id = $request['holidayIdArray'];
-			$holiday = Holiday::whereIn('id', $holiday_id);
+			$holiday = Holiday::whereIntegerInRaw('id', $holiday_id);
 			if ($holiday->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Holiday')])]);

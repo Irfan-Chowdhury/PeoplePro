@@ -296,7 +296,7 @@ class OfficialDocumentController extends Controller {
 		if ($logged_user->can('delete-official_document'))
 		{
 			$files_id = $request['official_documentsIdArray'];
-			$files = OfficialDocument::whereIn('id', $files_id)->get();
+			$files = OfficialDocument::whereIntegerInRaw('id', $files_id)->get();
 
 			foreach ($files as $file)
 			{

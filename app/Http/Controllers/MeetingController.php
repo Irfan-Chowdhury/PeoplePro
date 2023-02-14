@@ -137,7 +137,7 @@ class MeetingController extends Controller {
 
 			if ($data ['is_notify'] == 1 && ($data ['status'] == 'pending' || ($data ['status'] == 'postponed')))
 			{
-				$notifiable = User::whereIn('id', $employees)->get();
+				$notifiable = User::whereIntegerInRaw('id', $employees)->get();
 				Notification::send($notifiable, new MeetingNotify($meeting));
 			}
 
@@ -300,7 +300,7 @@ class MeetingController extends Controller {
 		{
 
 			$meeting_id = $request['meetingIdArray'];
-			$meeting = Meeting::whereIn('id', $meeting_id);
+			$meeting = Meeting::whereIntegerInRaw('id', $meeting_id);
 			if ($meeting->delete())
 			{
 				return response()->json(['success' => __('Multi Delete', ['key' => trans('file.Meeting')])]);

@@ -88,3 +88,13 @@ class EmployeeImmigrationExpiryReminder extends Command
 
 //ImmigratinExpiry Notification send to Dept.Head through mail
 //ImmigratinExpiry Notification send to Admin through the system default notification
+// Command - php artisan employeeImmigration:expiry
+
+/**
+ *  let in database expiry data = 30.01.2022
+ *
+ *  $seven     = now()->addDays(7)->format('Y-m-d');
+ *  if current date ($seven) is 23.01.23 Then it will give result
+ *
+ * https://www.positronx.io/laravel-cron-job-task-scheduling-tutorial-with-example/
+ */

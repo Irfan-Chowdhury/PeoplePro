@@ -295,7 +295,7 @@ class TravelController extends Controller {
 		{
 
 			$travel_id = $request['travelIdArray'];
-			$travel = Travel::whereIn('id', $travel_id);
+			$travel = Travel::whereIntegerInRaw('id', $travel_id);
 			if ($travel->delete())
 			{
 				return response()->json(['success' => 'Selected travels has been deleted']);
