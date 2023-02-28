@@ -2,12 +2,8 @@
 @section('content')
 
 
-
     <section>
-
         <div class="container-fluid"><span id="general_result"></span></div>
-
-
         <div class="container-fluid mb-3">
             @can('store-termination')
                 <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
@@ -36,8 +32,6 @@
             </table>
         </div>
     </section>
-
-
 
     <div id="formModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
@@ -131,10 +125,6 @@
         </div>
     </div>
 
-
-
-
-
     <div class="modal fade" id="termination_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -199,13 +189,6 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -225,8 +208,6 @@
             </div>
         </div>
     </div>
-
-
 
 @endsection
 
@@ -381,7 +362,6 @@
 
 
         $('#create_record').on('click', function () {
-
             $('.modal-title').text('{{__('Termination Info')}}');
             $('#action_button').val('{{trans("file.Add")}}');
             $('#action').val('{{trans("file.Add")}}');
@@ -391,7 +371,6 @@
         $('#sample_form').on('submit', function (event) {
             event.preventDefault();
             if ($('#action').val() == '{{trans('file.Add')}}') {
-
                 $.ajax({
                     url: "{{ route('terminations.store') }}",
                     method: "POST",
@@ -457,24 +436,19 @@
         });
 
         $(document).on('click', '.show_new', function () {
-
             let id = $(this).attr('id');
             $('#form_result').html('');
-
             let target = '{{route('terminations.index')}}/' + id;
-
             $.ajax({
                 url: target,
                 dataType: "json",
                 success: function (result) {
-
                     $('#description_id').html(result.data.description);
                     $('#company_id_show').html(result.company_name);
                     $('#termination_type_id').html(result.termination_type_name);
                     $('#terminated_employee_id').html(result.termination_to_employee);
                     $('#termination_date_id').html(result.data.termination_date);
                     $('#notice_date_id').html(result.data.notice_date);
-
                     $('#termination_modal').modal('show');
                     $('.modal-title').text("{{__('Termination Info')}}");
                 }
@@ -483,23 +457,17 @@
 
 
         $(document).on('click', '.edit', function () {
-
             let id = $(this).attr('id');
             $('#form_result').html('');
-
             let target = "{{ route('terminations.index') }}/" + id + '/edit';
-
-
             $.ajax({
                 url: target,
                 dataType: "json",
                 success: function (html) {
-
                     $('#description').val(html.data.description);
                     $('#termination_date').val(html.data.termination_date);
                     $('#notice_date').val(html.data.notice_date);
                     $('#company_id').selectpicker('val', html.data.company_id);
-
                     let all_employees = '';
                     $.each(html.employees, function (index, value) {
                         all_employees += '<option value=' + value['id'] + '>' + value['first_name'] + ' ' + value['last_name'] + '</option>';
@@ -508,9 +476,7 @@
                     $('#terminated_employee').selectpicker('refresh');
                     $('#terminated_employee').selectpicker('val', html.data.employee_id);
                     $('#terminated_employee').selectpicker('refresh');
-
                     $('#termination_type').selectpicker('val', html.data.termination_type);
-
                     $('#hidden_id').val(html.data.id);
                     $('.modal-title').text('{{trans('file.Edit')}}');
                     $('#action_button').val('{{trans('file.Edit')}}');
@@ -528,12 +494,10 @@
             $('#confirmModal').modal('show');
             $('.modal-title').text('{{__('DELETE Record')}}');
             $('#ok_button').text('{{trans('file.OK')}}');
-
         });
 
 
         $(document).on('click', '#bulk_delete', function () {
-
             let id = [];
             let table = $('#termination-table').DataTable();
             id = table.rows({selected: true}).ids().toArray();

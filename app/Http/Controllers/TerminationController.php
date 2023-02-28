@@ -20,7 +20,6 @@ class TerminationController extends Controller {
 		$companies = company::select('id', 'company_name')->get();
 		$termination_types = TerminationType::select('id', 'termination_title')->get();
 
-
 		if ($logged_user->can('view-termination'))
 		{
 			if (request()->ajax())
@@ -64,31 +63,13 @@ class TerminationController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param Request $request
-	 * @return Response
-	 */
 	public function store(Request $request)
 	{
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('store-termination'))
 		{
-			$validator = Validator::make($request->only('description', 'company_id', 'terminated_employee', 'termination_type', 'termination_date', 'notice_date'
-			),
+			$validator = Validator::make($request->only('description', 'company_id', 'terminated_employee', 'termination_type', 'termination_date', 'notice_date'),
 				[
 					'company_id' => 'required',
 					'terminated_employee' => 'required',
@@ -99,8 +80,7 @@ class TerminationController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()){
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
@@ -117,22 +97,15 @@ class TerminationController extends Controller {
 
 			$notifiable = User::findOrFail($data['terminated_employee']);
 
+            $this->employeeLeaveDateSet($request->terminated_employee, $request->termination_date);
+
 			$notifiable->notify(new EmployeeTerminationNotify($data['termination_date']));
-
-
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
 
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function show($id)
 	{
 		if (request()->ajax())
@@ -149,12 +122,6 @@ class TerminationController extends Controller {
 		}
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
 		if (request()->ajax())
@@ -166,21 +133,14 @@ class TerminationController extends Controller {
 		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param Request $request
-	 * @param int $id
-	 * @return Response
-	 */
 	public function update(Request $request)
 	{
+
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('edit-termination'))
 		{
 			$id = $request->hidden_id;
-
 			$validator = Validator::make($request->only('description', 'company_id', 'terminated_employee', 'termination_type', 'termination_date', 'notice_date'
 			),
 				[
@@ -193,44 +153,29 @@ class TerminationController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()){
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
 
 			$data = [];
-
-
-			$data ['description'] = $request->description;
-			$data ['termination_date'] = $request->termination_date;
-			$data ['notice_date'] = $request->notice_date;
-
-
-			$data ['company_id'] = $request->company_id;
-
+			$data['description'] = $request->description;
+			$data['termination_date'] = $request->termination_date;
+			$data['notice_date'] = $request->notice_date;
+			$data['company_id'] = $request->company_id;
 			$data['terminated_employee'] = $request->terminated_employee;
+			$data['termination_type'] = $request->termination_type;
 
-			$data ['termination_type'] = $request->termination_type;
-
-
-			Termination::find($id)->update($data);
-
+            Termination::find($id)->update($data);
 			$notifiable = User::findOrFail($data['terminated_employee']);
 
+            $this->employeeLeaveDateSet($request->terminated_employee, $request->termination_date);
 			$notifiable->notify(new EmployeeTerminationNotify($data['termination_date']));
-
 			return response()->json(['success' => __('Data is successfully updated')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED'))
@@ -271,4 +216,11 @@ class TerminationController extends Controller {
 		}
 		return response()->json(['success' => __('You are not authorized')]);
 	}
+
+
+    protected function employeeLeaveDateSet($employee_id, $date){
+        $employee = Employee::find($employee_id);
+        $employee->exit_date = $date;
+        $employee->update();
+    }
 }

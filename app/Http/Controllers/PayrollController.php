@@ -39,7 +39,6 @@ class PayrollController extends Controller {
 				$paid_employees = Payslip::where('month_year',$selected_date)->pluck('employee_id');
 				$salary_basic_employees = SalaryBasic::where('first_date','<=',$first_date)->distinct()->pluck('employee_id');
 
-                
 				if (!empty($request->filter_company && $request->filter_department))
 				{
 					$employees = Employee::with(['salaryBasic' => function ($query)
@@ -312,6 +311,7 @@ class PayrollController extends Controller {
 	}
 
 
+    // Details
 	public function paySlip(Request $request)
 	{
 		$month_year = $request->filter_month_year;

@@ -30,6 +30,11 @@ Route::group(['middleware' => ['XSS']], function ()
 		return view('pdf');
 	});
 
+    Route::get('/phpinfo', function () {
+		return phpinfo();
+	});
+
+
 	Route::get('/', 'RouteClosureHandlerController@redirectToLogin')->name('redirectToLogin');
 
 

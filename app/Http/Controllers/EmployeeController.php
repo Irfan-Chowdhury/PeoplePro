@@ -415,8 +415,6 @@ class EmployeeController extends Controller {
 
 	public function infoUpdate(Request $request, $employee)
 	{
-		// return response()->json($request->attendance_type);
-
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('modify-details-employee'))
@@ -500,8 +498,9 @@ class EmployeeController extends Controller {
 					$data['remaining_leave'] = $request->remaining_leave + ($request->total_leave - $employee_leave_info->total_leave);
 				}
 				elseif ($request->total_leave < $employee_leave_info->total_leave) {
-					$data['total_leave'] = $request->total_leave;
-					$data['remaining_leave'] = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
+					$data['total_leave']     = $request->total_leave;
+					$remaining_leave         = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
+                    $data['remaining_leave'] = $remaining_leave < 0 ? 0 : $remaining_leave;
 				}else {
 					$data['total_leave'] = $request->total_leave;
 					$data['remaining_leave'] = $employee_leave_info->remaining_leave;

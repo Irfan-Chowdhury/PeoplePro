@@ -137,13 +137,7 @@
                                 </select>
                             </div>
 
-                            <div class="col-md-6 form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="is_half" id="is_half"
-                                           value="1">
-                                    <label class="custom-control-label" for="is_half"><?php echo e(__('Half Day')); ?></label>
-                                </div>
-                            </div>
+                            
 
                             <div class="col-md-6 form-group">
                                 <div class="custom-control custom-checkbox">
