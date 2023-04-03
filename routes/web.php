@@ -293,6 +293,9 @@ Route::group(['middleware' => ['XSS']], function ()
 			Route::get('employee_payslip/details', 'EmployeePayslipController@details')->name('employee_payslip.details');
 			Route::get('employee_payslip/details/{id}', 'EmployeePayslipController@show')->name('employee_payslip.show');
 		}
+		{
+			Route::get('employee_leave_type_detail/{employee}', 'EmployeeLeaveTypeDetailController@index')->name('employee_leave_type_detail.index');
+		}
 
 	});
 
@@ -588,7 +591,7 @@ Route::group(['middleware' => ['XSS']], function ()
 		Route::post('payslip/payment/bulk', 'PayrollController@payBulk')->name('paySlip.bulk_pay');
 
 		// Route::get('payslip/generate/{id}', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
-		Route::get('payslip/generate', 'PayrollController@paySlipGenerate')->name('paySlip.generate');
+		Route::get('payslip/generate', 'PayrollController@payslipGenerateInfoShow')->name('paySlip.generate');
 
 		Route::get('payment_history', 'PayslipController@index')->name('payment_history.index');
 		Route::get('payslip/delete/{payslip}', 'PayslipController@delete')->name('payslip.destroy');

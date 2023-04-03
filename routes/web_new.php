@@ -119,100 +119,100 @@ Route::group(['middleware' => ['XSS']], function ()
             Route::get('{id}/delete', [EmployeeImmigrationController::class, 'destroy'])->name('immigrations.destroy');
             Route::get('document/download/{id}', [EmployeeImmigrationController::class, 'download'])->name('immigrations_document.download');
         });
-        // End 
+        // End
 
 		{
-			Route::get('contacts', 'EmployeeContactController@index')->name('contacts.index');
-			Route::get('contacts/{id}/edit', 'EmployeeContactController@edit')->name('contacts.edit');
-			Route::get('contacts/{employee}', 'EmployeeContactController@show')->name('contacts.show');
-			Route::post('contacts/update', 'EmployeeContactController@update')->name('contacts.update');
-			Route::post('contacts/{employee}/store', 'EmployeeContactController@store')->name('contacts.store');
-			Route::get('contacts/{id}/delete', 'EmployeeContactController@destroy')->name('contacts.destroy');
+			Route::get('contacts', [EmployeeContactController::class, 'index'])->name('contacts.index');
+			Route::get('contacts/{id}/edit', [EmployeeContactController::class, 'edit'])->name('contacts.edit');
+			Route::get('contacts/{employee}', [EmployeeContactController::class, 'show'])->name('contacts.show');
+			Route::post('contacts/update', [EmployeeContactController::class, 'update'])->name('contacts.update');
+			Route::post('contacts/{employee}/store', [EmployeeContactController::class, 'store'])->name('contacts.store');
+			Route::get('contacts/{id}/delete', [EmployeeContactController::class, 'destroy'])->name('contacts.destroy');
 		}
 
 		{
-			Route::get('social_profile/{employee}', 'EmployeeSocialProfileController@show')->name('social_profile.show');
-			Route::post('social_profile/{employee}/store', 'EmployeeController@storeSocialInfo')->name('social_profile.store');
+			Route::get('social_profile/{employee}', [EmployeeSocialProfileController::class, 'show'])->name('social_profile.show');
+			Route::post('social_profile/{employee}/store', [EmployeeController::class, 'storeSocialInfo'])->name('social_profile.store');
 		}
 		{
-			Route::post('profile_picture/{employee}/store', 'EmployeeController@storeProfilePicture')->name('profile_picture.store');
+			Route::post('profile_picture/{employee}/store', [EmployeeController::class, 'storeProfilePicture'])->name('profile_picture.store');
 		}
 		{
-			Route::get('documents', 'EmployeeDocumentController@index')->name('documents.index');
-			Route::get('documents/{id}/edit', 'EmployeeDocumentController@edit')->name('documents.edit');
-			Route::get('documents/{employee}', 'EmployeeDocumentController@show')->name('documents.show');
-			Route::post('documents/update', 'EmployeeDocumentController@update')->name('documents.update');
-			Route::post('documents/{employee}/store', 'EmployeeDocumentController@store')->name('documents.store');
-			Route::get('documents/{id}/delete', 'EmployeeDocumentController@destroy')->name('documents.destroy');
-			Route::get('documents/document/download/{id}', 'EmployeeDocumentController@download')->name('documents_document.download');
+			Route::get('documents', [EmployeeDocumentController::class, 'index'])->name('documents.index');
+			Route::get('documents/{id}/edit', [EmployeeDocumentController::class, 'edit'])->name('documents.edit');
+			Route::get('documents/{employee}', [EmployeeDocumentController::class, 'show'])->name('documents.show');
+			Route::post('documents/update', [EmployeeDocumentController::class, 'update'])->name('documents.update');
+			Route::post('documents/{employee}/store', [EmployeeDocumentController::class, 'store'])->name('documents.store');
+			Route::get('documents/{id}/delete', [EmployeeDocumentController::class, 'destroy'])->name('documents.destroy');
+			Route::get('documents/document/download/{id}', [EmployeeDocumentController::class, 'download'])->name('documents_document.download');
 		}
 		{
-			Route::get('qualifications', 'EmployeeQualificationController@index')->name('qualifications.index');
-			Route::get('qualifications/{id}/edit', 'EmployeeQualificationController@edit')->name('qualifications.edit');
-			Route::get('qualifications/{employee}', 'EmployeeQualificationController@show')->name('qualifications.show');
-			Route::post('qualifications/update', 'EmployeeQualificationController@update')->name('qualifications.update');
-			Route::post('qualifications/{employee}/store', 'EmployeeQualificationController@store')->name('qualifications.store');
-			Route::get('qualifications/{id}/delete', 'EmployeeQualificationController@destroy')->name('qualifications.destroy');
+			Route::get('qualifications', [EmployeeQualificationController::class, 'index'])->name('qualifications.index');
+			Route::get('qualifications/{id}/edit', [EmployeeQualificationController::class, 'edit'])->name('qualifications.edit');
+			Route::get('qualifications/{employee}', [EmployeeQualificationController::class, 'show'])->name('qualifications.show');
+			Route::post('qualifications/update', [EmployeeQualificationController::class, 'update'])->name('qualifications.update');
+			Route::post('qualifications/{employee}/store', [EmployeeQualificationController::class, 'store'])->name('qualifications.store');
+			Route::get('qualifications/{id}/delete', [EmployeeQualificationController::class, 'destroy'])->name('qualifications.destroy');
 		}
 		{
-			Route::get('work_experience', 'EmployeeWorkExperienceController@index')->name('work_experience.index');
-			Route::get('work_experience/{id}/edit', 'EmployeeWorkExperienceController@edit')->name('work_experience.edit');
-			Route::get('work_experience/{employee}', 'EmployeeWorkExperienceController@show')->name('work_experience.show');
-			Route::post('work_experience/update', 'EmployeeWorkExperienceController@update')->name('work_experience.update');
-			Route::post('work_experience/{employee}/store', 'EmployeeWorkExperienceController@store')->name('work_experience.store');
-			Route::get('work_experience/{id}/delete', 'EmployeeWorkExperienceController@destroy')->name('work_experience.destroy');
+			Route::get('work_experience', [EmployeeWorkExperienceController::class, 'index'])->name('work_experience.index');
+			Route::get('work_experience/{id}/edit', [EmployeeWorkExperienceController::class, 'edit'])->name('work_experience.edit');
+			Route::get('work_experience/{employee}', [EmployeeWorkExperienceController::class, 'show'])->name('work_experience.show');
+			Route::post('work_experience/update', [EmployeeWorkExperienceController::class, 'update'])->name('work_experience.update');
+			Route::post('work_experience/{employee}/store', [EmployeeWorkExperienceController::class, 'store'])->name('work_experience.store');
+			Route::get('work_experience/{id}/delete', [EmployeeWorkExperienceController::class, 'destroy'])->name('work_experience.destroy');
 		}
 		{
-			Route::get('bank_account', 'EmployeeBankAccountController@index')->name('bank_account.index');
-			Route::get('bank_account/{id}/edit', 'EmployeeBankAccountController@edit')->name('bank_account.edit');
-			Route::get('bank_account/{employee}', 'EmployeeBankAccountController@show')->name('bank_account.show');
-			Route::post('bank_account/update', 'EmployeeBankAccountController@update')->name('bank_account.update');
-			Route::post('bank_account/{employee}/store', 'EmployeeBankAccountController@store')->name('bank_account.store');
-			Route::get('bank_account/{id}/delete', 'EmployeeBankAccountController@destroy')->name('bank_account.destroy');
+			Route::get('bank_account', [EmployeeBankAccountController::class, 'index'])->name('bank_account.index');
+			Route::get('bank_account/{id}/edit', [EmployeeBankAccountController::class, 'edit'])->name('bank_account.edit');
+			Route::get('bank_account/{employee}', [EmployeeBankAccountController::class, 'show'])->name('bank_account.show');
+			Route::post('bank_account/update', [EmployeeBankAccountController::class, 'update'])->name('bank_account.update');
+			Route::post('bank_account/{employee}/store', [EmployeeBankAccountController::class, 'store'])->name('bank_account.store');
+			Route::get('bank_account/{id}/delete', [EmployeeBankAccountController::class, 'destroy'])->name('bank_account.destroy');
 		}
 		{
-			Route::post('employees/{employee}/storeSalary', 'EmployeeController@storeSalary')->name('employees_basicSalary.store');
+			Route::post('employees/{employee}/storeSalary', [EmployeeController::class, 'storeSalary'])->name('employees_basicSalary.store');
 		}
 		{
-            Route::get('salary_basic', 'SalaryBasicController@index')->name('salary_basic.index');
-            Route::get('salary_basic/{employee}', 'SalaryBasicController@show')->name('salary_basic.show');
-            Route::post('salary_basic/{employee}/store', 'SalaryBasicController@store')->name('salary_basic.store');
-            Route::get('salary_basic/{id}/edit', 'SalaryBasicController@edit')->name('salary_basic.edit');
-            Route::post('salary_basic/update', 'SalaryBasicController@update')->name('salary_basic.update');
-            Route::get('salary_basic/{id}/delete', 'SalaryBasicController@destroy')->name('salary_basic.destroy');
+            Route::get('salary_basic', [SalaryBasicController::class, 'index'])->name('salary_basic.index');
+            Route::get('salary_basic/{employee}', [SalaryBasicController::class, 'show'])->name('salary_basic.show');
+            Route::post('salary_basic/{employee}/store', [SalaryBasicController::class, 'store'])->name('salary_basic.store');
+            Route::get('salary_basic/{id}/edit', [SalaryBasicController::class, 'edit'])->name('salary_basic.edit');
+            Route::post('salary_basic/update', [SalaryBasicController::class, 'update'])->name('salary_basic.update');
+            Route::get('salary_basic/{id}/delete', [SalaryBasicController::class, 'destroy'])->name('salary_basic.destroy');
 
 		}
 		{
-			Route::get('salary_allowance', 'SalaryAllowanceController@index')->name('salary_allowance.index');
-			Route::get('salary_allowance/{id}/edit', 'SalaryAllowanceController@edit')->name('salary_allowance.edit');
-			Route::get('salary_allowance/{employee}', 'SalaryAllowanceController@show')->name('salary_allowance.show');
-			Route::post('salary_allowance/update', 'SalaryAllowanceController@update')->name('salary_allowance.update');
-			Route::post('salary_allowance/{employee}/store', 'SalaryAllowanceController@store')->name('salary_allowance.store');
-			Route::get('salary_allowance/{id}/delete', 'SalaryAllowanceController@destroy')->name('salary_allowance.destroy');
+			Route::get('salary_allowance', [SalaryAllowanceController::class, 'index'])->name('salary_allowance.index');
+			Route::get('salary_allowance/{id}/edit', [SalaryAllowanceController::class, 'edit'])->name('salary_allowance.edit');
+			Route::get('salary_allowance/{employee}', [SalaryAllowanceController::class, 'show'])->name('salary_allowance.show');
+			Route::post('salary_allowance/update', [SalaryAllowanceController::class, 'update'])->name('salary_allowance.update');
+			Route::post('salary_allowance/{employee}/store', [SalaryAllowanceController::class, 'store'])->name('salary_allowance.store');
+			Route::get('salary_allowance/{id}/delete', [SalaryAllowanceController::class, 'destroy'])->name('salary_allowance.destroy');
 		}
 		{
-			Route::get('salary_commission', 'SalaryCommissionController@index')->name('salary_commission.index');
-			Route::get('salary_commission/{id}/edit', 'SalaryCommissionController@edit')->name('salary_commission.edit');
-			Route::get('salary_commission/{employee}', 'SalaryCommissionController@show')->name('salary_commission.show');
-			Route::post('salary_commission/update', 'SalaryCommissionController@update')->name('salary_commission.update');
-			Route::post('salary_commission/{employee}/store', 'SalaryCommissionController@store')->name('salary_commission.store');
-			Route::get('salary_commission/{id}/delete', 'SalaryCommissionController@destroy')->name('salary_commission.destroy');
+			Route::get('salary_commission', [SalaryCommissionController::class, 'index'])->name('salary_commission.index');
+			Route::get('salary_commission/{id}/edit', [SalaryCommissionController::class, 'edit'])->name('salary_commission.edit');
+			Route::get('salary_commission/{employee}', [SalaryCommissionController::class, 'show'])->name('salary_commission.show');
+			Route::post('salary_commission/update', [SalaryCommissionController::class, 'update'])->name('salary_commission.update');
+			Route::post('salary_commission/{employee}/store', [SalaryCommissionController::class, 'store'])->name('salary_commission.store');
+			Route::get('salary_commission/{id}/delete', [SalaryCommissionController::class, 'destroy'])->name('salary_commission.destroy');
 		}
 		{
-			Route::get('salary_loan', 'SalaryLoanController@index')->name('salary_loan.index');
-			Route::get('salary_loan/{id}/edit', 'SalaryLoanController@edit')->name('salary_loan.edit');
-			Route::get('salary_loan/{employee}', 'SalaryLoanController@show')->name('salary_loan.show');
-			Route::post('salary_loan/update', 'SalaryLoanController@update')->name('salary_loan.update');
-			Route::post('salary_loan/{employee}/store', 'SalaryLoanController@store')->name('salary_loan.store');
-			Route::get('salary_loan/{id}/delete', 'SalaryLoanController@destroy')->name('salary_loan.destroy');
+			Route::get('salary_loan', [SalaryLoanController::class, 'index'])->name('salary_loan.index');
+			Route::get('salary_loan/{id}/edit', [SalaryLoanController::class, 'edit'])->name('salary_loan.edit');
+			Route::get('salary_loan/{employee}', [SalaryLoanController::class, 'show'])->name('salary_loan.show');
+			Route::post('salary_loan/update', [SalaryLoanController::class, 'update'])->name('salary_loan.update');
+			Route::post('salary_loan/{employee}/store', [SalaryLoanController::class, 'store'])->name('salary_loan.store');
+			Route::get('salary_loan/{id}/delete', [SalaryLoanController::class, 'destroy'])->name('salary_loan.destroy');
 		}
 		{
-			Route::get('salary_deduction', 'SalaryDeductionController@index')->name('salary_deduction.index');
-			Route::get('salary_deduction/{id}/edit', 'SalaryDeductionController@edit')->name('salary_deduction.edit');
-			Route::get('salary_deduction/{employee}', 'SalaryDeductionController@show')->name('salary_deduction.show');
-			Route::post('salary_deduction/update', 'SalaryDeductionController@update')->name('salary_deduction.update');
-			Route::post('salary_deduction/{employee}/store', 'SalaryDeductionController@store')->name('salary_deduction.store');
-			Route::get('salary_deduction/{id}/delete', 'SalaryDeductionController@destroy')->name('salary_deduction.destroy');
+			Route::get('salary_deduction', [SalaryDeductionController::class, 'index'])->name('salary_deduction.index');
+			Route::get('salary_deduction/{id}/edit', [SalaryDeductionController::class, 'edit'])->name('salary_deduction.edit');
+			Route::get('salary_deduction/{employee}', [SalaryDeductionController::class, 'show'])->name('salary_deduction.show');
+			Route::post('salary_deduction/update', [SalaryDeductionController::class, 'update'])->name('salary_deduction.update');
+			Route::post('salary_deduction/{employee}/store', [SalaryDeductionController::class, 'store'])->name('salary_deduction.store');
+			Route::get('salary_deduction/{id}/delete', [SalaryDeductionController::class, 'destroy'])->name('salary_deduction.destroy');
 		}
 		{
 			Route::get('other_payment', 'SalaryOtherPaymentController@index')->name('other_payment.index');

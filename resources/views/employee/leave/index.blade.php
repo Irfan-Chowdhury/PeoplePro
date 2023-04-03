@@ -1,4 +1,4 @@
-<div class="row">    
+<div class="row">
     <div class="table-responsive">
         <table id="employee_leave-table" class="table ">
             <thead>

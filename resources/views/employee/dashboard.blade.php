@@ -55,6 +55,12 @@
                                role="tab" aria-controls="Employee_Payslip"
                                aria-selected="false">{{trans('file.Payslip')}}</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="remainingLeaveType-tab" data-toggle="tab" href="#remainingLeaveType"
+                               role="tab" aria-controls="remainingLeaveType"
+                               aria-selected="false">{{trans('file.Remaining Leave')}}
+                            </a>
+                        </li>
                     </ul>
                     <div class="tab-content" id="myTabContent">
                         <div class="tab-pane fade show active" id="General" role="tabpanel"
@@ -517,9 +523,16 @@
                             <!--Contents for Contact starts here-->
                             {{trans('file.Payslip')}}
                             <hr>
-                        @include('employee.payslip.index')
+                            @include('employee.payslip.index')
+                            <!--Contents for Contact ends here-->
+                        </div>
 
-                        <!--Contents for Contact ends here-->
+
+                        <div class="tab-pane fade" id="remainingLeaveType" role="tabpanel"
+                             aria-labelledby="remainingLeaveType-tab">
+                            {{trans('file.Remaining Leave')}}
+                            <hr>
+                            @include('employee.remaining_leave.index')
                         </div>
 
                     </div>
@@ -634,6 +647,12 @@
     $('#leave-tab').one('click', function (e) {
         @include('employee.leave.index_js')
     });
+
+
+    $('#remainingLeaveType-tab').one('click', function (e) {
+        @include('employee.remaining_leave.index_js')
+    });
+
 
 
     $('#employee_core_hr-tab').one('click', function (e) {

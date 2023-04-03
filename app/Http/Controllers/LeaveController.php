@@ -16,6 +16,8 @@ use App\Notifications\EmployeeLeaveNotification; //Mail
 use App\Notifications\LeaveNotification; //Database
 use App\Notifications\LeaveNotificationToAdmin; //Database
 use App\User;
+use App\EmployeeLeaveTypeDetail;
+use Exception;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -76,8 +78,41 @@ class LeaveController extends Controller {
 		return abort('403', __('You are not authorized'));
 	}
 
+
+    private function employeeLeaveTypeDataManage($request, $employee_id)
+    {
+        $employeeLeaveTypeDetail = EmployeeLeaveTypeDetail::where('employee_id', $employee_id)->first();
+        $dataLeaveType = [];
+        if($employeeLeaveTypeDetail) {
+            $leaveTypeUnserialize = unserialize($employeeLeaveTypeDetail->leave_type_detail);
+
+            //Find the specific leave type from the serilize data from database & compare
+            foreach($leaveTypeUnserialize as $key => $itemArr) {
+                if(in_array($request->leave_type, $itemArr) ) { //leave_type = leave_type_id
+                    if($request->diff_date_hidden > $itemArr['remaining_allocated_day']) {
+                        throw new Exception('Allocated quota for this leave type is less then requested total days');
+                    }
+                    $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'] - $request->diff_date_hidden;
+                }else{
+                    $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'];
+                }
+                $dataLeaveType[$key]['leave_type_id'] = $itemArr['leave_type_id'];
+                $dataLeaveType[$key]['leave_type'] = $itemArr['leave_type'];
+                $dataLeaveType[$key]['allocated_day'] = $itemArr['allocated_day'];
+            }
+        }
+
+        if(!empty($dataLeaveType)) {
+            EmployeeLeaveTypeDetail::updateOrCreate(
+                ['employee_id' => $employee_id],
+                ['leave_type_detail' => serialize($dataLeaveType)]
+            );
+        }
+    }
+
 	public function store(Request $request)
 	{
+
 		if(auth()->user()->can('store-leave') || auth()->user())
 		{
 			$validator = Validator::make($request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date','status'),
@@ -93,8 +128,7 @@ class LeaveController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()) {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
@@ -104,29 +138,28 @@ class LeaveController extends Controller {
 			$employee = leave::where('employee_id', $request->employee_id)
 				->where('leave_type_id', $request->leave_type);
 
-			if ($employee->exists())
-			{
-				$total = 0;
-				$employee_leaves = $employee->get();
-
-				foreach ($employee_leaves as $employee_leave)
-				{
-					$total = $total + $employee_leave->total_days;
-				}
-				$total = $total + $request->diff_date_hidden;
-
-				if ($leave->allocated_day != null && $leave->allocated_day < $total)
-				{
-					return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
-				}
-			} else
-			{
-				if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
-				{
-					return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days,You can select manual')]);
-				}
-			}
-
+            // Test Start
+            // Employee Leave Type Data Manage
+            // $employeeLeaveTypeDetail = EmployeeLeaveTypeDetail::where('employee_id', $request->employee_id)->first();
+            // $dataLeaveType = [];
+            // if($employeeLeaveTypeDetail) {
+            //     $leaveTypeUnserialize = unserialize($employeeLeaveTypeDetail->leave_type_detail);
+            //     //Find the specific leave type from the serilize data from database & compare
+            //     foreach($leaveTypeUnserialize as $key => $itemArr) {
+            //         if(in_array($request->leave_type, $itemArr) ) { //leave_type = leave_type_id
+            //             if($request->diff_date_hidden > $itemArr['remaining_allocated_day']) {
+            //                 return response()->json(['limit' => __('Allocated quota for this leave type is less then requested total days.')]);
+            //             }
+            //             $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'] - $request->diff_date_hidden;
+            //         }else{
+            //             $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'];
+            //         }
+            //         $dataLeaveType[$key]['leave_type_id'] = $itemArr['leave_type_id'];
+            //         $dataLeaveType[$key]['leave_type'] = $itemArr['leave_type'];
+            //         $dataLeaveType[$key]['allocated_day'] = $itemArr['allocated_day'];
+            //     }
+            // }
+            // Test End
 
 			$data = [];
 
@@ -146,14 +179,19 @@ class LeaveController extends Controller {
 
 			//Employee Remaining Leave --- Start
 			$employee_leave_info = Employee::find($request->employee_id);
-			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave)
+			// if ($request->diff_date_hidden > $employee_leave_info->remaining_leave)
+			// {
+			// 	return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
+			// }
+			if($request->status=='approved')
 			{
-				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
-			}
-			elseif($request->status=='approved')
-			{
-				$employee_leave_info->remaining_leave = $employee_leave_info->remaining_leave - $request->diff_date_hidden;
-				$employee_leave_info->update();
+				// $employee_leave_info->remaining_leave = $employee_leave_info->remaining_leave - $request->diff_date_hidden;
+				// $employee_leave_info->update();
+                try {
+                    $this->employeeLeaveTypeDataManage($request, $request->employee_id);
+                } catch (Exception $e) {
+                    return response()->json(['error' => $e->getMessage()]);
+                }
 			}
 			//Employee Remaining Leave  --- End
 
@@ -239,20 +277,19 @@ class LeaveController extends Controller {
 			$validator = Validator::make($request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date',
 				'leave_reason', 'remarks', 'status', 'is_half', 'is_notify', 'diff_date_hidden', 'leave_type_hidden', 'employee_id_hidden'
 			),
-				[
-					'company_id' => 'required',
-					'department_id' => 'required',
-					'employee_id' => 'required',
-					'leave_type' => 'required',
-					'status' => 'required',
-					'start_date' => 'required',
-					'end_date' => 'required|after_or_equal:start_date',
-					'diff_date_hidden' => 'nullable|numeric'
-				]
+                [
+                    'company_id' => 'required',
+                    'department_id' => 'required',
+                    'employee_id' => 'required',
+                    'leave_type' => 'required',
+                    'status' => 'required',
+                    'start_date' => 'required',
+                    'end_date' => 'required|after_or_equal:start_date',
+                    'diff_date_hidden' => 'nullable|numeric'
+                ]
 			);
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()) {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
@@ -268,116 +305,35 @@ class LeaveController extends Controller {
 			$data ['end_date'] = $request->end_date;
 
 
-			if ($request->diff_date_hidden != null)
-			{
+			if ($request->diff_date_hidden != null) {
 				$data['total_days'] = $request->diff_date_hidden;
 			}
 
-			if ($request->employee_id)
-			{
+			if ($request->employee_id) {
 				$employee_id = $request->employee_id;
 				$data['employee_id'] = $employee_id;
-			} else
-			{
+			} else {
 				$employee_id = $request->employee_id_hidden;
 			}
-			if ($request->company_id)
-			{
-				$data ['company_id'] = $request->company_id;
+
+			if ($request->company_id) {
+				$data['company_id'] = $request->company_id;
 			}
 
-			if ($request->department_id)
-			{
-				$data ['department_id'] = $request->department_id;
+			if ($request->department_id) {
+				$data['department_id'] = $request->department_id;
 			}
-			if ($request->status)
-			{
-				$data ['status'] = $request->status;
+			if ($request->status) {
+				$data['status'] = $request->status;
 			}
 
-			if ($request->leave_type)
-			{
-				$leave = LeaveType::findOrFail($request->leave_type);
-
-				$employee = leave::where('id', '!=', $id)
-					->where('employee_id', $employee_id)->where('leave_type_id', $request->leave_type);
-
-				if ($employee->exists())
-				{
-					$total = 0;
-					$employee_leaves = $employee->get();
-
-
-					foreach ($employee_leaves as $employee_leave)
-					{
-						$total = $total + $employee_leave->total_days;
-					}
-					$total = $total + $request->diff_date_hidden;
-
-					// $total_days_count = $employee_leaves->sum('total_days');
-					// $total = $total + $request->diff_date_hidden;
-
-
-					if ($leave->allocated_day != null && $leave->allocated_day < $total)
-					{
-						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
-					}
-				}
-				else
-				{
-					if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
-					{
-						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days,You can select manual')]);
-					}
-				}
-				$data['leave_type_id'] = $request->leave_type;
+			if($request->status=='approved') {
+                try {
+                    $this->employeeLeaveTypeDataManage($request, $employee_id);
+                } catch (Exception $e) {
+                    return response()->json(['error' => $e->getMessage()]);
+                }
 			}
-
-            else
-			{
-				$leave = LeaveType::findOrFail($request->leave_type_hidden);
-				$employee = leave::where('id', '!=', $id)
-					->where('employee_id', $employee_id)->where('leave_type_id', $request->leave_type_hidden);
-
-				if ($employee->exists())
-				{
-					$total = 0;
-					$employee_leaves = $employee->get();
-
-					foreach ($employee_leaves as $employee_leave)
-					{
-						$total = $total + $employee_leave->total_days;
-					}
-					$total = $total + $request->diff_date_hidden;
-
-					if ($leave->allocated_day != null && $leave->allocated_day < $total)
-					{
-						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days for this employee')]);
-					}
-				}
-                else
-                {
-					if ($leave->allocated_day != null && $leave->allocated_day < $request->diff_date_hidden)
-					{
-						return response()->json(['limit' => __('Allocated quota for this leave type is less then requested days,You can select manual')]);
-					}
-				}
-				$data['leave_type_id'] = $request->leave_type_hidden;
-			}
-
-			//Employee Remaining Leave --- Start
-			$employee_leave_info = Employee::find($employee_id);
-			if ($request->diff_date_hidden > $employee_leave_info->remaining_leave)
-			{
-				return response()->json([ 'remaining_leave' =>"The employee's remaining leaves are insufficient"]);
-			}
-			elseif($request->status=='approved')
-			{
-				$employee_leave_info->remaining_leave = $employee_leave_info->remaining_leave - $request->diff_date_hidden;
-				$employee_leave_info->update();
-			}
-			//Employee Remaining Leave  --- End
-
 
 			leave::find($id)->update($data);
 
@@ -390,6 +346,7 @@ class LeaveController extends Controller {
 			return response()->json(['success' => __('Data is successfully updated')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
+        // $employee_leave_info->remaining_leave
 	}
 
 	public function destroy($id)

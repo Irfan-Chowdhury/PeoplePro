@@ -28,6 +28,10 @@ class leave extends Model
 		return $this->hasOne('App\Employee','id','employee_id');
 	}
 
+	// public function employeeLeaveTypeDetail(){
+	// 	return $this->hasOne('App\EmployeeLeaveTypeDetail','employee_id','employee_id');
+	// }
+
 	public function setStartDateAttribute($value)
 	{
 		$this->attributes['start_date'] = Carbon::createFromFormat(env('Date_Format'), $value)->format('Y-m-d');

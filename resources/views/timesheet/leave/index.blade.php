@@ -131,7 +131,6 @@
                                         data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
                                     <option value="pending">{{trans('file.Pending')}}</option>
-                                    <option value="first level approval">{{__('First Level Approval')}}</option>
                                     <option value="approved">{{trans('file.Approved')}}</option>
                                     <option value="rejected">{{trans('file.Rejected')}}</option>
                                 </select>
@@ -175,7 +174,6 @@
             </div>
         </div>
     </div>
-
 
 
     <div class="modal fade" id="leave_model" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
@@ -277,8 +275,6 @@
     </div>
 
 
-
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -298,8 +294,6 @@
             </div>
         </div>
     </div>
-
-
 
 @endsection
 
@@ -477,7 +471,6 @@
 
 
         $('#create_record').on('click', function () {
-
             $('.modal-title').text('{{__('Add Leave')}}');
             $('#action_button').val('{{trans("file.Add")}}');
             $('#action').val('{{trans("file.Add")}}');
@@ -506,6 +499,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         let html = '';
                         if (data.errors) {
                             html = '<div class="alert alert-danger">';
@@ -519,6 +513,9 @@
                         }
                         if (data.remaining_leave) {
                             html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                        }
+                        if (data.error) {
+                            html = '<div class="alert alert-danger">' + data.error + '</div>';
                         }
                         if (data.success) {
                             html = '<div class="alert alert-success">' + data.success + '</div>';

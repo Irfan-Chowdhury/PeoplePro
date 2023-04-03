@@ -86,6 +86,7 @@ url: "{{ route('leave_type.store') }}",
 method: "POST",
 data: { leave_type:leave_type,allocated_day:allocated_day},
 success: function (data) {
+console.log(data);
 var html = '';
 if (data.errors) {
 html = '<div class="alert alert-danger">';
@@ -115,7 +116,6 @@ $.ajax({
 url:target,
 dataType:"json",
 success:function(html){
-
 $('#leave_type_edit').val(html.data.leave_type);
 $('#allocated_day_edit').val(html.data.allocated_day);
 
@@ -137,6 +137,8 @@ url: "{{ route('leave_type.update') }}",
 method: "POST",
 data: { leave_type_edit:leave_type_edit,allocated_day_edit:allocated_day_edit,hidden_leave_id:hidden_leave_id},
 success: function (data) {
+console.log(data);
+
 var html = '';
 if (data.errors) {
 html = '<div class="alert alert-danger">';

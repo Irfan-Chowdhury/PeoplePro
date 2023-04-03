@@ -31,10 +31,14 @@ use Throwable;
 use Barryvdh\DomPDF\Facade as PDF;
 
 use App\SalaryBasic;
+use App\LeaveType;
+use App\EmployeeLeaveTypeDetail;
+use App\Http\traits\LeaveTypeDataManageTrait;
 
 
 class EmployeeController extends Controller {
 
+    use LeaveTypeDataManageTrait;
 
 	public function index(Request $request)
 	{
@@ -278,18 +282,15 @@ class EmployeeController extends Controller {
 
 					$data['id'] = $created_user->id;
 
-					employee::create($data);
+					$employee = employee::create($data);
+                    $this->allLeaveTypeDataNewlyStore($employee);
 
 					DB::commit();
-				} catch (Exception $e)
-				{
+				} catch (Exception $e) {
 					DB::rollback();
-
 					return response()->json(['error' => $e->getMessage()]);
-				} catch (Throwable $e)
-				{
+				} catch (Throwable $e) {
 					DB::rollback();
-
 					return response()->json(['error' => $e->getMessage()]);
 				}
 
@@ -302,6 +303,7 @@ class EmployeeController extends Controller {
 
 	public function show(Employee $employee)
 	{
+
 		if (auth()->user()->can('view-details-employee'))
 		{
 			$companies = Company::select('id', 'company_name')->get();

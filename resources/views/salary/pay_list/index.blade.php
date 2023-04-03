@@ -75,8 +75,9 @@
         <!-- View Details -->
         @include('salary.pay_list.includes.view_details')
 
+
         <!--  Generate Payment -->
-        @include('salary.pay_list.includes.generate_payment')
+        @include('salary.pay_list.includes.payslip_generate_info_show')
     </section>
 @endsection
 

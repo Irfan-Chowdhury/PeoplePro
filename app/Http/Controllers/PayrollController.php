@@ -391,7 +391,7 @@ class PayrollController extends Controller {
 		$data['employee_department']  = $employee->department->department_name ?? '';
 		$data['employee_join_date']   = $employee->joining_date;
 		$data['employee_username']    = $employee->user->username;
-		$data['employee_pp']          = $employee->user->profile_photo ?? '';
+		$data['employee_profile_photo']          = $employee->user->profile_photo ?? '';
 
 		$data['payslip_type'] = $payslip_type;
 
@@ -413,7 +413,7 @@ class PayrollController extends Controller {
 		return response()->json(['data' => $data]);
 	}
 
-	public function paySlipGenerate(Request $request)
+	public function payslipGenerateInfoShow(Request $request)
 	{
 
 		$month_year = $request->filter_month_year;

@@ -10,7 +10,7 @@ aria-hidden="true">
            <div class="row">
                <div class="col-md-12">
                    <div class="d-flex">
-                       <div id="employee_pp"></div>
+                       <div id="employee_profile_photo"></div>
                        <div class="ml-3">
                            <div class="h3 text-bold d-inline" id="employee_full_name"></div> (<span id="employee_username"></span>)
                            <br>
@@ -230,11 +230,11 @@ aria-hidden="true">
                     $('#employee_department').html(result.data.employee_department);
                     $('#employee_join_date').html(result.data.employee_join_date);
                     $('#employee_id').attr("href","{{ url('staff/employees/') }}/"+result.data.employee_id);
-                    if (result.data.employee_pp=='') {
-                        $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/avatar.jpg  width='100'  class='rounded-circle' />");
+                    if (result.data.employee_profile_photo=='') {
+                        $('#employee_profile_photo').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/avatar.jpg  width='100'  class='rounded-circle' />");
                     }
                     else {
-                        $('#employee_pp').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/" + result.data.employee_pp + " width='100'  class='rounded-circle' />");
+                        $('#employee_profile_photo').html("<img src={{ URL::to('/public') }}/uploads/profile_photos/" + result.data.employee_profile_photo + " width='100'  class='rounded-circle' />");
                     }
                     $('#pension_type').html(result.data.pension_type);
 
@@ -297,7 +297,6 @@ aria-hidden="true">
                     }
 
                     if (result.data.payslip_type == 'Monthly') {
-
                         $('#payslip_type').html('{{__('Monthly Payslip')}}');
                         $('#monthly_hourly').html('{{__('Basic Salary')}}');
                         $('.hide-div').hide();

@@ -88,8 +88,11 @@ class Employee extends Model
 
 	public function employeeLeave(){
 		return $this->hasMany(leave::class)
-			->select('id','start_date','end_date','status','employee_id')
+			->select('id','start_date','end_date','status','employee_id','leave_type_id','total_days')
 			->whereStatus('approved');
+	}
+	public function employeeLeaveTypeDetail(){
+		return $this->hasOne(EmployeeLeaveTypeDetail::class);
 	}
 
 
