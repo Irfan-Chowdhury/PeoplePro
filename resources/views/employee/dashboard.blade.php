@@ -391,7 +391,7 @@
                                                         </select>
                                                     </div>
 
-                                                    <div class="col-md-4 form-group">
+                                                    {{-- <div class="col-md-4 form-group">
                                                         <label>{{__('Total Annual Leave')}}  (Year - {{date('Y')}})</label>
                                                         <input type="number" min="0" name="total_leave" id="total_leave" autocomplete="off" class="form-control" value="{{$employee->total_leave}}">
                                                     </div>
@@ -399,7 +399,7 @@
                                                         <label>{{__('Remaining Leave')}}  (Year - {{date('Y')}})</label>
                                                         <input type="number" readonly name="remaining_leave" id="remaining_leave" autocomplete="off" class="form-control" value="{{$employee->remaining_leave}}">
                                                         <small class="text-danger"><i>(Read Only)</i></small>
-                                                    </div>
+                                                    </div> --}}
 
 
                                                     {{-- <div class="col-md-4"></div> --}}

@@ -175,7 +175,7 @@ class GeneralSettingController extends Controller
 				DB::table($table->$str)->truncate();
 			}
 		}
-        $leave_type = LeaveType::create(['leave_type'=>'Others','allocated_day'=>NULL]);
+        $leave_type = LeaveType::create(['leave_type'=>'Others','allocated_day'=>0]);
 
 		DB::statement("SET foreign_key_checks=1");
 

@@ -316,7 +316,29 @@
                                     <div class="box-body">
                                         <div class="table-responsive">
                                             <table class="table  table-bordered dataTable no-footer">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Leave Type</th>
+                                                        <th>Allocated Day</th>
+                                                        <th>Remaining Day</th>
+                                                    </tr>
+                                                </thead>
                                                 <tbody>
+                                                    @forelse ($leaveTypeUnserialize as $item)
+                                                        <tr>
+                                                            <td> {{ $item['leave_type'] }} </td>
+                                                            <td> {{ $item['allocated_day'] }} </td>
+                                                            <td> {{ $item['remaining_allocated_day'] }} </td>
+                                                        </tr>
+                                                    @empty
+                                                        <tr>
+                                                            <td></td>
+                                                            <td class="text-danger">No Data Found</td>
+                                                            <td></td>
+                                                        </tr>
+                                                    @endforelse
+                                                </tbody>
+                                                {{-- <tbody>
                                                     <tr>
                                                         <td><strong>{{__('Total Annual Leave')}}
                                                                 :</strong> <span
@@ -328,7 +350,7 @@
                                                                     class="pull-right">{{$employee->remaining_leave}}</span>
                                                         </td>
                                                     </tr>
-                                                </tbody>
+                                                </tbody> --}}
                                             </table>
                                         </div>
                                     </div>

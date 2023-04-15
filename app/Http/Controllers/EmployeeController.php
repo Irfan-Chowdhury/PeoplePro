@@ -490,30 +490,29 @@ class EmployeeController extends Controller {
 				$data['is_active'] = 1;
 
 				//Leave Calculation
-				$employee_leave_info = Employee::find($employee);
-				if ($employee_leave_info->total_leave==0) {
-					$data['total_leave'] = $request->total_leave;
-					$data['remaining_leave'] = $request->total_leave;
-				}
-				elseif ($request->total_leave > $employee_leave_info->total_leave) {
-					$data['total_leave'] = $request->total_leave;
-					$data['remaining_leave'] = $request->remaining_leave + ($request->total_leave - $employee_leave_info->total_leave);
-				}
-				elseif ($request->total_leave < $employee_leave_info->total_leave) {
-					$data['total_leave']     = $request->total_leave;
-					$remaining_leave         = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
-                    $data['remaining_leave'] = $remaining_leave < 0 ? 0 : $remaining_leave;
-				}else {
-					$data['total_leave'] = $request->total_leave;
-					$data['remaining_leave'] = $employee_leave_info->remaining_leave;
-				}
+				// $employee_leave_info = Employee::find($employee);
+				// if ($employee_leave_info->total_leave==0) {
+				// 	$data['total_leave'] = $request->total_leave;
+				// 	$data['remaining_leave'] = $request->total_leave;
+				// }
+				// elseif ($request->total_leave > $employee_leave_info->total_leave) {
+				// 	$data['total_leave'] = $request->total_leave;
+				// 	$data['remaining_leave'] = $request->remaining_leave + ($request->total_leave - $employee_leave_info->total_leave);
+				// }
+				// elseif ($request->total_leave < $employee_leave_info->total_leave) {
+				// 	$data['total_leave']     = $request->total_leave;
+				// 	$remaining_leave         = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
+                //     $data['remaining_leave'] = $remaining_leave < 0 ? 0 : $remaining_leave;
+				// }else {
+				// 	$data['total_leave'] = $request->total_leave;
+				// 	$data['remaining_leave'] = $employee_leave_info->remaining_leave;
+				// }
 
 				$user = [];
 				$user['first_name'] = $request->first_name;
 				$user['last_name'] = $request->last_name;
 				$user['username'] = strtolower(trim($request->username));
 				$user['email'] = strtolower(trim($request->email));
-				//$user['password'] = bcrypt($request->password);
 				$user ['role_users_id'] = $request->role_users_id;
 				$user['contact_no'] = $request->contact_no;
 				$user['is_active'] = 1;
@@ -541,7 +540,7 @@ class EmployeeController extends Controller {
 					return response()->json(['error' => $e->getMessage()]);
 				}
 
-				return response()->json(['success' => __('Data Added successfully.'), 'remaining_leave' => $data['remaining_leave']]);
+				return response()->json(['success' => __('Data Added successfully.')]);
 			}
 		}
 

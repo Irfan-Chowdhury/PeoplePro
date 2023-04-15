@@ -339,5 +339,8 @@ return array (
   'update' => 'update',
   'Enable Clock In and Clock Out' => 'Enable Clock In and Clock Out',
   'Enable Early Clock In (Added to Worktime)' => 'Enable Early Clock In (Added to Worktime)',
-  'Attendance Device Date Format' => 'Attendance Device Date Format'
+  'Attendance Device Date Format' => 'Attendance Device Date Format',
+  'Remaining Leave' => 'Remaining Leave',
+  'Allocated Day' => 'Allocated Day',
+  'Remaining' => 'Remaining',
 );

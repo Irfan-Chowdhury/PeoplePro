@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\company;
 use App\Employee;
+use App\EmployeeLeaveTypeDetail;
 use App\Payslip;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Http\traits\MonthlyWorkedHours;
@@ -236,9 +237,16 @@ class PayslipController extends Controller {
 	public function show(Payslip $payslip)
 	{
 		$employee = Employee::with('user:id,username','company:id,company_name','department:id,department_name','designation:id,designation_name')
-			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type','total_leave','remaining_leave','pension_type','pension_amount')
+			->select('id','first_name','last_name','joining_date','contact_no','company_id','department_id','designation_id', 'payslip_type','pension_type','pension_amount')
 			->where('id',$payslip->employee_id)
 			->first();
+
+        // Employee Leave Type Details
+        $employeeLeaveTypeDetail = EmployeeLeaveTypeDetail::where('employee_id',$payslip->employee_id)->first();
+        $leaveTypeUnserialize = [];
+        if ($employeeLeaveTypeDetail) {
+            $leaveTypeUnserialize = unserialize($employeeLeaveTypeDetail->leave_type_detail);
+        }
 
 		$total_minutes = 0;
 		// $total_hours = $this->totalWorkedHours($employee);
@@ -248,7 +256,7 @@ class PayslipController extends Controller {
 		$total_minutes += $hour * 60 + $min;
 		$amount_hours = ($payslip->basic_salary / 60 ) * $total_minutes;
 
-		return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours'));
+		return view('salary.payslip.show',compact('payslip','employee','total_hours','amount_hours','leaveTypeUnserialize'));
 	}
 
 	public function delete(Payslip $payslip){

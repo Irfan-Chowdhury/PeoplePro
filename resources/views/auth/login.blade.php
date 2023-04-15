@@ -1,5 +1,7 @@
-<?php $general_setting = DB::table('general_settings')->find(1); ?>
-        <!DOCTYPE html>
+<?php $general_setting = DB::table('general_settings')->latest()->first(); ?>
+
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -147,4 +149,3 @@
         });
     })(jQuery);
 </script>
-

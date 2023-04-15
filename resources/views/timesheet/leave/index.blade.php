@@ -314,18 +314,64 @@
                 format: '{{ env('Date_Format_JS')}}',
                 autoclose: true,
                 todayHighlight: true,
-            }).on('change', function(){
-                let start_date = $("#start_date").datepicker('getDate');
-                let end_date = $("#end_date").datepicker('getDate');
-                if (start_date!=null && end_date!=null && end_date>=start_date) {
-                let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
-                    $('#total_days').val(dayDiff);
-                }
-                else if(start_date!=null && end_date!=null && end_date<start_date){
-                    $('#total_days').val(0);
-                }
+                startDate: new Date(),
+            });
+            // .on('change', function(){
+            //     let start_date = $("#start_date").datepicker('getDate');
+            //     let end_date = $("#end_date").datepicker('getDate');
+            //     if (start_date!=null && end_date!=null && end_date>=start_date) {
+            //     let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
+            //     // console.log(dayDiff);
+            //         $('#total_days').val(dayDiff);
+            //     }
+            //     else if(start_date!=null && end_date!=null && end_date<start_date){
+            //         // console.log(987);
+            //         $('#total_days').val(0);
+            //     }
+            // });
+
+
+            const startDateInput = $('#start_date');
+            const endDateInput = $('#end_date');
+            const totalDaysInput = $('#total_days');
+
+            startDateInput.on('change', function() {
+                getDateResult();
             });
 
+            endDateInput.on('change', function() {
+                getDateResult();
+            });
+
+            const getDateResult = ()  => {
+                
+                // Convert Date formate to YYYY-MM-DD
+                if (!startDateInput.val() || !endDateInput.val()) {
+                    return;
+                }
+
+                let startDateFormat = convertDataFormat(startDateInput.val());
+                let endDateFormat = convertDataFormat(endDateInput.val());
+
+                let startDate = new Date(startDateFormat);
+                let endDate = new Date(endDateFormat);
+                let timeDiff = endDate.getTime() - startDate.getTime();
+                // Convert the difference from milliseconds to days and update the totalDays input field
+                let totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+                if (totalDays < 0) {
+                    totalDaysInput.val(0);
+                }else {
+                    totalDaysInput.val(totalDays);
+                }
+            }
+
+            const convertDataFormat = getDateValue => {
+                const inputDate = getDateValue;
+                const parts = inputDate.split("-");
+                const date = new Date(parts[2], parts[1] - 1, parts[0]);
+                const outputDate = date.toISOString().substring(0, 10);
+                return outputDate;
+            }
 
 
             let table_table = $('#leave-table').DataTable({
@@ -367,7 +413,13 @@
                     {
                         data: null,
                         render: function (data) {
-                            return data.leave_type + "<br><td><div class = 'badge badge-success'> (" + data.status + ")</div></td><br>";
+                            if (data.status=='pending') {
+                                return data.leave_type + "<br><td><div class = 'badge badge-warning'> " + data.status + "</div></td><br>";
+                            }else if(data.status=='rejected') {
+                                return data.leave_type + "<br><td><div class = 'badge badge-danger'> (" + data.status + ")</div></td><br>";
+                            }else{
+                                return data.leave_type + "<br><td><div class = 'badge badge-success'> (" + data.status + ")</div></td><br>";
+                            }
                         }
                     },
                     {
@@ -470,6 +522,8 @@
         });
 
 
+
+
         $('#create_record').on('click', function () {
             $('.modal-title').text('{{__('Add Leave')}}');
             $('#action_button').val('{{trans("file.Add")}}');
@@ -531,23 +585,9 @@
 
             if ($('#action').val() == '{{trans('file.Edit')}}') {
 
-                // let start_date_edit = new Date($("#start_date").val());
-                // let end_date_edit = new Date($("#end_date").val());
-                // let timeDiff_edit;
-                // let dayDiff_edit;
-                // if (start_date_edit != null && end_date_edit != null) {
-                //     // dayDiff_edit = Math.ceil((end_date_edit - start_date_edit) / (1000 * 60 * 60 * 24)) + 1;
-                //     timeDiff_edit = end_date_edit.getTime() - start_date_edit.getTime();
-                //     dayDiff_edit  = timeDiff_edit / (1000 * 3600 * 24) + 1 ;
-                // } else if (start_date_edit == null && end_date_edit == null) {
-                //     dayDiff_edit = null;
-                // }
-                // $('#diff_date_hidden').val(dayDiff_edit);
-
+                $('#start_date').prop('disabled', false);
                 var totalDays = $('#total_days').val();
                 $('#diff_date_hidden').val(totalDays);
-                console.log(totalDays);
-
                 $.ajax({
                     url: "{{ route('leaves.update') }}",
                     method: "POST",
@@ -571,6 +611,9 @@
                         }
                         if (data.remaining_leave) {
                             html = '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                        }
+                        if (data.error) {
+                            html = '<div class="alert alert-danger">' + data.error + '</div>';
                         }
                         if (data.success) {
                             html = '<div class="alert alert-success">' + data.success + '</div>';
@@ -637,15 +680,18 @@
             let id = $(this).attr('id');
             $('#form_result').html('');
 
-
             let target = "{{ route('leaves.index') }}/" + id + '/edit';
-
 
             $.ajax({
                 url: target,
                 dataType: "json",
                 success: function (html) {
-                    //console.log(html.data.end_date);
+
+                    let currentDate = new Date().toJSON().slice(0, 10);
+                    if (Date.parse(html.leaveStartDate) < Date.parse(currentDate)) {
+                        $('#start_date').prop('disabled', true);
+                    }
+
 
                     $('#status').selectpicker('val', html.data.status);
                     $('#remarks').val(html.data.remarks);
@@ -752,6 +798,7 @@
             $('select').selectpicker('refresh');
             $('.date').datepicker('update');
             $('#leave-table').DataTable().ajax.reload();
+            $('#start_date').prop('disabled', false);
         });
 
         $('#ok_button').on('click', function () {
