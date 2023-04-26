@@ -141,8 +141,6 @@
     @endif
 
 
-
-
     <script type="text/javascript" src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.buttons.min.js') }}"></script>
@@ -290,7 +288,7 @@
             <ul id="side-main-menu" class="side-menu list-unstyled">
                 @if(auth()->user()->role_users_id ==1)
                     <li class="{{ (request()->is('admin/dashboard*')) ? 'active' : '' }}"><a
-                                href="{{url('/admin/dashboard')}}"> <i
+                                href="{{route('admin.dashboard')}}"> <i
                                     class="dripicons-meter"></i><span>{{trans('file.Dashboard')}}</span></a>
                     </li>
                 @else
@@ -782,6 +780,7 @@
                                 </a>
                         </li>
                     @endcan
+
                     @can('finance')
                         <li class="has-dropdown {{ (request()->is('accounting*')) ? 'active' : '' }}">
 
@@ -858,6 +857,13 @@
                         </li>
                     @endcan
 
+                    @if (config('auto_update.product_mode') === "DEVELOPER")
+                        <li class="{{ (request()->is('developer-section*')) ? 'active' : '' }}"><a
+                            href="{{route('admin.developer-section.index')}}">
+                            <i class="dripicons-calendar"></i><span> {{__('Auto Update')}}</span></a>
+                        </li>
+                    @endif
+
                     @can('file_module')
                         <li class="has-dropdown {{ (request()->is('file_manager*')) ? 'active' : '' }}">
 
@@ -889,6 +895,9 @@
                             </ul>
                         </li>
                     @endcan
+
+
+
             </ul>
         </div>
     </div>
@@ -902,8 +911,8 @@
     @yield('content')
     <footer class="main-footer">
         <div class="container-fluid">
-            <p>&copy; {{$general_settings->site_title ?? "no title"}} | {{ __('Developed by')}} <a
-                        href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a>|| Version - {{env('VERSION')}}</p></p>
+            <p>&copy; {{$general_settings->site_title ?? "no title"}} || {{ __('Developed by')}}
+                <a href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a> || Version - {{env('VERSION')}}
         </div>
     </footer>
 </div>

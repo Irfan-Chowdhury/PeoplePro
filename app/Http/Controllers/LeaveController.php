@@ -107,8 +107,7 @@ class LeaveController extends Controller
 
             if ($requestStartDate < $currentDate->setTime(0, 0, 0, 0)) {
                 throw new Exception('The start date is less than the current date');
-            }
-            else if ($requestEndDate < $currentDate->setTime(0, 0, 0, 0)) {
+            } else if ($requestEndDate < $currentDate->setTime(0, 0, 0, 0)) {
                 throw new Exception('The end date is less than the current date');
             }
 
@@ -132,7 +131,7 @@ class LeaveController extends Controller
 
             if ($request->status == 'approved') {
                 try {
-                    $this->employeeLeaveTypeDataManage(null ,$request, $request->employee_id, false);
+                    $this->employeeLeaveTypeDataManage(null, $request, $request->employee_id, false);
                 } catch (Exception $e) {
                     return response()->json(['error' => $e->getMessage()]);
                 }
@@ -197,7 +196,7 @@ class LeaveController extends Controller
         if (request()->ajax()) {
             $data = leave::findOrFail($id);
 
-            $leaveStartDate = date('Y-m-d',strtotime($data->start_date));
+            $leaveStartDate = date('Y-m-d', strtotime($data->start_date));
 
             $departments = department::select('id', 'department_name')
                 ->where('company_id', $data->company_id)->get();
@@ -210,6 +209,20 @@ class LeaveController extends Controller
 
     public function update(Request $request)
     {
+        // Test
+
+        Notification::route('mail', 'irfanchowdhury80@gmail.com')
+        ->notify(new EmployeeLeaveNotification(
+            'Irfan Chowdhury',
+            '12',
+            '2023-04-19',
+            '2023-04-24',
+            'Test',
+        ));
+        return 456;
+
+        // Test
+
         $logged_user = auth()->user();
 
         if ($logged_user->can('edit-leave')) {
@@ -296,7 +309,6 @@ class LeaveController extends Controller
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()]);
             }
-
             $leave->update($data);
 
             if ($data['is_notify'] != NULL) {
@@ -312,7 +324,7 @@ class LeaveController extends Controller
 
     private function employeeLeaveTypeDataManage($leave, $request, $employee_id, $isRestore)
     {
-        if($leave) {
+        if ($leave) {
             $currentDate = new DateTime();
 
             $previousStartDate = new DateTime($leave->start_date);
@@ -324,10 +336,10 @@ class LeaveController extends Controller
             $isStartDateChange = true;
             $isEndDateChange = true;
 
-            if($previousStartDate == $requestStartDate) {
+            if ($previousStartDate == $requestStartDate) {
                 $isStartDateChange = false;
             }
-            if($previousEndDate == $requestEndDate) {
+            if ($previousEndDate == $requestEndDate) {
                 $isEndDateChange = false;
             }
 
@@ -356,7 +368,7 @@ class LeaveController extends Controller
                         $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'] + $request->diff_date_hidden;
                     } else if ($isRestore === false) {
                         $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'] - $request->diff_date_hidden;
-                    }else {
+                    } else {
                         $dataLeaveType[$key]['remaining_allocated_day'] = $itemArr['remaining_allocated_day'];
                     }
                 } else {

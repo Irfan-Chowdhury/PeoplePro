@@ -1,0 +1,23 @@
+{
+    "files": [
+        {
+            "file_name": "xyz.zip"
+        }
+    ],
+
+    "log": [
+        {
+            "text": "Added: Delete included in all features"
+        },
+        {
+            "text": "Update: Currency Update"
+        },
+        {
+            "text": "Update: Mail Setting Update"
+        },
+        {
+            "text": "Minor Bug Fixed."
+        }
+
+    ]
+}
