@@ -1071,6 +1071,7 @@ Route::group(['middleware' => ['XSS']], function ()
         Route::get('/', 'DeveloperSectionController@index')->name('admin.developer-section.index');
         Route::post('/', 'DeveloperSectionController@submit')->name('admin.developer-section.submit');
         Route::post('/bug-update-setting', 'DeveloperSectionController@bugUpdateSetting')->name('admin.bug-update-setting.submit');
+        Route::post('/version-upgrade-setting', 'DeveloperSectionController@versionUpgradeSetting')->name('admin.version-upgrade-setting.submit');
         // Route::get('/',[DeveloperSectionController::class,'index'])->name('admin.developer-section.index');
         // Route::post('/',[DeveloperSectionController::class,'submit'])->name('admin.developer-section.submit');
     });

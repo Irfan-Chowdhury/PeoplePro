@@ -21,14 +21,35 @@ class DeveloperSectionController extends Controller
         $general = $this->readJSONData('track/general.json');
         $control = $this->readJSONData('track/control.json');
         $bugSettings = $this->readJSONData('track/fetch-data-bug.json');
+        $versionUpgradeSettings = $this->readJSONData('track/fetch-data-upgrade.json');
 
         // return $bugSetting->files[0]->file_name;
         // return $bugSettings;
 
-        return view('developer_section.index',compact('general','control','bugSettings'));
+        return view('developer_section.index',compact('general','control','bugSettings','versionUpgradeSettings'));
     }
 
     public function bugUpdateSetting(Request $request)
+    {
+        $data = $this->filesAndLogManage($request);
+
+        // Write Array in JSON File
+        $this->wrtieDataInJSON($data, 'track/fetch-data-bug.json');
+        $this->setSuccessMessage(__('Data Submited Successfully'));
+        return redirect()->back();
+    }
+
+    public function versionUpgradeSetting(Request $request)
+    {
+        $data = $this->filesAndLogManage($request);
+
+        // Write Array in JSON File
+        $this->wrtieDataInJSON($data, 'track/fetch-data-upgrade.json');
+        $this->setSuccessMessage(__('Data Submited Successfully'));
+        return redirect()->back();
+    }
+
+    private function filesAndLogManage($request)
     {
         $data = [];
         if ($request->file_name) {
@@ -47,10 +68,7 @@ class DeveloperSectionController extends Controller
             }
         }
 
-        // Write Array in JSON File
-        $this->wrtieDataInJSON($data, 'track/fetch-data-bug.json');
-        $this->setSuccessMessage(__('Data Submited Successfully'));
-        return redirect()->back();
+        return $data;
     }
 
 

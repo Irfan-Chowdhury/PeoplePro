@@ -14,6 +14,7 @@
                         <div class="list-group" id="list-tab" role="tablist">
                             <a class="list-group-item list-group-item-action active" id="general-setting" data-toggle="list" href="#generalSetting" role="tab" aria-controls="home"><?php echo app('translator')->get('file.General Setting'); ?></a>
                             <a class="list-group-item list-group-item-action" id="bug-update-setting" data-toggle="list" href="#bugUpdateSetting" role="tab" aria-controls="home"><?php echo app('translator')->get('file.Bug Update Setting'); ?></a>
+                            <a class="list-group-item list-group-item-action" id="version-upgrade-setting" data-toggle="list" href="#versionUpgradeSetting" role="tab" aria-controls="home"><?php echo app('translator')->get('file.Version Upgrade Setting'); ?></a>
                         </div>
                     </div>
                 </div>
@@ -28,6 +29,9 @@
 
                 <!-- Bug Setting -->
                 <?php echo $__env->make('developer_section.bug_update_setting', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+
+                <!-- Version Upgrade Setting -->
+                <?php echo $__env->make('developer_section.version_upgrade_setting', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
             </div>
         </div>
     </div>

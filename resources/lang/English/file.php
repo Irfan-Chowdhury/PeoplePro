@@ -363,4 +363,5 @@ return array (
   'General Setting' => 'General Setting',
   'Delete' => 'Delete',
   'Add More' => 'Add More',
+  'Version Upgrade Setting' => 'Version Upgrade Setting',
 );
