@@ -6,42 +6,45 @@
 
 
     <!-- Old Version -->
-    {{-- <section id="noBug" class="d-none container mt-5 text-center"> --}}
-    <section id="noBug" class="container mt-5 text-center">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="text-center text-info">Your current version is <span>{{config('auto_update.version')}}</span></h4>
-                <p>There is no bug</p>
+    @if (!$bugNotificationEnable)
+        <section id="noBug" class="container mt-5 text-center">
+            <div class="card">
+                <div class="card-body">
+                    @if (session()->has('bugUpdated') && session()->get('bugUpdated')==='success')
+                        <h2 class="text-center text-success"><strong>Congratulation !!!</strong> System updated successfully.</span></h2>
+                    @endif
+                    <h4 class="text-center text-info">Your current version is <span>{{config('auto_update.version')}}</span></h4>
+                    <p>There is no bug</p>
+                </div>
             </div>
-        </div>
-    </section>
-
-    <!-- For New Version -->
-    <section id="bugSection" class="d-none container mt-5 text-center">
-    {{-- <section id="bugSection" class="container mt-5 text-center"> --}}
-        <div class="card">
-            <div class="card-body">
-                <h4 class="text-center text-success">Minor bug found. Please update it.</h4>
-                <p>Before updating, we highly recomended you to keep a backup of your current script and database.</p>
+        </section>
+    @else
+        <!-- For New Version -->
+        <section id="bugSection" class="container mt-5 text-center">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="text-center text-success">Minor bug found. Please update it.</h4>
+                    <p>Before updating, we highly recomended you to keep a backup of your current script and database.</p>
+                </div>
             </div>
-        </div>
 
-        <div id="changeLog" class="d-none card mt-3">
-            <div class="card-body">
-                <h6 class="text-left p-4">New Change Log</h6>
-                <ul class="list-group text-left" id="logUL">
-                </ul>
+            <div id="changeLog" class="d-none card mt-3">
+                <div class="card-body">
+                    <h6 class="text-left p-4">New Change Log</h6>
+                    <ul class="list-group text-left" id="logUL">
+                    </ul>
+                </div>
             </div>
-        </div>
 
-        <div class="d-flex justify-content-center mt-3 mb-3">
-            <div id="spinner" class="d-none spinner-border text-success" role="status">
-                <span class="sr-only">Loading...</span>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <div id="spinner" class="d-none spinner-border text-success" role="status">
+                    <span class="sr-only">Loading...</span>
+                </div>
             </div>
-        </div>
 
-        <button id="update" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Update</button>
-    </section>
+            <button id="update" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Update</button>
+        </section>
+    @endif
 @endsection
 
 
@@ -51,7 +54,7 @@
     let clientCurrrentVersion = {!! json_encode(env("VERSION"))  !!};
     let clientCurrrentBugNo   = {!! json_encode(env("BUG_NO"))  !!};
     let bugUpdateURL          = "{{ route('bug-update') }}";
-    let redirectURL           = "{{ route('admin.dashboard') }}";
+    let redirectURL           = "{{ route('bug-update-page') }}";
 </script>
 
 <script type='text/javascript'>

@@ -1,42 +1,3 @@
-/************************************************
-        Common General Data
-*************************************************/
-// const demoURL = 'https://peopleprohrm.com/demo/api'; //Demo Link
-const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
-let productMode;
-let clientVersionNumber;
-let clientBugNo;
-let demoVersionString;
-let demoVersionNumber;
-let demoBugNo;
-let minimumRequiredVersion;
-let latestVersionUpgradeEnable;
-let latestVersionDBMigrateEnable;
-let bugUpdateEnable;
-let bugDBMigrateEnable;
-
-const loadGeneralData = () => {
-    let url = `${demoURL}/fetch-data-general`;
-    fetch(url)
-    .then(res => res.json())
-    .then(data => displayGeneralData(data));
-}
-
-const displayGeneralData = data => {
-    productMode            = data.general.product_mode;
-    clientVersionNumber    = stringToNumberConvert(clientCurrrentVersion);
-    clientBugNo            = parseInt(clientCurrrentBugNo);
-    demoVersionString      = data.general.demo_version;
-    demoVersionNumber      = stringToNumberConvert(demoVersionString);
-    demoBugNo              = data.general.demo_bug_no;
-    minimumRequiredVersion = stringToNumberConvert(data.general.minimum_required_version);
-    latestVersionUpgradeEnable   = data.general.latest_version_upgrade_enable;
-    latestVersionDBMigrateEnable = data.general.latest_version_db_migrate_enable;
-    bugUpdateEnable        = data.general.bug_update_enable;
-    bugDBMigrateEnable     = data.general.bug_db_migrate_enable;
-}
-
-loadGeneralData();
 
 /************************************************
                      Version Upgrade
@@ -91,16 +52,17 @@ const loadBugsInfo = () => {
     .then(data => displayBugNotification(data));
 }
 
+
 let fetchBugApiData;
 const displayBugNotification = (data) => {
 
     // Test (Removed Later)
-    // let demoVersionNumber = "111";
-    // let clientVersionNumber = "111";
-    // let minimumRequiredVersion = "109";
-    // let clientBugNo = "1018";
+    let demoVersionNumber = "111";
+    let clientVersionNumber = "111";
+    let minimumRequiredVersion = "109";
+    let clientBugNo = "1018";
 
-    if (clientVersionNumber >= minimumRequiredVersion && demoVersionNumber === clientVersionNumber && bugUpdateEnable===true && productMode==='DEMO') {
+    if (clientVersionNumber >= minimumRequiredVersion && demoVersionNumber == clientVersionNumber && bugUpdateEnable==true && productMode=='DEMO') {
         // Alert
         if (demoBugNo > clientBugNo) {
             $('#alertBugSection').removeClass('d-none');
@@ -108,8 +70,6 @@ const displayBugNotification = (data) => {
         }
         // Congratulation
         else if (localStorage.getItem('bug_status')=='done' && (clientBugNo === demoBugNo)) {
-            console.log(3);
-
             console.log(localStorage.getItem('bug_status'));
             $('#alertBugSection').removeClass('d-none').css("background-color", "rgb(212,237,218)");
             $('#congratulationBug').removeClass('d-none');
@@ -125,15 +85,15 @@ loadBugsInfo();
         String to Number Conversion of Version from env
 *******************************************************************/
 
-const stringToNumberConvert = dataString => {
-    const myArray = dataString.split(".");
-    let versionString = "";
-    myArray.forEach(element => {
-        versionString += element;
-    });
-    let versionConvertNumber = parseInt(versionString);
-    return versionConvertNumber;
-}
+// const stringToNumberConvert = dataString => {
+//     const myArray = dataString.split(".");
+//     let versionString = "";
+//     myArray.forEach(element => {
+//         versionString += element;
+//     });
+//     let versionConvertNumber = parseInt(versionString);
+//     return versionConvertNumber;
+// }
 
 
 $('#closeButtonUpgrade').on('click',function(){

@@ -17,6 +17,7 @@ use App\EmployeeWorkExperience;
 use App\FinanceDeposit;
 use App\FinanceExpense;
 use App\Holiday;
+use App\Http\traits\AutoUpdateTrait;
 use App\Http\traits\CalendarableModelTrait;
 use App\Http\traits\ShiftTimingOnDay;
 use App\Invoice;
@@ -43,23 +44,24 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller {
 
-    use CalendarableModelTrait;
+    use CalendarableModelTrait, AutoUpdateTrait;
 
-	public function __construct()
-	{
+	public function __construct() {
 		$this->middleware(['auth']);
 	}
 
-	/**
-	 * Show the application dashboard.
-	 *
-	 * @return Renderable
-	 */
+
 	public function index()
 	{
+        $autoUpdateData = $this->general();
+        $alertBugEnable =  $autoUpdateData['alertBugEnable'];
+        $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
+
+
 		$employees = Employee::with('department:id,department_name', 'designation:id,designation_name')
 			->select('id', 'department_id', 'designation_id', 'is_active')
 			->where('is_active', '=', 1)->where('is_active',1)
@@ -206,7 +208,9 @@ class DashboardController extends Controller {
 			'payslips', 'companies', 'leave_types',
 			'training_types', 'trainers', 'travel_types', 'clients', 'projects',
 			'project_count_array', 'project_name_array', 'completed_projects',
-			'announcements', 'ticket_count', 'per_month', 'per_month_payment', 'months', 'this_month_payment', 'last_six_month_payment'));
+			'announcements', 'ticket_count', 'per_month', 'per_month_payment', 'months', 'this_month_payment', 'last_six_month_payment',
+            'alertBugEnable','alertVersionUpgradeEnable'
+        ));
 	}
 
 	public function profile()

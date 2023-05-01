@@ -60,17 +60,10 @@ const loadBugsInfo = () => {
 
 let fetchBugApiData;
 const displayBugInfo = bugInfoData => {
-
-    // Test (Removed Later)
-    // let demoVersionNumber = "111";
-    // let clientVersionNumber = "111";
-    // let minimumRequiredVersion = "109";
-    // let clientBugNo = "1018";
-
-    if (clientVersionNumber >= minimumRequiredVersion && demoVersionNumber === clientVersionNumber && demoBugNo > clientBugNo && bugUpdateEnable ===true && productMode==='DEMO') {
-        $('#noBug').addClass('d-none');
-        $('#bugSection').removeClass('d-none');
-    }
+    // if (clientVersionNumber >= minimumRequiredVersion && demoVersionNumber === clientVersionNumber && demoBugNo > clientBugNo && bugUpdateEnable ===true && productMode==='DEMO') {
+    //     $('#noBug').addClass('d-none');
+    //     $('#bugSection').removeClass('d-none');
+    // }
     fetchBugApiData = bugInfoData;
 }
 

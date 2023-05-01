@@ -1070,11 +1070,12 @@ Route::group(['middleware' => ['XSS']], function ()
     Route::group(['prefix' => 'developer-section'], function () {
         Route::get('/', 'DeveloperSectionController@index')->name('admin.developer-section.index');
         Route::post('/', 'DeveloperSectionController@submit')->name('admin.developer-section.submit');
+        Route::post('/bug-update-setting', 'DeveloperSectionController@bugUpdateSetting')->name('admin.bug-update-setting.submit');
         // Route::get('/',[DeveloperSectionController::class,'index'])->name('admin.developer-section.index');
         // Route::post('/',[DeveloperSectionController::class,'submit'])->name('admin.developer-section.submit');
     });
 
-    Route::get('/new-release','ClientAutoUpdateController@index')->name('new-release'); // New Release
+    Route::get('/new-release','ClientAutoUpdateController@newVersionReleasePage')->name('new-release'); // New Release
     Route::get('/bugs','ClientAutoUpdateController@bugUpdatePage')->name('bug-update-page'); // Bugs
 });
 

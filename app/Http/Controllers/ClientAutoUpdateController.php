@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\traits\AutoUpdateTrait;
 use App\Http\traits\ENVFilePutContent;
 use App\Http\traits\JSONFileTrait;
 use Illuminate\Http\Request;
@@ -9,18 +10,26 @@ use Exception;
 use ZipArchive;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class ClientAutoUpdateController extends Controller
 {
-    use ENVFilePutContent, JSONFileTrait;
+    use ENVFilePutContent, JSONFileTrait, AutoUpdateTrait;
 
-    public function index(){
-        return view('version_upgrade.index');
+    public function newVersionReleasePage()
+    {
+        $autoUpdateData = $this->general();
+        $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
+        return view('version_upgrade.index', compact('alertVersionUpgradeEnable'));
     }
 
     // Client
-    public function bugUpdatePage() {
-        return view('bug_update.index');
+    public function bugUpdatePage()
+    {
+        // session()->forget('bugUpdated');
+        $autoUpdateData = $this->general();
+        $bugNotificationEnable = $autoUpdateData['alertBugEnable'];
+        return view('bug_update.index', compact('bugNotificationEnable'));
     }
 
     // Action on Client Server
@@ -44,8 +53,10 @@ class ClientAutoUpdateController extends Controller
 
 
         if($action_type =='version_upgrade'){
+            $sessionType = 'versionUpgrated';
             $base_url = 'https://peopleprohrm.com/version_upgrade_files/'; //$this->version_upgrade_base_url;
         }else if($action_type == 'bug_update') {
+            $sessionType = 'bugUpdated';
             $base_url = 'https://peopleprohrm.com/bug_update_files/'; //$this->bug_update_base_url;
         }
 
@@ -96,6 +107,8 @@ class ClientAutoUpdateController extends Controller
                     Artisan::call('migrate');
                 }
                 Artisan::call('optimize:clear');
+                Session::put($sessionType, 'success');
+                
                 return response()->json('success');
             }
         }

@@ -355,4 +355,12 @@ return array (
   'Bug Update' => 'Bug Update',
   'Bug DB Migrate' => 'Bug DB Migrate',
   'Bug Update URL' => 'Bug Update URL',
+  'Bug Update Setting' => 'Bug Update Setting',
+  'Bug Setting' => 'Bug Setting',
+  'File Name' => 'File Name',
+  'Logs' => 'Logs',
+  'Type Log' => 'Type Log',
+  'General Setting' => 'General Setting',
+  'Delete' => 'Delete',
+  'Add More' => 'Add More',
 );

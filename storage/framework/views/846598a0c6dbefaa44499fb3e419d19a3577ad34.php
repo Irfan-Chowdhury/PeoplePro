@@ -841,7 +841,7 @@
                     <?php if(config('auto_update.product_mode') === "DEVELOPER"): ?>
                         <li class="<?php echo e((request()->is('developer-section*')) ? 'active' : ''); ?>"><a
                             href="<?php echo e(route('admin.developer-section.index')); ?>">
-                            <i class="dripicons-calendar"></i><span> <?php echo e(__('Auto Update')); ?></span></a>
+                            <i class="dripicons-calendar"></i><span> <?php echo e(__('Auto Update Setting')); ?></span></a>
                         </li>
                     <?php endif; ?>
 

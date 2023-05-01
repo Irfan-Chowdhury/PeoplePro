@@ -20,8 +20,39 @@ class DeveloperSectionController extends Controller
         }
         $general = $this->readJSONData('track/general.json');
         $control = $this->readJSONData('track/control.json');
-        return view('developer_section.index',compact('general','control'));
+        $bugSettings = $this->readJSONData('track/fetch-data-bug.json');
+
+        // return $bugSetting->files[0]->file_name;
+        // return $bugSettings;
+
+        return view('developer_section.index',compact('general','control','bugSettings'));
     }
+
+    public function bugUpdateSetting(Request $request)
+    {
+        $data = [];
+        if ($request->file_name) {
+            foreach($request->file_name as $item) {
+                $data['files'][]= [
+                    'file_name' => $item
+                ];
+            }
+        }
+
+        if ($request->text) {
+            foreach($request->text as $item) {
+                $data['logs'][]= [
+                    'text' => $item
+                ];
+            }
+        }
+
+        // Write Array in JSON File
+        $this->wrtieDataInJSON($data, 'track/fetch-data-bug.json');
+        $this->setSuccessMessage(__('Data Submited Successfully'));
+        return redirect()->back();
+    }
+
 
     public function submit(Request $request)
     {
