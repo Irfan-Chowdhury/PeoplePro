@@ -19,33 +19,40 @@ class ClientAutoUpdateController extends Controller
     public function newVersionReleasePage()
     {
         $autoUpdateData = $this->general();
+        $getVersionUpgradeDetails = $this->getVersionUpgradeDetails();
         $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
-        return view('version_upgrade.index', compact('alertVersionUpgradeEnable'));
+        return view('version_upgrade.index', compact('getVersionUpgradeDetails','alertVersionUpgradeEnable'));
     }
 
     // Client
     public function bugUpdatePage()
     {
-        // session()->forget('bugUpdated');
         $autoUpdateData = $this->general();
+        $getBugUpdateDetails = $this->getBugUpdateDetails();
         $bugNotificationEnable = $autoUpdateData['alertBugEnable'];
-        return view('bug_update.index', compact('bugNotificationEnable'));
+        return view('bug_update.index', compact('getBugUpdateDetails','bugNotificationEnable'));
     }
 
     // Action on Client Server
     public function versionUpgrade(Request $request){
-        return $this->actionTransfer($request,'version_upgrade');
+        return $this->actionTransfer('version_upgrade');
     }
 
     // Action apply on Client Server
     public function bugUpdate(Request $request){
-        return $this->actionTransfer($request,'bug_update');
+        return $this->actionTransfer('bug_update');
     }
 
-    protected function actionTransfer($request, $action_type)
+    protected function actionTransfer($action_type)
     {
-        $track_files_arr   = json_decode(json_encode($request->data), FALSE);
-        $track_general_arr = json_decode(json_encode($request->general), FALSE);
+        $track_files_arr = $this->getVersionUpgradeDetails();
+
+        $general = $this->general();
+        $track_general_arr = $general['generalData']->general;
+
+
+        // $track_files_arr   = json_decode(json_encode($request->data), FALSE);
+        // $track_general_arr = json_decode(json_encode($request->general), FALSE);
 
         // return response()->json($track_files_arr);
         // return response()->json($track_general_arr);
@@ -73,7 +80,6 @@ class ClientAutoUpdateController extends Controller
             }
         }
 
-
         // Start Execute
         try{
             if ($track_files_arr && $track_general_arr) {
@@ -98,18 +104,18 @@ class ClientAutoUpdateController extends Controller
                 }
 
                 if($action_type =='version_upgrade'){
-                    $this->dataWriteInENVFile('VERSION',$track_general_arr->general->demo_version);
+                    $this->dataWriteInENVFile('VERSION',$track_general_arr->demo_version);
                 }else if($action_type == 'bug_update') {
-                    $this->dataWriteInENVFile('BUG_NO',$track_general_arr->general->demo_bug_no);
+                    $this->dataWriteInENVFile('BUG_NO',$track_general_arr->demo_bug_no);
                 }
 
-                if (($action_type =='version_upgrade' && $track_general_arr->general->latest_version_db_migrate_enable==true) || ($action_type == 'bug_update' && $track_general_arr->general->bug_db_migrate_enable==true) ){
+                if (($action_type =='version_upgrade' && $track_general_arr->latest_version_db_migrate_enable==true) || ($action_type == 'bug_update' && $track_general_arr->general->bug_db_migrate_enable==true) ){
                     Artisan::call('migrate');
                 }
                 Artisan::call('optimize:clear');
                 Session::put($sessionType, 'success');
-                
-                return response()->json('success');
+
+                return redirect()->back();
             }
         }
         catch(Exception $e) {

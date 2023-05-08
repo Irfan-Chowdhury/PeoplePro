@@ -2,9 +2,9 @@
         Common General Data
 *************************************************/
 
-// const demoURL = 'https://cartproshop.com/demo/api'; //Demo Link
 // const demoURL = 'http://peopleprohrm/demo/api'; //Demo Link
-const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+// const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+const demoURL = 'https://peopleprohrm.com/peoplepro/api'; //Demo Link
 let fetchGeneralApiData;
 let productMode;
 let clientVersionNumber;
@@ -133,6 +133,7 @@ $('#upgrade').on('click', function(e){
             $('#upgrade').text('Upgrade');
         },
         success: function (data) {
+            console.log(data);
             if (data == 'success') {
                 localStorage.setItem('version_upgrade_status','done');
                 $('#spinner').addClass('d-none');

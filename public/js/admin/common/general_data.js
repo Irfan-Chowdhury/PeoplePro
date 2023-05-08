@@ -2,7 +2,8 @@
         Common General Data
 *************************************************/
 // const demoURL = 'https://peopleprohrm.com/demo/api'; //Demo Link
-const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+// const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+const demoURL = 'https://peopleprohrm.com/peoplepro/api'; //Demo Link
 let productMode;
 let clientVersionNumber;
 let clientBugNo;

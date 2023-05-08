@@ -7,12 +7,13 @@ trait AutoUpdateTrait{
 
     public function general()
     {
-        $demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+        $demoURL = config('auto_update.demo_url');
 
         $curl = curl_init();
         curl_setopt_array($curl, [
             CURLOPT_RETURNTRANSFER => 1,
             CURLOPT_URL => $demoURL.'/fetch-data-general',
+            // CURLOPT_URL => 'http://localhost/peoplepro/api/fetch-data-general',
         ]);
         $response = curl_exec($curl);
         curl_close($curl);
@@ -38,20 +39,6 @@ trait AutoUpdateTrait{
         $alertBugEnable = false;
         $alertVersionUpgradeEnable = false;
 
-        // echo $minimumRequiredVersion.'</br>';
-        // echo $demoVersionNumber.'</br>';
-        // echo $clientVersionNumber.'</br>';
-        // echo $demoBugNo.'</br>';
-        // echo $clientBugNo.'</br>';
-        // echo $bugUpdateEnable.'</br>';
-        // echo $productMode.'</br>';
-        // return;
-        // echo $clientVersionNumber.'</br>';
-        // echo $minimumRequiredVersion.'</br>';
-        // echo $latestVersionUpgradeEnable.'</br>';
-        // echo $productMode.'</br>';
-        // echo $demoVersionNumber.'</br>';
-
         if ($clientVersionNumber >= $minimumRequiredVersion && $demoVersionNumber === $clientVersionNumber && $demoBugNo > $clientBugNo && $bugUpdateEnable ===true && $productMode==='DEMO') {
             $alertBugEnable = true;
         }
@@ -60,10 +47,44 @@ trait AutoUpdateTrait{
         }
 
         $returnData = [];
+        $returnData['generalData'] = $data;
         $returnData['alertBugEnable'] = $alertBugEnable;
         $returnData['alertVersionUpgradeEnable'] = $alertVersionUpgradeEnable;
 
+        // return $returnData['generalData']->general->product_mode;
         return $returnData;
+    }
+
+    public function getVersionUpgradeDetails()
+    {
+        $demoURL = config('auto_update.demo_url');
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $demoURL.'/fetch-data-upgrade',
+        ]);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, false);
+
+        return $data;
+    }
+
+    public function getBugUpdateDetails()
+    {
+        $demoURL = config('auto_update.demo_url');
+
+        $curl = curl_init();
+        curl_setopt_array($curl, [
+            CURLOPT_RETURNTRANSFER => 1,
+            CURLOPT_URL => $demoURL.'/fetch-data-bugs',
+        ]);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        $data = json_decode($response, false);
+
+        return $data;
     }
 
     private function stringToNumberConvert($dataString) {
@@ -76,3 +97,19 @@ trait AutoUpdateTrait{
         return $versionConvertNumber;
     }
 }
+
+
+
+// echo $minimumRequiredVersion.'</br>';
+// echo $demoVersionNumber.'</br>';
+// echo $clientVersionNumber.'</br>';
+// echo $demoBugNo.'</br>';
+// echo $clientBugNo.'</br>';
+// echo $bugUpdateEnable.'</br>';
+// echo $productMode.'</br>';
+// return;
+// echo $clientVersionNumber.'</br>';
+// echo $minimumRequiredVersion.'</br>';
+// echo $latestVersionUpgradeEnable.'</br>';
+// echo $productMode.'</br>';
+// echo $demoVersionNumber.'</br>';

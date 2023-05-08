@@ -3,7 +3,8 @@
 *************************************************/
 
 // const demoURL = 'https://peopleprohrm.com/demo/api'; //Demo Link
-const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+// const demoURL = 'http://localhost/peoplepro/api'; //Demo Link
+const demoURL = 'https://peopleprohrm.com/peoplepro/api'; //Demo Link
 let fetchGeneralApiData;
 let productMode;
 let clientVersionNumber;

@@ -1065,7 +1065,6 @@ Route::group(['middleware' => ['XSS']], function ()
 		});
 	});
 
-
     // Auto Update
     Route::group(['prefix' => 'developer-section'], function () {
         Route::get('/', 'DeveloperSectionController@index')->name('admin.developer-section.index');

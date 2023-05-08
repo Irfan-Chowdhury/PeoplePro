@@ -106,7 +106,7 @@
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Location')}}</label>
+                                <label>{{trans('file.Location')}} *</label>
                                 <select name="location_id" id="location_id" class="form-control selectpicker"
                                         data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Location')])}}...'>
@@ -628,6 +628,8 @@
                     $('#ok_button').text('{{trans('file.Deleting...')}}');
                 },
                 success: function (data) {
+                    console.log(data);
+                    
                     let html = '';
                     if (data.success) {
                         html = '<div class="alert alert-success">' + data.success + '</div>';

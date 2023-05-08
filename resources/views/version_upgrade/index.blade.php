@@ -29,8 +29,15 @@
 
             <div class="card mt-3">
                 <div class="card-body">
-                    <h6 class="text-left p-4">New Change Log</h6>
-                    <ul class="list-group text-left" id="logUL">
+                    <h4 class="text-left p-4">New Change Log</h4>
+                    <ul class="list-group text-left ml-4" id="logUL">
+                        @if(isset($getVersionUpgradeDetails->logs))
+                            @foreach ($getVersionUpgradeDetails->logs as $item)
+                                <p> {{ $item->text }} </p>
+                            @endforeach
+                        @else
+                            <p class="text-danger"> No Data Found </p>
+                        @endif
                     </ul>
                 </div>
             </div>
@@ -40,8 +47,14 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
+            {{-- <button id="upgrade" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Upgrade</button> --}}
 
-            <button id="upgrade" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Upgrade</button>
+            <form action="{{route('version-upgrade')}}" method="post">
+                @csrf
+
+                <button type="submit" class="mt-5 mb-5 btn btn-primary btn-lg">Upgrade</button>
+            </form>
+
         </section>
     @endif
 @endsection
@@ -66,5 +79,5 @@
         });
     })(jQuery);
 </script>
-<script type="text/javascript" src="{{asset('js/admin/version_upgrade/index.js')}}"></script>
+{{-- <script type="text/javascript" src="{{asset('js/admin/version_upgrade/index.js')}}"></script> --}}
 @endpush

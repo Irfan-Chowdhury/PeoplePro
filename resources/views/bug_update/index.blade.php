@@ -28,10 +28,17 @@
                 </div>
             </div>
 
-            <div id="changeLog" class="d-none card mt-3">
+            <div id="changeLog" class="card mt-3">
                 <div class="card-body">
-                    <h6 class="text-left p-4">New Change Log</h6>
-                    <ul class="list-group text-left" id="logUL">
+                    <h4 class="text-left p-4">Change Log</h4>
+                    <ul class="list-group text-left ml-4" id="logUL">
+                        @if(isset($getBugUpdateDetails->logs))
+                            @foreach ($getBugUpdateDetails->logs as $item)
+                                <p> {{ $item->text }} </p>
+                            @endforeach
+                        @else
+                            <p class="text-danger"> No Data Found </p>
+                        @endif
                     </ul>
                 </div>
             </div>

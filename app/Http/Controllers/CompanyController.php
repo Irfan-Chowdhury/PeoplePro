@@ -4,17 +4,14 @@ namespace App\Http\Controllers;
 
 use App\company;
 use App\location;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Validator;
 
 class CompanyController extends Controller {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
+
 	public function index()
 	{
 		$locations = location::all('id','location_name');
@@ -229,24 +226,19 @@ class CompanyController extends Controller {
 
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+
 	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED'))
 		{
 			return response()->json(['error' => 'This feature is disabled for demo!']);
 		}
+
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('delete-company'))
 		{
-			company::whereId($id)->delete();
-
+            company::whereId($id)->delete();
 			return response()->json(['success' => __('Data is successfully deleted')]);
 
 		}
