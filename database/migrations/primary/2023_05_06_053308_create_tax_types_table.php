@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateTaxTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('termination_types', function (Blueprint $table) {
+        Schema::create('tax_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('termination_title', 191);
+            $table->string('name', 191);
+            $table->string('rate', 191);
+            $table->string('type', 191);
+            $table->mediumText('description')->nullable();
             $table->timestamps();
         });
     }
@@ -27,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('termination_types');
+        Schema::dropIfExists('tax_types');
     }
 };

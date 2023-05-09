@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateWarningsTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_comments', function (Blueprint $table) {
+        Schema::create('warnings_type', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('ticket_id')->index('ticket_comments_ticket_id_foreign');
-            $table->unsignedBigInteger('user_id')->nullable()->index('ticket_comments_user_id_foreign');
-            $table->mediumText('ticket_comments');
+            $table->string('warning_title', 191);
             $table->timestamps();
         });
     }
@@ -29,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_comments');
+        Schema::dropIfExists('warnings_type');
     }
 };

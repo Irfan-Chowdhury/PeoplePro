@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSalaryOvertimesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('salary_overtimes', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('employee_id')->index('salary_overtimes_employee_id_foreign');
+            $table->id();
+            $table->unsignedBigInteger('employee_id');
             $table->string('month_year', 50);
             $table->date('first_date')->nullable();
             $table->string('overtime_title', 191);
@@ -24,16 +24,17 @@ return new class extends Migration
             $table->string('overtime_rate', 191);
             $table->string('overtime_amount', 191);
             $table->timestamps();
+
+            $table->foreign('employee_id', 'salary_overtimes_employee_id_foreign')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
-        Schema::dropIfExists('salary_overtimes');
+        Schema::table('salary_overtimes', function (Blueprint $table) {
+            $table->dropForeign('salary_overtimes_employee_id_foreign');
+            $table->dropIfExists('salary_overtimes');
+        });
     }
-};
+}
