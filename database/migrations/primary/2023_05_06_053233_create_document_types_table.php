@@ -39,7 +39,10 @@ return new class extends Migration
         // }else{
         //     Schema::dropIfExists('document_types');
         // }
-        Schema::dropIfExists('document_types');
 
+        Schema::table('document_types', function (Blueprint $table) {
+            $table->dropForeign('document_types_company_id_foreign');
+            $table->dropIfExists('document_types');
+        });
     }
 };

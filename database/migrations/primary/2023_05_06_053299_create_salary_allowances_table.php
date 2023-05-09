@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateSalaryAllowancesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,14 +14,16 @@ return new class extends Migration
     public function up()
     {
         Schema::create('salary_allowances', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('employee_id')->index('salary_allowances_employee_id_foreign');
+            $table->id();
+            $table->unsignedBigInteger('employee_id');
             $table->string('month_year', 191);
             $table->date('first_date')->nullable();
             $table->string('allowance_title', 191);
             $table->string('allowance_amount', 191);
-            $table->tinyInteger('is_taxable');
+            $table->boolean('is_taxable');
             $table->timestamps();
+
+            $table->foreign('employee_id', 'salary_allowances_employee_id_foreign')->references('id')->on('employees')->onDelete('cascade');
         });
     }
 
@@ -32,6 +34,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('salary_allowances');
+        Schema::table('salary_allowances', function (Blueprint $table) {
+            $table->dropForeign('salary_allowances_employee_id_foreign');
+            $table->dropIfExists('salary_allowances');
+        });
     }
-};
+}
