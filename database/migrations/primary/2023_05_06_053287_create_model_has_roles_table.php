@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateModelHasRolesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -18,8 +18,9 @@ return new class extends Migration
             $table->string('model_type', 191);
             $table->unsignedBigInteger('model_id');
 
-            $table->index(['model_id', 'model_type']);
             $table->primary(['role_id', 'model_id', 'model_type']);
+            $table->index(['model_id', 'model_type'], 'model_has_roles_model_id_model_type_index');
+            $table->foreign('role_id', 'model_has_roles_role_id_foreign')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -30,6 +31,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('model_has_roles');
+        Schema::table('model_has_roles', function (Blueprint $table) {
+            $table->dropForeign('model_has_roles_role_id_foreign');
+            $table->dropIfExists('model_has_roles');
+        });
     }
-};
+
+}

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateLeaveTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,13 @@ return new class extends Migration
     public function up()
     {
         Schema::create('leave_types', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('leave_type', 50);
             $table->integer('allocated_day')->nullable();
-            $table->unsignedBigInteger('company_id')->nullable()->index('leave_types_company_id_foreign');
+            $table->unsignedBigInteger('company_id')->nullable();
             $table->timestamps();
+
+            $table->foreign('company_id', 'leave_types_company_id_foreign')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -29,6 +31,9 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('leave_types');
+        Schema::table('leave_types', function (Blueprint $table) {
+            $table->dropForeign('leave_types_company_id_foreign');
+            $table->dropIfExists('leave_types');
+        });
     }
-};
+}

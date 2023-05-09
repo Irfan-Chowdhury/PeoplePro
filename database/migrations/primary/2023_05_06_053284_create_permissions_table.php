@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreatePermissionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('permissions', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('name', 191);
             $table->string('guard_name', 191);
             $table->timestamps();
@@ -30,4 +30,4 @@ return new class extends Migration
     {
         Schema::dropIfExists('permissions');
     }
-};
+}

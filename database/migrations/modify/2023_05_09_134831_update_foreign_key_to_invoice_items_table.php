@@ -6,11 +6,6 @@ use Illuminate\Support\Facades\Schema;
 
 class UpdateForeignKeyToInvoiceItemsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::table('invoice_items', function (Blueprint $table) {
