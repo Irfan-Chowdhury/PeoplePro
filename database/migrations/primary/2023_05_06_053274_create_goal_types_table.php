@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateGoalTypesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ip_settings', function (Blueprint $table) {
+        Schema::create('goal_types', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name', 191);
-            $table->string('ip_address', 191);
+            $table->string('goal_type', 191);
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ip_settings');
+        Schema::dropIfExists('goal_types');
     }
 };

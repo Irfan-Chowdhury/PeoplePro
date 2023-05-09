@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateGoalTrackingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('goal_trackings', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->unsignedBigInteger('company_id');
             $table->unsignedBigInteger('goal_type_id');
             $table->string('subject', 191);
@@ -28,13 +28,9 @@ return new class extends Migration
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+    
     public function down()
     {
         Schema::dropIfExists('goal_trackings');
     }
-};
+}

@@ -4,20 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateInvoicesTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
     public function up()
     {
         Schema::create('invoices', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->id();
             $table->string('invoice_number', 191);
-            $table->unsignedBigInteger('client_id')->nullable()->index('invoices_client_id_foreign');
-            $table->unsignedBigInteger('project_id')->nullable()->index('invoices_project_id_foreign');
+            $table->unsignedBigInteger('client_id')->nullable();
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->date('invoice_date');
             $table->date('invoice_due_date');
             $table->double('sub_total');
@@ -29,16 +24,19 @@ return new class extends Migration
             $table->mediumText('invoice_note')->nullable();
             $table->tinyInteger('status')->nullable();
             $table->timestamps();
+
+            $table->foreign('client_id', 'invoices_client_id_foreign')->references('id')->on('clients')->onDelete('set NULL');
+            $table->foreign('project_id', 'invoices_project_id_foreign')->references('id')->on('projects')->onDelete('set NULL');
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
+
     public function down()
     {
-        Schema::dropIfExists('invoices');
+        Schema::table('invoices', function (Blueprint $table) {
+            $table->dropForeign('invoices_client_id_foreign');
+            $table->dropForeign('invoices_project_id_foreign');
+            $table->dropIfExists('invoices');
+        });
     }
-};
+}

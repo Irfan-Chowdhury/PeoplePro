@@ -14,7 +14,7 @@ class AddForeignKeyToTrainingTypesTable extends Migration
     public function up()
     {
         Schema::table('training_types', function (Blueprint $table) {
-            $table->foreign('company_id','training_types_company_id_foreign')->references('id')->on('companies')->onDelete('cascade');
+            $table->foreign('company_id', 'training_types_company_id_foreign')->references('id')->on('companies')->onDelete('cascade');
         });
     }
 
@@ -26,9 +26,7 @@ class AddForeignKeyToTrainingTypesTable extends Migration
     public function down()
     {
         Schema::table('training_types', function (Blueprint $table) {
-            if (Schema::hasColumn('training_types', 'company_id') && Schema::hasTable('companies')) {
-                $table->dropForeign('training_types_company_id_foreign');
-            }
+            $table->dropForeign('training_types_company_id_foreign');
         });
     }
 }

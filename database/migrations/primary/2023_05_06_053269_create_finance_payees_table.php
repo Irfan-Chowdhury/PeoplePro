@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateFinancePayeesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('goal_types', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('goal_type', 191);
+        Schema::create('finance_payees', function (Blueprint $table) {
+            $table->id();
+            $table->string('payee_name', 50);
+            $table->string('contact_no', 15);
             $table->timestamps();
         });
     }
@@ -27,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('goal_types');
+        Schema::dropIfExists('finance_payees');
     }
-};
+}

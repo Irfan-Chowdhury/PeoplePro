@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateInvoiceItemsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,9 +14,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('invoice_items', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->unsignedBigInteger('invoice_id')->nullable()->index('invoice_items_invoice_id_foreign');
-            $table->unsignedBigInteger('project_id')->nullable()->index('invoice_items_project_id_foreign');
+            $table->id();
+            $table->unsignedBigInteger('invoice_id')->nullable();
+            $table->unsignedBigInteger('project_id')->nullable();
             $table->string('item_name', 191);
             $table->string('item_tax_type', 191);
             $table->string('item_tax_rate', 191);
@@ -30,6 +30,9 @@ return new class extends Migration
             $table->double('total_discount');
             $table->double('grand_total');
             $table->timestamps();
+
+            $table->foreign('invoice_id', 'invoice_items_invoice_id_foreign')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreign('project_id', 'invoice_items_project_id_foreign')->references('id')->on('projects')->onDelete('set NULL');
         });
     }
 
@@ -40,6 +43,10 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('invoice_items');
+        Schema::table('invoice_items', function (Blueprint $table) {
+            $table->dropForeign('invoice_items_invoice_id_foreign');
+            $table->dropForeign('invoice_items_project_id_foreign');
+            $table->dropIfExists('invoice_items');
+        });
     }
-};
+}

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
+class CreateIpSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('finance_payees', function (Blueprint $table) {
+        Schema::create('ip_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('payee_name', 50);
-            $table->string('contact_no', 15);
+            $table->string('name', 191);
+            $table->string('ip_address', 191);
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('finance_payees');
+        Schema::dropIfExists('ip_settings');
     }
 };
