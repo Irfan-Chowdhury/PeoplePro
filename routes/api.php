@@ -23,7 +23,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('fetch-data-general', 'DemoAutoUpdateController@fetchDataGeneral')->name('fetch-data-general');
 Route::get('fetch-data-upgrade', 'DemoAutoUpdateController@fetchDataForAutoUpgrade')->name('data-read');
 Route::get('fetch-data-bugs', 'DemoAutoUpdateController@fetchDataForBugs')->name('fetch-data-bugs');
-
-// Action in Client server
-Route::post('version-upgrade', 'ClientAutoUpdateController@versionUpgrade')->name('version-upgrade');
-Route::post('bug-update', 'ClientAutoUpdateController@bugUpdate')->name('bug-update');

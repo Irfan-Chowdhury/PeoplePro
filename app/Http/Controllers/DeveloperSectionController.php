@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\traits\ENVFilePutContent;
 use App\Http\traits\JSONFileTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use Illuminate\Support\Facades\File;
 
 
 class DeveloperSectionController extends Controller
@@ -22,9 +20,6 @@ class DeveloperSectionController extends Controller
         $control = $this->readJSONData('track/control.json');
         $bugSettings = $this->readJSONData('track/fetch-data-bug.json');
         $versionUpgradeSettings = $this->readJSONData('track/fetch-data-upgrade.json');
-
-        // return $bugSetting->files[0]->file_name;
-        // return $bugSettings;
 
         return view('developer_section.index',compact('general','control','bugSettings','versionUpgradeSettings'));
     }

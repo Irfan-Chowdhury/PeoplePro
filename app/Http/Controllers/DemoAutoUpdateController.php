@@ -42,13 +42,11 @@ class DemoAutoUpdateController extends Controller
         $this->latest_version_upgrade_enable   = $control->version_upgrade->latest_version_upgrade_enable;
         $this->latest_version_db_migrate_enable= $control->version_upgrade->latest_version_db_migrate_enable;
         $this->version_upgrade_base_url        = $control->version_upgrade->version_upgrade_base_url; // Fixed | Connect with server
-        // $this->version_upgrade_base_url        = 'https://cartproshop.com/version_upgrade_files/'; // Fixed | Connect with server
 
         // Set During Bug Update
         $this->bug_update_enable     = $control->bug_update->bug_update_enable;
         $this->bug_db_migrate_enable = $control->bug_update->bug_db_migrate_enable;
         $this->bug_update_base_url   = $control->bug_update->bug_update_base_url;  // Fixed | Connect with server
-        // $this->bug_update_base_url   = 'https://cartproshop.com/bug_update_files/';  // Fixed | Connect with server
     }
 
 

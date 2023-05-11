@@ -2,19 +2,31 @@
 @section('title','Admin | Bugs')
 @section('content')
 
+
     <div class="mt-3 mb-3" id="errorMessage"></div>
 
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" >
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
 
-    <!-- Old Version -->
+
+    <!-- Previous Version -->
     @if (!$bugNotificationEnable)
         <section id="noBug" class="container mt-5 text-center">
             <div class="card">
                 <div class="card-body">
-                    @if (session()->has('bugUpdated') && session()->get('bugUpdated')==='success')
-                        <h2 class="text-center text-success"><strong>Congratulation !!!</strong> System updated successfully.</span></h2>
+                    @if (session('successMessage'))
+                            <h2 class="text-center text-success"><strong>Congratulation !!!</strong> {{ session('successMessage') }}</span></h2>
                     @endif
                     <h4 class="text-center text-info">Your current version is <span>{{config('auto_update.version')}}</span></h4>
-                    <p>There is no bug</p>
+                    <p>Right now no bug found.</p>
                 </div>
             </div>
         </section>
@@ -48,45 +60,27 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-
-            <button id="update" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Update</button>
+            <form action="{{route('bug-update')}}" method="post">
+                @csrf
+                <button type="submit" class="mt-5 mb-5 btn btn-primary btn-lg">Update</button>
+            </form>
         </section>
     @endif
 @endsection
 
 
 @push('scripts')
-
-<script>
-    let clientCurrrentVersion = {!! json_encode(env("VERSION"))  !!};
-    let clientCurrrentBugNo   = {!! json_encode(env("BUG_NO"))  !!};
-    let bugUpdateURL          = "{{ route('bug-update') }}";
-    let redirectURL           = "{{ route('bug-update-page') }}";
-</script>
-
 <script type='text/javascript'>
-    (function() {
-        if( window.localStorage ) {
-            if( !localStorage.getItem('firstLoad') ) {
-                localStorage['firstLoad'] = true;
-                window.location.reload();
-            }
-            else {
-                localStorage.removeItem('firstLoad');
-            }
-        }
-    })();
+    // (function() {
+    //     if( window.localStorage ) {
+    //         if( !localStorage.getItem('firstLoad') ) {
+    //             localStorage['firstLoad'] = true;
+    //             window.location.reload();
+    //         }
+    //         else {
+    //             localStorage.removeItem('firstLoad');
+    //         }
+    //     }
+    // })();
 </script>
-
-<script type="text/javascript">
-    (function ($) {
-        "use strict";
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    })(jQuery);
-</script>
-<script type="text/javascript" src="{{asset('js/admin/bug_update/index.js')}}"></script>
 @endpush

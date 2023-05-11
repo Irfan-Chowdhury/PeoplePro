@@ -4,14 +4,22 @@
 
     <div class="mt-3 mb-3" id="errorMessage"></div>
 
-    <!-- Old Version -->
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" >
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
+
+    <!-- Cuurent Version -->
     @if (!$alertVersionUpgradeEnable)
         <section id="oldVersionSection" class="container mt-5 text-center">
                 <div class="card">
                     <div class="card-body">
-                        @if (session()->has('versionUpgrated') && session()->get('versionUpgrated')==='success')
-                            <h2 class="text-center text-success"><strong>Congratulation !!!</strong> System updated successfully.</span></h2>
-                        @endif
                         <h4 class="text-center text-info">Your current version is <span>{{env('VERSION')}}</span></h4>
                         <p>Please wait for upcoming version</p>
                     </div>
@@ -22,7 +30,7 @@
         <section id="newVersionSection" class="container mt-5 text-center">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="text-center text-success">A new version <span id="newVersionNo"></span> has been released.</h4>
+                    <h4 class="text-center text-success"> A new version <b>{{ $newVersion }}</b> has been released.</h4>
                     <p>Before upgrading, we highly recomended you to keep a backup of your current script and database.</p>
                 </div>
             </div>
@@ -47,37 +55,11 @@
                     <span class="sr-only">Loading...</span>
                 </div>
             </div>
-            {{-- <button id="upgrade" type="button" class="mt-5 mb-5 btn btn-primary btn-lg">Upgrade</button> --}}
-
             <form action="{{route('version-upgrade')}}" method="post">
                 @csrf
-
                 <button type="submit" class="mt-5 mb-5 btn btn-primary btn-lg">Upgrade</button>
             </form>
 
         </section>
     @endif
 @endsection
-
-
-@push('scripts')
-
-<script>
-    let clientCurrrentVersion = {!! json_encode(env("VERSION"))  !!};
-    let clientCurrrentBugNo   = {!! json_encode(env("BUG_NO"))  !!};
-    let versionUpgradeURL     = "{{route('version-upgrade')}}";
-    let redirectURL           = "{{ route('new-release')}}";
-</script>
-
-<script type="text/javascript">
-    (function ($) {
-        "use strict";
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    })(jQuery);
-</script>
-{{-- <script type="text/javascript" src="{{asset('js/admin/version_upgrade/index.js')}}"></script> --}}
-@endpush

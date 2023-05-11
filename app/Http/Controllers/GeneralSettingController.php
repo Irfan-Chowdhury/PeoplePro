@@ -41,7 +41,6 @@ class GeneralSettingController extends Controller
 
 	public function update(Request $request, $id)
 	{
-
 		if (auth()->user()->can('store-general-setting'))
 		{
 			if(!env('USER_VERIFIED'))
@@ -113,7 +112,8 @@ class GeneralSettingController extends Controller
 			}
 			$general_setting->save();
 
-			return redirect()->back()->with('message', 'Data updated successfully');
+            $this->setErrorMessage('Data updated successfully');
+            return redirect()->back();
 		}
 
 		return abort('403', __('You are not authorized'));
