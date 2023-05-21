@@ -211,15 +211,15 @@ class LeaveController extends Controller
     {
         // Test
 
-        Notification::route('mail', 'irfanchowdhury80@gmail.com')
-        ->notify(new EmployeeLeaveNotification(
-            'Irfan Chowdhury',
-            '12',
-            '2023-04-19',
-            '2023-04-24',
-            'Test',
-        ));
-        return 456;
+        // Notification::route('mail', 'irfanchowdhury80@gmail.com')
+        // ->notify(new EmployeeLeaveNotification(
+        //     'Irfan Chowdhury',
+        //     '12',
+        //     '2023-04-19',
+        //     '2023-04-24',
+        //     'Test',
+        // ));
+        // return 456;
 
         // Test
 

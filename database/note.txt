@@ -8,6 +8,8 @@ php artisan make:migration update_foreign_key_to_employees_table --path=database
 run migrate -
 php artisan migrate --path=database/migrations/modify
 
+run migrate:rollback -
+php artisan migrate:rollback --step=1 --path=database/migrations/primary
 
 
 php artisan make:migration add_limit_coupon_to_coupons_table --table=coupons
@@ -26,10 +28,10 @@ locations
             $table->dropForeign('employee_immigrations_document_type_id_foreign');
             $table->dropIfExists('employee_immigrations');
         });
-        
-        
-        
+
+
+
         php artisan migrate --path=database/migrations/primary
         php artisan migrate --path=database/migrations/modify
-        
-        
+
+

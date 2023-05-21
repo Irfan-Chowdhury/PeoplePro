@@ -5,7 +5,9 @@ trait ENVFilePutContent{
 
     public function dataWriteInENVFile($key,$value)
     {
-        $path = '.env';
+        // $path = base_path('.env');
+
+        $path = app()->environmentFilePath();
         $searchArray = array($key.'='.env($key));
         $replaceArray= array($key.'='.$value);
 

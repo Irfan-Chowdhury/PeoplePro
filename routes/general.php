@@ -6,17 +6,13 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
-Route::get('/documentation',function(){
+Route::get('/documentation', function() {
     return File::get(public_path() . '/documentation/index.html');
 });
 
-Route::get('/documentation-attendance-device-addon',function(){
+Route::get('/documentation-attendance-device-addon', function() {
     return File::get(public_path() . '/documentation/attendance_device_addon/index.php');
 });
-
-// Route::get('/maintenance-mode', function() {
-//     return view('maintenance');
-// });
 
 Route::get('/optimize', function() {
     Artisan::call('optimize:clear');

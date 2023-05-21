@@ -21,14 +21,13 @@ use App\User;
 
 use Exception;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Validators\ValidationException;
 use Spatie\Permission\Models\Role;
 use Throwable;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 
 use App\SalaryBasic;
 use App\LeaveType;
@@ -762,10 +761,14 @@ class EmployeeController extends Controller {
 							->where('id',$id)
 							->first()
 							->toArray();
+        // return $employee['user']['profile_photo'];
+
 
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
         $pdf = PDF::loadView('employee.pdf',$employee);
-        return $pdf->stream();
+        return $pdf->download('document.pdf');
+
+        // return $pdf->stream();
 	}
 
 }

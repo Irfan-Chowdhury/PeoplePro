@@ -3,6 +3,23 @@ namespace App\Http\traits;
 
 trait AutoUpdateTrait{
 
+    // 17.05.2023
+    protected function isServerConnectionOk()
+    {
+        $ch = curl_init(config('auto_update.demo_url').'/fetch-data-general');
+        // $ch = curl_init("https://jsonplaceholder.typicode.com/todos");
+
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 10); // Set the timeout to 10 seconds
+        $response = curl_exec($ch);
+        $error = curl_error($ch);
+        curl_close($ch);
+        if ($error) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 
     protected function getDemoGeneralDataByCURL()
     {
@@ -36,8 +53,20 @@ trait AutoUpdateTrait{
 
     public function general()
     {
-        $data = $this->getDemoGeneralDataByCURL();
+        // 17.05.2023
+        $returnData = [];
+        $alertVersionUpgradeEnable = false;
+        $alertBugEnable = false;
 
+        $isServerConnectionOk = $this->isServerConnectionOk();
+        if (!$isServerConnectionOk) {
+            $returnData['alertVersionUpgradeEnable'] = $alertVersionUpgradeEnable;
+            $returnData['alertBugEnable'] = $alertBugEnable;
+            return $returnData;
+        };
+        // 17.05.2023
+
+        $data = $this->getDemoGeneralDataByCURL();
         $productMode = $data->general->product_mode;
         $clientVersionNumber = $this->stringToNumberConvert(config('auto_update.version'));
         $clientBugNo = intval(config('auto_update.bug_no'));
@@ -48,8 +77,8 @@ trait AutoUpdateTrait{
         $latestVersionUpgradeEnable   = $data->general->latest_version_upgrade_enable;
         $bugUpdateEnable        = $data->general->bug_update_enable;
 
-        $alertVersionUpgradeEnable = false;
-        $alertBugEnable = false;
+        // $alertVersionUpgradeEnable = false;
+        // $alertBugEnable = false;
 
         if ($clientVersionNumber >= $minimumRequiredVersion && $latestVersionUpgradeEnable===true && $productMode==='DEMO' && $demoVersionNumber > $clientVersionNumber) {
             $alertVersionUpgradeEnable = true;
@@ -59,10 +88,9 @@ trait AutoUpdateTrait{
             $alertBugEnable = true;
         }
 
-        $returnData = [];
         $returnData['generalData'] = $data;
-        $returnData['alertBugEnable'] = $alertBugEnable;
         $returnData['alertVersionUpgradeEnable'] = $alertVersionUpgradeEnable;
+        $returnData['alertBugEnable'] = $alertBugEnable;
         return $returnData;
     }
 

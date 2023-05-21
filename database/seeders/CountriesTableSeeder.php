@@ -1,9 +1,13 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class CountriesTableSeeder extends Seeder
 {
+    // php artisan db:seed --class=CountriesTableSeeder
 
 	public function run()
 	{
@@ -1209,5 +1213,4 @@ class CountriesTableSeeder extends Seeder
 
 		DB::table('countries')->insert($countries);
 	}
-
 }

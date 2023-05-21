@@ -5,8 +5,15 @@ use App\Http\traits\ENVFilePutContent;
 use App\FinanceBankCash;
 use App\GeneralSetting;
 use App\LeaveType;
+use App\Notifications\EmployeeLeaveNotification;
 use DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+
+use Illuminate\Foundation\Bootstrap\LoadEnvironmentVariables;
+use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\Dotenv;
+
 use function config;
 use ZipArchive;
 
@@ -38,9 +45,24 @@ class GeneralSettingController extends Controller
 		return abort('403', __('You are not authorized'));
 	}
 
+    protected function test()
+    {
+        // Notification::route('mail', 'irfanchowdhury80@gmail.com')
+        // ->notify(new EmployeeLeaveNotification(
+        //     'Irfan Chowdhury',
+        //     '12',
+        //     '2023-04-19',
+        //     '2023-04-24',
+        //     'Test',
+        // ));
+        // return 'ok';
+    }
+
 
 	public function update(Request $request, $id)
 	{
+        // return $this->test();
+
 		if (auth()->user()->can('store-general-setting'))
 		{
 			if(!env('USER_VERIFIED'))
@@ -54,6 +76,7 @@ class GeneralSettingController extends Controller
 			]);
 
 			$data = $request->all();
+
 			//writting timezone info in .env file
             $this->dataWriteInENVFile('APP_TIMEZONE',$request->timezone);
             $this->dataWriteInENVFile('Date_Format',$request->date_format);

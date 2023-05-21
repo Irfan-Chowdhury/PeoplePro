@@ -58,11 +58,11 @@ return array (
   'Debit' => 'ডেবিট',
   'Deductions' => 'Deductions',
   'Deferred' => 'বিলম্বিত',
-  'Deleting' =>
+  'Deleting' => 
   array (
-    '' =>
+    '' => 
     array (
-      '' =>
+      '' => 
       array (
         '' => 'মোছা হচ্ছে ...',
       ),
@@ -118,6 +118,7 @@ return array (
   'Holiday' => 'হলিডে',
   'Holidays' => 'ছুটির দিন',
   'Home' => 'বাড়ি',
+  'Hourly' => 'ঘন্টা',
   'Hours' => 'ঘন্টার',
   'Image' => 'Image',
   'Immigration' => 'ইমিগ্রেশন',
@@ -147,6 +148,7 @@ return array (
   'Message' => 'Message',
   'Mobile' => 'মুঠোফোন',
   'Monday' => 'সোমবার',
+  'Monthly' => 'মাসিক',
   'NOTE' => 'বিঃদ্রঃ',
   'Name' => 'নাম',
   'Next' => 'পরবর্তী',
@@ -162,6 +164,7 @@ return array (
   'Options' => 'বিকল্প',
   'Organization' => 'সংগঠন',
   'Other' => 'অন্যান্য',
+  'Others' => 'অন্যান্য',
   'Overtime' => 'ওভারটাইম',
   'Overview' => 'সংক্ষিপ্ত বিবরণ',
   'PDF' => 'পিডিএফ',
@@ -174,6 +177,7 @@ return array (
   'Payment' => 'অর্থ প্রদান',
   'Payroll' => 'বেতনের',
   'Payslip' => 'স্লিপে',
+  'Payslip Type' => 'পে স্লিপ টাইপ',
   'Pending' => 'বিচারাধীন',
   'Percent' => 'শতাংশ',
   'Percentage' => 'শতকরা',
@@ -296,9 +300,4 @@ return array (
   'submit' => 'জমা দিন',
   'unpublished' => 'অপ্রকাশিত',
   'update' => 'হালনাগাদ',
-  
-  'Payslip Type' => 'পে স্লিপ টাইপ',
-  'Monthly'=>'মাসিক',
-  'Hourly'=>'ঘন্টা',
-  'Others'=>'অন্যান্য',
 );

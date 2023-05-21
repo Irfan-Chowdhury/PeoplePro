@@ -25,7 +25,7 @@
                         @endforeach
                   </select>
                 </div>
-                
+
             </div>
         </div>
 
@@ -37,7 +37,6 @@
                     <thead>
                     <tr>
                         <th class="w-1/5 uppercase font-thin">{{ __('translation::translation.key') }}</th>
-
                         <th class="uppercase font-thin">{{ config('app.locale') }}</th>
                         <th class="uppercase font-thin">{{ $language }}</th>
                     </tr>
@@ -45,12 +44,10 @@
                     <tbody>
 
                     @foreach($translations as $type => $items)
+                        @foreach($items as $group => $translationsData)
+                            @foreach($translationsData as $key => $value)
 
-                        @foreach($items as $group => $translations)
-
-                            @foreach($translations as $key => $value)
-
-                                @if(!is_array($value[config('app.locale')]))
+                                {{-- @if(!is_array($value[config('app.locale')]))
                                     <tr>
                                         <td>{{ $key }}</td>
                                         <td>{{ $value[config('app.locale')] }}</td>
@@ -65,7 +62,24 @@
                                             </translation-input>
                                         </td>
                                     </tr>
+                                @endif --}}
+                                @if(!is_array($value))
+                                    <tr>
+                                        <td>{{ $key }}</td>
+                                        <td>{{ $value }}</td>
+                                        <td>
+                                            <translation-input
+                                                    initial-translation="{{ $value }}"
+                                                    language="{{ $language }}"
+                                                    group="{{ $group }}"
+                                                    translation-key="{{ $key }}"
+                                                    route="{{config('translation.ui_url') }}"
+                                            >
+                                            </translation-input>
+                                        </td>
+                                    </tr>
                                 @endif
+
 
                             @endforeach
 

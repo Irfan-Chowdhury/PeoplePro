@@ -895,9 +895,6 @@
                             </ul>
                         </li>
                     @endcan
-
-
-
             </ul>
         </div>
     </div>

@@ -1,19 +1,16 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
 class PermissionsTableSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     *
-     * @return void
-     */
+    // php artisan db:seed --class=PermissionsTableSeeder
+
     public function run()
     {
-        //
-
 		DB::table('permissions')->delete();
 
 		$permissions = array(
@@ -1508,5 +1505,4 @@ class PermissionsTableSeeder extends Seeder
 }
 
 
-// php artisan db:seed --class=PermissionsTableSeeder
 

@@ -6,7 +6,7 @@ use App\company;
 use App\Employee;
 use App\EmployeeLeaveTypeDetail;
 use App\Payslip;
-use Barryvdh\DomPDF\Facade as PDF;
+use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use App\Http\traits\MonthlyWorkedHours;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -23,7 +23,6 @@ class PayslipController extends Controller {
 
 		if ($logged_user->can('view-payslip'))
 		{
-
 			if (request()->ajax())
 			{
                 if (!empty($request->filter_employee))
@@ -166,7 +165,6 @@ class PayslipController extends Controller {
 								</div>";
 						}
 
-
 						if ($row->allowances) {
 							$data .= "<div class='d-flex'>
 									<div class='ml-auto'>(+) Allowance:</div>
@@ -298,8 +296,8 @@ class PayslipController extends Controller {
 
 		//return view('salary.payslip.pdf',compact('payslip','employee'));
 
-		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
-        $pdf = PDF::loadView('salary.payslip.pdf', $payslip, $employee);
+		PDF::setOptions(['dpi' => 150, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
+        $pdf = PDF::loadView('salary.payslip.pdf', $payslip->toArray(), $employee);
         return $pdf->stream();
 	}
 }

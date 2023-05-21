@@ -38,13 +38,11 @@ use App\TravelType;
 use App\User;
 use Carbon\Carbon;
 use Exception;
-use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Throwable;
-use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller {
 
@@ -57,9 +55,8 @@ class DashboardController extends Controller {
 	public function index()
 	{
         $autoUpdateData = $this->general();
-        $alertBugEnable =  $autoUpdateData['alertBugEnable'];
         $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
-
+        $alertBugEnable =  $autoUpdateData['alertBugEnable'];
 
 		$employees = Employee::with('department:id,department_name', 'designation:id,designation_name')
 			->select('id', 'department_id', 'designation_id', 'is_active')

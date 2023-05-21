@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class department extends Model
 {
+    use HasFactory;
+
 	protected $fillable = [
 		'department_name', 'company_id','department_head','is_active',
 	];

@@ -38,11 +38,28 @@ class DocumentExpiryReminder extends Command
         parent::__construct();
     }
 
-    /**
-     * Execute the console command.
-     *
-     * @return mixed
-     */
+    /*
+    | -----------------------------
+    | This is for testing purpose
+    | -----------------------------
+    */
+
+    //  public function handle()
+    //  {
+    //      Notification::route('mail', 'irfanchowdhury80@gmail.com')
+    //      ->notify((new DocumentExpiry(
+    //          "testing",
+    //          "2023-05-23",
+    //          'Test')));
+    //      $this->info('Successfully sent.');
+    // }
+
+    /*
+    | -----------------------------
+    | Original Code
+    | -----------------------------
+    */
+
     public function handle()
     {
 		$document_employee = EmployeeDocument::with('employee','DocumentType')

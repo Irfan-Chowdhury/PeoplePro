@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DemoAutoUpdateController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -20,6 +21,10 @@ use Illuminate\Support\Facades\Route;
 
 
 // Fetch data from Demo
-Route::get('fetch-data-general', 'DemoAutoUpdateController@fetchDataGeneral')->name('fetch-data-general');
-Route::get('fetch-data-upgrade', 'DemoAutoUpdateController@fetchDataForAutoUpgrade')->name('data-read');
-Route::get('fetch-data-bugs', 'DemoAutoUpdateController@fetchDataForBugs')->name('fetch-data-bugs');
+// Route::get('fetch-data-general', 'DemoAutoUpdateController@fetchDataGeneral')->name('fetch-data-general');
+// Route::get('fetch-data-upgrade', 'DemoAutoUpdateController@fetchDataForAutoUpgrade')->name('data-read');
+// Route::get('fetch-data-bugs', 'DemoAutoUpdateController@fetchDataForBugs')->name('fetch-data-bugs');
+
+Route::get('fetch-data-general', [DemoAutoUpdateController::class, 'fetchDataGeneral'])->name('fetch-data-general');
+Route::get('fetch-data-upgrade', [DemoAutoUpdateController::class, 'fetchDataForAutoUpgrade'])->name('data-read');
+Route::get('fetch-data-bugs', [DemoAutoUpdateController::class, 'fetchDataForBugs'])->name('fetch-data-bugs');
