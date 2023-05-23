@@ -11,181 +11,196 @@
 |
 */
 
-use App\Http\Controllers\AccountListController;
+use App\Http\Controllers\FrontEnd\AboutController;
 use App\Http\Controllers\AllUserController;
-use App\Http\Controllers\AnnouncementController;
-// use App\Http\Controllers\EmployeeSocialProfileController;
-use App\Http\Controllers\AssetController;
-use App\Http\Controllers\AssignRoleController;
-use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\AwardController;
-use App\Http\Controllers\CalendarableController;
-use App\Http\Controllers\ClientAutoUpdateController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\ClientInvoiceController;
-use App\Http\Controllers\ClientProjectController;
-use App\Http\Controllers\ClientTaskController;
-use App\Http\Controllers\CmsController;
-use App\Http\Controllers\CompanyController;
-use App\Http\Controllers\ComplaintController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\DepartmentController;
-use App\Http\Controllers\DesignationController;
-use App\Http\Controllers\DeveloperSectionController;
-use App\Http\Controllers\DynamicDependent;
-use App\Http\Controllers\EmployeeAssignedController;
-use App\Http\Controllers\EmployeeAwardController;
-use App\Http\Controllers\EmployeeBankAccountController;
-use App\Http\Controllers\EmployeeComplaintController;
 use App\Http\Controllers\EmployeeContactController;
-use App\Http\Controllers\EmployeeController;
+// use App\Http\Controllers\EmployeeSocialProfileController;
+use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\EmployeeDocumentController;
+use App\Http\Controllers\EmployeeQualificationController;
+use App\Http\Controllers\EmployeeBankAccountController;
+use App\Http\Controllers\SalaryBasicController;
+use App\Http\Controllers\SalaryAllowanceController;
+use App\Http\Controllers\SalaryCommissionController;
+use App\Http\Controllers\SalaryLoanController;
+use App\Http\Controllers\SalaryDeductionController;
+use App\Http\Controllers\EmployeeWorkExperienceController;
+use App\Http\Controllers\FrontEnd\ContactController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EmployeeAwardController;
+use App\Http\Controllers\EmployeeComplaintController;
+use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\EmployeeImmigrationController;
 use App\Http\Controllers\EmployeeLeaveController;
 use App\Http\Controllers\EmployeePayslipController;
+use App\Http\Controllers\CalendarableController;
 use App\Http\Controllers\EmployeeProjectController;
 use App\Http\Controllers\EmployeePromotionController;
-use App\Http\Controllers\EmployeeQualificationController;
 use App\Http\Controllers\EmployeeTaskController;
 use App\Http\Controllers\EmployeeTicketController;
 use App\Http\Controllers\EmployeeTrainingController;
 use App\Http\Controllers\EmployeeTransferController;
 use App\Http\Controllers\EmployeeTravelController;
 use App\Http\Controllers\EmployeeWarningController;
-use App\Http\Controllers\EmployeeWorkExperienceController;
-use App\Http\Controllers\EventController;
-use App\Http\Controllers\FileManagerController;
-use App\Http\Controllers\FinanceDepositController;
-use App\Http\Controllers\FinanceExpenseController;
-use App\Http\Controllers\FinancePayeeController;
-use App\Http\Controllers\FinancePayerController;
-use App\Http\Controllers\FinanceTransactionsController;
-use App\Http\Controllers\FinanceTransferController;
-use App\Http\Controllers\FrontEnd\AboutController;
-use App\Http\Controllers\FrontEnd\ContactController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\FrontEnd\JobController;
-use App\Http\Controllers\GeneralSettingController;
-use App\Http\Controllers\HolidayController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\IPSettingController;
-use App\Http\Controllers\JobCandidateController;
-use App\Http\Controllers\JobInterviewController;
-use App\Http\Controllers\JobPostController;
-use App\Http\Controllers\LanguageSettingController;
-use App\Http\Controllers\LeaveController;
-use App\Http\Controllers\LocationController;
-use App\Http\Controllers\MeetingController;
-use App\Http\Controllers\OfficeShiftController;
-use App\Http\Controllers\OfficialDocumentController;
-use App\Http\Controllers\PayrollController;
-use App\Http\Controllers\PayslipController;
-use App\Http\Controllers\Performance\AppraisalController;
-use App\Http\Controllers\Performance\GoalTrackingController;
-use App\Http\Controllers\Performance\GoalTypeController;
-use App\Http\Controllers\Performance\IndicatorController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\PolicyController;
-use App\Http\Controllers\ProjectBugController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\ProjectDiscussionController;
-use App\Http\Controllers\ProjectFileController;
-use App\Http\Controllers\ProjectTaskController;
-use App\Http\Controllers\PromotionController;
-use App\Http\Controllers\ReportController;
-use App\Http\Controllers\ResignationController;
-use App\Http\Controllers\RoleController;
 use App\Http\Controllers\RouteClosureHandlerController;
-use App\Http\Controllers\SalaryAllowanceController;
-use App\Http\Controllers\SalaryBasicController;
-use App\Http\Controllers\SalaryCommissionController;
-use App\Http\Controllers\SalaryDeductionController;
-use App\Http\Controllers\SalaryLoanController;
 use App\Http\Controllers\SalaryOtherPaymentController;
 use App\Http\Controllers\SalaryOvertimeController;
-use App\Http\Controllers\SupportTicketCommentController;
+use App\Http\Controllers\AwardController;
+use App\Http\Controllers\PromotionController;
+use App\Http\Controllers\TravelController;
+use App\Http\Controllers\TransferController;
+use App\Http\Controllers\ResignationController;
+use App\Http\Controllers\ComplaintController;
+use App\Http\Controllers\WarningController;
+use App\Http\Controllers\TerminationController;
+use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DesignationController;
+use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\PolicyController;
+use App\Http\Controllers\OfficeShiftController;
+use App\Http\Controllers\HolidayController;
+use App\Http\Controllers\LeaveController;
+use App\Http\Controllers\PayrollController;
+use App\Http\Controllers\PayslipController;
+use App\Http\Controllers\JobPostController;
+use App\Http\Controllers\JobCandidateController;
+use App\Http\Controllers\JobInterviewController;
+use App\Http\Controllers\CmsController;
+use App\Http\Controllers\TrainingListController;
+use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\AccountListController;
+use App\Http\Controllers\FinancePayeeController;
+use App\Http\Controllers\FinancePayerController;
+use App\Http\Controllers\FinanceDepositController;
+use App\Http\Controllers\FinanceExpenseController;
+use App\Http\Controllers\FinanceTransferController;
+use App\Http\Controllers\FinanceTransactionsController;
+use App\Http\Controllers\AssetController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\MeetingController;
 use App\Http\Controllers\SupportTicketController;
+use App\Http\Controllers\SupportTicketCommentController;
+use App\Http\Controllers\EmployeeAssignedController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectDiscussionController;
+use App\Http\Controllers\ProjectBugController;
+use App\Http\Controllers\ProjectFileController;
+use App\Http\Controllers\ProjectTaskController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\TaskDiscussionController;
 use App\Http\Controllers\TaskFileController;
-use App\Http\Controllers\TerminationController;
-use App\Http\Controllers\TrainerController;
-use App\Http\Controllers\TrainingListController;
-use App\Http\Controllers\TransferController;
-use App\Http\Controllers\TravelController;
-use App\Http\Controllers\Variables\AssetCategoryController;
-use App\Http\Controllers\Variables\AwardTypeController;
-use App\Http\Controllers\Variables\DocumentTypeController;
-use App\Http\Controllers\Variables\ExpenseTypeController;
-use App\Http\Controllers\Variables\FileManagerSettingController;
-use App\Http\Controllers\Variables\JobCategoryController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DynamicDependent;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\GeneralSettingController;
+use App\Http\Controllers\Variables\VariableController;
+use App\Http\Controllers\IPSettingController;
+use App\Http\Controllers\Variables\VariableMethodController;
 use App\Http\Controllers\Variables\LeaveTypeController;
+use App\Http\Controllers\Variables\AwardTypeController;
+use App\Http\Controllers\Variables\WarningTypeController;
+use App\Http\Controllers\Variables\TerminationTypeController;
+use App\Http\Controllers\Variables\StatusTypeController;
+use App\Http\Controllers\Variables\TrainingTypeController;
+use App\Http\Controllers\Variables\TaxTypeController;
+use App\Http\Controllers\Variables\ExpenseTypeController;
+use App\Http\Controllers\Variables\AssetCategoryController;
+use App\Http\Controllers\Variables\DocumentTypeController;
+use App\Http\Controllers\Variables\TravelMethodController;
 use App\Http\Controllers\Variables\PaymentMethodController;
 use App\Http\Controllers\Variables\QualificationEducationLevelController;
 use App\Http\Controllers\Variables\QualificationLanguageController;
 use App\Http\Controllers\Variables\QualificationSkillController;
-use App\Http\Controllers\Variables\StatusTypeController;
-use App\Http\Controllers\Variables\TaxTypeController;
-use App\Http\Controllers\Variables\TerminationTypeController;
-use App\Http\Controllers\Variables\TrainingTypeController;
-use App\Http\Controllers\Variables\TravelMethodController;
-use App\Http\Controllers\Variables\VariableController;
-use App\Http\Controllers\Variables\VariableMethodController;
-use App\Http\Controllers\Variables\WarningTypeController;
-use App\Http\Controllers\WarningController;
+use App\Http\Controllers\Variables\JobCategoryController;
+use App\Http\Controllers\FileManagerController;
+use App\Http\Controllers\OfficialDocumentController;
+use App\Http\Controllers\Variables\FileManagerSettingController;
+use App\Http\Controllers\ClientInvoiceController;
+use App\Http\Controllers\ClientProjectController;
+use App\Http\Controllers\ClientTaskController;
+use App\Http\Controllers\Performance\GoalTypeController;
+use App\Http\Controllers\Performance\GoalTrackingController;
+use App\Http\Controllers\Performance\IndicatorController;
+use App\Http\Controllers\Performance\AppraisalController;
+use App\Http\Controllers\DeveloperSectionController;
+use App\Http\Controllers\ClientAutoUpdateController;
+use App\Http\Controllers\LanguageSettingController;
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+
 Auth::routes(['register' => false]);
 
-Route::group(['middleware' => ['XSS']], function () {
 
-    Route::get('/pdf', function () {
-        return view('pdf');
-    });
+Route::group(['middleware' => ['XSS']], function ()
+{
 
-    Route::get('/', [RouteClosureHandlerController::class, 'redirectToLogin'])->name('redirectToLogin');
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home.front');
-    Route::get('/about', [AboutController::class, 'index'])->name('about.front');
-    Route::get('/contact', [ContactController::class, 'index'])->name('contact.front');
 
-    Route::get('/jobs', [JobController::class, 'index'])->name('jobs');
-    Route::get('/jobs/details/{job_post}', [JobController::class, 'details'])->name('jobs.details');
-    Route::get('/jobs/search/category/{url}', [JobController::class, 'searchByCategory'])->name('jobs.searchByCategory');
-    Route::get('/jobs/search/job_type/{job_type}', [JobController::class, 'searchByJobType'])->name('jobs.searchByJobType');
-    Route::get('/jobs/apply/{job}', [JobController::class, 'applyForJob'])->name('jobs.apply');
 
-    Route::get('markAsRead', [RouteClosureHandlerController::class, 'markAsReadNotification'])->name('markAsRead');
-    Route::get('/all/notifications', [RouteClosureHandlerController::class, 'allNotifications'])->name('seeAllNoti');
-    Route::get('clearAll', [RouteClosureHandlerController::class, 'clearAll'])->name('clearAll');
+	Route::get('/pdf', function () {
+		return view('pdf');
+	});
 
-    Route::get('/profile', [DashboardController::class, 'profile'])->name('profile');
-    Route::put('/profile/{id}', [DashboardController::class, 'profile_update'])->name('profile_update');
-    Route::post('/profile/employee/{id}', [DashboardController::class, 'employeeProfileUpdate'])->name('employee_profile_update');
-    Route::post('/profile/change_password/{id}', [DashboardController::class, 'change_password'])->name('change_password');
+    Route::get('/',[RouteClosureHandlerController::class,'redirectToLogin'])->name('redirectToLogin');
+
+
+    Route::get('/home',[HomeController::class,'index'])->name('home.front');
+    Route::get('/about',[AboutController::class,'index'])->name('about.front');
+    Route::get('/contact',[ContactController::class,'index'])->name('contact.front');
+
+
+    Route::get('/jobs',[JobController::class,'index'])->name('jobs');
+    Route::get('/jobs/details/{job_post}',[JobController::class,'details'])->name('jobs.details');
+    Route::get('/jobs/search/category/{url}',[JobController::class,'searchByCategory'])->name('jobs.searchByCategory');
+    Route::get('/jobs/search/job_type/{job_type}',[JobController::class,'searchByJobType'])->name('jobs.searchByJobType');
+    Route::get('/jobs/apply/{job}',[JobController::class,'applyForJob'])->name('jobs.apply');
+
+
+    Route::get('markAsRead',[RouteClosureHandlerController::class,'markAsReadNotification'])->name('markAsRead');
+	Route::get('/all/notifications',[RouteClosureHandlerController::class,'allNotifications'])->name('seeAllNoti');
+	Route::get('clearAll',[RouteClosureHandlerController::class,'clearAll'])->name('clearAll');
+
+
+    Route::get('/profile', [DashboardController::class,'profile'])->name('profile');
+	Route::put('/profile/{id}', [DashboardController::class,'profile_update'])->name('profile_update');
+	Route::post('/profile/employee/{id}', [DashboardController::class,'employeeProfileUpdate'])->name('employee_profile_update');
+	Route::post('/profile/change_password/{id}', [DashboardController::class,'change_password'])->name('change_password');
 
     // Languages Section
     Route::prefix('languages')->group(function () {
-        Route::get('/{language}/translations', [LanguageSettingController::class, 'index'])->name('languages.translations.index');
-        Route::post('/update', [LanguageSettingController::class, 'update'])->name('language.translations.update');
-        Route::get('/create', [LanguageSettingController::class, 'create'])->name('languages.create');
-        Route::post('/store', [LanguageSettingController::class, 'store'])->name('languages.store');
-        Route::get('/switch/{lang}', [LanguageSettingController::class, 'languageSwitch'])->name('language.switch');
-        Route::get('/delete', [LanguageSettingController::class, 'languageDelete'])->name('language.delete');
+        Route::get('/{language}/translations',[LanguageSettingController::class,'index'])->name('languages.translations.index');
+        Route::post('/update',[LanguageSettingController::class,'update'])->name('language.translations.update');
+        Route::get('/create',[LanguageSettingController::class,'create'])->name('languages.create');
+        Route::post('/store',[LanguageSettingController::class,'store'])->name('languages.store');
+        Route::get('/switch/{lang}',[LanguageSettingController::class,'languageSwitch'])->name('language.switch');
+        Route::get('/delete',[LanguageSettingController::class,'languageDelete'])->name('language.delete');
     });
 
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    });
+	Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function ()
+	{
+        Route::get('/dashboard', [DashboardController::class,'index'])->name('dashboard');
+	});
 
-    Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('EmployeeDashboard');
-    });
+	Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth']], function ()
+	{
+		Route::get('/dashboard', [DashboardController::class,'employeeDashboard'])->name('EmployeeDashboard');
+	});
 
-    Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'clientDashboard'])->name('ClientDashboard');
-    });
+	Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth']], function ()
+	{
+		Route::get('/dashboard', [DashboardController::class,'clientDashboard'])->name('ClientDashboard');
+	});
+
 
     Route::get('/users-list', [AllUserController::class, 'index'])->name('users-list');
     Route::post('/user-add', [AllUserController::class, 'add_user_process'])->name('add-user');
@@ -198,7 +213,8 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('/assign_role/{user}', [AssignRoleController::class, 'update'])->name('assign_role');
     Route::post('/mass_assign', [AssignRoleController::class, 'mass_update'])->name('mass_assign_role');
 
-    Route::prefix('staff')->group(function () {
+
+	Route::prefix('staff')->group(function (){
 
         Route::prefix('employees')->group(function () {
 
@@ -277,6 +293,7 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('salary_basic/{id}/edit', [SalaryBasicController::class, 'edit'])->name('salary_basic.edit');
         Route::post('salary_basic/update', [SalaryBasicController::class, 'update'])->name('salary_basic.update');
         Route::get('salary_basic/{id}/delete', [SalaryBasicController::class, 'destroy'])->name('salary_basic.destroy');
+
 
         Route::get('salary_allowance', [SalaryAllowanceController::class, 'index'])->name('salary_allowance.index');
         Route::get('salary_allowance/{id}/edit', [SalaryAllowanceController::class, 'edit'])->name('salary_allowance.edit');
@@ -368,73 +385,85 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('employee_payslip/details', [EmployeePayslipController::class, 'details'])->name('employee_payslip.details');
         Route::get('employee_payslip/details/{id}', [EmployeePayslipController::class, 'show'])->name('employee_payslip.show');
 
-    });
+	});
 
     Route::get('calendar/hr', [CalendarableController::class, 'index'])->name('calendar.index');
     Route::get('calendar/hr/load', [CalendarableController::class, 'load'])->name('calendar.load');
 
-    Route::prefix('core_hr')->group(function () {
+	Route::prefix('core_hr')->group(function ()
+	{
+		{
+            Route::post('awards/update', [AwardController::class, 'update'])->name('awards.update');
+            Route::resource('awards', AwardController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('awards/{id}/delete', [AwardController::class, 'destroy'])->name('awards.destroy');
+            Route::post('awards/delete/selected', [AwardController::class, 'delete_by_selection'])->name('mass_delete_awards');
 
-        Route::post('awards/update', [AwardController::class, 'update'])->name('awards.update');
-        Route::resource('awards', AwardController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('awards/{id}/delete', [AwardController::class, 'destroy'])->name('awards.destroy');
-        Route::post('awards/delete/selected', [AwardController::class, 'delete_by_selection'])->name('mass_delete_awards');
+        }
+		{
+            Route::post('promotions/update', [PromotionController::class, 'update'])->name('promotions.update');
+            Route::resource('promotions', PromotionController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('promotions/{id}/delete', [PromotionController::class, 'destroy'])->name('promotions.destroy');
+            Route::post('promotions/delete/selected', [PromotionController::class, 'delete_by_selection'])->name('mass_delete_promotions');
+        }
+		{
+            Route::post('travels/update', [TravelController::class, 'update'])->name('travels.update');
+            Route::resource('travels', TravelController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('travels/{id}/delete', [TravelController::class, 'destroy'])->name('travels.destroy');
+            Route::post('travels/delete/selected', [TravelController::class, 'delete_by_selection'])->name('mass_delete_travels');
+            Route::get('travels/{id}/calendarable', [TravelController::class, 'calendarableDetails'])->name('travels.calendarable');
 
-        Route::post('promotions/update', [PromotionController::class, 'update'])->name('promotions.update');
-        Route::resource('promotions', PromotionController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('promotions/{id}/delete', [PromotionController::class, 'destroy'])->name('promotions.destroy');
-        Route::post('promotions/delete/selected', [PromotionController::class, 'delete_by_selection'])->name('mass_delete_promotions');
+		}
+		{
+            Route::post('transfers/update', [TransferController::class, 'update'])->name('transfers.update');
+            Route::resource('transfers', TransferController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('transfers/{id}/delete', [TransferController::class, 'destroy'])->name('transfers.destroy');
+            Route::post('transfers/delete/selected', [TransferController::class, 'delete_by_selection'])->name('mass_delete_transfers');
+                    }
+		{
+            Route::post('resignations/update', [ResignationController::class, 'update'])->name('resignations.update');
+            Route::resource('resignations', ResignationController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('resignations/{id}/delete', [ResignationController::class, 'destroy'])->name('resignations.destroy');
+            Route::post('resignations/delete/selected', [ResignationController::class, 'delete_by_selection'])->name('mass_delete_resignations');
+        }
+		{
+            Route::post('complaints/update', [ComplaintController::class, 'update'])->name('complaints.update');
+            Route::resource('complaints', ComplaintController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('complaints/{id}/delete', [ComplaintController::class, 'destroy'])->name('complaints.destroy');
+            Route::post('complaints/delete/selected', [ComplaintController::class, 'delete_by_selection'])->name('mass_delete_complaints');
+        }
+		{
+            Route::post('warnings/update', [WarningController::class, 'update'])->name('warnings.update');
+            Route::resource('warnings', WarningController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('warnings/{id}/delete', [WarningController::class, 'destroy'])->name('warnings.destroy');
+            Route::post('warnings/delete/selected', [WarningController::class, 'delete_by_selection'])->name('mass_delete_warnings');
+        }
+		{
+            Route::post('terminations/update', [TerminationController::class, 'update'])->name('terminations.update');
+            Route::resource('terminations', TerminationController::class)->except([
+                'destroy', 'create', 'update'
+            ]);
+            Route::get('terminations/{id}/delete', [TerminationController::class, 'destroy'])->name('terminations.destroy');
+            Route::post('terminations/delete/selected', [TerminationController::class, 'delete_by_selection'])->name('mass_delete_terminations');
+        }
+	});
 
-        Route::post('travels/update', [TravelController::class, 'update'])->name('travels.update');
-        Route::resource('travels', TravelController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('travels/{id}/delete', [TravelController::class, 'destroy'])->name('travels.destroy');
-        Route::post('travels/delete/selected', [TravelController::class, 'delete_by_selection'])->name('mass_delete_travels');
-        Route::get('travels/{id}/calendarable', [TravelController::class, 'calendarableDetails'])->name('travels.calendarable');
 
-        Route::post('transfers/update', [TransferController::class, 'update'])->name('transfers.update');
-        Route::resource('transfers', TransferController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('transfers/{id}/delete', [TransferController::class, 'destroy'])->name('transfers.destroy');
-        Route::post('transfers/delete/selected', [TransferController::class, 'delete_by_selection'])->name('mass_delete_transfers');
-
-        Route::post('resignations/update', [ResignationController::class, 'update'])->name('resignations.update');
-        Route::resource('resignations', ResignationController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('resignations/{id}/delete', [ResignationController::class, 'destroy'])->name('resignations.destroy');
-        Route::post('resignations/delete/selected', [ResignationController::class, 'delete_by_selection'])->name('mass_delete_resignations');
-
-        Route::post('complaints/update', [ComplaintController::class, 'update'])->name('complaints.update');
-        Route::resource('complaints', ComplaintController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('complaints/{id}/delete', [ComplaintController::class, 'destroy'])->name('complaints.destroy');
-        Route::post('complaints/delete/selected', [ComplaintController::class, 'delete_by_selection'])->name('mass_delete_complaints');
-
-        Route::post('warnings/update', [WarningController::class, 'update'])->name('warnings.update');
-        Route::resource('warnings', WarningController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('warnings/{id}/delete', [WarningController::class, 'destroy'])->name('warnings.destroy');
-        Route::post('warnings/delete/selected', [WarningController::class, 'delete_by_selection'])->name('mass_delete_warnings');
-
-        Route::post('terminations/update', [TerminationController::class, 'update'])->name('terminations.update');
-        Route::resource('terminations', TerminationController::class)->except([
-            'destroy', 'create', 'update',
-        ]);
-        Route::get('terminations/{id}/delete', [TerminationController::class, 'destroy'])->name('terminations.destroy');
-        Route::post('terminations/delete/selected', [TerminationController::class, 'delete_by_selection'])->name('mass_delete_terminations');
-
-    });
-
-    Route::prefix('report')->group(function () {
+	Route::prefix('report')->group(function ()
+	{
         //New Added
         Route::get('attendances', [AttendanceController::class, 'index'])->name('attendances.index');
         Route::get('date_wise_attendances', [AttendanceController::class, 'dateWiseAttendance'])->name('date_wise_attendances.index');
@@ -452,12 +481,13 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('deposit', [ReportController::class, 'deposit'])->name('report.deposit');
         Route::get('transaction', [ReportController::class, 'transaction'])->name('report.transaction');
         Route::get('pension', [ReportController::class, 'pension'])->name('report.pension');
-    });
+	});
 
-    Route::prefix('organization')->group(function () {
+	Route::prefix('organization')->group(function ()
+	{
 
         Route::resource('locations', LocationController::class)->except([
-            'create', 'show',
+            'create', 'show'
         ]);
         Route::get('locations/edit/{id}', [LocationController::class, 'edit'])->name('locations.edit');
         Route::post('locations/update', [LocationController::class, 'update'])->name('locations.update');
@@ -474,37 +504,38 @@ Route::group(['middleware' => ['XSS']], function () {
 
         Route::post('departments/update', [DepartmentController::class, 'update'])->name('departments.update');
         Route::resource('departments', DepartmentController::class)->except([
-            'destroy', 'show', 'create', 'update',
+            'destroy', 'show', 'create', 'update'
         ]);
         Route::get('departments/{id}/delete', [DepartmentController::class, 'destroy'])->name('departments.destroy');
         Route::post('departments/delete/selected', [DepartmentController::class, 'delete_by_selection'])->name('mass_delete_departments');
 
         Route::post('designations/update', [DesignationController::class, 'update'])->name('designations.update');
         Route::resource('designations', DesignationController::class)->except([
-            'destroy', 'show', 'create', 'update',
+            'destroy', 'show', 'create', 'update'
         ]);
         Route::get('designations/{id}/delete', [DesignationController::class, 'destroy'])->name('designations.destroy');
         Route::post('designations/delete/selected', [DesignationController::class, 'delete_by_selection'])->name('mass_delete_designations');
 
         Route::post('announcements/update', [AnnouncementController::class, 'update'])->name('announcements.update');
         Route::resource('announcements', AnnouncementController::class)->except([
-            'destroy', 'create', 'update',
+            'destroy', 'create', 'update'
         ]);
         Route::get('announcements/{id}/delete', [AnnouncementController::class, 'destroy'])->name('announcements.destroy');
         Route::post('announcements/delete/selected', [AnnouncementController::class, 'delete_by_selection'])->name('mass_delete_announcements');
 
         Route::post('policy/update', [PolicyController::class, 'update'])->name('policy.update');
         Route::resource('policy', PolicyController::class)->except([
-            'destroy', 'create', 'update',
+            'destroy', 'create', 'update'
         ]);
         Route::get('policy/{id}/delete', [PolicyController::class, 'destroy'])->name('policy.destroy');
         Route::post('policy/delete/selected', [PolicyController::class, 'delete_by_selection'])->name('mass_delete_policy');
-    });
+	});
 
-    Route::prefix('timesheet')->group(function () {
-        // Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
-        // Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
-        // Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
+	Route::prefix('timesheet')->group(function ()
+	{
+		// Route::get('attendances', 'AttendanceController@index')->name('attendances.index');
+		// Route::get('date_wise_attendances', 'AttendanceController@dateWiseAttendance')->name('date_wise_attendances.index');
+		// Route::get('monthly_attendances', 'AttendanceController@monthlyAttendance')->name('monthly_attendances.index');
 
         Route::get('update_attendances', [AttendanceController::class, 'updateAttendance'])->name('update_attendances.index');
         Route::get('update_attendances/{id}/get', [AttendanceController::class, 'updateAttendanceGet'])->name('update_attendances.get');
@@ -534,9 +565,10 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::post('leaves/delete/selected', [LeaveController::class, 'delete_by_selection'])->name('mass_delete_leaves');
         Route::get('leaves/{id}/calendarable', [LeaveController::class, 'calendarableDetails'])->name('leaves.calendarable');
 
-    });
+	});
 
-    Route::prefix('payroll')->group(function () {
+	Route::prefix('payroll')->group(function ()
+	{
         Route::get('list', [PayrollController::class, 'index'])->name('payroll.index');
         Route::get('payslip', [PayrollController::class, 'dummy'])->name('paySlip.index');
         Route::get('payslip_show', [PayrollController::class, 'paySlip'])->name('paySlip.show');
@@ -549,9 +581,10 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('payslip/id/{payslip}', [PayslipController::class, 'show'])->name('payslip_details.show');
         Route::get('payslip/pdf/id/{payslip}', [PayslipController::class, 'printPdf'])->name('payslip.pdf');
 
-    });
+	});
 
-    Route::prefix('recruitment')->group(function () {
+	Route::prefix('recruitment')->group(function ()
+	{
         Route::post('job_posts/update', [JobPostController::class, 'update'])->name('job_posts.update');
         Route::resource('job_posts', JobPostController::class)->except(['destroy', 'create', 'update']);
         Route::get('job_posts/{id}/delete', [JobPostController::class, 'destroy'])->name('job_posts.destroy');
@@ -566,9 +599,11 @@ Route::group(['middleware' => ['XSS']], function () {
 
         Route::get('cms', [CmsController::class, 'index'])->name('cms.index');
         Route::post('cms', [CmsController::class, 'store'])->name('cms.store');
-    });
+	});
 
-    Route::prefix('training')->group(function () {
+
+	Route::prefix('training')->group(function ()
+	{
         Route::post('training_lists/update', [TrainingListController::class, 'update'])->name('training_lists.update');
         Route::resource('training_lists', TrainingListController::class)->except(['destroy', 'create', 'update']);
         Route::get('training_lists/{id}/delete', [TrainingListController::class, 'destroy'])->name('training_lists.destroy');
@@ -579,9 +614,10 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::resource('trainers', TrainerController::class)->except(['destroy', 'create', 'update']);
         Route::get('trainers/{id}/delete', [TrainerController::class, 'destroy'])->name('trainers.destroy');
         Route::post('trainers/delete/selected', [TrainerController::class, 'delete_by_selection'])->name('mass_delete_trainers');
-    });
+	});
 
-    Route::prefix('accounting')->group(function () {
+	Route::prefix('accounting')->group(function ()
+	{
 
         Route::post('accounting_list/update', [AccountListController::class, 'update'])->name('accounting_list.update');
         Route::resource('accounting_list', AccountListController::class)->except(['destroy', 'create', 'update', 'show']);
@@ -613,7 +649,7 @@ Route::group(['middleware' => ['XSS']], function () {
 
         Route::get('transactions', [FinanceTransactionsController::class, 'index'])->name('transactions.index');
         Route::get('transactions/{id}/show', [FinanceTransactionsController::class, 'show'])->name('transactions.show');
-    });
+	});
 
     Route::post('assets/update', [AssetController::class, 'update'])->name('assets.update');
     Route::resource('assets', AssetController::class)->except(['destroy', 'create', 'update']);
@@ -645,6 +681,7 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::get('tickets/{id}/delete_comments', [SupportTicketCommentController::class, 'destroy'])->name('ticket_comments.destroy');
     Route::post('tickets/{ticket}/details', [SupportTicketController::class, 'detailsStore'])->name('ticket_details.store');
     Route::post('tickets/{ticket}/notes', [SupportTicketController::class, 'notesStore'])->name('ticket_notes.store');
+
 
     Route::prefix('project-management')->group(function () {
         Route::post('projects/{project}/assigned', [EmployeeAssignedController::class, 'employeeProjectAssigned'])->name('projects.assigned');
@@ -722,6 +759,8 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('dynamic_dependent/get_tax_rate', [DynamicDependent::class, 'getTaxRate'])->name('dynamic_tax_rate');
     Route::post('dynamic_dependent/fetch_candidate', [DynamicDependent::class, 'fetchCandidate'])->name('dynamic_candidate');
 
+
+
     Route::prefix('settings')->group(function () {
         Route::resource('roles', RoleController::class);
         Route::get('/roles/{id}/delete', [RoleController::class, 'destroy'])->name('roles.destroy');
@@ -791,6 +830,7 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::resource('document_type', DocumentTypeController::class)->except(['create', 'update', 'destroy', 'show']);
     });
 
+
     Route::prefix('dynamic_variable_method')->group(function () {
         Route::post('travel_method/update', [TravelMethodController::class, 'update'])->name('travel_method.update');
         Route::get('travel_method/{id}/delete', [TravelMethodController::class, 'destroy'])->name('travel_method.destroy');
@@ -835,6 +875,7 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::post('file_config', [FileManagerSettingController::class, 'store'])->name('file_config.store');
     });
 
+
     Route::get('/client/profile', [DashboardController::class, 'clientProfile'])->name('clientProfile');
     Route::get('/client/invoices', [ClientInvoiceController::class, 'invoices'])->name('clientInvoice');
     Route::get('/client/invoices/payment', [ClientInvoiceController::class, 'paidInvoices'])->name('clientInvoicePaid');
@@ -846,7 +887,7 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::get('/client/tasks/{id}/edit', [ClientTaskController::class, 'edit'])->name('clientTask.edit');
     Route::post('/client/tasks/update', [ClientTaskController::class, 'update'])->name('clientTask.update');
 
-    //Performance Feature By - Md Irfan Chowdhury
+	//Performance Feature By - Md Irfan Chowdhury
 
     Route::group(['prefix' => 'performance', 'namespace' => 'Performance'], function () {
         Route::group(['prefix' => 'goal-type'], function () {
@@ -902,6 +943,8 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('version-upgrade', [ClientAutoUpdateController::class, 'versionUpgrade'])->name('version-upgrade');
     Route::post('bug-update', [ClientAutoUpdateController::class, 'bugUpdate'])->name('bug-update');
 
+
+
 });
 //
 //Route::group(['prefix' => 'api', 'middleware' => 'auth'], function ()
@@ -919,5 +962,11 @@ Route::group(['middleware' => ['XSS']], function () {
 //	})->name('api.names');
 //});
 
+
 //Employeer
 //Set Null
+
+
+
+
+
