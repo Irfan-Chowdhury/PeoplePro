@@ -44,7 +44,6 @@ use App\Http\Controllers\EmployeeTravelController;
 use App\Http\Controllers\EmployeeWarningController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\FrontEnd\JobController;
-use App\Http\Controllers\LocaleController;
 use App\Http\Controllers\RouteClosureHandlerController;
 use App\Http\Controllers\SalaryOtherPaymentController;
 use App\Http\Controllers\SalaryOvertimeController;
@@ -136,8 +135,6 @@ use App\Http\Controllers\ClientAutoUpdateController;
 use App\Http\Controllers\LanguageSettingController;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 

@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use JoeDixon\Translation\Drivers\Translation;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
-use JoeDixon\Translation\Http\Requests\LanguageRequest;
 use Illuminate\Support\Facades\File;
-
+use Illuminate\Support\Str;
+use JoeDixon\Translation\Drivers\Translation;
+use JoeDixon\Translation\Http\Requests\LanguageRequest;
 
 class LanguageSettingController extends Controller
 {
@@ -45,7 +44,6 @@ class LanguageSettingController extends Controller
         return view('translation::languages.translations.index', compact('language', 'languages', 'groups', 'translations'));
     }
 
-    // public function update(Request $request, $language)
     public function update(Request $request)
     {
         $language = $request->language;
@@ -55,9 +53,9 @@ class LanguageSettingController extends Controller
         } else {
             $this->translation->addSingleTranslation($language, $request->get('group'), $request->get('key'), $request->get('value') ?: '');
         }
+
         return ['success' => true];
     }
-
 
     public function create()
     {
@@ -73,23 +71,23 @@ class LanguageSettingController extends Controller
             ->with('success', __('translation::translation.language_added'));
     }
 
-
     public function languageSwitch($locale)
-	{
-		setcookie('language', $locale, time() + (86400 * 365), "/");
+    {
+        setcookie('language', $locale, time() + (86400 * 365), '/');
 
-		return back();
-	}
+        return back();
+    }
 
     public function languageDelete(Request $request)
     {
-		if (!env('USER_VERIFIED')) {
-			return response()->json(['error' => 'This feature is disabled for demo!']);
-		}
+        if (! env('USER_VERIFIED')) {
+            return response()->json(['error' => 'This feature is disabled for demo!']);
+        }
 
         $path = base_path('resources/lang/'.$request->langVal);
-        if(File::exists($path)) {
+        if (File::exists($path)) {
             File::deleteDirectory($path);
+
             return response()->json('success');
         }
     }
