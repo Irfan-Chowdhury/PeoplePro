@@ -133,6 +133,7 @@ use App\Http\Controllers\Performance\IndicatorController;
 use App\Http\Controllers\Performance\AppraisalController;
 use App\Http\Controllers\DeveloperSectionController;
 use App\Http\Controllers\ClientAutoUpdateController;
+use App\Http\Controllers\LanguageSettingController;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -145,6 +146,10 @@ Auth::routes(['register' => false]);
 
 Route::group(['middleware' => ['XSS']], function ()
 {
+
+
+
+
 	Route::get('/pdf', function () {
 		return view('pdf');
 	});
@@ -174,10 +179,15 @@ Route::group(['middleware' => ['XSS']], function ()
 	Route::post('/profile/employee/{id}', [DashboardController::class,'employeeProfileUpdate'])->name('employee_profile_update');
 	Route::post('/profile/change_password/{id}', [DashboardController::class,'change_password'])->name('change_password');
 
-
-    Route::get('switch/language/{lang}', [LocaleController::class,'languageSwitch'])->name('language.switch');
-	Route::get('delete/language', [LocaleController::class,'languageDelete'])->name('language.delete');
-
+    // Languages Section
+    Route::prefix('languages')->group(function () {
+        Route::get('/{language}/translations',[LanguageSettingController::class,'index'])->name('languages.translations.index');
+        Route::post('/update',[LanguageSettingController::class,'update'])->name('language.translations.update');
+        Route::get('/create',[LanguageSettingController::class,'create'])->name('languages.create');
+        Route::post('/store',[LanguageSettingController::class,'store'])->name('languages.store');
+        Route::get('/switch/{lang}',[LanguageSettingController::class,'languageSwitch'])->name('language.switch');
+        Route::get('/delete',[LanguageSettingController::class,'languageDelete'])->name('language.delete');
+    });
 
 	Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function ()
 	{

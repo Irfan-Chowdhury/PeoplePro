@@ -26,14 +26,22 @@
                                 <th>{{__('Photo')}}</th>
                                 @if ($user['profile_photo']!==null)
                                     <td>
-                                        <img src="{{url('uploads/profile_photos',$user['profile_photo'])}}" height="50" width="60">
+                                        <img src="{{asset('uploads/profile_photos',$user['profile_photo'])}}" height="50" width="60">
+                                        {{-- <img src="{{asset('uploads/samsung.png')}}" height="50" width="60"> --}}
+                                        {{-- <img src="{{asset('public/uploads/profile_photos',$user['profile_photo'])}}" height="50" width="60"> --}}
+                                        {{-- <td> <img src="/var/www/html/peoplepro_10/uploads/profile_photos/staff_1616582111.jpg" style="width: 60px; height: 50px;"> </td> --}}
+
+                                        {{-- <td>
+                                            <img src="https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-36703721.jpg" style="width: 60px; height: 50px;">
+                                        </td> --}}
                                     </td>
                                     {{-- <td> <img src="{{asset('/uploads/profile_photos/'.$user['profile_photo'])}}" height="50px" width="60"> </td> --}}
                                     {{-- <td> <img src="{{url('uploads/profile_photos/'.$user['profile_photo'])}}" height="50px" width="60" alt="Image"> </td> --}}
 
                                     {{-- <img src="http://127.0.0.1:8000/public/uploads/profile_photos/staff_1616582111.jpg;base64,{{ base64_encode(file_get_contents(public_path('/img/logo.png'))) }}"> --}}
                                     {{-- <td> <img src="http://127.0.0.1:8000/uploads/profile_photos/staff_1616582111.jpg" style="width: 60px; height: 50px;"> </td> --}}
-                                    {{-- <td> <img src="https://thumbs.dreamstime.com/b/beautiful-rain-forest-ang-ka-nature-trail-36703721.jpg" style="width: 60px; height: 50px;"> </td> --}}
+
+
                                 @else
                                     <td> <img src="{{asset('uploads/profile_photos/blank.jpg')}}" height="50px" width="60"> </td>
                                 @endif

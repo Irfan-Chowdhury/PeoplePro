@@ -69,6 +69,12 @@
     <link rel="stylesheet" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet"
           type="text/css">
 
+    <link rel="stylesheet" href="{{ asset('vendor/translation/css/main.css') }}">
+
+    {{-- @stack('lang_css') --}}
+
+
+
     <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
     <script type="text/javascript"
@@ -182,11 +188,13 @@
                             <i class="dripicons-web"></i> <span>{{__('Language')}}</span>
                         </a>
                         <ul class="right-sidebar">
-                            @foreach($languages as $lang)
+
+                            {{-- @foreach($languages as $lang)
                                 <li>
                                     <a href="{{route('language.switch',$lang)}}">{{$lang}}</a>
                                 </li>
-                            @endforeach
+                            @endforeach --}}
+
                         </ul>
                     </li>
                     @if (Auth::user()->role_users_id==1)
@@ -892,6 +900,9 @@
 
     })(jQuery);
 </script>
+
+@stack('lang_scripts')
+
 
 </body>
 </html>

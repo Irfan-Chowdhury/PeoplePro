@@ -1,20 +1,22 @@
+{{-- @extends('layout.main')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('vendor/translation/css/main.css') }}">
+@endpush
+@section('content') --}}
+
 @extends('translation::layout')
-
 @section('body')
-
 
     <form action="{{ route('languages.translations.index', ['language' => $language]) }}" method="get">
 
         <div class="container-fluid mt-3 mb-3">
-
             <div class="d-flex">
 
-                <a href="{{ route('languages.create') }}" class="btn btn-primary mr-1">
-                    {{ __('Add') }}
-                </a>
+                <a href="{{ route('languages.create') }}" class="btn btn-primary mr-1">{{ __('Add') }}</a>
                 <div class="w-20">
-                    @include('translation::forms.select', ['name' => 'language', 'items' => $languages, 'submit' => true, 'selected' => $language])
+                    @include('vendor.translation.forms.select', ['name' => 'language', 'items' => $languages, 'submit' => true, 'selected' => $language])
                 </div>
+
 
                 <div class=" ml-3 w-20">
                     <select class="form-control" id='lang_del'>
@@ -28,6 +30,10 @@
 
             </div>
         </div>
+
+
+
+
 
         @if(count($translations))
 
@@ -68,6 +74,11 @@
                                         <td>{{ $key }}</td>
                                         <td>{{ $value }}</td>
                                         <td>
+                                            <textarea class="edit_textarea form-control">{{ $value }}</textarea>
+                                            <button class="update_btn hidden" type="button" data-key="{{ $key }}" data-language="{{ $language }}" data-group="{{ $group }}" title="Update"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
+                                            <span class="check_icon hidden"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
+                                        </td>
+                                        {{-- <td>
                                             <translation-input
                                                     initial-translation="{{ $value }}"
                                                     language="{{ $language }}"
@@ -76,7 +87,7 @@
                                                     route="{{config('translation.ui_url') }}"
                                             >
                                             </translation-input>
-                                        </td>
+                                        </td> --}}
                                     </tr>
                                 @endif
 
@@ -84,70 +95,101 @@
                             @endforeach
 
                         @endforeach
-
                     @endforeach
-
                     </tbody>
-
                 </table>
             </div>
-
         @endif
 
     </form>
 
-    <script type="text/javascript">
-        (function($) {
-            "use strict";
+@endsection
 
-            $(document).ready(function () {
+@push('lang_scripts')
 
-                var dataSrc = [];
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+        $(document).ready(function () {
 
-                var table = $('#language-table').DataTable({
+            var dataSrc = [];
 
-                    "order": [],
-                    'language': {
-                        'lengthMenu': '_MENU_ {{__("records per page")}}',
-                        "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                        "search": '{{trans("file.Search")}}',
-                        'paginate': {
-                            'previous': '{{trans("file.Previous")}}',
-                            'next': '{{trans("file.Next")}}'
-                        }
-                    },
-
-                    'select': {style: 'multi', selector: 'td:first-child'},
-                    'lengthMenu': [[100, 200, 500,-1], [100, 200, 500,"All"]],
-                });
-
+            var table = $('#language-table').DataTable({
+                "order": [],
+                'language': {
+                    'lengthMenu': '_MENU_ {{__("records per page")}}',
+                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                    "search": '{{trans("file.Search")}}',
+                    'paginate': {
+                        'previous': '{{trans("file.Previous")}}',
+                        'next': '{{trans("file.Next")}}'
+                    }
+                },
+                'select': {style: 'multi', selector: 'td:first-child'},
+                'lengthMenu': [[100, 200, 500,-1], [100, 200, 500,"All"]],
             });
 
-            $(document).ready(function() {
-                $("#lang_del").change(function(){
-                    var proceed = confirm("Are You Sure To Delete ?");
-                    if (proceed) {
-                        var langVal = $('#lang_del :selected').text()
-                        $.ajax({
-                            url: "{{route('language.delete')}}",
-                            method: "GET",
-                            data: {langVal:langVal},
-                            success: function (data) {
-                                console.log(data);
-                                if (data =='success') {
-                                    window.location.href = "English";
-                                }
-                            }
-                        })
+
+            $(".edit_textarea").on('click',function(){
+                $(".update_btn").hide(); //for all
+                $(this).siblings('.update_btn').show();
+            });
+
+            $(".update_btn").on('click',function(){
+                var language = $(this).data('language');
+                var key   = $(this).data('key');
+                var group = $(this).data('group');
+                var value = $(this).siblings('textarea').val();
+
+                $(this).siblings('.check_icon').show();
+
+                $.ajax({
+                    url: "{{ route('language.translations.update') }}",
+                    type: "POST",
+                    data: {
+                        language:language,
+                        key:key,
+                        group:group,
+                        value:value
+                    },
+                    success: function (data) {
+                        $(".update_btn").hide();
+                        console.log(data);
+                        setTimeout(function() {
+                            $('.check_icon').fadeOut("slow");
+                        }, 3000);
                     }
                 });
             });
 
-        })(jQuery);
-    </script>
+        });
 
-@endsection
+        $(document).ready(function() {
+            $("#lang_del").change(function(){
+                var proceed = confirm("Are You Sure To Delete ?");
+                if (proceed) {
+                    var langVal = $('#lang_del :selected').text()
+                    $.ajax({
+                        url: "{{route('language.delete')}}",
+                        method: "GET",
+                        data: {langVal:langVal},
+                        success: function (data) {
+                            console.log(data);
+                            if (data =='success') {
+                                var baseUrl = window.location.protocol + '//' + window.location.host;
+                                var path    = 'languages/English/translations';
+                                var url     = baseUrl + '/' + path;
+                                window.location.href = url;
+                            }
+                        }
+                    })
+                }
+            });
+        });
+    })(jQuery);
+</script>
 
+@endpush
 
 
 

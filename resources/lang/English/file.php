@@ -2,7 +2,7 @@
 
 return array (
   'About' => 'About',
-  'Absent' => 'Absent Test',
+  'Absent' => 'Absent',
   'Account' => 'Account',
   'Accounts' => 'Accounts',
   'Active' => 'Active',

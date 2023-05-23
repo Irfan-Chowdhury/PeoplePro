@@ -761,14 +761,22 @@ class EmployeeController extends Controller {
 							->where('id',$id)
 							->first()
 							->toArray();
-        // return $employee['user']['profile_photo'];
-
 
 		PDF::setOptions(['dpi' => 10, 'defaultFont' => 'sans-serif','tempDir'=>storage_path('temp')]);
         $pdf = PDF::loadView('employee.pdf',$employee);
-        return $pdf->download('document.pdf');
+        // return $pdf->download('employee.pdf');
 
-        // return $pdf->stream();
+        return $pdf->stream();
 	}
+
+	// public function employeePDF($id)
+	// {
+    //     $employee = Employee::with('user:id,profile_photo,username','company:id,company_name','department:id,department_name', 'designation:id,designation_name','officeShift:id,shift_name','role:id,name')
+    //     ->where('id',$id)
+    //     ->first();
+
+    //     $pdf = PDF::loadView('employee.pdf', ['employee' => $employee]);
+    //     return $pdf->stream();
+	// }
 
 }

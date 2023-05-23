@@ -6,12 +6,20 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
+// Route::get('/documentation', function() {
+//     return File::get(public_path() . '/docs/index.html');
+// });
+
+// Route::get('/documentation-attendance-device-addon', function() {
+//     return File::get(public_path() . '/documentation/attendance_device_addon/index.php');
+// });
+
 Route::get('/documentation', function() {
-    return File::get(public_path() . '/documentation/index.html');
+    return view('documentation.index');
 });
 
 Route::get('/documentation-attendance-device-addon', function() {
-    return File::get(public_path() . '/documentation/attendance_device_addon/index.php');
+    return view('documentation/attendance_device_addon/index');
 });
 
 Route::get('/optimize', function() {
@@ -38,3 +46,5 @@ Route::get('/maintainance-up', function() {
     Artisan::call('up');
     return redirect()->back();
 });
+
+
