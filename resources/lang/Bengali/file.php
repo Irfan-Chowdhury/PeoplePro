@@ -1,6 +1,7 @@
 <?php
 
 return array (
+  'failed' => 'test',
   'About' => 'সম্পর্ক',
   'Absent' => 'Absent',
   'Account' => 'Account',
@@ -58,11 +59,11 @@ return array (
   'Debit' => 'ডেবিট',
   'Deductions' => 'Deductions',
   'Deferred' => 'বিলম্বিত',
-  'Deleting' => 
+  'Deleting' =>
   array (
-    '' => 
+    '' =>
     array (
-      '' => 
+      '' =>
       array (
         '' => 'মোছা হচ্ছে ...',
       ),

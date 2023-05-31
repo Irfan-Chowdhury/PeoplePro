@@ -178,11 +178,11 @@
             <hr class="notop">
         </div>
         <p>
-            The software is built on most popular PHP framework Laravel(Version 6). The minimum
+            The software is built on most popular PHP framework Laravel (Version-10). The minimum
             requirements for running the software is listed below .Please do check if your server matches those
             requirements</p>
         <ul>
-            <li>PHP = 7.4.0</li>
+            <li>PHP = 8.1.0</li>
             <li>BCMath PHP Extension</li>
             <li>Ctype PHP Extension</li>
             <li>Fileinfo PHP Extension</li>

@@ -184,7 +184,7 @@
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
                     <li class="nav-item">
-                        <a class="dropdown-header-name" style="padding-right: 10px" href="{{url('/optimize')}}" title="Clear all cache with refresh"><i class="fa fa-refresh"></i></a>
+                        <a class="dropdown-header-name" style="padding-right: 10px" href="{{url('/optimize')}}" data-toggle="tooltip" title="Clear all cache with refresh"><i class="fa fa-refresh"></i></a>
                     </li>
                     <li class="nav-item"><a id="btnFullscreen" data-toggle="tooltip"
                                             title="{{__('Full Screen')}}"><i class="dripicons-expand"></i></a></li>
@@ -855,7 +855,6 @@
                                 @can('assets')
                                     <li id="assets"><a href="{{route('assets.index')}}">{{trans(('file.Assets'))}}</a></li>
                                 @endcan
-
                             </ul>
                         </li>
                     @endcan

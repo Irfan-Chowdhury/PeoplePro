@@ -1,5 +1,5 @@
 
-    <select class="form-control selectpicker" name="{{ $name }}" @if(isset($submit) && $submit) v-on:change="submit" @endif>
+    <select id="localeChange" class="form-control selectpicker" name="{{ $name }}" @if(isset($submit) && $submit) v-on:change="submit" @endif>
         @if(isset($optional) && $optional)<option value> ----- </option>@endif
         @foreach($items as $key => $value)
             @if(is_numeric($key))

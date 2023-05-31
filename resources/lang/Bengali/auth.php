@@ -1,5 +1,5 @@
 <?php
 
 return array (
-  'failed' => 'ব্যার্থ',
+  'failed' => 'ব্যর্থ',
 );

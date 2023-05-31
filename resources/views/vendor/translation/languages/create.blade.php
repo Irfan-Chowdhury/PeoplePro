@@ -2,6 +2,8 @@
 
 @section('body')
 
+@include('includes.session_message')
+
 <div class="container-fluid mt-4">
     <div class="card">
 

@@ -168,6 +168,7 @@ Route::group(['middleware' => ['XSS']], function () {
     // Languages Section
     Route::prefix('languages')->group(function () {
         Route::get('/{language}/translations', [LanguageSettingController::class, 'index'])->name('languages.translations.index');
+        // Route::get('/{language}', [LanguageSettingController::class, 'index'])->name('languages.translations.index');
         Route::post('/update', [LanguageSettingController::class, 'update'])->name('language.translations.update');
         Route::get('/create', [LanguageSettingController::class, 'create'])->name('languages.create');
         Route::post('/store', [LanguageSettingController::class, 'store'])->name('languages.store');

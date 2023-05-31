@@ -1,11 +1,11 @@
-{{-- @extends('layout.main')
+@extends('layout.main')
 @push('css')
     <link rel="stylesheet" href="{{ asset('vendor/translation/css/main.css') }}">
 @endpush
-@section('content') --}}
+@section('content')
 
-@extends('translation::layout')
-@section('body')
+    @include('includes.session_message')
+
 
     <form action="{{ route('languages.translations.index', ['language' => $language]) }}" method="get">
 
@@ -18,9 +18,9 @@
                 </div>
 
 
-                <div class=" ml-3 w-20">
+                <div class="ml-3 w-20">
                     <select class="form-control" id='lang_del'>
-                        <option selected="selected" >Delete Language</option>
+                        <option selected="selected">Delete Language</option>
                         <option>--------------------------</option>
                         @foreach($languages as $lang)
                             <option value="{{$lang}}">{{$lang}}</option>
@@ -30,9 +30,6 @@
 
             </div>
         </div>
-
-
-
 
 
         @if(count($translations))
@@ -52,48 +49,18 @@
                     @foreach($translations as $type => $items)
                         @foreach($items as $group => $translationsData)
                             @foreach($translationsData as $key => $value)
-
-                                {{-- @if(!is_array($value[config('app.locale')]))
+                                @if(!is_array($value[config('app.locale')]))
                                     <tr>
                                         <td>{{ $key }}</td>
                                         <td>{{ $value[config('app.locale')] }}</td>
                                         <td>
-                                            <translation-input
-                                                    initial-translation="{{ $value[$language] }}"
-                                                    language="{{ $language }}"
-                                                    group="{{ $group }}"
-                                                    translation-key="{{ $key }}"
-                                                    route="{{config('translation.ui_url') }}"
-                                            >
-                                            </translation-input>
-                                        </td>
-                                    </tr>
-                                @endif --}}
-                                @if(!is_array($value))
-                                    <tr>
-                                        <td>{{ $key }}</td>
-                                        <td>{{ $value }}</td>
-                                        <td>
-                                            <textarea class="edit_textarea form-control">{{ $value }}</textarea>
+                                            <textarea class="edit_textarea form-control">{{ $value[$language] }}</textarea>
                                             <button class="update_btn hidden" type="button" data-key="{{ $key }}" data-language="{{ $language }}" data-group="{{ $group }}" title="Update"><i class="fa fa-floppy-o" aria-hidden="true"></i></button>
                                             <span class="check_icon hidden"><i class="fa fa-check-circle-o" aria-hidden="true"></i></span>
                                         </td>
-                                        {{-- <td>
-                                            <translation-input
-                                                    initial-translation="{{ $value }}"
-                                                    language="{{ $language }}"
-                                                    group="{{ $group }}"
-                                                    translation-key="{{ $key }}"
-                                                    route="{{config('translation.ui_url') }}"
-                                            >
-                                            </translation-input>
-                                        </td> --}}
                                     </tr>
                                 @endif
-
-
                             @endforeach
-
                         @endforeach
                     @endforeach
                     </tbody>
@@ -105,7 +72,8 @@
 
 @endsection
 
-@push('lang_scripts')
+@push('scripts')
+<script src="{{ asset('vendor/translation/js/app.js') }}"></script>
 
 <script type="text/javascript">
     (function($) {
@@ -164,6 +132,19 @@
 
         });
 
+
+        $(document).ready(function() {
+            $("#localeChange").change(function(){
+                var localeName = $('#localeChange :selected').text()
+                console.log(localeName);
+                var baseUrl = window.location.protocol + '//' + window.location.host;
+                var path    = `languages/${localeName}/translations`;
+                var url     = baseUrl + '/' + path;
+                window.location.href = url;
+            });
+        });
+
+
         $(document).ready(function() {
             $("#lang_del").change(function(){
                 var proceed = confirm("Are You Sure To Delete ?");
@@ -175,7 +156,7 @@
                         data: {langVal:langVal},
                         success: function (data) {
                             console.log(data);
-                            if (data =='success') {
+                            if (data === 'success' || data ==='error') {
                                 var baseUrl = window.location.protocol + '//' + window.location.host;
                                 var path    = 'languages/English/translations';
                                 var url     = baseUrl + '/' + path;

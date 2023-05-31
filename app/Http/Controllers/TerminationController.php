@@ -8,8 +8,8 @@ use App\Notifications\EmployeeTerminationNotify;
 use App\Termination;
 use App\TerminationType;
 use App\User;
+use DateTime;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
 
 class TerminationController extends Controller {
@@ -41,15 +41,20 @@ class TerminationController extends Controller {
 					{
 						$button = '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
 						$button .= '&nbsp;&nbsp;';
-						if (auth()->user()->can('edit-termination'))
-						{
-							$button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-							$button .= '&nbsp;&nbsp;';
-						}
-						if (auth()->user()->can('delete-termination'))
-						{
-							$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-						}
+
+                        $termination_date = new DateTime($data->termination_date);
+                        $current_date = new DateTime();
+                        if ($termination_date > $current_date->setTime(0, 0, 0, 0)) {
+                            if (auth()->user()->can('edit-termination'))
+                            {
+                                $button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+                                $button .= '&nbsp;&nbsp;';
+                            }
+                            if (auth()->user()->can('delete-termination'))
+                            {
+                                $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+                            }
+                        }
 
 						return $button;
 					})
@@ -127,7 +132,7 @@ class TerminationController extends Controller {
 		if (request()->ajax())
 		{
 			$data = Termination::findOrFail($id);
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->where('is_active',1)->where('exit_date',NULL)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('company_id', $data->company_id)->where('is_active',1)->get();
 
 			return response()->json(['data' => $data, 'employees' => $employees]);
 		}
@@ -169,6 +174,9 @@ class TerminationController extends Controller {
             Termination::find($id)->update($data);
 			$notifiable = User::findOrFail($data['terminated_employee']);
 
+            Employee::where('id',$request->terminated_employee)
+            ->update(['exit_date' => $request->termination_date]);
+
             $this->employeeLeaveDateSet($request->terminated_employee, $request->termination_date);
 			$notifiable->notify(new EmployeeTerminationNotify($data['termination_date']));
 			return response()->json(['success' => __('Data is successfully updated')]);
@@ -178,15 +186,18 @@ class TerminationController extends Controller {
 
 	public function destroy($id)
 	{
-		if(!env('USER_VERIFIED'))
-		{
+		if(!env('USER_VERIFIED')) {
 			return response()->json(['error' => 'This feature is disabled for demo!']);
 		}
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('delete-termination'))
 		{
-			Termination::whereId($id)->delete();
+			$termination = Termination::find($id);
+            $termination->delete();
+
+            Employee::where('id',$termination->terminated_employee)
+                        ->update(['exit_date' => null]);
 
 			return response()->json(['success' => __('Data is successfully deleted')]);
 		}

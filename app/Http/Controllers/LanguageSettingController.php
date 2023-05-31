@@ -36,7 +36,6 @@ class LanguageSettingController extends Controller
                 $translations = $translations->get('group')->filter(function ($values, $group) use ($request) {
                     return $group === $request->get('group');
                 });
-
                 $translations = new Collection(['group' => $translations]);
             }
         }
@@ -48,7 +47,7 @@ class LanguageSettingController extends Controller
     {
         $language = $request->language;
 
-        if (! Str::contains($request->get('group'), 'single')) {
+        if (!Str::contains($request->get('group'), 'single')) {
             $this->translation->addGroupTranslation($language, $request->get('group'), $request->get('key'), $request->get('value') ?: '');
         } else {
             $this->translation->addSingleTranslation($language, $request->get('group'), $request->get('key'), $request->get('value') ?: '');
@@ -64,6 +63,10 @@ class LanguageSettingController extends Controller
 
     public function store(LanguageRequest $request)
     {
+        if (!env('USER_VERIFIED')) {
+            return redirect()->back()->with(['error' => 'This feature is disabled for demo!']);
+        }
+
         $this->translation->addLanguage($request->locale, $request->name);
 
         return redirect()
@@ -80,14 +83,17 @@ class LanguageSettingController extends Controller
 
     public function languageDelete(Request $request)
     {
-        if (! env('USER_VERIFIED')) {
-            return response()->json(['error' => 'This feature is disabled for demo!']);
+        if (!env('USER_VERIFIED')) {
+            session()->flash('message', 'This feature is disabled for demo!');
+            session()->flash('type', 'danger');
+            return response()->json('error');
         }
 
-        $path = base_path('resources/lang/'.$request->langVal);
+        $path = base_path('resources/lang/' . $request->langVal);
         if (File::exists($path)) {
             File::deleteDirectory($path);
-
+            session()->flash('message', 'Successfully Deleted.');
+            session()->flash('type', 'success');
             return response()->json('success');
         }
     }

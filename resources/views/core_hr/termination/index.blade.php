@@ -23,8 +23,8 @@
                     <th class="not-exported"></th>
                     <th>{{trans('file.Employee')}}</th>
                     <th>{{trans('file.Company')}}</th>
-                    <th>{{__('Notice Date')}}</th>
                     <th>{{__('Termination Date')}}</th>
+                    <th>{{__('Notice Date')}}</th>
                     <th class="not-exported">{{trans('file.action')}}</th>
                 </tr>
                 </thead>
@@ -549,6 +549,8 @@
                     $('#ok_button').text('{{trans('file.Deleting...')}}');
                 },
                 success: function (data) {
+                    console.log(data);
+
                     let html = '';
                     if (data.success) {
                         html = '<div class="alert alert-success">' + data.success + '</div>';
