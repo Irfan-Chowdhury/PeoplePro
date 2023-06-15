@@ -8,6 +8,8 @@ use App\Employee;
 use App\Notifications\EmployeeResignationNotify;
 use App\Resignation;
 use App\User;
+use Carbon\Carbon;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -42,18 +44,25 @@ class ResignationController extends Controller {
 					})
 					->addColumn('action', function ($data)
 					{
-						$button = '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
+                        $button = '<button type="button" name="show" id="' . $data->id . '" class="show_new btn btn-success btn-sm"><i class="dripicons-preview"></i></button>';
 						$button .= '&nbsp;&nbsp;';
-						if (auth()->user()->can('edit-resignation'))
-						{
-							$button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-							$button .= '&nbsp;&nbsp;';
-						}
-						if (auth()->user()->can('delete-resignation'))
-						{
-							$button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
-						}
-							return $button;
+
+                        $resignation_date = new DateTime($data->resignation_date);
+                        $current_date = new DateTime();
+                        if ($resignation_date > $current_date->setTime(0, 0, 0, 0)) {
+                            if (auth()->user()->can('edit-resignation')) {
+                                $button .= '<button type="button" name="edit" id="' . $data->id . '" class="edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+                                $button .= '&nbsp;&nbsp;';
+                            }
+                            if (auth()->user()->can('delete-resignation')) {
+                                $button .= '<button type="button" name="delete" id="' . $data->id . '" class="delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
+                            }
+
+                        } elseif ($resignation_date < $current_date->setTime(0, 0, 0, 0)) {
+                            $button .= '<a href="'.route('resignations.restore', $data->id).'" class="btn btn-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Restore Data"><i class="fa fa-undo"></i></button></a>';
+                            $button .= '&nbsp;&nbsp;';
+                        }
+						return $button;
 					})
 					->rawColumns(['action'])
 					->make(true);
@@ -102,8 +111,8 @@ class ResignationController extends Controller {
 			Resignation::create($data);
             $this->employeeLeaveDateSet($request->employee_id, $request->resignation_date);
 			$notifiable = User::findOrFail($data['employee_id']);
+            $this->setEmployeeExitDate($request->employee_id, $request->resignation_date);
 
-			// $notifiable->notify(new EmployeeResignationNotify($data['resignation_date']));
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
 
@@ -134,7 +143,7 @@ class ResignationController extends Controller {
 			$departments = department::select('id', 'department_name')
 				->where('company_id', $data->company_id)->get();
 
-			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->where('is_active',1)->where('exit_date',NULL)->get();
+			$employees = Employee::select('id', 'first_name', 'last_name')->where('department_id', $data->department_id)->where('is_active',1)->get();
 
 
 			return response()->json(['data' => $data, 'employees' => $employees, 'departments' => $departments]);
@@ -175,10 +184,8 @@ class ResignationController extends Controller {
 
 			Resignation::find($id)->update($data);
             $this->employeeLeaveDateSet($request->employee_id, $request->resignation_date);
+            $this->setEmployeeExitDate($request->employee_id, $request->resignation_date);
 
-			$notifiable = User::findOrFail($data['employee_id']);
-
-			// $notifiable->notify(new EmployeeResignationNotify($data['resignation_date']));
 			return response()->json(['success' => __('Data is successfully updated')]);
 		}
 		return response()->json(['success' => __('You are not authorized')]);
@@ -196,7 +203,10 @@ class ResignationController extends Controller {
 
 		if ($logged_user->can('delete-resignation'))
 		{
-			Resignation::whereId($id)->delete();
+            $resignation = Resignation::find($id);
+            $resignation->delete();
+
+            $this->setEmployeeExitDate($resignation->employee_id , null);
 
 			return response()->json(['success' => __('Data is successfully deleted')]);
 		}
@@ -228,4 +238,26 @@ class ResignationController extends Controller {
 
 		return response()->json(['success' => __('You are not authorized')]);
 	}
+
+    public function restore(Resignation $resignation)
+    {
+        Employee::where('id', $resignation->employee_id)
+            ->update(['exit_date' => null]);
+        $resignation->delete();
+
+        return redirect()->back()->with([
+            'message' => 'Successfully Restored',
+            'type' => 'success',
+        ]);
+    }
+
+    protected function setEmployeeExitDate($employeeId, $resignationDate)
+    {
+        $exitDate = null;
+        if(!is_null($resignationDate)) {
+            $exitDate = Carbon::parse($resignationDate)->toDateString();
+        }
+        Employee::where('id', $employeeId)
+                ->update(['exit_date' => $exitDate]);
+    }
 }

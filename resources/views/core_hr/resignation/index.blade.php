@@ -1,6 +1,8 @@
 @extends('layout.main')
 @section('content')
 
+    @include('includes.session_message')
+
 
     <section>
 
@@ -427,6 +429,7 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
                         let html = '';
                         if (data.errors) {
                             html = '<div class="alert alert-danger">';

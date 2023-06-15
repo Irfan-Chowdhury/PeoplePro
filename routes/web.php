@@ -66,6 +66,7 @@ use App\Http\Controllers\FrontEnd\ContactController;
 use App\Http\Controllers\FrontEnd\HomeController;
 use App\Http\Controllers\FrontEnd\JobController;
 use App\Http\Controllers\GeneralSettingController;
+use App\Http\Controllers\EmployeeLeaveTypeDetailController;
 use App\Http\Controllers\HolidayController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\IPSettingController;
@@ -207,6 +208,7 @@ Route::group(['middleware' => ['XSS']], function () {
                 'index' => 'employees.index',
                 'store' => 'employees.store',
             ]);
+            Route::get('{employee}', [EmployeeController::class, 'show'])->name('employees.show');
             Route::post('update', [EmployeeController::class, 'update'])->name('employees.update');
             Route::get('{id}/delete', [EmployeeController::class, 'destroy'])->name('employees.destroy');
             Route::post('delete/selected', [EmployeeController::class, 'delete_by_selection'])->name('mass_delete_employees');
@@ -236,7 +238,8 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::post('contacts/{employee}/store', [EmployeeContactController::class, 'store'])->name('contacts.store');
         Route::get('contacts/{id}/delete', [EmployeeContactController::class, 'destroy'])->name('contacts.destroy');
 
-        // Route::get('social_profile/{employee}', [EmployeeSocialProfileController::class, 'show'])->name('social_profile.show');
+        // check - EmployeeSocialProfileController
+        Route::get('social_profile/{employee}', [EmployeeSocialProfileController::class, 'show'])->name('social_profile.show');
         Route::post('social_profile/{employee}/store', [EmployeeController::class, 'storeSocialInfo'])->name('social_profile.store');
 
         Route::post('profile_picture/{employee}/store', [EmployeeController::class, 'storeProfilePicture'])->name('profile_picture.store');
@@ -369,6 +372,8 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('employee_payslip/details', [EmployeePayslipController::class, 'details'])->name('employee_payslip.details');
         Route::get('employee_payslip/details/{id}', [EmployeePayslipController::class, 'show'])->name('employee_payslip.show');
 
+        Route::get('employee_leave_type_detail/{employee}', [EmployeeLeaveTypeDetailController::class,'index'])->name('employee_leave_type_detail.index');
+
     });
 
     Route::get('calendar/hr', [CalendarableController::class, 'index'])->name('calendar.index');
@@ -405,12 +410,24 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('transfers/{id}/delete', [TransferController::class, 'destroy'])->name('transfers.destroy');
         Route::post('transfers/delete/selected', [TransferController::class, 'delete_by_selection'])->name('mass_delete_transfers');
 
+        // Route::controller(ResignationController::class)->group(function () {
+        //     Route::post('resignations/update', 'update')->name('resignations.update');
+        //     Route::resource('resignations')->except([
+        //         'destroy', 'create', 'update',
+        //     ]);
+        //     Route::get('resignations/{id}/delete', 'destroy')->name('resignations.destroy');
+        //     Route::post('resignations/delete/selected', 'delete_by_selection')->name('mass_delete_resignations');
+        //     Route::get('resignations/{resignation}/restore', 'restore')->name('resignations.restore');
+        // });
+
         Route::post('resignations/update', [ResignationController::class, 'update'])->name('resignations.update');
         Route::resource('resignations', ResignationController::class)->except([
             'destroy', 'create', 'update',
         ]);
         Route::get('resignations/{id}/delete', [ResignationController::class, 'destroy'])->name('resignations.destroy');
         Route::post('resignations/delete/selected', [ResignationController::class, 'delete_by_selection'])->name('mass_delete_resignations');
+        Route::get('resignations/{resignation}/restore', [ResignationController::class, 'restore'])->name('resignations.restore');
+
 
         Route::post('complaints/update', [ComplaintController::class, 'update'])->name('complaints.update');
         Route::resource('complaints', ComplaintController::class)->except([
@@ -432,6 +449,7 @@ Route::group(['middleware' => ['XSS']], function () {
         ]);
         Route::get('terminations/{id}/delete', [TerminationController::class, 'destroy'])->name('terminations.destroy');
         Route::post('terminations/delete/selected', [TerminationController::class, 'delete_by_selection'])->name('mass_delete_terminations');
+        Route::get('terminations/{termination}/restore', [TerminationController::class, 'restore'])->name('terminations.restore');
 
     });
 

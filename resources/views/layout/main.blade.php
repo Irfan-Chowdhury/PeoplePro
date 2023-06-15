@@ -108,15 +108,12 @@
     <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
@@ -128,13 +125,10 @@
     <script type="text/javascript" src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
     <!-- JS for Boostrap Tag Inputs-->
-
     <script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
-
     <script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
 
     <!-- table sorter js-->
-
     @if(Config::get('app.locale') == 'Arabic')
         <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake_arabic.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts_arabic.js') }}"></script>
@@ -142,7 +136,6 @@
         <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
     @endif
-
 
     <script type="text/javascript" src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>

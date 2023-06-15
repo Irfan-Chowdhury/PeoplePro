@@ -1,6 +1,7 @@
 @extends('layout.main')
 @section('content')
 
+    @include('includes.session_message')
 
     <section>
         <div class="container-fluid"><span id="general_result"></span></div>

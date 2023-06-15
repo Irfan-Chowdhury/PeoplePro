@@ -367,7 +367,6 @@ class EmployeeController extends Controller
 
     public function show(Employee $employee)
     {
-
         if (auth()->user()->can('view-details-employee')) {
             $companies = Company::select('id', 'company_name')->get();
             $departments = department::select('id', 'department_name')
@@ -467,6 +466,7 @@ class EmployeeController extends Controller
 
     public function infoUpdate(Request $request, $employee)
     {
+        return 12;
         $logged_user = auth()->user();
 
         if ($logged_user->can('modify-details-employee')) {

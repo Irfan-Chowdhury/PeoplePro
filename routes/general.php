@@ -6,13 +6,15 @@ use Illuminate\Support\Facades\Artisan;
 
 
 
-// Route::get('/documentation', function() {
-//     return File::get(public_path() . '/docs/index.html');
-// });
+
 
 // Route::get('/documentation-attendance-device-addon', function() {
 //     return File::get(public_path() . '/documentation/attendance_device_addon/index.php');
 // });
+
+Route::get('/phpinfo', function() {
+    return phpinfo();
+});
 
 Route::get('/documentation', function() {
     return view('documentation.index');
