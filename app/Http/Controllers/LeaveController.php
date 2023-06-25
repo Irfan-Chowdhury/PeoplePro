@@ -80,7 +80,6 @@ class LeaveController extends Controller
 
     public function store(Request $request)
     {
-
         if (auth()->user()->can('store-leave') || auth()->user()) {
             $validator = Validator::make(
                 $request->only('leave_type', 'company_id', 'department_id', 'employee_id', 'start_date', 'end_date', 'status'),

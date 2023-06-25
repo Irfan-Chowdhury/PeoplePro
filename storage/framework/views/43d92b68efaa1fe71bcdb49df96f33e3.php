@@ -1,19 +1,18 @@
-@extends('layout.main')
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 
     <section>
         <div class="container-fluid"><span id="general_result"></span></div>
 
         <div class="container-fluid mb-3">
-            @can('store-leave')
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('store-leave')): ?>
                 <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
-                            class="fa fa-plus"></i> {{__('Add Leave')}}</button>
-            @endcan
-            @can('delete-leave')
+                            class="fa fa-plus"></i> <?php echo e(__('Add Leave')); ?></button>
+            <?php endif; ?>
+            <?php if (app(\Illuminate\Contracts\Auth\Access\Gate::class)->check('delete-leave')): ?>
                 <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
-                            class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
-            @endcan
+                            class="fa fa-minus-circle"></i> <?php echo e(__('Bulk delete')); ?></button>
+            <?php endif; ?>
         </div>
 
 
@@ -22,12 +21,12 @@
                 <thead>
                 <tr>
                     <th class="not-exported"></th>
-                    <th>{{__('Leave Type')}}</th>
-                    <th>{{trans('file.Employee')}}</th>
-                    <th>{{trans('file.Department')}}</th>
-                    <th>{{trans('file.Duration')}}</th>
-                    <th>{{__('Applied Date')}}</th>
-                    <th class="not-exported">{{trans('file.action')}}</th>
+                    <th><?php echo e(__('Leave Type')); ?></th>
+                    <th><?php echo e(trans('file.Employee')); ?></th>
+                    <th><?php echo e(trans('file.Department')); ?></th>
+                    <th><?php echo e(trans('file.Duration')); ?></th>
+                    <th><?php echo e(__('Applied Date')); ?></th>
+                    <th class="not-exported"><?php echo e(trans('file.action')); ?></th>
                 </tr>
                 </thead>
 
@@ -42,7 +41,7 @@
             <div class="modal-content">
 
                 <div class="modal-header">
-                    <h5 id="exampleModalLabel" class="modal-title">{{__('Add Leave')}}</h5>
+                    <h5 id="exampleModalLabel" class="modal-title"><?php echo e(__('Add Leave')); ?></h5>
                     <button type="button" data-dismiss="modal" id="close" aria-label="Close" class="close"><i class="dripicons-cross"></i></button>
                 </div>
 
@@ -50,106 +49,101 @@
                     <span id="form_result"></span>
                     <form method="post" id="sample_form" class="form-horizontal">
 
-                        @csrf
+                        <?php echo csrf_field(); ?>
                         <div class="row">
 
                             <div class="col-md-6 form-group">
-                                <label>{{__('Leave Type')}} *</label>
-                                <select name="leave_type" id="leave_type" class="form-control selectpicker " data-live-search="true" data-live-search-style="contains" title='{{__('Leave Type')}}'>
-                                    @foreach($leave_types as $leave_type)
-                                        <option value="{{$leave_type->id}}">{{$leave_type->leave_type}}
-                                            ({{$leave_type->allocated_day}} Days)
+                                <label><?php echo e(__('Leave Type')); ?> *</label>
+                                <select name="leave_type" id="leave_type" class="form-control selectpicker " data-live-search="true" data-live-search-style="contains" title='<?php echo e(__('Leave Type')); ?>'>
+                                    <?php $__currentLoopData = $leave_types; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $leave_type): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($leave_type->id); ?>"><?php echo e($leave_type->leave_type); ?>
+
+                                            (<?php echo e($leave_type->allocated_day); ?> Days)
                                         </option>
-                                    @endforeach
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                                 </select>
                             </div>
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Company')}} *</label>
+                                <label><?php echo e(trans('file.Company')); ?> *</label>
                                 <select name="company_id" id="company_id" class="form-control selectpicker dynamic"
                                         data-live-search="true" data-live-search-style="contains"
                                         data-dependent="department_name"
-                                        title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
-                                    @foreach($companies as $company)
-                                        <option value="{{$company->id}}">{{$company->company_name}}</option>
-                                    @endforeach
+                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Company')])); ?>...'>
+                                    <?php $__currentLoopData = $companies; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $company): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                        <option value="<?php echo e($company->id); ?>"><?php echo e($company->company_name); ?></option>
+                                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 
                                 </select>
                             </div>
 
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Department')}} *</label>
+                                <label><?php echo e(trans('file.Department')); ?> *</label>
                                 <select name="department_id" id="department_id"
                                         class="selectpicker form-control employee"
                                         data-live-search="true" data-live-search-style="contains"
                                         data-first_name="first_name" data-last_name="last_name"
-                                        title='{{__('Selecting',['key'=>trans('file.Department')])}}...'>
+                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Department')])); ?>...'>
 
                                 </select>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Employee')}} *</label>
+                                <label><?php echo e(trans('file.Employee')); ?> *</label>
                                 <select name="employee_id" id="employee_id" class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="contains"
-                                        title='{{__('Selecting',['key'=>trans('file.Employee')])}}...'>
+                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Employee')])); ?>...'>
                                 </select>
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label>{{__('Start Date')}} *</label>
+                                <label><?php echo e(__('Start Date')); ?> *</label>
                                 <input type="text" name="start_date" id="start_date" class="form-control date" value="">
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label>{{__('End Date')}} *</label>
+                                <label><?php echo e(__('End Date')); ?> *</label>
                                 <input type="text" name="end_date" id="end_date" class="form-control test date" value="">
                             </div>
 
                             <div class="col-md-4 form-group">
-                                <label>{{__('Total Days')}}</label>
+                                <label><?php echo e(__('Total Days')); ?></label>
                                 <input type="text" readonly id="total_days" class="form-control">
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label for="leave_reason">{{trans('file.Description')}}</label>
+                                <label for="leave_reason"><?php echo e(trans('file.Description')); ?></label>
                                 <textarea class="form-control" id="leave_reason" name="leave_reason"
                                           rows="3"></textarea>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label for="remarks">{{trans('file.Remarks')}}</label>
+                                <label for="remarks"><?php echo e(trans('file.Remarks')); ?></label>
                                 <textarea class="form-control" id="remarks" name="remarks"
                                           rows="3"></textarea>
                             </div>
 
                             <div class="col-md-6 form-group">
-                                <label>{{trans('file.Status')}}</label>
+                                <label><?php echo e(trans('file.Status')); ?></label>
                                 <select name="status" id="status" class="form-control selectpicker "
                                         data-live-search="true" data-live-search-style="contains"
-                                        title='{{__('Selecting',['key'=>trans('file.Status')])}}...'>
-                                    <option value="pending">{{trans('file.Pending')}}</option>
-                                    <option value="approved">{{trans('file.Approved')}}</option>
-                                    <option value="rejected">{{trans('file.Rejected')}}</option>
+                                        title='<?php echo e(__('Selecting',['key'=>trans('file.Status')])); ?>...'>
+                                    <option value="pending"><?php echo e(trans('file.Pending')); ?></option>
+                                    <option value="approved"><?php echo e(trans('file.Approved')); ?></option>
+                                    <option value="rejected"><?php echo e(trans('file.Rejected')); ?></option>
                                 </select>
                             </div>
 
-                            {{-- <div class="col-md-6 form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" name="is_half" id="is_half"
-                                           value="1">
-                                    <label class="custom-control-label" for="is_half">{{__('Half Day')}}</label>
-                                </div>
-                            </div> --}}
+                            
 
                             <div class="col-md-6 form-group">
                                 <div class="custom-control custom-checkbox">
                                     <input type="checkbox" class="custom-control-input" name="is_notify" id="is_notify"
                                            value="1">
                                     <label class="custom-control-label"
-                                           for="is_notify">{{trans('file.Notification')}}</label>
+                                           for="is_notify"><?php echo e(trans('file.Notification')); ?></label>
                                 </div>
                             </div>
 
@@ -163,7 +157,7 @@
                                     <input type="hidden" name="leave_type_hidden" id="leave_type_hidden"/>
                                     <input type="hidden" name="ticket_status" value="open"/>
                                     <input type="submit" name="action_button" id="action_button" class="btn btn-warning"
-                                           value={{trans('file.Add')}}>
+                                           value=<?php echo e(trans('file.Add')); ?>>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +174,7 @@
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel">{{__('Leave Info')}}</h4>
+                    <h4 class="modal-title" id="myModalLabel"><?php echo e(__('Leave Info')); ?></h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -193,68 +187,68 @@
                                 <table class="table  table-bordered">
 
                                     <tr>
-                                        <th>{{trans('file.Company')}}</th>
+                                        <th><?php echo e(trans('file.Company')); ?></th>
                                         <td id="company_id_show"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Leave For')}}</th>
+                                        <th><?php echo e(__('Leave For')); ?></th>
                                         <td id="employee_id_show"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Department')}}</th>
+                                        <th><?php echo e(trans('file.Department')); ?></th>
                                         <td id="department_id_show"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Leave Type')}}</th>
+                                        <th><?php echo e(__('Leave Type')); ?></th>
                                         <td id="leave_type_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Leave Reason')}}</th>
+                                        <th><?php echo e(__('Leave Reason')); ?></th>
                                         <td id="leave_reason_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Remarks')}}</th>
+                                        <th><?php echo e(trans('file.Remarks')); ?></th>
                                         <td id="remarks_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Status')}}</th>
+                                        <th><?php echo e(trans('file.Status')); ?></th>
                                         <td id="status_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Start Date')}}</th>
+                                        <th><?php echo e(__('Start Date')); ?></th>
                                         <td id="start_date_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('End Date')}}</th>
+                                        <th><?php echo e(__('End Date')); ?></th>
                                         <td id="end_date_id"></td>
                                     </tr>
 
 
                                     <tr>
-                                        <th>{{__('Applied Date')}}</th>
+                                        <th><?php echo e(__('Applied Date')); ?></th>
                                         <td id="applied_date_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Total Days')}}</th>
+                                        <th><?php echo e(__('Total Days')); ?></th>
                                         <td id="total_days_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{__('Half Day')}}</th>
+                                        <th><?php echo e(__('Half Day')); ?></th>
                                         <td id="is_half_id"></td>
                                     </tr>
 
                                     <tr>
-                                        <th>{{trans('file.Notification')}}</th>
+                                        <th><?php echo e(trans('file.Notification')); ?></th>
                                         <td id="is_notify_id"></td>
                                     </tr>
 
@@ -269,7 +263,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">{{trans('file.Close')}}</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo e(trans('file.Close')); ?></button>
             </div>
         </div>
     </div>
@@ -279,25 +273,25 @@
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2 class="modal-title">{{trans('file.Confirmation')}}</h2>
+                    <h2 class="modal-title"><?php echo e(trans('file.Confirmation')); ?></h2>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
-                    <h4 align="center">{{__('Are you sure you want to remove this data?')}}</h4>
+                    <h4 align="center"><?php echo e(__('Are you sure you want to remove this data?')); ?></h4>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger">{{trans('file.OK')}}'
+                    <button type="button" name="ok_button" id="ok_button" class="btn btn-danger"><?php echo e(trans('file.OK')); ?>'
                     </button>
                     <button type="button" class="close btn-default"
-                            data-dismiss="modal">{{trans('file.Cancel')}}</button>
+                            data-dismiss="modal"><?php echo e(trans('file.Cancel')); ?></button>
                 </div>
             </div>
         </div>
     </div>
 
-@endsection
+<?php $__env->stopSection(); ?>
 
-@push('scripts')
+<?php $__env->startPush('scripts'); ?>
 <script type="text/javascript">
 
     (function($) {
@@ -311,7 +305,7 @@
 
             let date = $('.date');
             date.datepicker({
-                format: '{{ env('Date_Format_JS')}}',
+                format: '<?php echo e(env('Date_Format_JS')); ?>',
                 autoclose: true,
                 todayHighlight: true,
                 startDate: new Date(),
@@ -401,7 +395,7 @@
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "{{ route('leaves.index') }}",
+                    url: "<?php echo e(route('leaves.index')); ?>",
                 },
 
                 columns: [
@@ -434,8 +428,8 @@
                         data: null,
                         render: function (data) {
 
-                            return data.start_date + ' {{trans('file.To')}} ' + data.end_date
-                                + "<br>" + ' {{trans('file.Total')}} ' + data.total_days + ' {{trans('file.Days')}} ';
+                            return data.start_date + ' <?php echo e(trans('file.To')); ?> ' + data.end_date
+                                + "<br>" + ' <?php echo e(trans('file.Total')); ?> ' + data.total_days + ' <?php echo e(trans('file.Days')); ?> ';
                         }
                     },
                     {
@@ -452,12 +446,12 @@
 
                 "order": [],
                 'language': {
-                    'lengthMenu': '_MENU_ {{__("records per page")}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
+                    'lengthMenu': '_MENU_ <?php echo e(__("records per page")); ?>',
+                    "info": '<?php echo e(trans("file.Showing")); ?> _START_ - _END_ (_TOTAL_)',
+                    "search": '<?php echo e(trans("file.Search")); ?>',
                     'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
+                        'previous': '<?php echo e(trans("file.Previous")); ?>',
+                        'next': '<?php echo e(trans("file.Next")); ?>'
                     }
                 },
                 'columnDefs': [
@@ -525,15 +519,15 @@
 
 
         $('#create_record').on('click', function () {
-            $('.modal-title').text('{{__('Add Leave')}}');
-            $('#action_button').val('{{trans("file.Add")}}');
-            $('#action').val('{{trans("file.Add")}}');
+            $('.modal-title').text('<?php echo e(__('Add Leave')); ?>');
+            $('#action_button').val('<?php echo e(trans("file.Add")); ?>');
+            $('#action').val('<?php echo e(trans("file.Add")); ?>');
             $('#formModal').modal('show');
         });
 
         $('#sample_form').on('submit', function (event) {
             event.preventDefault();
-            if ($('#action').val() == '{{trans('file.Add')}}') {
+            if ($('#action').val() == '<?php echo e(trans('file.Add')); ?>') {
 
                 let start_date = $("#start_date").datepicker('getDate');
                 let end_date = $("#end_date").datepicker('getDate');
@@ -544,7 +538,7 @@
 
 
                 $.ajax({
-                    url: "{{ route('leaves.store') }}",
+                    url: "<?php echo e(route('leaves.store')); ?>",
                     method: "POST",
                     data: new FormData(this),
                     contentType: false,
@@ -582,13 +576,13 @@
                 })
             }
 
-            if ($('#action').val() == '{{trans('file.Edit')}}') {
+            if ($('#action').val() == '<?php echo e(trans('file.Edit')); ?>') {
 
                 $('#start_date').prop('disabled', false);
                 var totalDays = $('#total_days').val();
                 $('#diff_date_hidden').val(totalDays);
                 $.ajax({
-                    url: "{{ route('leaves.update') }}",
+                    url: "<?php echo e(route('leaves.update')); ?>",
                     method: "POST",
                     data: new FormData(this),
                     contentType: false,
@@ -636,7 +630,7 @@
             let id = $(this).attr('id');
             $('#form_result').html('');
 
-            let target = '{{route('leaves.index')}}/' + id;
+            let target = '<?php echo e(route('leaves.index')); ?>/' + id;
 
             $.ajax({
                 url: target,
@@ -668,7 +662,7 @@
 
 
                     $('#leave_model').modal('show');
-                    $('.modal-title').text("{{__('Leave Info')}}");
+                    $('.modal-title').text("<?php echo e(__('Leave Info')); ?>");
                 }
             });
         });
@@ -679,7 +673,7 @@
             let id = $(this).attr('id');
             $('#form_result').html('');
 
-            let target = "{{ route('leaves.index') }}/" + id + '/edit';
+            let target = "<?php echo e(route('leaves.index')); ?>/" + id + '/edit';
 
             $.ajax({
                 url: target,
@@ -734,9 +728,9 @@
                     $('#hidden_id').val(html.data.id);
                     $('#employee_id_hidden').val(html.data.employee_id);
                     $('#leave_type_hidden').val(html.data.leave_type_id);
-                    $('.modal-title').text('{{trans('file.Edit')}}');
-                    $('#action_button').val('{{trans('file.Edit')}}');
-                    $('#action').val('{{trans('file.Edit')}}');
+                    $('.modal-title').text('<?php echo e(trans('file.Edit')); ?>');
+                    $('#action_button').val('<?php echo e(trans('file.Edit')); ?>');
+                    $('#action').val('<?php echo e(trans('file.Edit')); ?>');
                     $('#formModal').modal('show');
                 }
             })
@@ -748,8 +742,8 @@
         $(document).on('click', '.delete', function () {
             delete_id = $(this).attr('id');
             $('#confirmModal').modal('show');
-            $('.modal-title').text('{{__('DELETE Record')}}');
-            $('#ok_button').text('{{trans('file.OK')}}');
+            $('.modal-title').text('<?php echo e(__('DELETE Record')); ?>');
+            $('#ok_button').text('<?php echo e(trans('file.OK')); ?>');
 
         });
 
@@ -760,9 +754,9 @@
             let table = $('#leave-table').DataTable();
             id = table.rows({selected: true}).ids().toArray();
             if (id.length > 0) {
-                if (confirm('{{__('Delete Selection',['key'=>trans('file.Leave')])}}')) {
+                if (confirm('<?php echo e(__('Delete Selection',['key'=>trans('file.Leave')])); ?>')) {
                     $.ajax({
-                        url: '{{route('mass_delete_leaves')}}',
+                        url: '<?php echo e(route('mass_delete_leaves')); ?>',
                         method: 'POST',
                         data: {
                             leaveIdArray: id
@@ -787,7 +781,7 @@
                     });
                 }
             } else {
-                alert('{{__('Please select atleast one checkbox')}}');
+                alert('<?php echo e(__('Please select atleast one checkbox')); ?>');
             }
         });
 
@@ -801,11 +795,11 @@
         });
 
         $('#ok_button').on('click', function () {
-            let target = "{{ route('leaves.index') }}/" + delete_id + '/delete';
+            let target = "<?php echo e(route('leaves.index')); ?>/" + delete_id + '/delete';
             $.ajax({
                 url: target,
                 beforeSend: function () {
-                    $('#ok_button').text('{{trans('file.Deleting...')}}');
+                    $('#ok_button').text('<?php echo e(trans('file.Deleting...')); ?>');
                 },
                 success: function (data) {
                     let html = '';
@@ -830,7 +824,7 @@
                 let dependent = $(this).data('dependent');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_department') }}",
+                    url: "<?php echo e(route('dynamic_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, dependent: dependent},
                     success: function (result) {
@@ -850,7 +844,7 @@
                 let last_name = $(this).data('last_name');
                 let _token = $('input[name="_token"]').val();
                 $.ajax({
-                    url: "{{ route('dynamic_employee_department') }}",
+                    url: "<?php echo e(route('dynamic_employee_department')); ?>",
                     method: "POST",
                     data: {value: value, _token: _token, first_name: first_name, last_name: last_name},
                     success: function (result) {
@@ -864,4 +858,6 @@
         });
     })(jQuery);
 </script>
-@endpush
+<?php $__env->stopPush(); ?>
+
+<?php echo $__env->make('layout.main', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH /var/www/html/peoplepro_10/resources/views/timesheet/leave/index.blade.php ENDPATH**/ ?>

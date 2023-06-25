@@ -58,7 +58,7 @@ class ClientAutoUpdateController extends Controller
         $general = $this->general();
         $trackGeneralArr = $general['generalData']->general;
 
-        if($action_type =='version_upgrade'){
+        if($action_type =='version_upgrade') {
             $message = 'Version Upgraded Successfully !!!';
             $base_url = 'https://peopleprohrm.com/version_upgrade_files/'; //$this->version_upgrade_base_url;
             $getFilesAndLogsDetail = $this->getVersionUpgradeDetails();

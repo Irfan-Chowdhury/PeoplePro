@@ -203,7 +203,6 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::prefix('staff')->group(function () {
 
         Route::prefix('employees')->group(function () {
-
             Route::resource('/', EmployeeController::class)->names([
                 'index' => 'employees.index',
                 'store' => 'employees.store',
