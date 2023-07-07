@@ -33,8 +33,8 @@ class EmployeeTicketController extends Controller {
 					->addColumn('action', function ($data) use ($logged_user,$employee)
 					{
 						$button = '';
-						if (auth()->user()->can('view-details-employee') || $logged_user->id == $employee)
-						{
+						// if (auth()->user()->can('view-details-employee') || $logged_user->id == $employee)
+						if (auth()->user()->can('view-details-employee') || auth()->user()->can('view-ticket'))						{
 							$button = '<a id="' . $data->id . '" class="show btn btn-primary btn-sm" href="' . route('tickets.show', $data) . '"><i class="dripicons-preview"></i></a>';
 						}
 

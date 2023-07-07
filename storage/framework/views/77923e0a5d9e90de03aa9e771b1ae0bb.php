@@ -271,8 +271,6 @@
                                     aria-hidden="true">×</span></button>
                     </div>
 
-                    
-
                     <div class="modal-body">
                         <span id="leave_form_result"></span>
                         <form method="post" id="leaveSampleForm" class="form-horizontal">
@@ -505,7 +503,8 @@
                                         <input type="hidden" name="company_id" value="<?php echo e($employee->company_id); ?>"/>
                                         <input type="hidden" name="department_id" value="<?php echo e($employee->department_id); ?>"/>
                                         <input type="hidden" name="employee_id" value="<?php echo e($employee->id); ?>"/>
-                                        <input type="hidden" name="ticket_status" value="pending"/>
+                                        
+                                        <input type="hidden" name="ticket_status" value="open"/>
 
                                         <input type="submit" name="action_button" class="btn btn-warning"
                                                value=<?php echo e(trans('file.Add')); ?> />

@@ -147,7 +147,7 @@ class SupportTicketController extends Controller {
 			$data ['ticket_priority'] = $request->ticket_priority;
 			// $data ['ticket_status'] = $request->ticket_status;
 			$data ['ticket_note'] = $request->ticket_note;
-			$data ['ticket_status'] = 'pending';
+			$data ['ticket_status'] = $request->ticket_status ?? 'pending';
 
 			$file = $request->ticket_attachments;
 
@@ -190,7 +190,6 @@ class SupportTicketController extends Controller {
 
 	public function ticketId()
 	{
-
 		$unique = Str::random(8);
 
 		$check = SupportTicket::where('ticket_code', $unique)->first();

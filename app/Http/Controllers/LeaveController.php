@@ -164,7 +164,6 @@ class LeaveController extends Controller
                         $leave->leave_reason,
                     ));
             }
-
             return response()->json(['success' => __('Data Added successfully.')]);
         }
         return response()->json(['success' => __('You are not authorized')]);
@@ -208,20 +207,6 @@ class LeaveController extends Controller
 
     public function update(Request $request)
     {
-        // Test
-
-        // Notification::route('mail', 'irfanchowdhury80@gmail.com')
-        // ->notify(new EmployeeLeaveNotification(
-        //     'Irfan Chowdhury',
-        //     '12',
-        //     '2023-04-19',
-        //     '2023-04-24',
-        //     'Test',
-        // ));
-        // return 456;
-
-        // Test
-
         $logged_user = auth()->user();
 
         if ($logged_user->can('edit-leave')) {

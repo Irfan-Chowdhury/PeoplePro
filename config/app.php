@@ -126,6 +126,9 @@ return [
     'cipher' => 'AES-256-CBC',
 
 
+    'developer_ip' => env('DEVELOPER_IP', NULL),
+
+
     /*
     |--------------------------------------------------------------------------
     | Autoloaded Service Providers

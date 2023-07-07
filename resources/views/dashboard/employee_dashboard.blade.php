@@ -265,85 +265,6 @@
                                     aria-hidden="true">×</span></button>
                     </div>
 
-                    {{-- <div class="modal-body">
-                        <span id="leave_form_result"></span>
-                        <form method="post" id="leaveSampleForm" class="form-horizontal">
-
-                            @csrf
-                            <div class="row">
-
-                                <div class="col-md-6 form-group">
-                                    <label>{{__('Your Remaining Leaves')}}  (Year - {{date('Y')}})</label><br>
-                                    <div class="row">
-                                        <input class="col-sm-6 ml-2" type="number" readonly name="remaining_leave" id="remaining_leave" autocomplete="off" class="form-control" value="{{$employee->remaining_leave}}">
-                                        <span class="ml-2">{{__('Days')}}</span>
-                                    </div>
-                                    <small class="text-danger col-sm-4"><i>(Read Only)</i></small>
-                                </div>
-
-                                <div class="col-md-6 form-group">
-                                    <label>{{__('Leave Type')}}</label>
-                                    <select name="leave_type" id="leave_type" class="form-control selectpicker "
-                                            data-live-search="true" data-live-search-style="contains"
-                                            title='{{__('Selecting',['key'=>__('Leave Type')])}}...'>
-                                        @foreach($leave_types as $leave_type)
-                                            <option value="{{$leave_type->id}}">{{$leave_type->leave_type}}
-                                                ({{$leave_type->allocated_day}} Days)
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-md-6 form-group">
-                                    <label>{{__('Start Date')}}</label>
-                                    <input type="text" name="start_date" id="leave_start_date" class="form-control date"
-                                           value="" required>
-                                </div>
-
-                                <div class="col-md-6 form-group">
-                                    <label>{{__('End Date')}}</label>
-                                    <input type="text" name="end_date" id="leave_end_date" class="form-control date"
-                                           value="" required>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="leave_reason">{{trans('file.Description')}}</label>
-                                        <textarea class="form-control" id="leave_reason" name="leave_reason"
-                                                  rows="3"></textarea>
-                                    </div>
-                                </div>
-
-
-                                <div class="col-md-6 form-group">
-                                    <div class="custom-control custom-checkbox">
-                                        <input type="checkbox" class="custom-control-input" name="is_half"
-                                               id="leave_is_half" value="1">
-                                        <label for="leave_is_half"
-                                               class="custom-control-label">{{__('Half Day')}}</label>
-
-                                    </div>
-                                </div>
-
-
-                                <div class="container">
-                                    <div class="form-group" align="center">
-                                        <input type="hidden" name="company_id" value="{{$employee->company_id}}"/>
-                                        <input type="hidden" name="department_id" value="{{$employee->department_id}}"/>
-                                        <input type="hidden" name="employee_id" value="{{$employee->id}}"/>
-                                        <input type="hidden" name="status" value="pending"/>
-
-                                        <input type="hidden" name="diff_date_hidden" id="diff_date_hidden"/>
-                                        <input type="submit" name="action_button" class="btn btn-warning"
-                                               value={{trans('file.Add')}} />
-                                    </div>
-                                </div>
-                            </div>
-
-                        </form>
-
-                    </div> --}}
-
                     <div class="modal-body">
                         <span id="leave_form_result"></span>
                         <form method="post" id="leaveSampleForm" class="form-horizontal">
@@ -575,7 +496,8 @@
                                         <input type="hidden" name="company_id" value="{{$employee->company_id}}"/>
                                         <input type="hidden" name="department_id" value="{{$employee->department_id}}"/>
                                         <input type="hidden" name="employee_id" value="{{$employee->id}}"/>
-                                        <input type="hidden" name="ticket_status" value="pending"/>
+                                        {{-- <input type="hidden" name="ticket_status" value="pending"/> --}}
+                                        <input type="hidden" name="ticket_status" value="open"/>
 
                                         <input type="submit" name="action_button" class="btn btn-warning"
                                                value={{trans('file.Add')}} />
