@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 		//setting language
-		Schema::defaultStringLength(191);
+		// Schema::defaultStringLength(191);
 		if(isset($_COOKIE['language'])) {
 			App::setLocale($_COOKIE['language']);
 		} else {

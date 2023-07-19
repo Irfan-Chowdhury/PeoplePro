@@ -139,6 +139,10 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
+Route::get('/php-test', function () {
+    return 'ok';
+});
+
 Route::group(['middleware' => ['XSS']], function () {
 
     Route::get('/pdf', function () {
