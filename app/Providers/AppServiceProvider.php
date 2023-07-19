@@ -28,8 +28,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
 		//setting language
-		// Schema::defaultStringLength(191);
-
+		Schema::defaultStringLength(191);
 		if(isset($_COOKIE['language'])) {
 			App::setLocale($_COOKIE['language']);
 		} else {
@@ -37,8 +36,11 @@ class AppServiceProvider extends ServiceProvider
 		}
 
 //		if (!isset(env('Date_Format')) && !isset($_COOKIE['date_format_js'])){
+//
 //			setcookie('date_format', 'Y-m-d', time() + (86400 * 365),'/');
+//
 //			setcookie('date_format_js', 'yyyy-mm-dd', time() + (86400 * 365),'/');
+//
 //		}
 
     }
