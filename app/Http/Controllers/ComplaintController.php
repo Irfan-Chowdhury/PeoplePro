@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Complaint;
-use App\Employee;
+use App\Models\company;
+use App\Models\Complaint;
+use App\Models\Employee;
 use App\Notifications\ComplainAgainstNotify;
 use App\Notifications\ComplaintFromNotify;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

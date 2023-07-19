@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Transfer;
+use App\Models\Transfer;
 
 class EmployeeTransferController extends Controller {
 

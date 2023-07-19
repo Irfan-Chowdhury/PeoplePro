@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\IpSetting;
+use App\Models\IpSetting;
 use App\Providers\RouteServiceProvider;
-use App\User;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-   
+
     use AuthenticatesUsers;
 
     //redirect to the login page
@@ -31,7 +31,7 @@ class LoginController extends Controller
     }
 
      // over riding the method for custom redirecting after login
-     protected function authenticated(Request $request, $user) 
+     protected function authenticated(Request $request, $user)
      {
         //saving login timestamps and ip after login
         $user->timestamps = false;
@@ -42,12 +42,12 @@ class LoginController extends Controller
         if ($user->role_users_id == 1)
         {
             return redirect('/admin/dashboard');
-        } // if client 
+        } // if client
         elseif ($user->role_users_id == 3)
         {
             return redirect('/client/dashboard');
         } //if employee
-        else 
+        else
         {
             return redirect('/employee/dashboard');
         }

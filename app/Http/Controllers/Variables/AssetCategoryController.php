@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\AssetCategory;
+use App\Models\AssetCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\EmployeeLeaveTypeDetail;
-use App\leave;
+use App\Models\EmployeeLeaveTypeDetail;
+use App\Models\leave;
 use Illuminate\Http\Request;
 
 class EmployeeLeaveTypeDetailController extends Controller

@@ -1,5 +1,5 @@
 @php
-    $general_settings = \App\GeneralSetting::latest()->first();
+    $general_settings = \App\Models\GeneralSetting::latest()->first();
 @endphp
 
 <html lang="en">

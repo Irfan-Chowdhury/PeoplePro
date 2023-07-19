@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\TerminationType;
+use App\Models\TerminationType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

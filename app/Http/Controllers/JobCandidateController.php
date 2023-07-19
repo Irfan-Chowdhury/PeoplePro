@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\JobCandidate;
+use App\Models\JobCandidate;
 
 class JobCandidateController extends Controller {
 

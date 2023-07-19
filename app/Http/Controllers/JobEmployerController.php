@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\JobEmployer;
-use App\User;
+use App\Models\JobEmployer;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

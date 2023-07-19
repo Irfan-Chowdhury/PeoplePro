@@ -90,7 +90,7 @@
                 @endif
             </div>
             @php
-                $general_settings = \App\GeneralSetting::latest()->first();
+                $general_settings = \App\Models\GeneralSetting::latest()->first();
             @endphp
             <div class="copyrights text-center">
                 <p>{{ __('Developed by')}} <a href={{$general_settings->footer_link}} class="external">{{$general_settings->footer}}</a></p>

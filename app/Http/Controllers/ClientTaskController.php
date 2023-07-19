@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\company;
+use App\Models\Client;
+use App\Models\company;
 use App\Notifications\ClientTaskCreated;
-use App\Project;
-use App\Task;
-use App\User;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;

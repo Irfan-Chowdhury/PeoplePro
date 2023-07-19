@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
+use App\Models\company;
 use App\Console\Commands\DocumentExpiryReminder;
-use App\DocumentType;
-use App\FileManagerSetting;
-use App\OfficialDocument;
+use App\Models\DocumentType;
+use App\Models\FileManagerSetting;
+use App\Models\OfficialDocument;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\File;

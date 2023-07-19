@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\department;
-use App\Employee;
-use App\leave;
-use App\LeaveType;
+use App\Models\company;
+use App\Models\department;
+use App\Models\Employee;
+use App\Models\leave;
+use App\Models\leaveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;
@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Validator;
 use App\Notifications\EmployeeLeaveNotification; //Mail
 use App\Notifications\LeaveNotification; //Database
 use App\Notifications\LeaveNotificationToAdmin; //Database
-use App\User;
-use App\EmployeeLeaveTypeDetail;
+use App\Models\User;
+use App\Models\EmployeeLeaveTypeDetail;
 use DateTime;
 use Exception;
 use Illuminate\Support\Facades\Notification;

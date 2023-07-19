@@ -1,5 +1,5 @@
 @php
-    $general_settings = App\GeneralSetting::select('site_title', 'site_logo','theme')->firstOrfail();
+    $general_settings = App\Models\GeneralSetting::select('site_title', 'site_logo','theme')->firstOrfail();
 @endphp
 <!DOCTYPE html>
 <html lang="en">

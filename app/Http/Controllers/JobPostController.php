@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\JobCategory;
-use App\JobPost;
+use App\Models\company;
+use App\Models\JobCategory;
+use App\Models\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

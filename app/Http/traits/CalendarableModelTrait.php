@@ -4,14 +4,14 @@
 namespace App\Http\traits;
 
 
-use App\Event;
-use App\Holiday;
-use App\leave;
-use App\Meeting;
-use App\Project;
-use App\Task;
-use App\TrainingList;
-use App\Travel;
+use App\Models\Event;
+use App\Models\Holiday;
+use App\Models\leave;
+use App\Models\Meeting;
+use App\Models\Project;
+use App\Models\Task;
+use App\Models\TrainingList;
+use App\Models\Travel;
 
 Trait CalendarableModelTrait {
 

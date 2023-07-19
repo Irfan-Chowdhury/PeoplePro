@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use App\department;
-use App\EmployeeImmigration;
+use App\Models\department;
+use App\Models\EmployeeImmigration;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
-use App\Employee;
-use App\User;
+use App\Models\Employee;
+use App\Models\User;
 use App\Notifications\EmployeeImmigrationExpiryNotify;
 use App\Notifications\EmployeeImmigrationExpiryNotifyToAdmin;
 

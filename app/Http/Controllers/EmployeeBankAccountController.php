@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\EmployeeBankAccount;
+use App\Models\Employee;
+use App\Models\EmployeeBankAccount;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

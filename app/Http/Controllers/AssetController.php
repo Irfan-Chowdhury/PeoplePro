@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Asset;
-use App\AssetCategory;
-use App\company;
-use App\Employee;
+use App\Models\Asset;
+use App\Models\AssetCategory;
+use App\Models\company;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;

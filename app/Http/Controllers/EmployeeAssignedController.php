@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 
 use App\Notifications\TicketAssignedNotification;
-use App\Project;
-use App\SupportTicket;
-use App\Task;
-use App\User;
+use App\Models\Project;
+use App\Models\SupportTicket;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 

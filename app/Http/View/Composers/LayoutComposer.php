@@ -8,7 +8,7 @@ use Illuminate\View\View;
 use JoeDixon\Translation\Drivers\Translation;
 
 
-use App\GeneralSetting;
+use App\Models\GeneralSetting;
 
 
 class LayoutComposer {

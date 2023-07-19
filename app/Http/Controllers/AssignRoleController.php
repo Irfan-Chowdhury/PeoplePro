@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
-use App\Employee;
+use App\Models\Employee;
 
 class AssignRoleController extends Controller {
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\SupportTicket;
+use App\Models\SupportTicket;
 
 class EmployeeTicketController extends Controller {
 

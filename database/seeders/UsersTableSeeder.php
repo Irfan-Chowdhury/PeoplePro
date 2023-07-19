@@ -9,7 +9,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         //
-		\App\User::insert([[
+		\App\Models\User::insert([[
 			'username'=>'ash',
 			'email'=>'ash@test.com',
 			'password'=> bcrypt('admin'),

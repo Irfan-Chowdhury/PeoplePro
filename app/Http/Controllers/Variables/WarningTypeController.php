@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\WarningType;
+use App\Models\WarningType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

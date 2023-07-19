@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Trainer;
+use App\Models\company;
+use App\Models\Trainer;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

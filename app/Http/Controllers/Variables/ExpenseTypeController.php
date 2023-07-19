@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\ExpenseType;
+use App\Models\ExpenseType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

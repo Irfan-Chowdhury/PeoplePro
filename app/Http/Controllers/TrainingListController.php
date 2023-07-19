@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Employee;
-use App\Trainer;
-use App\TrainingList;
-use App\TrainingType;
+use App\Models\company;
+use App\Models\Employee;
+use App\Models\Trainer;
+use App\Models\TrainingList;
+use App\Models\TrainingType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

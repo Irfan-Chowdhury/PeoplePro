@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\company;
+use App\Models\company;
 use App\Notifications\ClientProjectNotification;
-use App\Project;
+use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;

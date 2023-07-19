@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Employee;
-use App\FinanceBankCash;
-use App\FinanceExpense;
-use App\FinanceTransaction;
+use App\Models\company;
+use App\Models\Employee;
+use App\Models\FinanceBankCash;
+use App\Models\FinanceExpense;
+use App\Models\FinanceTransaction;
 use App\Http\traits\TotalSalaryTrait;
-use App\Payslip;
-use App\SalaryLoan;
+use App\Models\Payslip;
+use App\Models\SalaryLoan;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Throwable;
 use App\Http\traits\MonthlyWorkedHours;
-use App\SalaryBasic;
+use App\Models\SalaryBasic;
 
 class PayrollController extends Controller {
 

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\ExpenseType;
-use App\FinanceBankCash;
-use App\FinanceExpense;
-use App\FinancePayees;
-use App\FinanceTransaction;
-use App\PaymentMethod;
+use App\Models\ExpenseType;
+use App\Models\FinanceBankCash;
+use App\Models\FinanceExpense;
+use App\Models\FinancePayees;
+use App\Models\FinanceTransaction;
+use App\Models\PaymentMethod;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

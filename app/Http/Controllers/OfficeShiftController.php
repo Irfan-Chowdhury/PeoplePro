@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\office_shift;
+use App\Models\company;
+use App\Models\office_shift;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

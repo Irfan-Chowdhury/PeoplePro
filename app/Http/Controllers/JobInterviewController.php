@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\JobCandidate;
-use App\JobInterview;
-use App\JobPost;
+use App\Models\Employee;
+use App\Models\JobCandidate;
+use App\Models\JobInterview;
+use App\Models\JobPost;
 use App\Notifications\InterviewHostNotification;
 use App\Notifications\JobInterviewNotification;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

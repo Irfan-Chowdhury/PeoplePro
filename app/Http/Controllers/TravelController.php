@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Employee;
+use App\Models\company;
+use App\Models\Employee;
 use App\Notifications\EmployeeTravelStatus;
-use App\Travel;
-use App\TravelType;
-use App\User;
+use App\Models\Travel;
+use App\Models\TravelType;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

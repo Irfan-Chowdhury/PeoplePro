@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\location;
+use App\Models\Employee;
+use App\Models\location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

@@ -1,8 +1,8 @@
 <?php
 namespace App\Http\traits;
 
-use App\EmployeeLeaveTypeDetail;
-use App\LeaveType;
+use App\Models\EmployeeLeaveTypeDetail;
+use App\Models\leaveType;
 
 trait LeaveTypeDataManageTrait{
 

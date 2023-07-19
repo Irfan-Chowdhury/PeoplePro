@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Employee;
+use App\Models\company;
+use App\Models\Employee;
 use App\Notifications\CompanyPolicyNotify;
-use App\Policy;
-use App\User;
+use App\Models\Policy;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;

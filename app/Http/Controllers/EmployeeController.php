@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\department;
-use App\designation;
-use App\DocumentType;
-use App\Employee;
+use App\Models\company;
+use App\Models\department;
+use App\Models\designation;
+use App\Models\DocumentType;
+use App\Models\Employee;
 use App\Http\traits\LeaveTypeDataManageTrait;
 use App\Imports\UsersImport;
-use App\office_shift;
-use App\QualificationEducationLevel;
-use App\QualificationLanguage;
-use App\QualificationSkill;
-use App\status;
-use App\User;
+use App\Models\office_shift;
+use App\Models\QualificationEducationLevel;
+use App\Models\QualificationLanguage;
+use App\Models\QualificationSkill;
+use App\Models\status;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf as PDF;
 use Exception;
 use Illuminate\Http\Request;

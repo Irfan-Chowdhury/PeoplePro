@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\leave;
+use App\Models\leave;
 
 class EmployeeLeaveController extends Controller {
 

@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Role_User;
+use App\Models\Role_User;
 use Illuminate\Database\Seeder;
 
 class Role_UsersTableSeeder extends Seeder {

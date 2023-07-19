@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Travel;
+use App\Models\Travel;
 
 class EmployeeTravelController extends Controller {
 

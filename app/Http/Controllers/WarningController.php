@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\Employee;
+use App\Models\company;
+use App\Models\Employee;
 use App\Notifications\EmployeeWarningNotify;
-use App\User;
-use App\Warning;
-use App\WarningType;
+use App\Models\User;
+use App\Models\Warning;
+use App\Models\WarningType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

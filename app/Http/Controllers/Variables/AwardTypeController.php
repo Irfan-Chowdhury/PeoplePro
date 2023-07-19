@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\AwardType;
+use App\Models\AwardType;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;

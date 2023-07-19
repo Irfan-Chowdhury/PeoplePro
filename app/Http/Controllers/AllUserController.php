@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\Client;
-use App\Role_User;
-use App\User;
+use App\Models\Employee;
+use App\Models\Client;
+use App\Models\Role_User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Permission\Models\Role;

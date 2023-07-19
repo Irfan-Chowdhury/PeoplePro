@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
+use App\Models\Employee;
 use App\Http\traits\ENVFilePutContent;
-use App\FinanceBankCash;
-use App\GeneralSetting;
-use App\LeaveType;
+use App\Models\FinanceBankCash;
+use App\Models\GeneralSetting;
+use App\Models\leaveType;
 use App\Notifications\EmployeeLeaveNotification;
-use App\User;
+use App\Models\User;
 use DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;

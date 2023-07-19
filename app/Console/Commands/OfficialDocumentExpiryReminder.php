@@ -4,10 +4,10 @@ namespace App\Console\Commands;
 
 
 use App\Notifications\OfficialDocumentExpiry;
-use App\OfficialDocument;
+use App\Models\OfficialDocument;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Notification;
-use App\User;
+use App\Models\User;
 use App\Notifications\OfficialDocumentExpiryNotifyToAdmin;
 
 class OfficialDocumentExpiryReminder extends Command

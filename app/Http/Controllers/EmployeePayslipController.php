@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Payslip;
+use App\Models\Payslip;
 
 class EmployeePayslipController extends Controller
 {

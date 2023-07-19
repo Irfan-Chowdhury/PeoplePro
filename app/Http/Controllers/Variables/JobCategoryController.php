@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Variables;
 
 use App\Http\Controllers\Controller;
-use App\JobCategory;
+use App\Models\JobCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;

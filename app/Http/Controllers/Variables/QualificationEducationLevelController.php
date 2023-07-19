@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Variables;
 
 use App\Http\Controllers\Controller;
-use App\QualificationEducationLevel;
+use App\Models\QualificationEducationLevel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

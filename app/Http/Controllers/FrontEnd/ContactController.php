@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\FrontEnd;
 
 
-use App\CMS;
+use App\Models\CMS;
 
 class ContactController {
 

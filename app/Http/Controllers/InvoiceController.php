@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Invoice;
-use App\InvoiceItem;
+use App\Models\Invoice;
+use App\Models\InvoiceItem;
 use App\Notifications\InvoicePaidNotification;
 use App\Notifications\InvoiceReceivedNotification;
-use App\Project;
-use App\TaxType;
-use App\User;
+use App\Models\Project;
+use App\Models\TaxType;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;

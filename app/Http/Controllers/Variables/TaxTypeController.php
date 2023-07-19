@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Variables;
 use App\Http\Controllers\Controller;
-use App\TaxType;
+use App\Models\TaxType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

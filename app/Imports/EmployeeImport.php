@@ -3,8 +3,8 @@
 
 namespace App\Imports;
 
-use App\Employee;
-use App\User;
+use App\Models\Employee;
+use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Hash;

@@ -3,12 +3,12 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 namespace Database\Factories;
 
-use App\company;
-use App\department;
-use App\designation;
-use App\Employee;
+use App\Models\company;
+use App\Models\department;
+use App\Models\designation;
+use App\Models\Employee;
 use App\Model;
-use App\User;
+use App\Models\User;
 use Faker\Generator as Faker;
 
 $factory->define(Employee::class, function (Faker $faker) {

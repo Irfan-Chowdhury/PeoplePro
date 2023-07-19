@@ -4,7 +4,7 @@
 namespace App\Http\Controllers\Variables;
 
 
-use App\status;
+use App\Models\status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

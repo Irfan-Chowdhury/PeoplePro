@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\department;
-use App\designation;
-use App\Employee;
-use App\FinanceBankCash;
-use App\JobCandidate;
-use App\office_shift;
-use App\SupportTicket;
-use App\TaxType;
+use App\Models\department;
+use App\Models\designation;
+use App\Models\Employee;
+use App\Models\FinanceBankCash;
+use App\Models\JobCandidate;
+use App\Models\office_shift;
+use App\Models\SupportTicket;
+use App\Models\TaxType;
 use Illuminate\Http\Request;
 
 class DynamicDependent extends Controller {

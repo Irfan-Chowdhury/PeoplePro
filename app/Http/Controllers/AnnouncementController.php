@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Announcement;
-use App\company;
-use App\department;
-use App\Employee;
+use App\Models\Announcement;
+use App\Models\company;
+use App\Models\department;
+use App\Models\Employee;
 use App\Notifications\AnnouncementPublished;
-use App\User;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Notification;

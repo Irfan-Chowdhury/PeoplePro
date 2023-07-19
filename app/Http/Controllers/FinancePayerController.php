@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\FinancePayers;
+use App\Models\FinancePayers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

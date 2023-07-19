@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 
-use App\Project;
-use App\ProjectFile;
+use App\Models\Project;
+use App\Models\ProjectFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 

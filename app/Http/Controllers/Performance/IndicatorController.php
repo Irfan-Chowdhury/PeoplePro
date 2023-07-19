@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Performance;
 
-use App\company;
-use App\designation;
+use App\Models\company;
+use App\Models\designation;
 use App\Http\Controllers\Controller;
-use App\Indicator;
+use App\Models\Indicator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;

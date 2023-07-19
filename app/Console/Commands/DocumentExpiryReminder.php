@@ -2,10 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\User;
-use App\Employee;
-use App\department;
-use App\EmployeeDocument;
+use App\Models\User;
+use App\Models\Employee;
+use App\Models\department;
+use App\Models\EmployeeDocument;
 use App\Notifications\DocumentExpiry;
 use App\Notifications\EmployeeDocumentExpiryNotifyToAdmin;
 use App\Notifications\EmployeeDocumentExpiryNotifyToDeptartmentHead;

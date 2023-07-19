@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\location;
+use App\Models\company;
+use App\Models\location;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;

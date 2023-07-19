@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Client;
-use App\company;
+use App\Models\Client;
+use App\Models\company;
 use App\Notifications\ProjectCreatedNotifiaction;
 use App\Notifications\ProjectUpdatedNotification;
-use App\Project;
-use App\User;
+use App\Models\Project;
+use App\Models\User;
 use DB;
 use Exception;
 use Illuminate\Http\Request;

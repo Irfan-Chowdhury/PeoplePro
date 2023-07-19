@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Employee;
-use App\SupportTicket;
-use App\TicketComments;
+use App\Models\Employee;
+use App\Models\SupportTicket;
+use App\Models\TicketComments;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;

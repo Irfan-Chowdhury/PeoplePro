@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\FinanceBankCash;
-use App\GeneralSetting;
+use App\Models\FinanceBankCash;
+use App\Models\GeneralSetting;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

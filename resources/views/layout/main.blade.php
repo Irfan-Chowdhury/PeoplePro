@@ -896,7 +896,7 @@
 </nav>
 
 @php
-    $general_settings = \App\GeneralSetting::latest()->first();
+    $general_settings = \App\Models\GeneralSetting::latest()->first();
 @endphp
 
 <div id="content" class="page animate-bottom d-none">

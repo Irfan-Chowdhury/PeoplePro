@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\company;
-use App\department;
-use App\designation;
-use App\Employee;
+use App\Models\company;
+use App\Models\department;
+use App\Models\designation;
+use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
