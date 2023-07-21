@@ -7,10 +7,6 @@ use Exception;
 use Illuminate\View\View;
 use JoeDixon\Translation\Drivers\Translation;
 
-
-use App\Models\GeneralSetting;
-
-
 class LayoutComposer {
 
 	private $translation;
@@ -22,12 +18,8 @@ class LayoutComposer {
 
 	public function compose(View $view)
 	{
-
-		$general_settings = GeneralSetting::select('site_title', 'site_logo','theme')->firstOrfail();
-
 		$languages = $this->translation->allLanguages();
-
-		$view->with(['general_settings'=>$general_settings,'languages'=>$languages]);
+		$view->with('languages', $languages);
 	}
 
 }
