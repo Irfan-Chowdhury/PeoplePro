@@ -8,7 +8,10 @@
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
-    <title>PeoplePro - HRM, Payroll, Project Management</title>
+    <title>
+        {{ $general_settings->site_title ?? null}}
+    </title>
+
     <meta name="description" content="PeoplePro offers a comprehensive HR & payroll solution to manage all of your business HR needs which can also be customized according to your requirements." />
     <meta name="author" content="LionCoders">
     <meta name="copyright" content="LionCoders">
@@ -2828,7 +2831,7 @@
             <h3>SUPPORT</h3>
             <hr class="notop">
         </div>
-        <p> We are happy to provide support for any issues within our software. We also provide customization service for as little as $15/hour. So if you have any features in mind or suugestions, please feel free to knock us at <a href="https://lion-coders.com/support">lion-coders.com/support</a>. Please note that we don't provide support though any other means (example- whatsapp, remote platform, comments etc.). So, please refrain from commenting your queries on codecanyon or kocking us elsewhere.</p>
+        <p> We are happy to provide support for any issues within our software. We also provide customization service for as little as $15/hour. So if you have any features in mind or suugestions, please feel free to knock us at <a href="https://lion-coders.com/support">lion-coders.com/support</a>. Please note that we don't provide support though any other means (example- whatsapp, remote platform, comments etc). And if any client modify/add any code of our script and then face problem, we don't provide the support on that specific feature where he/she face problem. We only fix the bugs/issues if it's exists from previous. So, please refrain from commenting your queries on codecanyon or kocking us elsewhere.</p>
         <p>Also, in case of any errors/bugs/issues on your installation, please contact us with your hosting details (url, username, password), software admin access (url, username, password) and purchase code. If your support period has expired, please renew support on codecanyon before contacting us for support.</p>
         <p>Thank you and with best wishes - <a href="http://lion-coders.com">LionCoders</a></p>
     </section>
