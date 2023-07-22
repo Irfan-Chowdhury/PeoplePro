@@ -9,7 +9,7 @@
 						<img src="<?php echo e(asset('/images/logo/'.$general_settings->site_logo)); ?>" width="140" height="70">
                         &nbsp; &nbsp;
                     <?php endif; ?>
-                        <!-- <h1 class="d-inline" id="site_title_main"><?php echo e($general_settings->site_title ?? "No title"); ?></h1> -->
+                         
                 </span>
 
 

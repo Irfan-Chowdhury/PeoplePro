@@ -36,6 +36,7 @@ class ViewComposerServiceProvider extends ServiceProvider
             'dashboard',
             'layout.client',
             'frontend.Layout.navigation',
+            'documentation.index',
             'vendor.translation.layout'
         ], function ($view) use ($general_settings) {
             $view->with('general_settings', $general_settings);
