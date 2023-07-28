@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Database\Seeders\DepartmentTableSeeder;
+// use Database\Seeders\CountriesTableSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,10 +15,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // $this->call(UsersTableSeeder::class);
-        $this->call(DepartmentTableSeeder::class);
-        // $this->call([
-        //     DepartmentTableSeeder::class,
-        // ]);
+
+        $this->call([
+            CountriesTableSeeder::class,
+            GeneralSettingSeeder::class,
+            PermissionsSeeder::class,
+            RoleSeeder::class,
+            UserSeeder::class,
+        ]);
 
     }
 }

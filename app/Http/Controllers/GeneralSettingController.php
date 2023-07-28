@@ -119,7 +119,6 @@ class GeneralSettingController extends Controller
 			{
 				$file_path = $general_setting->site_logo;
 
-
 				if ($file_path)
 				{
 					$file_path = public_path('images/logo/' . $file_path);
