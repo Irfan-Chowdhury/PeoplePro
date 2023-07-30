@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Variables;
 use App\Models\Employee;
 use App\Models\EmployeeLeaveTypeDetail;
 use App\Http\traits\LeaveTypeDataManageTrait;
-use App\Models\leaveType;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -18,13 +18,16 @@ class LeaveTypeController {
 	{
 		if (request()->ajax())
 		{
-			return datatables()->of(LeaveType::select('id', 'leave_type','allocated_day')->get())
-				->setRowId(function ($leave_type)
+            $data = LeaveType::select('id', 'leave_type','allocated_day')->get();
+
+			return datatables()->of($data)
+				->setRowId(function ($data)
 				{
-					return $leave_type->id;
+					return $data->id;
 				})
 				->addColumn('action', function ($data)
 				{
+                    return 4;
 					if (auth()->user()->can('user-edit'))
 					{
                         $button = "";

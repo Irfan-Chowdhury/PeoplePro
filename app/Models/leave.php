@@ -21,7 +21,7 @@ class leave extends Model
 	}
 
 	public function LeaveType(){
-		return $this->hasOne('App\Models\leaveType','id','leave_type_id');
+		return $this->hasOne('App\Models\LeaveType','id','leave_type_id');
 	}
 
 	public function employee(){

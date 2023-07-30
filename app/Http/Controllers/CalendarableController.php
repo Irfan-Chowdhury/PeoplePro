@@ -6,7 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\company;
 use App\Http\traits\CalendarableModelTrait;
-use App\Models\leaveType;
+use App\Models\LeaveType;
 use App\Models\Project;
 use App\Models\Trainer;
 use App\Models\TrainingType;

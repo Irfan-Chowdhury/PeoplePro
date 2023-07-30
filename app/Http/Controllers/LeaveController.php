@@ -6,7 +6,7 @@ use App\Models\company;
 use App\Models\department;
 use App\Models\Employee;
 use App\Models\leave;
-use App\Models\leaveType;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Validator;

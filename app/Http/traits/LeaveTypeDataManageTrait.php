@@ -2,7 +2,7 @@
 namespace App\Http\traits;
 
 use App\Models\EmployeeLeaveTypeDetail;
-use App\Models\leaveType;
+use App\Models\LeaveType;
 
 trait LeaveTypeDataManageTrait{
 

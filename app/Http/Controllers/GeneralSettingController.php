@@ -6,7 +6,7 @@ use App\Models\Employee;
 use App\Http\traits\ENVFilePutContent;
 use App\Models\FinanceBankCash;
 use App\Models\GeneralSetting;
-use App\Models\leaveType;
+use App\Models\LeaveType;
 use App\Notifications\EmployeeLeaveNotification;
 use App\Models\User;
 use DB;
