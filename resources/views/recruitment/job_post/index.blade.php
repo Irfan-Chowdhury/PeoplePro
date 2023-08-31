@@ -468,8 +468,9 @@
         });
 
         $('#sample_form').on('submit', function (event) {
-
             event.preventDefault();
+            // return console.log(123);
+
             if ($('#action').val() == '{{trans('file.Add')}}') {
                 $.ajax({
                     url: "{{ route('job_posts.store') }}",

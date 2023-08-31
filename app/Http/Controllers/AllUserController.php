@@ -47,7 +47,7 @@ class AllUserController extends Controller {
                                         <div>"
                                             .$full_name.'</br>'.$username.'</br>'.
                                             // '<b>Role :</b> '.$row->RoleUser->role_name;
-                                            '<b>Role :</b> '.$row->RoleUser->name;
+                                            '<b>Role :</b> '.$row->RoleUser->name.
                                         "</div>
                                     </div>";
 

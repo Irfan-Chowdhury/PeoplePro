@@ -4,6 +4,10 @@
 
 @include('includes.session_message')
 
+@php
+    $general_settings = \App\Models\GeneralSetting::latest()->first();
+@endphp
+
 <div class="container-fluid mt-4">
     <div class="card">
 

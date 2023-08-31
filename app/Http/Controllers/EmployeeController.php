@@ -466,7 +466,6 @@ class EmployeeController extends Controller
 
     public function infoUpdate(Request $request, $employee)
     {
-        return 12;
         $logged_user = auth()->user();
 
         if ($logged_user->can('modify-details-employee')) {

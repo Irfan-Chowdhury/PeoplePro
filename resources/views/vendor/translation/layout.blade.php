@@ -1,3 +1,7 @@
+@php
+    $general_settings = \App\Models\GeneralSetting::latest()->first();
+@endphp
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

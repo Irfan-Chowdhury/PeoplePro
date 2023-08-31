@@ -45,6 +45,7 @@ class TrainingTypeController {
 
 	public function store(Request $request)
 	{
+
 		$logged_user = auth()->user();
 
 		if ($logged_user->can('user-add'))
@@ -66,17 +67,16 @@ class TrainingTypeController {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
-			$data = [];
-
-			$data['type'] = $request->get('type');
-
-			TrainingType::create($data);
-
+            try {
+                $data = [];
+                $data['type'] = $request->get('type');
+                TrainingType::create($data);
+            } catch (\Exception $e) {
+                return response()->json($e->getMessage());
+            }
 			return response()->json(['success' => __('Data Added successfully.')]);
 		}
-
 		return abort('403', __('You are not authorized'));
-
 	}
 
 

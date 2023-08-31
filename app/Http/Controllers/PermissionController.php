@@ -22,17 +22,17 @@ class PermissionController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	public function rolePermission($id){
-		if (auth()->user()->can('set-permission'))
-		{
+	public function rolePermission($id)
+    {
+		if (auth()->user()->can('set-permission')) {
 
             //Remove This Part Later
-            DB::table('permissions')
-            ->updateOrInsert(
-                ['name' => 'report-pension'],
-                ['guard_name' => 'web']
-            );
-            //Remove This Part Later
+            // DB::table('permissions')
+            // ->updateOrInsert(
+            //     ['name' => 'report-pension'],
+            //     ['guard_name' => 'web']
+            // );
+            // //Remove This Part Later
 
 			$role = Role::findById($id);
 			return view('settings.roles.permission',compact('role'));

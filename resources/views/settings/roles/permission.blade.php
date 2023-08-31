@@ -75,9 +75,7 @@
                         checkboxes: {
                             checkChildren: true
                         },
-
                         check: onCheck,
-
                         dataSource: [
                             {
                                 id: 'user',
@@ -630,11 +628,8 @@
                         checkboxes: {
                             checkChildren: true
                         },
-
                         check: onCheck,
-
                         dataSource: [
-
                             {
                                 id: 'payment-module',
                                 text: "{{trans('Payment Module')}}",
@@ -668,7 +663,6 @@
                                     },
                                 ]
                             },
-
                             {
                                 id: 'hr_report',
                                 text: "{{trans('HR Reports')}}",
@@ -737,7 +731,6 @@
                                     },
                                 ]
                             },
-
                             {
                                 id: 'recruitment',
                                 text: "{{__('Recruitment')}}",
@@ -833,7 +826,6 @@
                                     },
                                 ]
                             },
-
                             {
                                 id: 'project-management',
                                 text: "{{trans('Project Management')}}",
@@ -964,8 +956,6 @@
                                     },
                                 ]
                             },
-
-
                             {
                                 id: 'ticket',
                                 text: "{{trans('Ticket')}}",
@@ -999,7 +989,6 @@
                                     },
                                 ]
                             },
-
                             {
                                 id: 'file_module',
                                 text: "{{trans('File Module')}}",
@@ -1071,8 +1060,6 @@
                                     },
                                 ]
                             },
-
-
                             {
                                 id: 'event-meeting',
                                 text: "{{trans('Event and Meeting')}}",
@@ -1138,7 +1125,6 @@
                                     },
                                 ]
                             },
-
                             {
                                 id: 'assets-and-category',
                                 text: "{{trans('Assets And Category')}}",
@@ -1212,9 +1198,7 @@
                         checkboxes: {
                             checkChildren: true
                         },
-
                         check: onCheck,
-
                         dataSource: [
                             {
                                 id: 'finance',

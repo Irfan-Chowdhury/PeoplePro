@@ -134,14 +134,21 @@ use App\Http\Controllers\Variables\VariableController;
 use App\Http\Controllers\Variables\VariableMethodController;
 use App\Http\Controllers\Variables\WarningTypeController;
 use App\Http\Controllers\WarningController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
-Route::get('/php-test', function () {
-    return 'ok';
-});
+// Route::get('/upsert_test', function () {
+//     $existingData = [
+//         ['first_name'=> 'Irfan', 'last_name'=>'Chowdhury', 'email' => 'admin@gmail.com', 'contact_no'=>'1234', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
+//         ['first_name'=> 'Sahiba', 'last_name'=>'Khatun', 'email' => 'sahiba@gmail.com', 'contact_no'=>'387292822', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
+//         ['first_name'=> 'John', 'last_name'=>'Cena', 'email' => 'johncena@hotmail.com', 'contact_no'=>'456372794', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
+//     ];
+//     User::insert($existingData);
+//     return 'Inserted';
+// });
 
 Route::group(['middleware' => ['XSS']], function () {
 
