@@ -44,14 +44,17 @@ PeoplePro HRM, Payroll & Project Management system is a comprehensive and cuttin
 Developed, maintained and client support for the Peoplepro HRM Laravel app since the last two years, contributing to its ongoing success and functionality. The app is designed to streamline human resource management processes and enhance organizational efficiency.
 
 - Devloped IP Based Attendance System.
-- Modified Role
+- Modified Role and Permission
 - Updated Attendance System
 - Updated and added new feature the full Leave Management system.
 - Updated and added new feature - Payroll Management System.
 - HR Reports
-- Added Performance (Goal Type, Goal Tracking, Indicator, Appraisal)
+- Devloped Performance Feature (Goal Type, Goal Tracking, Indicator, Appraisal)
+- Devloped Auto Update System
+- Continously Add New Features
 - Continously Bug Fixing
 - Continously Client Support
+- Try to write clean and maintaible code according to Industry best practice.
 
 ## Visit
 Demo : https://peopleprohrm.com/demo/
