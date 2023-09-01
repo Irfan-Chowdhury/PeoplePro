@@ -70,3 +70,7 @@ CodeCanyon : https://codecanyon.net/item/peoplepro-hrm-payroll-project-managemen
 
 - #### Contributors : [Irfan Chowdhury](https://github.com/Irfan-Chowdhury) <small><i>[January, 2021 - Present]</i></small>
 
+
+
+##### <p>[Note:  Due to copyright reasons, the migration files have been kept hide]</p>
+
