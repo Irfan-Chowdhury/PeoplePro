@@ -1,6 +1,11 @@
 !/database/migrations/factories
 !/database/migrations/seeders
+!/database/migrations/note.txt
 /.phpunit.cache
+
+/public
+/track
+
 /node_modules
 /public/build
 /public/hot
@@ -21,5 +26,5 @@ yarn-error.log
 /.vscode
 
 
-# git rm -r --cached database && git add -f database/factories && git add -f database/seeders && git add -f database/note.txt
+# git rm -r --cached database/migrations
 

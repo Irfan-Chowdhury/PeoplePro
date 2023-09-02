@@ -1,3 +1,7 @@
+##### [ <i>Alert:  Due to copyright issue, some necessary files have been kept hide</i> ]
+<br>
+
+
 <p align="center"><img src="https://snipboard.io/2Sn5MK.jpg" width="400"></p>
 
 
@@ -69,8 +73,3 @@ CodeCanyon : https://codecanyon.net/item/peoplepro-hrm-payroll-project-managemen
 -  #### Original Developer :  [Ashraf Shahadat](https://github.com/Ash-raf10) <small><i>[Till 2020]</i></small>
 
 - #### Contributors : [Irfan Chowdhury](https://github.com/Irfan-Chowdhury) <small><i>[January, 2021 - Present]</i></small>
-
-
-
-##### <p>[Note:  Due to copyright reasons, the migration files have been kept hide]</p>
-
