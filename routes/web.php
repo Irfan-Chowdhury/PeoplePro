@@ -1,15 +1,5 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 use App\Http\Controllers\AccountListController;
 use App\Http\Controllers\AllUserController;
@@ -77,6 +67,7 @@ use App\Http\Controllers\LanguageSettingController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MeetingController;
+use App\Http\Controllers\AddonController;
 use App\Http\Controllers\OfficeShiftController;
 use App\Http\Controllers\OfficialDocumentController;
 use App\Http\Controllers\PayrollController;
@@ -140,15 +131,27 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes(['register' => false]);
 
-// Route::get('/upsert_test', function () {
-//     $existingData = [
-//         ['first_name'=> 'Irfan', 'last_name'=>'Chowdhury', 'email' => 'admin@gmail.com', 'contact_no'=>'1234', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
-//         ['first_name'=> 'Sahiba', 'last_name'=>'Khatun', 'email' => 'sahiba@gmail.com', 'contact_no'=>'387292822', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
-//         ['first_name'=> 'John', 'last_name'=>'Cena', 'email' => 'johncena@hotmail.com', 'contact_no'=>'456372794', 'role_users_id'=>1, 'is_active'=>1, 'password' => bcrypt('admin')],
-//     ];
-//     User::insert($existingData);
-//     return 'Inserted';
-// });
+Route::prefix('addons')->group(function () {
+    Route::controller(AddonController::class)->group(function () {
+        Route::get('/', 'index')->name('addons');
+
+        Route::prefix('saas')->group(function () {
+            Route::get('install/step-1', 'saasInstallStep1')->name('saas-install-step-1');
+            Route::get('install/step-2', 'saasInstallStep2')->name('saas-install-step-2');
+            Route::get('install/step-3', 'saasInstallStep3')->name('saas-install-step-3');
+            Route::post('install/process', 'saasInstallProcess')->name('saas-install-process');
+            Route::get('install/step-4', 'saasInstallStep4')->name('saas-install-step-4');
+        });
+    });
+});
+
+// Route::get('/addons', [AddonController::class, 'index']);
+// Route::get('/saas-install/step-1', [AddonController::class, 'saasInstallStep1']);
+// Route::get('/saas-install/step-2', [AddonController::class, 'saasInstallStep2']);
+// Route::get('/saas-install/step-3', [AddonController::class, 'saasInstallStep3']);
+// Route::post('/saas-install/process', [AddonController::class, 'saasInstallProcess'])->name('saas-install-process');
+// Route::get('/saas-install/step-4', [AddonController::class, 'saasInstallStep4']);
+
 
 Route::group(['middleware' => ['XSS']], function () {
 
