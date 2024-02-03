@@ -3,7 +3,6 @@
 
 namespace App\Http\Controllers\Variables;
 
-
 use App\Models\WarningType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,9 +10,7 @@ use Illuminate\Support\Facades\Validator;
 class WarningTypeController {
 	public function index()
 	{
-
-		if (request()->ajax())
-		{
+		if (request()->ajax()) {
 			return datatables()->of(WarningType::select('id', 'warning_title')->get())
 				->setRowId(function ($warning_type)
 				{
@@ -21,7 +18,7 @@ class WarningTypeController {
 				})
 				->addColumn('action', function ($data)
 				{
-					if (auth()->user()->can('user-edit'))
+					if (auth()->user()->can('access-variable_type'))
 					{
 						$button = '<button type="button" name="edit" id="' . $data->id . '" class="warning_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 						$button .= '&nbsp;&nbsp;';
@@ -43,7 +40,7 @@ class WarningTypeController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$validator = Validator::make($request->only('warning_title'),
 				[
@@ -104,7 +101,7 @@ class WarningTypeController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-edit'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$id = $request->hidden_warning_id;
 
@@ -155,7 +152,7 @@ class WarningTypeController {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-delete'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			WarningType::whereId($id)->delete();
 			return response()->json(['success' => __('Data is successfully deleted')]);

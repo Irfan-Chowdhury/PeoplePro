@@ -19,10 +19,9 @@ class FileManagerSettingController extends Controller
 	public function store(Request $request)
 	{
 
-
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('view-file_config'))
 		{
 			$validator = Validator::make($request->only('allowed_extensions', 'max_file_size'),
 				[

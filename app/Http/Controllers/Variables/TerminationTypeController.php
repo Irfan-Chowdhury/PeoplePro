@@ -10,12 +10,9 @@ use Illuminate\Support\Facades\Validator;
 
 class TerminationTypeController {
 
-
 	public function index()
 	{
-
-		if (request()->ajax())
-		{
+		if (request()->ajax()) {
 			return datatables()->of(TerminationType::select('id', 'termination_title')->get())
 				->setRowId(function ($termination_type)
 				{
@@ -23,7 +20,7 @@ class TerminationTypeController {
 				})
 				->addColumn('action', function ($data)
 				{
-					if (auth()->user()->can('user-edit'))
+					if (auth()->user()->can('access-variable_type'))
 					{
 						$button = '<button type="button" name="edit" id="' . $data->id . '" class="termination_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 						$button .= '&nbsp;&nbsp;';
@@ -45,7 +42,7 @@ class TerminationTypeController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$validator = Validator::make($request->only('termination_title'),
 				[
@@ -106,7 +103,7 @@ class TerminationTypeController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-edit'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$id = $request->hidden_termination_id;
 
@@ -157,7 +154,7 @@ class TerminationTypeController {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-delete'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			TerminationType::whereId($id)->delete();
 			return response()->json(['success' => __('Data is successfully deleted')]);

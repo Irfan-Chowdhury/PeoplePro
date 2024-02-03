@@ -22,7 +22,7 @@ class PaymentMethodController {
 				})
 				->addColumn('action', function ($data)
 				{
-					if (auth()->user()->can('user-edit'))
+					if (auth()->user()->can('access-variable_method'))
 					{
 						$button = '<button type="button" name="edit" id="' . $data->id . '" class="payment_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 						$button .= '&nbsp;&nbsp;';
@@ -45,7 +45,7 @@ class PaymentMethodController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('access-variable_method'))
 		{
 			$validator = Validator::make($request->only('method_name','payment_percentage','account_number'),
 				[
@@ -115,7 +115,7 @@ class PaymentMethodController {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-edit'))
+		if ($logged_user->can('access-variable_method'))
 		{
 			$id = $request->get('hidden_payment_id');
 
@@ -167,7 +167,7 @@ class PaymentMethodController {
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-delete'))
+		if ($logged_user->can('access-variable_method'))
 		{
 			PaymentMethod::whereId($id)->delete();
 			return response()->json(['success' => __('Data is successfully deleted')]);

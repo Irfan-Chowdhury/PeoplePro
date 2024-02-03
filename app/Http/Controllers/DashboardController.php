@@ -49,50 +49,11 @@ class DashboardController extends Controller {
 
     use CalendarableModelTrait, AutoUpdateTrait;
 
-	public function __construct() {
+
+	public function __construct()
+    {
 		$this->middleware(['auth']);
 	}
-
-    // public function test()
-    // {
-    //     $existingData = [
-    //         ['first_name'=> 'Irfan', 'last_name'=>'Chowdhury', 'email' => 'admin@gmail.com', 'contact_no'=>'1234'],
-    //         ['first_name'=> 'Sahiba', 'last_name'=>'Khatun', 'email' => 'sahiba@gmail.com', 'contact_no'=>'387292822'],
-    //         ['first_name'=> 'John', 'last_name'=>'Cena', 'email' => 'johncena@hotmail.com', 'contact_no'=>'456372794'],
-    //     ];
-
-    //     // $existingData already inserted in Database.
-    //     // Now I want to modify and add new records, Data should be look like bellow this format -
-    //     $newData = [
-    //         ['first_name'=> 'Irfan', 'last_name'=>'Chowdhury', 'username'=> 'admin', 'email' => 'admin@gmail.com', 'contact_no'=>'1234'],
-    //         ['first_name'=> 'Mrs Sahiba', 'last_name'=>'Khatun', 'username'=> 'staff', 'email' => 'sahiba@gmail.com', 'contact_no'=>'9870000'],
-    //         ['first_name'=> 'John', 'last_name'=>'Cena', 'username'=> 'staff', 'email' => 'johncena@hotmail.com', 'contact_no'=>'456372794'],
-    //         ['first_name'=> 'Mainul', 'last_name'=>'Islam', 'username'=> 'mainul_islam', 'email' => 'mainul@hotmail.com', 'contact_no'=>'123456789'],
-    //     ];
-    //     // 'Irfan' and 'John' no change. Update and New only Sahiba  and Mainul
-    //     User::upsert(
-    //         $newData,
-    //         ['email'],
-    //         ['first_name', 'last_name', 'contact_no']
-    //         );
-
-    //     return 'ok';
-    // }
-
-
-    protected function testAutoUpdate()
-    {
-        // $demoURL = config('auto_update.demo_url');
-        $demoURL = "https://peopleprohrm.com/demo/api";
-        $curl = curl_init();
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => 1,
-            CURLOPT_URL => $demoURL.'saas-api-test',
-        ]);
-        $response = curl_exec($curl);
-        curl_close($curl);
-        return json_decode($response, false);
-    }
 
 
 	public function index()

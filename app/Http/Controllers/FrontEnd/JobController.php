@@ -74,8 +74,8 @@ class JobController {
 
 	}
 
-	public function applyForJob(Request $request,$id){
-
+	public function applyForJob(Request $request,$id)
+    {
 		$validator = Validator::make($request->only('full_name', 'email', 'phone', 'cover_letter',
 			 'cv'),
 			[
@@ -99,8 +99,7 @@ class JobController {
 			]);
 
 
-		if ($validator->fails())
-		{
+		if ($validator->fails()) {
 			return response()->json(['errors' => $validator->errors()->all()]);
 		}
 

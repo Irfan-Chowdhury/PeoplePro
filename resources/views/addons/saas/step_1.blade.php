@@ -24,14 +24,16 @@
 
                 <br><br>
                 <div class="text-left">
-                    <p><strong>N.B: </strong>If you want to run the SaaS application in your existing database then you have to remove all tables first of your current database otherwise you will get error.
+                    <p><strong>N.B: </strong>
+                        We always recommend to our clients that they use a new database for running the SaaS application.
                         <br>
-                        But if you want to keep or remove existing (Peoplepro) database and want to run the SaaS Application in a fresh database then you have to create another one first.
+                        But if you want to run the SaaS application in your existing database then you have to remove all tables first of your current database otherwise you will get error.
                     </p>
                     <p> <strong>N.B: </strong> If you want to use your peoplepro existing database as a tenant after install then you have to follow the points given below -</p>
                     <ul>
-                        <li>You have to backup your existing database according the instruction. Please read the <a href="#">documentation</a> first.</li>
-                        <li>You have to backup your root <b>public</b> directory</li>
+                        <li>You have to backup your existing database according the instruction. Please read the <a href="https://peopleprohrmsaas.com/central-documentation#integratePeopleproDB" target="__blank">documentation</a> first.</li>
+                        <li>You have to reassign the role-permissin for the employees</li>
+                        <li>You have to backup your root <b>public</b> directory's data</li>
                     </ul>
                 </div>
                 <br>

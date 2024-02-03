@@ -20,11 +20,24 @@
                 <img class="card-img-top" src="{{ asset('logo/peopleprosaas.png') }}" style="height:250px" alt="Card image cap">
                 <div class="card-body">
                     <h5 class="card-title">Peplepro SaaS</h5>
-                    <p class="card-text">Take care of all your products, sales, purchases, stores related tasks from an easy-to-use platform, from anywhere you want, anytime you want.</p>
-                    <a href="#" class="btn btn-danger p-2" target="_blank">Demo</a>
-                    <a href="#" class="btn btn-info p-2" target="_blank">Buy Now</a>
-                    <a href="#" class="btn btn-warning p-2" target="_blank">Documentation</a>
-                    <a href="{{ route('saas-install-step-1') }}" class="btn btn-primary p-2">Go to Install</a>
+                    <p class="card-text">Take care of all your products, sales, purchases, stores related tasks from an easy-to-use platform, from anywhere you want, anytime you want.
+                        <ul>
+                            <li>Multi-tenancy</li>
+                            <li>Multi-database. separate database for each subscribers</li>
+                            <li>Personalized subdomain for each subscriber</li>
+                            <li>Custom domain support</li>
+                            <li>Unlimited subscribers</li>
+                            <li>Flexible package creation</li>
+                            <li>Free customizable landing page with light/dark mode design</li>
+                            <li>Stripe, PayPal, Razorpay & Paystack payment gateways</li>
+                        </ul>
+                    </p>
+                    <a href="https://peopleprohrmsaas.com/" class="btn btn-danger p-2" target="_blank">Demo</a>
+                    <a href="https://codecanyon.net/item/peoplepro-saas-hrm-payroll-project-management/48966937" class="btn btn-info p-2" target="_blank">Buy Now</a>
+                    <a href="https://peopleprohrmsaas.com/central-documentation" class="btn btn-warning p-2" target="_blank">Documentation</a>
+                    @if (env('PRODUCT_MODE')!=='DEMO')
+                        <a href="{{ route('saas-install-step-1') }}" class="btn btn-primary p-2">Go to Install</a>
+                    @endif
                 </div>
             </div>
         </div>

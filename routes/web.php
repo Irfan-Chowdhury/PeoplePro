@@ -169,7 +169,7 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::get('/jobs/details/{job_post}', [JobController::class, 'details'])->name('jobs.details');
     Route::get('/jobs/search/category/{url}', [JobController::class, 'searchByCategory'])->name('jobs.searchByCategory');
     Route::get('/jobs/search/job_type/{job_type}', [JobController::class, 'searchByJobType'])->name('jobs.searchByJobType');
-    Route::get('/jobs/apply/{job}', [JobController::class, 'applyForJob'])->name('jobs.apply');
+    Route::post('/jobs/apply/{job}', [JobController::class, 'applyForJob'])->name('jobs.apply');
 
     Route::get('markAsRead', [RouteClosureHandlerController::class, 'markAsReadNotification'])->name('markAsRead');
     Route::get('/all/notifications', [RouteClosureHandlerController::class, 'allNotifications'])->name('seeAllNoti');

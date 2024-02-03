@@ -1,6 +1,8 @@
 <?php
 
 return array (
+  'Payment History' => 'Payment History',
+  'Do you want to delete ?' => 'Do you want to delete ?',
   'About' => 'About',
   'Absent' => 'Absent',
   'Account' => 'Account',
@@ -81,11 +83,11 @@ return array (
   'Deductions' => 'Deductions',
   'Deferred' => 'Deferred',
   'Delete' => 'Delete',
-  'Deleting' => 
+  'Deleting' =>
   array (
-    '' => 
+    '' =>
     array (
-      '' => 
+      '' =>
       array (
         '' => 'Deleting...',
       ),

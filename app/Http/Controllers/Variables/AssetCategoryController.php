@@ -12,7 +12,6 @@ class AssetCategoryController {
 
 	public function index()
 	{
-
         if (auth()->user()->can('view-assets-category'))
         {
             if (request()->ajax())

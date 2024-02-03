@@ -20,7 +20,7 @@ class TaxTypeController extends Controller
 				})
 				->addColumn('action', function ($data)
 				{
-					if (auth()->user()->can('user-edit'))
+					if (auth()->user()->can('access-variable_type'))
 					{
 						$button = '<button type="button" name="edit" id="' . $data->id . '" class="tax_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
 						$button .= '&nbsp;&nbsp;';
@@ -44,7 +44,7 @@ class TaxTypeController extends Controller
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-add'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$validator = Validator::make($request->only('name', 'rate','type', 'description'),
 				[
@@ -118,7 +118,7 @@ class TaxTypeController extends Controller
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-edit'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			$id = $request->get('hidden_tax_id');
 
@@ -174,7 +174,7 @@ class TaxTypeController extends Controller
 		}
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('user-delete'))
+		if ($logged_user->can('access-variable_type'))
 		{
 			TaxType::whereId($id)->delete();
 
