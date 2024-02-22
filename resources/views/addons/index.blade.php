@@ -12,6 +12,9 @@
                     <a href="https://peopleprohrm.com/demo/" target="_blank" class="btn btn-danger p-2">Demo</a>
                     <a href="https://codecanyon.net/item/peoplepro-hrm-payroll-project-management/29169229" target="_blank" class="btn btn-info p-2">Buy Now</a>
                     <a href="https://peopleprohrm.com/demo/documentation" target="_blank" class="btn btn-warning p-2">Documentation</a>
+                    @if (env('PRODUCT_MODE')!=='DEMO')
+                        <a href="{{ route('biometric-install-step-1') }}" class="btn btn-primary p-2">Go to Install</a>
+                    @endif
                 </div>
             </div>
         </div>

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "440b8194faccf17d221582c1b32deed8",
+    "content-hash": "7df37e13eb19a77fe01829ab1c7bae3b",
     "packages": [
         {
             "name": "barryvdh/laravel-dompdf",
@@ -9004,6 +9004,68 @@
                 }
             ],
             "time": "2023-06-28T13:51:52+00:00"
+        },
+        {
+            "name": "sven/artisan-view",
+            "version": "v3.6.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/svenluijten/artisan-view.git",
+                "reference": "98bc0b06dd3bc22dc637a21e7c822ebe11519c02"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/svenluijten/artisan-view/zipball/98bc0b06dd3bc22dc637a21e7c822ebe11519c02",
+                "reference": "98bc0b06dd3bc22dc637a21e7c822ebe11519c02",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": "^8.0 || ^9.0 || ^10.0 < 10.23.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "^5.6 || ^6.0",
+                "mockery/mockery": "^1.4",
+                "phpunit/phpunit": "^9.0 || ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Sven\\ArtisanView\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Sven\\ArtisanView\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sven Luijten",
+                    "email": "contact@svenluijten.com",
+                    "homepage": "https://svenluijten.com"
+                }
+            ],
+            "description": "Manage your views in Laravel projects through artisan",
+            "keywords": [
+                "artisan",
+                "blade",
+                "laravel",
+                "templates",
+                "views"
+            ],
+            "support": {
+                "issues": "https://github.com/svenluijten/artisan-view/issues",
+                "source": "https://github.com/svenluijten/artisan-view/tree/v3.6.1"
+            },
+            "abandoned": "laravel/framework",
+            "time": "2023-09-15T09:48:34+00:00"
         },
         {
             "name": "theseer/tokenizer",

@@ -67,7 +67,6 @@ use App\Http\Controllers\LanguageSettingController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\MeetingController;
-use App\Http\Controllers\AddonController;
 use App\Http\Controllers\OfficeShiftController;
 use App\Http\Controllers\OfficialDocumentController;
 use App\Http\Controllers\PayrollController;
@@ -125,16 +124,30 @@ use App\Http\Controllers\Variables\VariableController;
 use App\Http\Controllers\Variables\VariableMethodController;
 use App\Http\Controllers\Variables\WarningTypeController;
 use App\Http\Controllers\WarningController;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Addon\BiometricAddonController;
+use App\Http\Controllers\Addon\SaasController;
 
 Auth::routes(['register' => false]);
 
 Route::prefix('addons')->group(function () {
-    Route::controller(AddonController::class)->group(function () {
-        Route::get('/', 'index')->name('addons');
 
+    Route::get('/', function () {
+        return view('addons.index');
+    })->name('addons');
+
+    Route::controller(BiometricAddonController::class)->group(function () {
+        Route::prefix('biometric')->group(function () {
+            Route::get('install/step-1', 'biometricInstallStep1')->name('biometric-install-step-1');
+            Route::get('install/step-2', 'biometricInstallStep2')->name('biometric-install-step-2');
+            Route::get('install/step-3', 'biometricInstallStep3')->name('biometric-install-step-3');
+            Route::post('install/process', 'biometricInstallProcess')->name('biometric-install-process');
+            Route::get('install/step-4', 'biometricInstallStep4')->name('biometric-install-step-4');
+        });
+    });
+
+    Route::controller(SaasController::class)->group(function () {
         Route::prefix('saas')->group(function () {
             Route::get('install/step-1', 'saasInstallStep1')->name('saas-install-step-1');
             Route::get('install/step-2', 'saasInstallStep2')->name('saas-install-step-2');
@@ -144,13 +157,6 @@ Route::prefix('addons')->group(function () {
         });
     });
 });
-
-// Route::get('/addons', [AddonController::class, 'index']);
-// Route::get('/saas-install/step-1', [AddonController::class, 'saasInstallStep1']);
-// Route::get('/saas-install/step-2', [AddonController::class, 'saasInstallStep2']);
-// Route::get('/saas-install/step-3', [AddonController::class, 'saasInstallStep3']);
-// Route::post('/saas-install/process', [AddonController::class, 'saasInstallProcess'])->name('saas-install-process');
-// Route::get('/saas-install/step-4', [AddonController::class, 'saasInstallStep4']);
 
 
 Route::group(['middleware' => ['XSS']], function () {

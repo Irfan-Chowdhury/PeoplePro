@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Addon;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\InstallationRequest;
 use App\Http\traits\ENVFilePutContent;
 use Exception;
@@ -11,14 +12,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use ZipArchive;
 
-class AddonController extends Controller
+class SaasController extends Controller
 {
     use ENVFilePutContent;
-
-    public function index()
-    {
-        return view('addons.index');
-    }
 
     public function saasInstallStep1()
     {
