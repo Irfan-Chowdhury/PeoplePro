@@ -98,12 +98,12 @@
             });
 
 
-            $(".edit_textarea").on('click',function(){
+            $('#language-table').on('click', '.edit_textarea', function() {
                 $(".update_btn").hide(); //for all
                 $(this).siblings('.update_btn').show();
             });
 
-            $(".update_btn").on('click',function(){
+            $('#language-table').on('click', '.update_btn', function() {
                 var language = $(this).data('language');
                 var key   = $(this).data('key');
                 var group = $(this).data('group');

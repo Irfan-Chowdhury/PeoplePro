@@ -1,8 +1,6 @@
 <?php
 
 return array (
-  'Payment History' => 'Payment History',
-  'Do you want to delete ?' => 'Do you want to delete ?',
   'About' => 'About',
   'Absent' => 'Absent',
   'Account' => 'Account',
@@ -83,11 +81,11 @@ return array (
   'Deductions' => 'Deductions',
   'Deferred' => 'Deferred',
   'Delete' => 'Delete',
-  'Deleting' =>
+  'Deleting' => 
   array (
-    '' =>
+    '' => 
     array (
-      '' =>
+      '' => 
       array (
         '' => 'Deleting...',
       ),
@@ -103,6 +101,7 @@ return array (
   'Discount' => 'Discount',
   'Discussions' => 'Discussions',
   'Divorced/Separated' => 'Divorced/Separated',
+  'Do you want to delete ?' => 'Do you want to delete ?',
   'Document' => 'Document',
   'Download' => 'Download',
   'Duration' => 'Duration',
@@ -222,6 +221,7 @@ return array (
   'Payee' => 'Payee',
   'Payer' => 'Payer',
   'Payment' => 'Payment',
+  'Payment History' => 'Payment History',
   'Payroll' => 'Payroll',
   'Payslip' => 'Payslip',
   'Payslip Type' => 'Payslip Type',
