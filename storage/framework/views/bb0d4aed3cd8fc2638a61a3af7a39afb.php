@@ -464,32 +464,32 @@ unset($__errorArgs, $__bag); ?>"
                         rows: ':visible'
                     },
                 },
-                {
-                    extend: 'csv',
-                    text: '<i title="export for device" class="fa fa-tablet"></i>',
-                    className: 'export-for-device',
-                    exportOptions: {
-                        columns: [1,2],
-                        rows: ':visible',
-                        format: {
-                            body: function ( data, row, column, node ) {
-                                if (column === 0) {
-                                    var id = data.match(/<span>Staff Id: (.*?)<\/span>/)[1];
-                                    name = data.match(/<[a][^>]*>(.+?)<\/[a]>/)[1];
-                                    return id;
-                                }
-                                else {
-                                    return name;
-                                }
-                            }
-                        }
-                    },
-                    customize: function (csv) {
-                        var csvRows = csv.split('\n');
-                        csvRows[0] = csvRows[0].replace(['"Employee"', '"Company"'], ['"Staff Id"','"Name"']);
-                        return csvRows.join('\n');
-                    }
-                },
+                // {
+                //     extend: 'csv',
+                //     text: '<i title="export for device" class="fa fa-tablet"></i>',
+                //     className: 'export-for-device',
+                //     exportOptions: {
+                //         columns: [1,2],
+                //         rows: ':visible',
+                //         format: {
+                //             body: function ( data, row, column, node ) {
+                //                 if (column === 0) {
+                //                     var id = data.match(/<span>Staff Id: (.*?)<\/span>/)[1];
+                //                     name = data.match(/<[a][^>]*>(.+?)<\/[a]>/)[1];
+                //                     return id;
+                //                 }
+                //                 else {
+                //                     return name;
+                //                 }
+                //             }
+                //         }
+                //     },
+                //     customize: function (csv) {
+                //         var csvRows = csv.split('\n');
+                //         csvRows[0] = csvRows[0].replace(['"Employee"', '"Company"'], ['"Staff Id"','"Name"']);
+                //         return csvRows.join('\n');
+                //     }
+                // },
                 {
                     extend: 'print',
                     text: '<i title="print" class="fa fa-print"></i>',

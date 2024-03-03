@@ -4,7 +4,7 @@
         <div class="container-fluid">
 
             <!-- Import CSV File (Device) -->
-            <div class="card">
+            {{-- <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">{{__('Import CSV file (Device)')}}</h3>
                 </div>
@@ -36,7 +36,7 @@
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> --}}
 
 
             <!-- Import EXCEL/CSV file (Manual) -->

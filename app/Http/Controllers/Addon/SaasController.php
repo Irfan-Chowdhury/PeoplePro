@@ -197,7 +197,8 @@ class SaasController extends Controller
         $this->dataWriteInENVFile('LANDLORD_DB', $request->db_name);
         $this->dataWriteInENVFile('DB_USERNAME', $request->db_username);
         $this->dataWriteInENVFile('DB_PASSWORD', $request->db_password);
-        $this->dataWriteInENVFile('VERSION', '1.0.0');
+        $this->dataWriteInENVFile('VERSION', '1.1.3');
+
     }
 
     protected static function filterURL(string $centralDomain): string

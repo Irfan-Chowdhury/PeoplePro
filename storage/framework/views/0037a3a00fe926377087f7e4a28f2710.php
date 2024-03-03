@@ -142,16 +142,7 @@
                                             <label class="mr-4 form-check-label"><strong><?php echo e(trans('file.Enable Early Clock In (Added to Worktime)')); ?> </strong></label>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group mt-4">
-                                            <label><strong><?php echo e(__('file.Attendance Device Date Format')); ?></strong></label>
-                                            <select name="Attendance_Device_date_format" class="selectpicker form-control">
-                                                <option <?php echo e(env('ATTENDANCE_DEVICE_DATE_FORMAT') =='d/m/Y' ? 'selected':''); ?> value="d/m/Y">dd/mm/yyyy(23/05/2022)</option>
-                                                <option <?php echo e(env('ATTENDANCE_DEVICE_DATE_FORMAT') =='m/d/Y' ? 'selected':''); ?> value="m/d/Y">mm/dd/yyyy(05/23/2022)</option>
-                                                <option <?php echo e(env('ATTENDANCE_DEVICE_DATE_FORMAT') =='Y/m/d' ? 'selected':''); ?> value="Y/m/d">yyyy/mm/dd(2022/05/23)</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    
                                 </div>
                                 <br><br>
                                 <div class="d-flex justify-content-center">

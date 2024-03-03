@@ -97,7 +97,6 @@
                 'lengthMenu': [[100, 200, 500,-1], [100, 200, 500,"All"]],
             });
 
-
             $('#language-table').on('click', '.edit_textarea', function() {
                 $(".update_btn").hide(); //for all
                 $(this).siblings('.update_btn').show();
