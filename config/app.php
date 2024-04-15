@@ -188,7 +188,8 @@ return [
 		Yajra\Datatables\DatatablesServiceProvider::class,
 		App\Providers\LanguageServiceProvider::class,
 		Barryvdh\DomPDF\ServiceProvider::class,
-		Maatwebsite\Excel\ExcelServiceProvider::class
+		Maatwebsite\Excel\ExcelServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
     ],
 
     /*
@@ -244,6 +245,7 @@ return [
 		'Datatables' => Yajra\Datatables\Facades\Datatables::class,
 		'PDF' => Barryvdh\DomPDF\Facade::class,
 		'Excel' => Maatwebsite\Excel\Facades\Excel::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

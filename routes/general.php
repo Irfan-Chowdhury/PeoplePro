@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
@@ -49,5 +50,18 @@ Route::get('/maintainance-up', function() {
     Artisan::call('up');
     return redirect()->back();
 });
+
+
+
+
+// Route::group(['middleware' => ['auth']], function () {
+
+    // Route::group(['prefix' => 'auth/google'], function () {
+    //     Route::controller(GoogleAuthController::class)->group(function () {
+    //         Route::get('/redirect', 'redirect')->name('auth.redirect.google');
+    //         Route::get('/callback', 'callback');
+    //     });
+    // });
+// });
 
 
