@@ -53,7 +53,6 @@
     </section>
 
 
-
     <div id="formModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -121,7 +120,6 @@
     </div>
 
 
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -142,14 +140,14 @@
         </div>
     </div>
 
+@endsection
 
+@push('scripts')
     <script type="text/javascript">
         (function($) {
             "use strict";
 
             $(document).ready(function () {
-
-
                 var table_table = $('#file_manager-table').DataTable({
 
                     initComplete: function () {
@@ -481,5 +479,5 @@
             });
         })(jQuery);
     </script>
+@endpush
 
-@endsection

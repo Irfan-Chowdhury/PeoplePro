@@ -257,20 +257,6 @@ class PayrollController extends Controller {
 
 						return $total_salary;
 
-						// if ($row->payslip_type == 'Monthly')
-						// {
-						// 	$total_salary = $this->totalSalary($row);
-						// } else
-						// {
-						// 	$total = 0;
-						// 	$total_hours = $this->totalWorkedHours($row);
-
-						// 	sscanf($total_hours, '%d:%d', $hour, $min);
-						// 	//converting in minute
-						// 	$total += $hour * 60 + $min;
-						// 	$total_salary = $this->totalSalary($row, $total);
-						// }
-
 					})
 					->addColumn('status', function ($row)
 					{

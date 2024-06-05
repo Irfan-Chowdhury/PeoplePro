@@ -72,12 +72,6 @@ class FileManagerController extends Controller
 		return abort('403', __('You are not authorized'));
 	}
 
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
 	public function store(Request $request)
 	{
 		$logged_user = auth()->user();

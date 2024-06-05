@@ -110,13 +110,12 @@
 
         $(document).ready(function () {
 
-            let date = $('.date');
+            var date = $('.date');
             date.datepicker({
                 format: '{{ env('Date_Format_JS')}}',
                 autoclose: true,
                 todayHighlight: true
             });
-
         });
 
 

@@ -18,5 +18,28 @@ class InvoiceItem extends Model
 		return $this->hasOne('App\Models\Invoice','id','invoice_id');
 	}
 
+    public function getItemUnitPriceAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
+    }
+
+    public function getItemTaxRateAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
+    }
+    public function getSubTotalAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
+    }
+    public function getTotalTaxAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
+    }
+
+    public function getItemSubTotalAttribute($value)
+    {
+        return number_format($value, 2, '.', '');
+    }
+
 
 }

@@ -39,9 +39,10 @@ class FinanceTransferController extends Controller {
 					})
 					->addColumn('to_account', function ($row)
 					{
-						$button = '<h6><a href="' . route('transactions.show', $row->ToAccount->id) . '">' . $row->ToAccount->account_name . '</a></h6>';
-
-						return $button;
+					    if($row->ToAccount)
+						    return $button = '<h6><a href="' . route('transactions.show', $row->ToAccount->id) . '">' . $row->ToAccount->account_name . '</a></h6>';
+                        else
+                            return null;
 					})
 					->addColumn('payment_method', function ($row)
 					{

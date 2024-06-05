@@ -8,8 +8,12 @@ class TaxType extends Model
 {
 
 	protected $fillable = [
-		'name','rate','type','description'
+		'name','rate','type','description','is_default'
 	];
+
+    protected $casts = [
+        'is_default' => 'boolean',
+    ];
 
 //	public function getRateAttribute($value)
 //	{

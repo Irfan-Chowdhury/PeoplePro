@@ -42,8 +42,6 @@
         </div>
     </section>
 
-
-
     <div id="formModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -189,10 +187,6 @@
         </div>
     </div>
 
-
-
-
-
     <div class="modal fade" id="asset_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true"
         >
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -294,10 +288,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">

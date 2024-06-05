@@ -31,7 +31,6 @@ class User extends Authenticatable
         'is_active',
         'last_login_ip',
         'last_login_date',
-        'google_id',
     ];
 
     /**

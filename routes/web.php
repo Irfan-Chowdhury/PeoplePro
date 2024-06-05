@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\AccountListController;
 use App\Http\Controllers\AllUserController;
 use App\Http\Controllers\AnnouncementController;
@@ -8,7 +7,6 @@ use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\AttendanceController;
-use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\AwardController;
 use App\Http\Controllers\CalendarableController;
 use App\Http\Controllers\ClientAutoUpdateController;
@@ -128,8 +126,10 @@ use App\Http\Controllers\WarningController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Addon\BiometricAddonController;
+use App\Http\Controllers\Addon\CRMController;
 use App\Http\Controllers\Addon\SaasController;
-use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\File;
+
 
 Auth::routes(['register' => false]);
 
@@ -158,10 +158,21 @@ Route::prefix('addons')->group(function () {
             Route::get('install/step-4', 'saasInstallStep4')->name('saas-install-step-4');
         });
     });
+
+    Route::controller(CRMController::class)->group(function () {
+        Route::prefix('crm')->group(function () {
+            Route::get('install/step-1', 'crmInstallStep1')->name('crm-install-step-1');
+            Route::get('install/step-2', 'crmInstallStep2')->name('crm-install-step-2');
+            Route::get('install/step-3', 'crmInstallStep3')->name('crm-install-step-3');
+            Route::post('install/process', 'crmInstallProcess')->name('crm-install-process');
+            Route::get('install/step-4', 'crmInstallStep4')->name('crm-install-step-4');
+        });
+    });
 });
 
+$isCrmModuleExist = File::exists(base_path('Modules/CRM'));
 
-Route::group(['middleware' => ['XSS']], function () {
+Route::group(['middleware' => ['XSS','checkDataTable']], function () use ($isCrmModuleExist) {
 
     Route::get('/pdf', function () {
         return view('pdf');
@@ -199,17 +210,21 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::get('/delete', [LanguageSettingController::class, 'languageDelete'])->name('language.delete');
     });
 
-    Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    });
+    if (!$isCrmModuleExist) {
+        Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']], function () {
+            Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        });
+    }
 
     Route::group(['prefix' => 'employee', 'as' => 'employee.', 'middleware' => ['auth']], function () {
         Route::get('/dashboard', [DashboardController::class, 'employeeDashboard'])->name('EmployeeDashboard');
     });
 
-    Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth']], function () {
-        Route::get('/dashboard', [DashboardController::class, 'clientDashboard'])->name('ClientDashboard');
-    });
+    if (!$isCrmModuleExist) {
+        Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth']], function () {
+            Route::get('/dashboard', [DashboardController::class, 'clientDashboard'])->name('ClientDashboard');
+        });
+    }
 
     Route::get('/users-list', [AllUserController::class, 'index'])->name('users-list');
     Route::post('/user-add', [AllUserController::class, 'add_user_process'])->name('add-user');
@@ -686,7 +701,7 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('tickets/{ticket}/details', [SupportTicketController::class, 'detailsStore'])->name('ticket_details.store');
     Route::post('tickets/{ticket}/notes', [SupportTicketController::class, 'notesStore'])->name('ticket_notes.store');
 
-    Route::prefix('project-management')->group(function () {
+    Route::prefix('project-management')->group(function () use ($isCrmModuleExist) {
         Route::post('projects/{project}/assigned', [EmployeeAssignedController::class, 'employeeProjectAssigned'])->name('projects.assigned');
 
         Route::post('projects/update', [ProjectController::class, 'update'])->name('projects.update');
@@ -738,18 +753,43 @@ Route::group(['middleware' => ['XSS']], function () {
 
         Route::post('tasks/{task}/notes', [TaskController::class, 'notesStore'])->name('task_notes.store');
 
-        Route::post('invoices/{id}/update', [InvoiceController::class, 'update'])->name('invoices.update');
-        Route::resource('invoices', InvoiceController::class)->except(['destroy', 'update']);
-        Route::get('invoices/status/{status_id}/{invoice_id}', [InvoiceController::class, 'status'])->name('invoices.status');
-        Route::get('invoices/{id}/delete', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
-        Route::get('invoices/download', [InvoiceController::class, 'download'])->name('invoices.download');
-        Route::get('invoices/download/{id}', [InvoiceController::class, 'download'])->name('invoices.downloadFile');
-        Route::post('invoices/delete/selected', [InvoiceController::class, 'delete_by_selection'])->name('mass_delete_invoices');
 
-        Route::post('clients/update', [ClientController::class, 'update'])->name('clients.update');
-        Route::resource('clients', ClientController::class)->except(['destroy', 'create', 'update', 'show']);
-        Route::get('clients/{id}/delete', [ClientController::class, 'destroy'])->name('clients.destroy');
-        Route::post('clients/delete/selected', [ClientController::class, 'delete_by_selection'])->name('mass_delete_clients');
+
+        // ---------- Test ------------------
+
+        if (!$isCrmModuleExist) {
+            Route::post('invoices/{id}/update', [InvoiceController::class, 'update'])->name('invoices.update');
+            Route::resource('invoices', InvoiceController::class)->only(['index','create','store','show','edit']);
+            Route::get('invoices/status/{status_id}/{invoice_id}', [InvoiceController::class, 'status'])->name('invoices.status');
+            Route::get('invoices/{id}/delete', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+            Route::get('invoices/download', [InvoiceController::class, 'download'])->name('invoices.download');
+            Route::get('invoices/download/{id}', [InvoiceController::class, 'download'])->name('invoices.downloadFile');
+            Route::post('invoices/delete/selected', [InvoiceController::class, 'delete_by_selection'])->name('mass_delete_invoices');
+
+
+            Route::post('clients/update', [ClientController::class, 'update'])->name('clients.update');
+            Route::resource('clients', ClientController::class)->except(['destroy', 'create', 'update', 'show']);
+            Route::get('clients/{id}/delete', [ClientController::class, 'destroy'])->name('clients.destroy');
+            Route::post('clients/delete/selected', [ClientController::class, 'delete_by_selection'])->name('mass_delete_clients');
+        }
+
+        // ---------- Test End ------------------
+
+
+        // Route::post('invoices/{id}/update', [InvoiceController::class, 'update'])->name('invoices.update');
+        // Route::resource('invoices', InvoiceController::class)->except(['destroy', 'update']);
+        // Route::get('invoices/status/{status_id}/{invoice_id}', [InvoiceController::class, 'status'])->name('invoices.status');
+        // Route::get('invoices/{id}/delete', [InvoiceController::class, 'destroy'])->name('invoices.destroy');
+        // Route::get('invoices/download', [InvoiceController::class, 'download'])->name('invoices.download');
+        // Route::get('invoices/download/{id}', [InvoiceController::class, 'download'])->name('invoices.downloadFile');
+        // Route::post('invoices/delete/selected', [InvoiceController::class, 'delete_by_selection'])->name('mass_delete_invoices');
+
+
+
+        // Route::post('clients/update', [ClientController::class, 'update'])->name('clients.update');
+        // Route::resource('clients', ClientController::class)->except(['destroy', 'create', 'update', 'show']);
+        // Route::get('clients/{id}/delete', [ClientController::class, 'destroy'])->name('clients.destroy');
+        // Route::post('clients/delete/selected', [ClientController::class, 'delete_by_selection'])->name('mass_delete_clients');
     });
 
     Route::post('dynamic_dependent/fetch_department', [DynamicDependent::class, 'fetchDepartment'])->name('dynamic_department');
@@ -762,10 +802,15 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('dynamic_dependent/get_tax_rate', [DynamicDependent::class, 'getTaxRate'])->name('dynamic_tax_rate');
     Route::post('dynamic_dependent/fetch_candidate', [DynamicDependent::class, 'fetchCandidate'])->name('dynamic_candidate');
 
-    Route::prefix('settings')->group(function () {
+    Route::prefix('settings')->group(function () use($isCrmModuleExist) {
         Route::resource('roles', RoleController::class);
         Route::get('/roles/{id}/delete', [RoleController::class, 'destroy'])->name('roles.destroy');
-        Route::get('roles/role-permission/{id}', [PermissionController::class, 'rolePermission'])->name('rolePermission');
+
+        if (!$isCrmModuleExist) {
+            Route::get('roles/role-permission/{id}', [PermissionController::class, 'rolePermission'])->name('rolePermission');
+        }
+
+
         Route::get('roles/permission_details/{id}', [PermissionController::class, 'permissionDetails'])->name('permissionDetails');
         Route::post('roles/permission', [PermissionController::class, 'set_permission'])->name('set_permission');
         Route::post('general_settings/update/{id}', [GeneralSettingController::class, 'update'])->name('general_settings.update');
@@ -875,10 +920,14 @@ Route::group(['middleware' => ['XSS']], function () {
         Route::post('file_config', [FileManagerSettingController::class, 'store'])->name('file_config.store');
     });
 
-    Route::prefix('client')->group(function() {
+    Route::prefix('client')->group(function() use ($isCrmModuleExist) {
         Route::get('/profile', [DashboardController::class, 'clientProfile'])->name('clientProfile');
-        Route::get('/invoices', [ClientInvoiceController::class, 'invoices'])->name('clientInvoice');
-        Route::get('/invoices/payment', [ClientInvoiceController::class, 'paidInvoices'])->name('clientInvoicePaid');
+
+        if (!$isCrmModuleExist) {
+            Route::get('/invoices', [ClientInvoiceController::class, 'invoices'])->name('clientInvoice');
+            Route::get('/invoices/payment', [ClientInvoiceController::class, 'paidInvoices'])->name('clientInvoicePaid');
+        }
+
         Route::get('/projects', [ClientProjectController::class, 'index'])->name('clientProject');
         Route::post('/projects/store', [ClientProjectController::class, 'store'])->name('clientProject.store');
         Route::get('/projects/status', [ClientProjectController::class, 'status'])->name('clientProjectStatus');
@@ -944,59 +993,5 @@ Route::group(['middleware' => ['XSS']], function () {
     Route::post('version-upgrade', [ClientAutoUpdateController::class, 'versionUpgrade'])->name('version-upgrade');
     Route::post('bug-update', [ClientAutoUpdateController::class, 'bugUpdate'])->name('bug-update');
 
-
-    // ==================== Laravel Socialite ===============
-
-
-
-    // Route::get('/auth/redirect', function () {
-    //     return Socialite::driver('google')->redirect();
-    // });
-
-    // Route::get('/auth/callback', function () {
-    //     $user = Socialite::driver('google')->user();
-    //     // $user->token
-    // });
-
-    // Route::get('/auth/google/callback', function () {
-    //     dd('redirect Google');
-    //     // $user = Socialite::driver('google')->user();
-    //     // $user->token
-    // });
 });
 
-
-Route::group(['prefix' => 'auth'], function () {
-
-    Route::group(['prefix' => 'google'], function () {
-        Route::controller(GoogleAuthController::class)->group(function () {
-            Route::get('/redirect', 'redirect')->name('auth.redirect.google');
-            Route::get('/callback', 'callback');
-        });
-    });
-
-});
-
-
-
-
-
-
-//
-//Route::group(['prefix' => 'api', 'middleware' => 'auth'], function ()
-//{
-//	Route::get('find', function (Illuminate\Http\Request $request)
-//	{
-//		$keyword = $request->input('keyword');
-//		Log::info($keyword);
-//		$names = DB::table('employees')->where('first_name', 'like', '%' . $keyword . '%')
-//			->orWhere('last_name', 'like', '%' . $keyword . '%')
-//			->select('employees.id', DB::raw("CONCAT(employees.first_name,' ',employees.last_name) as full_name"))
-//			->get();
-//
-//		return json_encode($names);
-//	})->name('api.names');
-//});
-
-//Employeer
-//Set Null

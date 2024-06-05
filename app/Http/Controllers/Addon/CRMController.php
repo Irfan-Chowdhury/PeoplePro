@@ -46,6 +46,7 @@ class CRMController extends Controller
             }
             self::fileUnzipAndDeleteManage($data);
             self::migrateCRMDatabase();
+            Artisan::call('optimize:clear');
 
         } catch (Exception $e) {
 
@@ -79,7 +80,7 @@ class CRMController extends Controller
     {
         $remoteFileName = pathinfo($authorServerURL)['basename'];
         $localFile = base_path('/'.$remoteFileName);
-        $isCopied = copy($authorServerURL, $localFile);
+        $isCopied  = copy($authorServerURL, $localFile);
 
         return [
             'isReceived' => $isCopied,
@@ -90,25 +91,9 @@ class CRMController extends Controller
     protected static function fileUnzipAndDeleteManage(array $data): void
     {
         if ($data['isReceived']) {
-
-            self::baseFileDelete();
-
             $zip = new ZipArchive;
             self::unzipAndDeleteProcessing($zip, $data['remoteFileName']);
        }
-    }
-
-    protected static function baseFileDelete(): void
-    {
-        $baseFiles = [
-            'app/Http/Controllers/InvoiceController.php',
-            'app/Models/Invoice.php',
-            'app/Models/InvoiceItem.php',
-        ];
-
-        foreach ($baseFiles as $file) {
-            File::delete(base_path("/$file"));
-        }
     }
 
     protected static function unzipAndDeleteProcessing($zip, string $fileName): void
@@ -127,6 +112,7 @@ class CRMController extends Controller
     protected static function migrateCRMDatabase(): void
     {
         Artisan::call('module:migrate CRM');
+        Artisan::call('module:seed --class=PermissionSeeder CRM');
     }
 
     public function crmInstallStep4()

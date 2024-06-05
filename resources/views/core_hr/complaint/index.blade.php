@@ -132,9 +132,6 @@
     </div>
 
 
-
-
-
     <div class="modal fade" id="complaint_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -197,11 +194,6 @@
             </div>
         </div>
     </div>
-
-
-
-
-
 
 
 

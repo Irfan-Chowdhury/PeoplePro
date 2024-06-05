@@ -35,6 +35,7 @@ class PermissionController extends Controller {
             // //Remove This Part Later
 
 			$role = Role::findById($id);
+
 			return view('settings.roles.permission',compact('role'));
 		}
 		return response()->json(['success' => __('You are not authorized')]);

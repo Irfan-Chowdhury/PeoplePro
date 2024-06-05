@@ -58,21 +58,30 @@
     <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/daterange/css/daterangepicker.min.css') }}">
     <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('vendor/daterange/css/daterangepicker.min.css') }}"></noscript>
 
-    <!-- table sorter stylesheet-->
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}"></noscript>
+    <!-- datatable stylesheet start-->
+    @if (isset($isDataTableExist) && $isDataTableExist)
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}"></noscript>
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}"></noscript>
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}"></noscript>
 
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}"></noscript>
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}"></noscript>
 
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}"></noscript>
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}"></noscript>
+    @endif
+    <!-- datatable stylesheet End-->
+
+
+    @stack('css')
 
 
     <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
@@ -81,15 +90,14 @@
     <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.css') }}">
     <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.css') }}"></noscript>
 
-    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}">
-    <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}"></noscript>
+
     <!-- theme stylesheet-->
+
 
     <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet" >
     <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet" ></noscript>
 
 
-    @stack('css')
 
 
     @if (env('RTL_LAYOUT')!=NULL)
@@ -105,30 +113,59 @@
         @include('calendarable.css')
     @endif
 
-    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('js/charts-custom.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/front.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/daterange/js/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/daterange/js/knockout-3.4.2.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/daterange/js/daterangepicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
 
-    <!-- JS for Boostrap Tag Inputs-->
-    <script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
+</head>
 
-    <!-- table sorter js-->
+
+<body>
+<div id="loader"></div>
+
+@include('layout.main_partials.header')
+
+
+@if ($isCrmModuleExist)
+    @include('crm::layouts.partials.admin_sidebar')
+@else
+    @include('layout.main_partials.sidebar')
+@endif
+
+
+<section id="content" class="page animate-bottom d-none">
+    @yield('content')
+    @include('layout.main_partials.footer')
+</section>
+
+
+
+{{-- New Format --}}
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/charts-custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/front.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/knockout-3.4.2.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/daterangepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+
+<!-- JS for Boostrap Tag Inputs-->
+<script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
+
+<!-- table sorter js-->
+
+<!-- datatable Script Start-->
+@if (isset($isDataTableExist) && $isDataTableExist)
+
     @if(Config::get('app.locale') == 'Arabic')
         <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake_arabic.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts_arabic.js') }}"></script>
@@ -149,32 +186,33 @@
     <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.checkboxes.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.fixedheader.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.js') }}"></script>
-
-    @if((request()->is('admin/dashboard*')) || (request()->is('calendar*')) )
-        @include('calendarable.js')
-    @endif
-</head>
+@endif
+<!-- datatable Script End-->
 
 
-<body>
-<div id="loader"></div>
+<script type="text/javascript" src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-@include('layout.main_partials.header')
+@if((request()->is('admin/dashboard*')) || (request()->is('calendar*')) )
+    @include('calendarable.js')
+@endif
 
-@include('layout.main_partials.sidebar')
+{{-- New Format --}}
 
-
-<section id="content" class="page animate-bottom d-none">
-    @yield('content')
-    @include('layout.main_partials.footer')
-</section>
 
 <script type="text/javascript">
     (function ($) {
-
         "use strict";
+
+        $(document).ready(function () {
+            if (window.location.href.indexOf('#formModal') != -1) {
+                $('#formModal').modal('show');
+            }
+            else if(window.location.href.indexOf('#createModal') != -1) {
+                $('#createModal').modal('show');
+            }
+        });
 
         $('#empty_database').on('click', function () {
             if (confirm('{{__('Delete Selection',['key'=>__('Empty Database')])}}')) {
@@ -199,6 +237,7 @@
 </script>
 
 @stack('scripts')
+
 
 </body>
 </html>

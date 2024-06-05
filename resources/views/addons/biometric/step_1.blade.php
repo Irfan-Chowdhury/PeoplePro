@@ -18,8 +18,6 @@
             <hr>
             <div class="content text-center">
                 <h6>Please <a href="http://codecanyon.net/licenses/standard" target="_blank">Click Here</a> to read the license agreement before installation:</h6>
-
-
                 <a href="{{ route('biometric-install-step-2') }}" class="btn btn-primary">Accept & Continue</a>
                 <hr class="mt-lg-5">
                 <h6>If you need any help with installation, Please contact

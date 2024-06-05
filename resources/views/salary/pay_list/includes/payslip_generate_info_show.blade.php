@@ -151,7 +151,7 @@ aria-hidden="true">
                     if (result.data.payslip_type == 'Hourly') {
                         $('.hide-element').show();
                         $('#worked_hours').val(result.data.total_hours);
-                        $('#worked_amount').val(result.data.worked_amount);
+                        $('#worked_amount').val(result.data.worked_amount.toFixed(2));
                     }
                     else
                     {
@@ -168,8 +168,8 @@ aria-hidden="true">
                     $('#total_deduction_payment').val(result.data.total_deduction);
                     $('#total_other_payment_payment').val(result.data.total_other_payment);
                     $('#total_overtime_payment').val(result.data.total_overtime);
-                    $('#total_salary_payment').val(result.data.total_salary);
-                    $('#net_salary_payment').val(result.data.total_salary);
+                    $('#total_salary_payment').val(result.data.total_salary.toFixed(2));
+                    $('#net_salary_payment').val(result.data.total_salary.toFixed(2));
                     $('#pension_amount_payment').val(result.data.pension_amount);
                     $('#employee_id').val(result.data.employee);
                     $('#payment_model').modal('show');

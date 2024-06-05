@@ -22,10 +22,12 @@
             </table>
         </div>
     </section>
+@endsection
 
+@push('scripts')
     <script type="text/javascript">
-        (function($) {  
-         
+        (function($) {
+
             "use strict";
             $(document).ready(function () {
 
@@ -182,8 +184,8 @@
                 });
                 new $.fn.dataTable.FixedHeader(table_table);
             });
-        
-        })(jQuery); 
-    </script>
 
-@endsection
+        })(jQuery);
+    </script>
+@endpush
+

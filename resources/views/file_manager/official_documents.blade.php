@@ -38,7 +38,6 @@
     </section>
 
 
-
     <div id="formModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -144,7 +143,6 @@
     </div>
 
 
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -165,7 +163,10 @@
         </div>
     </div>
 
+@endsection
 
+
+@push('scripts')
     <script type="text/javascript">
         (function($) {
             "use strict";
@@ -495,5 +496,4 @@
 
         })(jQuery);
     </script>
-
-@endsection
+@endpush

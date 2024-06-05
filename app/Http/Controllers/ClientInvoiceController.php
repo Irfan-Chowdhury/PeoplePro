@@ -10,9 +10,7 @@ class ClientInvoiceController extends Controller
 	{
 		$logged_user = auth()->user();
 
-
-		if ($logged_user->role_users_id == 3)
-		{
+		if ($logged_user->role_users_id == 3) {
 			if (request()->ajax())
 			{
 				return datatables()->of(Invoice::with('project:id,title')

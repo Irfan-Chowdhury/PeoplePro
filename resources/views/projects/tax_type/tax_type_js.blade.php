@@ -65,6 +65,10 @@
                 name: 'description',
             },
             {
+                data: 'is_default',
+                name: 'is_default',
+            },
+            {
                 data: 'action',
                 name: 'action',
                 orderable: false
@@ -85,7 +89,7 @@
         'columnDefs': [
             {
                 "orderable": false,
-                'targets': [0, 4],
+                'targets': [0, 5],
             },
 
         ],
@@ -144,6 +148,11 @@
                 $('#rate_edit').val(html.data.rate);
                 $('#description_edit').val(html.data.description);
                 $('#type_edit').selectpicker('val', html.data.type);
+                if(html.data.is_default) {
+                    $('#exampleCheckbox').prop('checked', true);
+                }else{
+                    $('#exampleCheckbox').prop('checked', false);
+                }
 
                 $('#hidden_tax_id').val(html.data.id);
                 $('#TaxEditModal').modal('show');
@@ -158,7 +167,7 @@
         let rate_edit = $('input[name="rate_edit"]').val();
         let description_edit = $('textarea[name="description_edit"]').val();
         let type_edit = $('select[name="type_edit"]').val();
-
+        let is_default = $('input[name="is_default"]').is(':checked') ? 1 : 0; // Set to 1 if checked, 0 if not
         let hidden_tax_id = $('#hidden_tax_id').val();
 
         $.ajax({
@@ -169,7 +178,8 @@
                 rate_edit: rate_edit,
                 description_edit: description_edit,
                 type_edit: type_edit,
-                hidden_tax_id: hidden_tax_id
+                hidden_tax_id: hidden_tax_id,
+                is_default: is_default
             },
             success: function (data) {
                 var html = '';
@@ -205,6 +215,8 @@
             $.ajax({
                 url: target,
                 success: function (data) {
+                    console.log(data);
+                    
                     var html = '';
                     html = '<div class="alert alert-success">' + data.success + '</div>';
                     setTimeout(function () {

@@ -13,8 +13,8 @@ use Spatie\Permission\Models\Role;
 
 class AllUserController extends Controller {
 
-    public function index(){
-
+    public function index()
+    {
         $logged_user = auth()->user();
 
         //$users = User::with('RoleUser')->orderByDesc('is_active');

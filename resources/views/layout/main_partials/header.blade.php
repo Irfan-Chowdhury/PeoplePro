@@ -9,11 +9,58 @@
 						<img src="{{asset('/images/logo/'.$general_settings->site_logo)}}" width="140" height="70">
                         &nbsp; &nbsp;
                     @endif
-                         {{-- <h1 class="d-inline" id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1> --}}
                 </span>
 
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+                    {{-- <div class="d-flex flex-row">
+                            <div class="dropdown mr-1">
+                                <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-plus"></i> {{__('Create')}}
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    @if(auth()->user()->role_users_id == 1)
+                                    <a class="dropdown-item" href="#" name="create_record" id="create_record">Add Admin</a>
+                                    @endif
+                                    <a class="dropdown-item" href="{{url('/staff/employees')}}#formModal">Add Employee</a>
+
+                                    @if ($isCrmModuleExist)
+                                        <a class="dropdown-item" href="{{url('/clients')}}#formModal">Add Client</a>
+                                    @else
+                                        <a class="dropdown-item" href="{{url('/project-management/clients')}}#formModal">Add Client</a>
+                                    @endif
+                                    <a class="dropdown-item" href="{{url('/organization/companies/')}}#formModal">Add Copmany</a>
+                                    <a class="dropdown-item" href="{{url('/subscriptions/')}}#createModal">Add Subscription</a>
+
+                                </div>
+                            </div>
+
+                    </div> --}}
+                    {{-- <li class="nav-item">
+                        <a class="dropdown-header-name" style="padding-right: 10px" href="{{url('/optimize')}}" data-toggle="tooltip" title="Clear all cache with refresh"><i class=" dripicons-plus"></i></a>
+                    </li> --}}
+                    <li class="nav-item">
+                        <div class="btn-group">
+                            {{-- <select name="company_id" id="company_id" required
+                                            class="form-control selectpicker dynamic"
+                                            data-live-search="true" data-live-search-style="contains"
+                                            data-first_name="first_name" data-last_name="last_name"
+                                            title='{{__('Selecting',['key'=>trans('file.Company')])}}...'>
+                                            <option value="1">Test 1</option>
+                                            <option value="2">Test 2</option>
+
+                            </select> --}}
+
+                            <button class="btn btn-primary" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Create">
+                                <i class="fa fa-plus-circle"></i>
+                            </button>
+                            <div class="dropdown-menu">
+                                @foreach ($addFrom as $item)
+                                    <a class="dropdown-item" href="{{ $item['url'] }}">Add {{ $item['title'] }}</a>
+                                @endforeach
+                            </div>
+                          </div>
+                    </li>
                     <li class="nav-item">
                         <a class="dropdown-header-name" style="padding-right: 10px" href="{{url('/optimize')}}" data-toggle="tooltip" title="Clear all cache with refresh"><i class="fa fa-refresh"></i></a>
                     </li>
@@ -53,15 +100,6 @@
                             @endforeach
                         </ul>
                     </li>
-
-                @if (Auth::user()->role_users_id==1)
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{url('/documentation')}}" target="_blank" data-toggle="tooltip"
-                           title="{{__('Documentation')}}">
-                            <i class="dripicons-information"></i>
-                        </a>
-                    </li>
-                @endif
 
                     <li class="nav-item">
                         <a rel="nofollow" href="#" class="nav-link dropdown-item">

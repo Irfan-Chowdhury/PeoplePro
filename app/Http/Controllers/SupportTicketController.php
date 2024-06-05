@@ -228,12 +228,6 @@ class SupportTicketController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param int $id
-	 * @return Response
-	 */
 	public function edit($id)
 	{
 		if (request()->ajax())
@@ -248,13 +242,6 @@ class SupportTicketController extends Controller {
 		}
 	}
 
-	/**d
-	 * Update the specified resource in storage.
-	 *
-	 * @param Request $request
-	 * @param int $id
-	 * @return Response
-	 */
 	public function update(Request $request)
 	{
 		$logged_user = auth()->user();

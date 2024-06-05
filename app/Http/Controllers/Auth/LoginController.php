@@ -30,15 +30,13 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-
      // over riding the method for custom redirecting after login
-    protected function authenticated(Request $request, $user)
-    {
+     protected function authenticated(Request $request, $user)
+     {
         //saving login timestamps and ip after login
         $user->timestamps = false;
         $user->last_login_date = Carbon::now()->toDateTimeString();
-        // $user->last_login_ip = $request->ip();
-        $user->last_login_ip = request()->ip();
+        $user->last_login_ip = $request->ip();
         $user->save();
 
         if ($user->role_users_id == 1)

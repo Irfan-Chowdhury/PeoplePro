@@ -98,22 +98,22 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <tbody>
-                                <tr>
-                                    <th class="w-50">{{__('Sub Total')}}:</th>
-                                    <td>{{$invoice->sub_total}}</td>
-                                </tr>
-                                <tr>
-                                    <th>{{trans('file.Tax')}}</th>
-                                    <td> {{$invoice->total_tax}}</td>
-                                </tr>
-                                <tr>
-                                    <th>{{trans('file.Discount')}}:</th>
-                                    <td>{{$invoice->total_discount}}</td>
-                                </tr>
-                                <tr>
-                                    <th>{{trans('file.Total')}}:</th>
-                                    <td>{{$invoice->grand_total}}</td>
-                                </tr>
+                                    <tr>
+                                        <th class="w-50">{{__('Sub Total')}}:</th>
+                                        <td>{{number_format($invoice->sub_total, 2, '.', '')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{trans('file.Tax')}}</th>
+                                        <td> {{number_format($invoice->total_tax, 2, '.', '')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{trans('file.Discount')}}:</th>
+                                        <td>{{number_format($invoice->total_discount, 2, '.', '')}}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>{{trans('file.Total')}}:</th>
+                                        <td>{{number_format($invoice->grand_total, 2, '.', '')}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>

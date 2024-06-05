@@ -38,7 +38,7 @@
         <select name="type" id="type" class="form-control selectpicker "
                 data-live-search="true" data-live-search-style="contains"
                 title='{{__('Tax Type')}}'>
-            <option value="fixed">{{trans('file.Fixed')}}</option>
+            {{-- <option value="fixed">{{trans('file.Fixed')}}</option> --}}
             <option value="percentage">{{trans('file.Percentage')}}</option>
         </select>
     </div>
@@ -58,6 +58,7 @@
                         <th>{{__('Tax Rate')}}</th>
                         <th>{{__('Tax Type')}}</th>
                         <th>{{trans('file.Description')}}</th>
+                        <th>{{trans('file.Default')}}</th>
                         <th class="not-exported">{{trans('file.action')}}</th>
                     </tr>
                     </thead>
@@ -112,9 +113,13 @@
                         <select name="type_edit" id="type_edit" class="form-control selectpicker "
                                 data-live-search="true" data-live-search-style="contains"
                                 title='{{__('Tax Type')}}'>
-                            <option value="fixed">{{trans('file.Fixed')}}</option>
+                            {{-- <option value="fixed">{{trans('file.Fixed')}}</option> --}}
                             <option value="percentage">{{trans('file.Percentage')}}</option>
                         </select>
+                    </div>
+                    <div class="ml-3 col-md-6 form-group form-check">
+                        <input type="checkbox" name="is_default" class="form-check-input">
+                        <label class="form-check-label">Is deafult for items</label>
                     </div>
                     <div class="col-md-4 form-group">
                         <input type="hidden" name="hidden_tax_id" id="hidden_tax_id" />

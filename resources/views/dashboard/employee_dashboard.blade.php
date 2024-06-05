@@ -512,215 +512,218 @@
             </div>
         </div>
 
-
-        <script>
-            (function($) {
-                "use strict";
-
-
-                let startDateInput = $('#start_date');
-                let endDateInput = $('#end_date');
-                let totalDaysInput = $('#total_days');
-
-                $(document).ready(function () {
-                    let date = $('.date');
-                    date.datepicker({
-                        format: '{{ env('Date_Format_JS')}}',
-                        autoclose: true,
-                        todayHighlight: true,
-                        startDate: new Date(),
-                    });
-
-                    // const startDateInput = $('#start_date');
-                    // const endDateInput = $('#end_date');
-                    // const totalDaysInput = $('#total_days');
-
-                    startDateInput.on('change', function() {
-                        getDateResult();
-                    });
-
-                    endDateInput.on('change', function() {
-                        getDateResult();
-                    });
-
-                    const getDateResult = ()  => {
-
-                        // Convert Date formate to YYYY-MM-DD
-                        if (!startDateInput.val() || !endDateInput.val()) {
-                            return;
-                        }
-
-                        let startDateFormat = convertDataFormat(startDateInput.val());
-                        let endDateFormat = convertDataFormat(endDateInput.val());
-
-                        let startDate = new Date(startDateFormat);
-                        let endDate = new Date(endDateFormat);
-                        let timeDiff = endDate.getTime() - startDate.getTime();
-                        // Convert the difference from milliseconds to days and update the totalDays input field
-                        let totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
-                        if (totalDays < 0) {
-                            totalDaysInput.val(0);
-                        }else {
-                            totalDaysInput.val(totalDays);
-                        }
-                    }
-
-                    const convertDataFormat = getDateValue => {
-                        const inputDate = getDateValue;
-                        const parts = inputDate.split("-");
-                        const date = new Date(parts[2], parts[1] - 1, parts[0]);
-                        const outputDate = date.toISOString().substring(0, 10);
-                        return outputDate;
-                    }
-                });
-
-                // let date = $('.date');
-                // date.datepicker({
-                //     format: '{{ env('Date_Format_JS')}}',
-                //     autoclose: true,
-                //     todayHighlight: true
-                // });
-
-                $('#holiday').on('click', function () {
-                    $('#holidayModal').modal('show');
-                });
-
-                $('#leave_request').on('click', function () {
-                    $('#leaveModal').modal('show');
-                });
-
-                $('#travel_request').on('click', function () {
-                    $('#travelModal').modal('show');
-                });
-
-                $('#ticket_request').on('click', function () {
-                    $('#ticketModal').modal('show');
-                });
-
-
-                $('#leaveSampleForm').on('submit', function (event) {
-                    event.preventDefault();
-
-                    let start_date = $("#start_date").datepicker('getDate');
-                    let end_date = $("#end_date").datepicker('getDate');
-                    let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
-                    $('#diff_date_hidden').val(dayDiff);
-
-                    let allocatedDay = $("#leave_type option:selected").data('day');
-
-                    let  html = '';
-                    if (allocatedDay < totalDaysInput.val()) {
-                        html += '<div class="alert alert-danger">' + '<p>Insufficient Allocated Day</p>' + '</div>';
-                        return $('#leave_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                    }
-
-                    $.ajax({
-                        url: "{{ route('leaves.store') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            console.log(data);
-
-                            if (data.errors) {
-                                html += '<div class="alert alert-danger">';
-                                for (let count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            else if (data.limit) {
-                                html += '<div class="alert alert-danger">' + data.limit + '</div>';
-                            }
-                            else if (data.remaining_leave) {
-                                html += '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
-                            }
-                            else if (data.error) {
-                                html += '<div class="alert alert-danger">' + data.error + '</div>';
-                            }
-                            else if (data.success) {
-                                html += '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#leaveSampleForm')[0].reset();
-                                $('select').selectpicker('refresh');
-                                $('.date').datepicker('update');
-                            }
-                            $('#leave_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    });
-
-
-
-                });
-
-                $('#travel_sample_form').on('submit', function (event) {
-                    event.preventDefault();
-
-                    $.ajax({
-                        url: "{{ route('travels.store') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            let html = '';
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">';
-                                for (var count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if (data.error) {
-                                html = '<div class="alert alert-danger">' + data.error + '</div>';
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#travel_sample_form')[0].reset();
-                                $('select').selectpicker('refresh');
-                                $('.date').datepicker('update');
-                            }
-                            $('#travel_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    })
-                });
-
-
-                $('#ticket_sample_form').on('submit', function (event) {
-                    event.preventDefault();
-
-                    $.ajax({
-                        url: "{{ route('tickets.store') }}",
-                        method: "POST",
-                        data: new FormData(this),
-                        contentType: false,
-                        cache: false,
-                        processData: false,
-                        dataType: "json",
-                        success: function (data) {
-                            let html = '';
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">';
-                                for (var count = 0; count < data.errors.length; count++) {
-                                    html += '<p>' + data.errors[count] + '</p>';
-                                }
-                                html += '</div>';
-                            }
-                            if (data.success) {
-                                html = '<div class="alert alert-success">' + data.success + '</div>';
-                                $('#ticket_sample_form')[0].reset();
-                                $('select').selectpicker('refresh');
-                            }
-                            $('#ticket_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        }
-                    })
-                });
-
-            })(jQuery);
-        </script>
     </section>
 @endsection
+
+
+@push('scripts')
+<script>
+    (function($) {
+        "use strict";
+
+
+        let startDateInput = $('#start_date');
+        let endDateInput = $('#end_date');
+        let totalDaysInput = $('#total_days');
+
+        $(document).ready(function () {
+            let date = $('.date');
+            date.datepicker({
+                format: '{{ env('Date_Format_JS')}}',
+                autoclose: true,
+                todayHighlight: true,
+                startDate: new Date(),
+            });
+
+            // const startDateInput = $('#start_date');
+            // const endDateInput = $('#end_date');
+            // const totalDaysInput = $('#total_days');
+
+            startDateInput.on('change', function() {
+                getDateResult();
+            });
+
+            endDateInput.on('change', function() {
+                getDateResult();
+            });
+
+            const getDateResult = ()  => {
+
+                // Convert Date formate to YYYY-MM-DD
+                if (!startDateInput.val() || !endDateInput.val()) {
+                    return;
+                }
+
+                let startDateFormat = convertDataFormat(startDateInput.val());
+                let endDateFormat = convertDataFormat(endDateInput.val());
+
+                let startDate = new Date(startDateFormat);
+                let endDate = new Date(endDateFormat);
+                let timeDiff = endDate.getTime() - startDate.getTime();
+                // Convert the difference from milliseconds to days and update the totalDays input field
+                let totalDays = Math.ceil(timeDiff / (1000 * 3600 * 24)) + 1;
+                if (totalDays < 0) {
+                    totalDaysInput.val(0);
+                }else {
+                    totalDaysInput.val(totalDays);
+                }
+            }
+
+            const convertDataFormat = getDateValue => {
+                const inputDate = getDateValue;
+                const parts = inputDate.split("-");
+                const date = new Date(parts[2], parts[1] - 1, parts[0]);
+                const outputDate = date.toISOString().substring(0, 10);
+                return outputDate;
+            }
+        });
+
+        // let date = $('.date');
+        // date.datepicker({
+        //     format: '{{ env('Date_Format_JS')}}',
+        //     autoclose: true,
+        //     todayHighlight: true
+        // });
+
+        $('#holiday').on('click', function () {
+            $('#holidayModal').modal('show');
+        });
+
+        $('#leave_request').on('click', function () {
+            $('#leaveModal').modal('show');
+        });
+
+        $('#travel_request').on('click', function () {
+            $('#travelModal').modal('show');
+        });
+
+        $('#ticket_request').on('click', function () {
+            $('#ticketModal').modal('show');
+        });
+
+
+        $('#leaveSampleForm').on('submit', function (event) {
+            event.preventDefault();
+
+            let start_date = $("#start_date").datepicker('getDate');
+            let end_date = $("#end_date").datepicker('getDate');
+            let dayDiff = Math.ceil((end_date - start_date) / (1000 * 60 * 60 * 24)) + 1;
+            $('#diff_date_hidden').val(dayDiff);
+
+            let allocatedDay = $("#leave_type option:selected").data('day');
+
+            let  html = '';
+            if (allocatedDay < totalDaysInput.val()) {
+                html += '<div class="alert alert-danger">' + '<p>Insufficient Allocated Day</p>' + '</div>';
+                return $('#leave_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+            }
+
+            $.ajax({
+                url: "{{ route('leaves.store') }}",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    console.log(data);
+
+                    if (data.errors) {
+                        html += '<div class="alert alert-danger">';
+                        for (let count = 0; count < data.errors.length; count++) {
+                            html += '<p>' + data.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    }
+                    else if (data.limit) {
+                        html += '<div class="alert alert-danger">' + data.limit + '</div>';
+                    }
+                    else if (data.remaining_leave) {
+                        html += '<div class="alert alert-danger">' + data.remaining_leave + '</div>';
+                    }
+                    else if (data.error) {
+                        html += '<div class="alert alert-danger">' + data.error + '</div>';
+                    }
+                    else if (data.success) {
+                        html += '<div class="alert alert-success">' + data.success + '</div>';
+                        $('#leaveSampleForm')[0].reset();
+                        $('select').selectpicker('refresh');
+                        $('.date').datepicker('update');
+                    }
+                    $('#leave_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                }
+            });
+
+
+
+        });
+
+        $('#travel_sample_form').on('submit', function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: "{{ route('travels.store') }}",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    let html = '';
+                    if (data.errors) {
+                        html = '<div class="alert alert-danger">';
+                        for (var count = 0; count < data.errors.length; count++) {
+                            html += '<p>' + data.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    }
+                    if (data.error) {
+                        html = '<div class="alert alert-danger">' + data.error + '</div>';
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                        $('#travel_sample_form')[0].reset();
+                        $('select').selectpicker('refresh');
+                        $('.date').datepicker('update');
+                    }
+                    $('#travel_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                }
+            })
+        });
+
+
+        $('#ticket_sample_form').on('submit', function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: "{{ route('tickets.store') }}",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    let html = '';
+                    if (data.errors) {
+                        html = '<div class="alert alert-danger">';
+                        for (var count = 0; count < data.errors.length; count++) {
+                            html += '<p>' + data.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                        $('#ticket_sample_form')[0].reset();
+                        $('select').selectpicker('refresh');
+                    }
+                    $('#ticket_form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                }
+            })
+        });
+
+    })(jQuery);
+</script>
+@endpush

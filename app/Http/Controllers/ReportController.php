@@ -23,7 +23,6 @@ use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller {
 
-	//
 	public function payslip(Request $request)
 	{
 		$logged_user = auth()->user();
@@ -261,7 +260,6 @@ class ReportController extends Controller {
 
 	public function training(Request $request)
 	{
-
 		$logged_user = auth()->user();
 
 		$companies = Company::all('id', 'company_name');

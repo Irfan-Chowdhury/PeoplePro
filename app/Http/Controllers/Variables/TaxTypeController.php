@@ -10,7 +10,6 @@ class TaxTypeController extends Controller
 {
 	public function index()
 	{
-
 		if (request()->ajax())
 		{
 			return datatables()->of(TaxType::get())
@@ -18,21 +17,26 @@ class TaxTypeController extends Controller
 				{
 					return $tax_type->id;
 				})
+                ->addColumn('is_default', function ($data)
+				{
+                    if ($data->is_default) {
+                        return '<span class="badge badge-pill badge-success">Yes</span>';
+                    }
+                    return '';
+                })
 				->addColumn('action', function ($data)
 				{
-					if (auth()->user()->can('access-variable_type'))
+                    $button = '<button type="button" name="edit" id="' . $data->id . '" class="tax_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
+					$button .= '&nbsp;&nbsp;';
+					if ($data->rate != 0 && auth()->user()->can('access-variable_type'))
 					{
-						$button = '<button type="button" name="edit" id="' . $data->id . '" class="tax_edit btn btn-primary btn-sm"><i class="dripicons-pencil"></i></button>';
-						$button .= '&nbsp;&nbsp;';
 						$button .= '<button type="button" name="delete" id="' . $data->id . '" class="tax_delete btn btn-danger btn-sm"><i class="dripicons-trash"></i></button>';
 
 						return $button;
-					} else
-					{
-						return '';
 					}
+                    return $button;
 				})
-				->rawColumns(['action'])
+				->rawColumns(['action','is_default'])
 				->make(true);
 
 		}
@@ -148,9 +152,16 @@ class TaxTypeController extends Controller
 			$data['rate'] = $request->get('rate_edit');
 			$data['type'] = $request->get('type_edit');
 			$data['description'] = $request->get('description_edit');
+			$data['is_default'] = $request->is_default ? true : false;
 
+
+            if ($request->is_default) {
+                TaxType::where('is_default', 1)->update(['is_default'=> 0]);
+            }
 
 			TaxType::whereId($id)->update($data);
+
+
 
 			return response()->json(['success' => __('Data is successfully updated')]);
 		} else
@@ -176,7 +187,13 @@ class TaxTypeController extends Controller
 
 		if ($logged_user->can('access-variable_type'))
 		{
-			TaxType::whereId($id)->delete();
+            $taxType = TaxType::find($id);
+
+            if ($taxType->is_default) {
+                TaxType::first()->update(['is_default' => 1]);
+            }
+
+			$taxType->delete();
 
 			return response()->json(['success' => __('Data is successfully deleted')]);
 		}

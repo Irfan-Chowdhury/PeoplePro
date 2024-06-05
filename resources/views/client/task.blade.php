@@ -252,10 +252,12 @@
             </div>
         </div>
     </div>
+@endsection
 
+@push('scripts')
     <script type="text/javascript">
-        (function($) {  
-        
+        (function($) {
+
             "use strict";
 
             $(document).ready(function () {
@@ -612,7 +614,7 @@
                 $('#client_task-table').DataTable().ajax.reload();
             });
 
-        })(jQuery); 
+        })(jQuery);
     </script>
+@endpush
 
-@endsection

@@ -47,10 +47,12 @@ class DynamicDependent extends Controller {
 		$value = $request->get('value');
 		$first_name = $request->get('first_name');
 		$last_name = $request->get('last_name');
+        
 		$data = Employee::whereCompany_id($value)
                             ->where('is_active',1)
                             ->where('exit_date',NULL)
                             ->get();
+
 		$output = '';
 		foreach ($data as $row)
 		{

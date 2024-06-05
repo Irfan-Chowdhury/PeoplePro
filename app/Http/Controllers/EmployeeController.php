@@ -114,74 +114,6 @@ class EmployeeController extends Controller
 
             if (request()->ajax()) {
 
-                // if ($request->company_id && $request->department_id && $request->designation_id && $request->office_shift_id) {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->where('company_id', '=', $request->company_id)
-                //         ->where('department_id', '=', $request->department_id)
-                //         ->where('designation_id', '=', $request->designation_id)
-                //         ->where('office_shift_id', '=', $request->office_shift_id)
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // } elseif ($request->company_id && $request->department_id && $request->designation_id) {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->where('company_id', '=', $request->company_id)
-                //         ->where('department_id', '=', $request->department_id)
-                //         ->where('designation_id', '=', $request->designation_id)
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // } elseif ($request->company_id && $request->department_id) {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->where('company_id', '=', $request->company_id)
-                //         ->where('department_id', '=', $request->department_id)
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // } elseif ($request->company_id && $request->office_shift_id) {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->where('company_id', '=', $request->company_id)
-                //         ->where('office_shift_id', '=', $request->office_shift_id)
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // } elseif ($request->company_id) {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->where('company_id', '=', $request->company_id)
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // } else {
-                //     $employees = Employee::with('user:id,profile_photo,username', 'company:id,company_name', 'department:id,department_name', 'designation:id,designation_name', 'officeShift:id,shift_name')
-                //         ->orderBy('company_id')
-                //         ->where('is_active', 1)
-                //         ->where(function($query) use ($currentDate) {
-                //             $query->whereNull('exit_date')
-                //             ->orWhere('exit_date', '>=', $currentDate)
-                //             ->orWhere('exit_date', '0000-00-00');
-                //         })
-                //         ->get();
-                // }
 
                 $employees = $this->getEmployees($request, $currentDate);
 
@@ -514,13 +446,7 @@ class EmployeeController extends Controller
                     $data['joining_date'] = $request->joining_date;
                 }
 
-                if ($request->exit_date) {
-                    $data['exit_date'] = $request->exit_date;
-                }
-                // else {
-                //     $data['exit_date'] = NULL;
-                // }
-
+                $data['exit_date'] = $request->exit_date ? date('Y-m-d', strtotime($request->exit_date)) : null;
                 $data['address'] = $request->address;
                 $data['city'] = $request->city;
                 $data['state'] = $request->state;
@@ -533,24 +459,7 @@ class EmployeeController extends Controller
                 $data['attendance_type'] = $request->attendance_type;
                 $data['is_active'] = 1;
 
-                //Leave Calculation
-                // $employee_leave_info = Employee::find($employee);
-                // if ($employee_leave_info->total_leave==0) {
-                // 	$data['total_leave'] = $request->total_leave;
-                // 	$data['remaining_leave'] = $request->total_leave;
-                // }
-                // elseif ($request->total_leave > $employee_leave_info->total_leave) {
-                // 	$data['total_leave'] = $request->total_leave;
-                // 	$data['remaining_leave'] = $request->remaining_leave + ($request->total_leave - $employee_leave_info->total_leave);
-                // }
-                // elseif ($request->total_leave < $employee_leave_info->total_leave) {
-                // 	$data['total_leave']     = $request->total_leave;
-                // 	$remaining_leave         = $request->remaining_leave - ($employee_leave_info->total_leave - $request->total_leave);
-                //     $data['remaining_leave'] = $remaining_leave < 0 ? 0 : $remaining_leave;
-                // }else {
-                // 	$data['total_leave'] = $request->total_leave;
-                // 	$data['remaining_leave'] = $employee_leave_info->remaining_leave;
-                // }
+
 
                 $user = [];
                 $user['first_name'] = $request->first_name;
@@ -560,6 +469,9 @@ class EmployeeController extends Controller
                 $user['role_users_id'] = $request->role_users_id;
                 $user['contact_no'] = $request->contact_no;
                 $user['is_active'] = 1;
+
+                // return response()->json($data);
+
 
                 DB::beginTransaction();
                 try {

@@ -27,13 +27,13 @@
     23 => 'Barryvdh\\DomPDF\\ServiceProvider',
     24 => 'JoeDixon\\Translation\\TranslationServiceProvider',
     25 => 'JoeDixon\\Translation\\TranslationBindingsServiceProvider',
-    26 => 'Laravel\\Socialite\\SocialiteServiceProvider',
-    27 => 'Laravel\\Tinker\\TinkerServiceProvider',
-    28 => 'Laravel\\Ui\\UiServiceProvider',
-    29 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    30 => 'Carbon\\Laravel\\ServiceProvider',
-    31 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
-    32 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    26 => 'Laravel\\Tinker\\TinkerServiceProvider',
+    27 => 'Laravel\\Ui\\UiServiceProvider',
+    28 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    29 => 'Carbon\\Laravel\\ServiceProvider',
+    30 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    31 => 'Termwind\\Laravel\\TermwindServiceProvider',
+    32 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
     33 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
     34 => 'Spatie\\Permission\\PermissionServiceProvider',
     35 => 'Sven\\ArtisanView\\ServiceProvider',
@@ -47,7 +47,6 @@
     43 => 'App\\Providers\\LanguageServiceProvider',
     44 => 'Barryvdh\\DomPDF\\ServiceProvider',
     45 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
-    46 => 'Laravel\\Socialite\\SocialiteServiceProvider',
   ),
   'eager' => 
   array (
@@ -69,19 +68,20 @@
     15 => 'Carbon\\Laravel\\ServiceProvider',
     16 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
     17 => 'Termwind\\Laravel\\TermwindServiceProvider',
-    18 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
-    19 => 'Spatie\\Permission\\PermissionServiceProvider',
-    20 => 'Sven\\ArtisanView\\ServiceProvider',
-    21 => 'Yajra\\DataTables\\DataTablesServiceProvider',
-    22 => 'App\\Providers\\AppServiceProvider',
-    23 => 'App\\Providers\\AuthServiceProvider',
-    24 => 'App\\Providers\\EventServiceProvider',
-    25 => 'App\\Providers\\RouteServiceProvider',
-    26 => 'App\\Providers\\ViewComposerServiceProvider',
-    27 => 'Yajra\\Datatables\\DatatablesServiceProvider',
-    28 => 'App\\Providers\\LanguageServiceProvider',
-    29 => 'Barryvdh\\DomPDF\\ServiceProvider',
-    30 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
+    18 => 'Nwidart\\Modules\\LaravelModulesServiceProvider',
+    19 => 'Spatie\\LaravelIgnition\\IgnitionServiceProvider',
+    20 => 'Spatie\\Permission\\PermissionServiceProvider',
+    21 => 'Sven\\ArtisanView\\ServiceProvider',
+    22 => 'Yajra\\DataTables\\DataTablesServiceProvider',
+    23 => 'App\\Providers\\AppServiceProvider',
+    24 => 'App\\Providers\\AuthServiceProvider',
+    25 => 'App\\Providers\\EventServiceProvider',
+    26 => 'App\\Providers\\RouteServiceProvider',
+    27 => 'App\\Providers\\ViewComposerServiceProvider',
+    28 => 'Yajra\\Datatables\\DatatablesServiceProvider',
+    29 => 'App\\Providers\\LanguageServiceProvider',
+    30 => 'Barryvdh\\DomPDF\\ServiceProvider',
+    31 => 'Maatwebsite\\Excel\\ExcelServiceProvider',
   ),
   'deferred' => 
   array (
@@ -221,7 +221,6 @@
     'validator' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'validation.presence' => 'Illuminate\\Validation\\ValidationServiceProvider',
     'Illuminate\\Contracts\\Validation\\UncompromisedVerifier' => 'Illuminate\\Validation\\ValidationServiceProvider',
-    'Laravel\\Socialite\\Contracts\\Factory' => 'Laravel\\Socialite\\SocialiteServiceProvider',
     'command.tinker' => 'Laravel\\Tinker\\TinkerServiceProvider',
   ),
   'when' => 
@@ -263,9 +262,6 @@
     array (
     ),
     'JoeDixon\\Translation\\TranslationBindingsServiceProvider' => 
-    array (
-    ),
-    'Laravel\\Socialite\\SocialiteServiceProvider' => 
     array (
     ),
     'Laravel\\Tinker\\TinkerServiceProvider' => 

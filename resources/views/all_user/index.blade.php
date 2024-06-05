@@ -1,6 +1,5 @@
 @extends('layout.main')
 @section('content')
-
     <section>
 
         <div class="container-fluid"><span id="general_result"></span></div>
@@ -17,7 +16,12 @@
                                 <a class="dropdown-item" href="#" name="create_record" id="create_record">Add Admin</a>
                                 @endif
                                 <a class="dropdown-item" href="{{url('/staff/employees')}}#formModal">Add Employee</a>
-                                <a class="dropdown-item" href="{{url('/project-management/clients')}}#formModal">Add Client</a>
+
+                                @if ($isCrmModuleExist)
+                                    <a class="dropdown-item" href="{{url('/clients')}}#formModal">Add Client</a>
+                                @else
+                                    <a class="dropdown-item" href="{{url('/project-management/clients')}}#formModal">Add Client</a>
+                                @endif
                             </div>
                         </div>
                     @endcan
@@ -267,11 +271,7 @@
         </div>
 
     </section>
-
-
-
 @endsection
-
 
 @push('scripts')
 <script type="text/javascript">
@@ -280,6 +280,11 @@
         "use strict";
 
         $(document).ready(function () {
+
+            if (window.location.href.indexOf('#formModal') != -1) {
+                $('#formModal').modal('show');
+            }
+
             var table_table = $('#user-table').DataTable({
                 initComplete: function () {
                     this.api().columns([1,5]).every(function () {

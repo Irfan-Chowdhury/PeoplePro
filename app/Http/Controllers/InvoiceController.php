@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Throwable;
 
-
 class InvoiceController extends Controller {
 
 	public function index()
@@ -98,8 +97,8 @@ class InvoiceController extends Controller {
 
 	public function edit(Invoice $invoice)
 	{
-		if (auth()->user()->can('edit-invoice'))
-		{
+		if (auth()->user()->can('edit-invoice')) {
+
 			$invoice_items = InvoiceItem::whereInvoiceId($invoice->id)->get();
 			$tax_types = TaxType::select('id', 'name', 'rate', 'type')->get();
 			$projects = Project::select('id', 'title')->get();
@@ -113,8 +112,7 @@ class InvoiceController extends Controller {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('store-invoice'))
-		{
+		if ($logged_user->can('store-invoice')) {
 			$validator = Validator::make($request->only('project_id', 'invoice_number', 'item_name', 'qty_hrs', 'unit_price', 'tax_type_id',
 				'tax-amount', 'sub_total_item', 'invoice_due_date', 'items_sub_total', 'items_tax_total', 'invoice_date', 'discount_type', 'discount_amount'
 				, 'discount_figure', 'invoice_note', 'grand_total'
@@ -215,8 +213,7 @@ class InvoiceController extends Controller {
 	{
 		$logged_user = auth()->user();
 
-		if ($logged_user->can('edit-invoice'))
-		{
+		if ($logged_user->can('edit-invoice')) {
 
 			$validator = Validator::make($request->only('project_id', 'invoice_number', 'item_name', 'qty_hrs', 'unit_price', 'tax_type_id',
 				'tax-amount', 'sub_total_item', 'invoice_due_date', 'items_sub_total', 'items_tax_total', 'invoice_date', 'discount_type', 'discount_amount'

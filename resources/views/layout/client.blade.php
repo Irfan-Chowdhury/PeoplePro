@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <link rel="icon" type="image/png" href="{{url('logo', $general_settings->site_logo) ?? 'NO Logo'}}">
+    <link rel="icon" type="image/png" href="{{asset('/images/logo/'.$general_settings->site_logo)}}"/>
+
     <title>{{$general_settings->site_title ?? "NO Title"}}</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -45,17 +46,29 @@
     <!-- date range stylesheet-->
     <link rel="stylesheet" href="{{ asset('vendor/daterange/css/daterangepicker.min.css') }}"
           type="text/css">
-    <!-- table sorter stylesheet-->
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}">
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
+
+    <!-- datatable stylesheet start-->
+    @if ($isDataTableExist)
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.bootstrap4.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/buttons.bootstrap4.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/select.bootstrap4.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/dataTables.checkboxes.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatables.flexheader.boostrap.min.css') }}"></noscript>
+
+        <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}">
+        <noscript><link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'"  href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}"></noscript>
+    @endif
+    <!-- datatable stylesheet End-->
+
 
     <link rel="stylesheet" type="text/css"
           href="{{ asset('vendor/select2/dist/css/select2.min.css') }}">
@@ -63,8 +76,6 @@
     <link rel="stylesheet" type="text/css"
           href="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.css') }}">
 
-    <link rel="stylesheet" type="text/css"
-          href="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.css') }}">
     <!-- theme stylesheet-->
     <link rel="stylesheet" href="{{ asset('css/style.default.css') }}" id="theme-stylesheet"
           type="text/css">
@@ -73,76 +84,7 @@
         @include('calendarable.css')
     @endif
 
-    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
-
-    <script type="text/javascript"
-            src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}">
-    </script>
-    <script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
-
-    <script type="text/javascript"
-            src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
-
-    <script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
-    <script type="text/javascript" src="{{ asset('js/charts-custom.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/front.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/daterange/js/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/daterange/js/knockout-3.4.2.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/daterange/js/daterangepicker.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
-
-    <!-- JS for Boostrap Tag Inputs-->
-
-    <script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
-
-    <script type="text/javascript"
-            src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
-
-    <!-- table sorter js-->
-    <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/dataTables.buttons.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/buttons.bootstrap4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.colVis.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.html5.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.print.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/dataTables.select.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('vendor/datatable/sum().js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/dataTables.checkboxes.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/datatable.fixedheader.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/datatable.responsive.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/select2/dist/js/select2.min.js') }}"></script>
-    <script type="text/javascript"
-            src="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.js') }}"></script>
-
-    @if(strpos($_SERVER['REQUEST_URI'], "calendar") > 0 || strpos($_SERVER['REQUEST_URI'], "dashboard") > 0 )
-        @include('calendarable.js')
-    @endif
+    @stack('css')
 </head>
 
 <body>
@@ -153,10 +95,14 @@
         <div class="container-fluid">
             <div class="navbar-holder d-flex align-items-center justify-content-between">
                 <a id="toggle-btn" href="#" class="menu-btn"><i class="dripicons-menu"> </i></a>
-                <span class="brand-big" id="site_logo_main">@if($general_settings->site_logo ?? "no")<img
-                            src="{{url('logo', $general_settings->site_logo ?? "no")}}" width="50">&nbsp;
-                    &nbsp;@endif<h1 class="d-inline"
-                                    id="site_title_main">{{$general_settings->site_title ?? "No title"}}</h1></span>
+                <span class="brand-big" id="site_logo_main">
+                    @if($general_settings->site_logo ?? "no")
+                    {{-- <img src="{{url('logo', $general_settings->site_logo ?? "no")}}" width="50"> --}}
+                    <img src="{{asset('/images/logo/'.$general_settings->site_logo)}}" width="140" height="70">
+                            &nbsp;
+                    &nbsp;
+                    @endif
+                    <h1 class="d-inline" id="site_title_main"></h1></span>
 
 
                 <ul class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
@@ -206,12 +152,12 @@
                             @else
                             <img class="profile-photo sm mr-1" src="{{ asset('uploads/profile_photos/avatar.jpg')}}">
                             @endif
-                            <span> {{auth()->user()->username}}</span> 
+                            <span> {{auth()->user()->username}}</span>
                         </a>
                         <ul class="right-sidebar">
                             <li>
                                 <a href="{{route('profile')}}">
-                                    <i class="dripicons-user"></i> 
+                                    <i class="dripicons-user"></i>
                                     {{trans('file.Profile')}}
                                 </a>
                             </li>
@@ -230,48 +176,11 @@
 </header>
 
 
-<nav class="side-navbar">
-    <div class="side-navbar-wrapper">
-        <!-- Sidebar Header    -->
-        <!-- Sidebar Navigation Menus-->
-        <div class="main-menu">
-            <ul id="side-main-menu" class="side-menu list-unstyled">
-
-                <li><a href="{{url('/client/dashboard')}}"> <i
-                                class="dripicons-meter"></i><span>{{trans('file.Dashboard')}}</span></a>
-                </li>
-
-                <li><a href="#Project_Management" aria-expanded="false" data-toggle="collapse"> <i
-                                class="dripicons-checklist"></i><span>{{__('Project Management')}}</span></a>
-                    <ul id="Project_Management" class="collapse list-unstyled ">
-
-                        <li id="projects"><a
-                                    href="{{route('clientProject')}}">{{trans(('file.Projects'))}}</a>
-                        </li>
-
-                        <li id="tasks"><a
-                                    href="{{route('clientTask')}}">{{trans(('file.Tasks'))}}</a>
-                        </li>
-                    </ul>
-                </li>
-
-
-                <li><a href="#invoices" aria-expanded="false" data-toggle="collapse"> <i
-                                class="dripicons-ticket"></i><span>{{trans('file.Invoice')}}</span></a>
-                    <ul id="invoices" class="collapse list-unstyled ">
-                        <li id="invoice"><a href="{{route('clientInvoice')}}">{{trans('file.Invoice')}}</a>
-                        </li>
-
-                        <li id="paid_invoice"><a href="{{route('clientInvoicePaid')}}">{{__('Invoice Payment')}}</a>
-                        </li>
-
-                    </ul>
-                </li>
-
-            </ul>
-        </div>
-    </div>
-</nav>
+@if ($isCrmModuleExist)
+    @include('crm::layouts.partials.client_sidebar')
+@else
+    @include('layout.client_partials.sidebar')
+@endif
 
 
 <div id="content" class="page animate-bottom d-none">
@@ -285,6 +194,64 @@
     </footer>
 </div>
 
+
+{{-- New Format --}}
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery/bootstrap-datepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery-clockpicker/bootstrap-clockpicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/popper.js/umd/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap-toggle/js/bootstrap-toggle.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/bootstrap/js/bootstrap-select.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/grasp_mobile_progress_circle-1.0.0.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/chart.js/Chart.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/jquery-validation/jquery.validate.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js')}}"></script>
+<script type="text/javascript" src="{{ asset('js/charts-custom.js') }}"></script>
+<script type="text/javascript" src="{{ asset('js/front.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/moment.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/knockout-3.4.2.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/daterange/js/daterangepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/tinymce/js/tinymce/tinymce.min.js') }}"></script>
+
+<!-- JS for Boostrap Tag Inputs-->
+<script type="text/javascript" src="{{ asset('vendor/Tag_input/tagsinput.js') }}"></script>
+<script type="text/javascript" src="{{ asset('vendor/RangeSlider/ion.rangeSlider.min.js') }}"></script>
+
+<!-- table sorter js-->
+
+<!-- datatable Script Start-->
+@if ($isDataTableExist)
+
+    @if(Config::get('app.locale') == 'Arabic')
+        <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake_arabic.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts_arabic.js') }}"></script>
+    @else
+        <script type="text/javascript" src="{{ asset('vendor/datatable/pdfmake.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('vendor/datatable/vfs_fonts.js') }}"></script>
+    @endif
+
+    <script type="text/javascript" src="{{ asset('vendor/datatable/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.buttons.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.bootstrap4.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.colVis.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.html5.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/buttons.print.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.select.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/sum().js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/dataTables.checkboxes.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.fixedheader.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('vendor/datatable/datatable.responsive.boostrap.min.js') }}"></script>
+@endif
+<!-- datatable Script End-->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if(strpos($_SERVER['REQUEST_URI'], "calendar") > 0 || strpos($_SERVER['REQUEST_URI'], "dashboard") > 0 )
+    @include('calendarable.js')
+@endif
 
 <script type="text/javascript">
     (function($) {
@@ -304,6 +271,7 @@
     })(jQuery);
 </script>
 
+@stack('scripts')
 
 </body>
 </html>

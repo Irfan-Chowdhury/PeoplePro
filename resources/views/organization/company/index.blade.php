@@ -1,19 +1,13 @@
 @extends('layout.main')
 @section('content')
 
-
-
     <section>
-
-
         <div class="container-fluid mb-3">
             @can('store-company')
-                <button type="button" class="btn btn-info" name="create_record" id="create_record"><i
-                            class="fa fa-plus"></i> {{__('Add Company')}}</button>
+                <button type="button" class="btn btn-info" name="create_record" id="create_record"><i class="fa fa-plus"></i> {{__('Add Company')}}</button>
             @endcan
             @can('delete-company')
-                <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i
-                            class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
+                <button type="button" class="btn btn-danger" name="bulk_delete" id="bulk_delete"><i class="fa fa-minus-circle"></i> {{__('Bulk delete')}}</button>
             @endcan
         </div>
 
@@ -36,7 +30,6 @@
             </table>
         </div>
     </section>
-
 
 
     <div id="formModal" class="modal fade" role="dialog">
@@ -146,12 +139,6 @@
         </div>
     </div>
 
-
-
-
-
-
-
     <div class="modal fade" id="company_modal" tabindex="-1" role="dialog" aria-labelledby="basicModal"
          aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -242,13 +229,6 @@
         </div>
     </div>
 
-
-
-
-
-
-
-
     <div id="confirmModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -267,385 +247,373 @@
             </div>
         </div>
     </div>
-
-
-
 @endsection
 
 @push('scripts')
-<script type="text/javascript">
-    (function($) {
-        "use strict";
-        $(document).ready(function () {
+    <script type="text/javascript">
+        (function($) {
+            "use strict";
 
-            $('#company-table').DataTable({
-                initComplete: function () {
-                    this.api().columns([2, 4]).every(function () {
-                        var column = this;
-                        var select = $('<select><option value=""></option></select>')
-                            .appendTo($(column.footer()).empty())
-                            .on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
+            $(document).ready(function () {
+                $('#company-table').DataTable({
+                    initComplete: function () {
+                        this.api().columns([2, 4]).every(function () {
+                            var column = this;
+                            var select = $('<select><option value=""></option></select>')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    var val = $.fn.dataTable.util.escapeRegex(
+                                        $(this).val()
+                                    );
 
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
+                                    column
+                                        .search(val ? '^' + val + '$' : '', true, false)
+                                        .draw();
+                                });
+
+                            column.data().unique().sort().each(function (d, j) {
+                                select.append('<option value="' + d + '">' + d + '</option>');
+                                $('select').selectpicker('refresh');
                             });
-
-                        column.data().unique().sort().each(function (d, j) {
-                            select.append('<option value="' + d + '">' + d + '</option>');
-                            $('select').selectpicker('refresh');
                         });
-                    });
-                },
-                responsive: true,
-                fixedHeader: {
-                    header: true,
-                    footer: true
-                },
-                serverSide: true,
-                ajax: {
-                    url: "{{ route('companies.index') }}",
-                },
-                columns: [
-                    {
-                        data: 'id',
-                        orderable: false,
-                        searchable: false
                     },
-                    {
-                        data: 'company_name',
-                        name: 'company_name',
-
+                    responsive: true,
+                    fixedHeader: {
+                        header: true,
+                        footer: true
                     },
-                    {
-                        data: 'email',
-                        name: 'email'
+                    serverSide: true,
+                    ajax: {
+                        url: "{{ route('companies.index') }}",
                     },
-                    {
-                        data: 'contact_no',
-                        name: 'contact_no'
-                    },
-
-                    {
-                        data: 'city',
-                        name: 'city'
-                    },
-                    {
-                        data: 'country',
-                        name: 'country'
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false
-                    }
-                ],
-
-
-                "order": [],
-                'language': {
-                    'lengthMenu': '_MENU_ {{__("records per page")}}',
-                    "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
-                    "search": '{{trans("file.Search")}}',
-                    'paginate': {
-                        'previous': '{{trans("file.Previous")}}',
-                        'next': '{{trans("file.Next")}}'
-                    }
-                },
-
-                'columnDefs': [
-                    {
-                        "orderable": false,
-                        'targets': [0, 5]
-                    },
-                    {
-                        'render': function (data, type, row, meta) {
-                            if (type == 'display') {
-                                data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
-                            }
-
-                            return data;
+                    columns: [
+                        {
+                            data: 'id',
+                            orderable: false,
+                            searchable: false
                         },
-                        'checkboxes': {
-                            'selectRow': true,
-                            'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
+                        {
+                            data: 'company_name',
+                            name: 'company_name',
+
                         },
-                        'targets': [0]
-                    }
-                ],
-
-
-                'select': {style: 'multi', selector: 'td:first-child'},
-                'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
-                dom: '<"row"lfB>rtip',
-                buttons: [
-                    {
-                        extend: 'pdf',
-                        text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
+                        {
+                            data: 'email',
+                            name: 'email'
                         },
-                    },
-                    {
-                        extend: 'csv',
-                        text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
+                        {
+                            data: 'contact_no',
+                            name: 'contact_no'
                         },
-                    },
-                    {
-                        extend: 'print',
-                        text: '<i title="print" class="fa fa-print"></i>',
-                        exportOptions: {
-                            columns: ':visible:Not(.not-exported)',
-                            rows: ':visible'
+
+                        {
+                            data: 'city',
+                            name: 'city'
                         },
-                    },
-                    {
-                        extend: 'colvis',
-                        text: '<i title="column visibility" class="fa fa-eye"></i>',
-                        columns: ':gt(0)'
-                    },
-                ],
-            });
-        });
-
-
-        $('#create_record').on('click', function () {
-
-            $('.modal-title').text('{{__('Add New Company')}}');
-            $('#action_button').val('{{trans("file.Add")}}');
-            $('#action').val('{{trans("file.Add")}}');
-            $('#store_logo').html('');
-            $('#formModal').modal('show');
-        });
-
-        $('#sample_form').on('submit', function (event) {
-            event.preventDefault();
-            if ($('#action').val() == '{{trans('file.Add')}}') {
-                $.ajax({
-                    url: "{{ route('companies.store') }}",
-                    method: "POST",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function (data) {
-                        var html = '';
-                        if (data.errors) {
-                            html = '<div class="alert alert-danger">';
-                            for (var count = 0; count < data.errors.length; count++) {
-                                html += '<p>' + data.errors[count] + '</p>';
-                            }
-                            html += '</div>';
+                        {
+                            data: 'country',
+                            name: 'country'
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false
                         }
-                        if (data.success) {
-                            html = '<div class="alert alert-success">' + data.success + '</div>';
-                            $('#sample_form')[0].reset();
-                            $('select').selectpicker('refresh');
-                            $('#company-table').DataTable().ajax.reload();
-                        }
-                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                    }
-                })
-            }
+                    ],
 
-            if ($('#action').val() == '{{trans('file.Edit')}}') {
-                $.ajax({
-                    url: "{{ route('companies.update') }}",
-                    method: "POST",
-                    data: new FormData(this),
-                    contentType: false,
-                    cache: false,
-                    processData: false,
-                    dataType: "json",
-                    success: function (data) {
-                        var html = '';
-                        if (data.errors) {
-                            html = '<div class="alert alert-danger">';
-                            for (var count = 0; count < data.errors.length; count++) {
-                                html += '<p>' + data.errors[count] + '</p>';
-                            }
-                            html += '</div>';
+
+                    "order": [],
+                    'language': {
+                        'lengthMenu': '_MENU_ {{__("records per page")}}',
+                        "info": '{{trans("file.Showing")}} _START_ - _END_ (_TOTAL_)',
+                        "search": '{{trans("file.Search")}}',
+                        'paginate': {
+                            'previous': '{{trans("file.Previous")}}',
+                            'next': '{{trans("file.Next")}}'
                         }
-                        if (data.success) {
-                            html = '<div class="alert alert-success">' + data.success + '</div>';
-                            $('#sample_form')[0].reset();
-                            $('select').selectpicker('refresh');
-                            $('#company-table').DataTable().ajax.reload();
+                    },
+
+                    'columnDefs': [
+                        {
+                            "orderable": false,
+                            'targets': [0, 5]
+                        },
+                        {
+                            'render': function (data, type, row, meta) {
+                                if (type == 'display') {
+                                    data = '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>';
+                                }
+
+                                return data;
+                            },
+                            'checkboxes': {
+                                'selectRow': true,
+                                'selectAllRender': '<div class="checkbox"><input type="checkbox" class="dt-checkboxes"><label></label></div>'
+                            },
+                            'targets': [0]
                         }
-                        $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                    }
+                    ],
+
+
+                    'select': {style: 'multi', selector: 'td:first-child'},
+                    'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
+                    dom: '<"row"lfB>rtip',
+                    buttons: [
+                        {
+                            extend: 'pdf',
+                            text: '<i title="export to pdf" class="fa fa-file-pdf-o"></i>',
+                            exportOptions: {
+                                columns: ':visible:Not(.not-exported)',
+                                rows: ':visible'
+                            },
+                        },
+                        {
+                            extend: 'csv',
+                            text: '<i title="export to csv" class="fa fa-file-text-o"></i>',
+                            exportOptions: {
+                                columns: ':visible:Not(.not-exported)',
+                                rows: ':visible'
+                            },
+                        },
+                        {
+                            extend: 'print',
+                            text: '<i title="print" class="fa fa-print"></i>',
+                            exportOptions: {
+                                columns: ':visible:Not(.not-exported)',
+                                rows: ':visible'
+                            },
+                        },
+                        {
+                            extend: 'colvis',
+                            text: '<i title="column visibility" class="fa fa-eye"></i>',
+                            columns: ':gt(0)'
+                        },
+                    ],
                 });
-            }
-        });
-
-
-        $(document).on('click', '.edit', function () {
-
-            var id = $(this).attr('id');
-            $('#form_result').html('');
-
-            var target = "{{ url('/organization/companies/edit')}}/" + id;
-
-
-            $.ajax({
-                url: target,
-                dataType: "json",
-                success: function (html) {
-
-
-                    $('#company_name').val(html.data.company_name);
-                    $('#company_type').selectpicker('val', html.data.company_type);
-                    $('#trading_name').val(html.data.trading_name);
-                    $('#registration_no').val(html.data.registration_no);
-                    $('#contact_no').val(html.data.contact_no);
-                    $('#email').val(html.data.email);
-                    $('#website').val(html.data.website);
-                    $('#tax_no').val(html.data.tax_no);
-                    $('#location_id').selectpicker('val', html.data.location_id);
-                    if (html.data.company_logo) {
-                        $('#store_logo').html("<img src={{ URL::to('/public') }}/uploads/company_logo/" + html.data.company_logo + " width='70'  class='img-thumbnail' />");
-                        $('#store_logo').append("<input type='hidden' name='hidden_image' value='" + html.data.company_logo + "'  />");
-                    }
-                    $('#hidden_id').val(html.data.id);
-                    $('.modal-title').text('{{trans('file.Edit')}}');
-                    $('#action_button').val('{{trans('file.Edit')}}');
-                    $('#action').val('{{trans('file.Edit')}}');
-                    $('#formModal').modal('show');
-                }
-            })
-        });
-
-
-        $(document).on('click', '.show_new', function () {
-
-            var id = $(this).attr('id');
-            $('#form_result').html('');
-
-            var target = "{{ url('/organization/companies')}}/" + id;
-
-
-            $.ajax({
-                url: target,
-                dataType: "json",
-                success: function (result) {
-
-                    $('#company_name_id').html(result.data.company_name);
-                    $('#company_type_id').html(result.data.company_type);
-                    $('#trading_name_id').html(result.data.trading_name);
-                    $('#registration_no_id').html(result.data.registration_no);
-                    $('#contact_no_id').html(result.data.contact_no);
-                    $('#email_id').html(result.data.email);
-                    $('#website_id').html(result.data.website);
-                    $('#tax_no_id').html(result.data.tax_no);
-                    $('#address1_id').html(result.data.location.address1);
-                    $('#address2_id').html(result.data.location.address2);
-                    $('#city_id').html(result.data.location.city);
-                    $('#state_id').html(result.data.location.state);
-                    $('#country_id').html(result.data.location.country.name);
-                    $('#zip_id').html(result.data.location.zip);
-                    if (result.data.company_logo) {
-                        $('#logo_id').html("<img src={{ URL::to('/public') }}/uploads/company_logo/" + result.data.company_logo + " width='70'  class='img-thumbnail' />");
-                        $('#logo_id').append("<input type='hidden'  name='hidden_image' value='" + result.data.company_logo + "'  />");
-                    }
-                    $('#company_modal').modal('show');
-                    $('.modal-title').text('{{__('Company Info')}}');
-                }
             });
-        });
 
 
-        let lid;
+            // $(document).on('click', '#create_record', function () {
+            $('#create_record').on('click', function () {
+                console.log('Create');
+                $('.modal-title').text('{{__('Add New Company')}}');
+                $('#action_button').val('{{trans("file.Add")}}');
+                $('#action').val('{{trans("file.Add")}}');
+                $('#store_logo').html('');
+                $('#formModal').modal('show');
+            });
 
-        $(document).on('click', '.delete', function () {
-            lid = $(this).attr('id');
-            $('#confirmModal').modal('show');
-            $('.modal-title').text('{{__('DELETE Record')}}');
-            $('#ok_button').text('{{trans('file.OK')}}');
 
-        });
-
-
-        $(document).on('click', '#bulk_delete', function () {
-            let table = $('#company-table').DataTable();
-            let id = [];
-            id = table.rows({selected: true}).ids().toArray();
-            if (id.length > 0) {
-                if (confirm("Are you sure you want to delete the selected company?")) {
+            $('#sample_form').on('submit', function (event) {
+                event.preventDefault();
+                if ($('#action').val() == '{{trans('file.Add')}}') {
                     $.ajax({
-                        url: '{{route('mass_delete_companies')}}',
-                        method: 'POST',
-                        data: {
-                            companyIdArray: id
-                        },
+                        url: "{{ route('companies.store') }}",
+                        method: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        dataType: "json",
                         success: function (data) {
-                            let html = '';
+                            var html = '';
+                            if (data.errors) {
+                                html = '<div class="alert alert-danger">';
+                                for (var count = 0; count < data.errors.length; count++) {
+                                    html += '<p>' + data.errors[count] + '</p>';
+                                }
+                                html += '</div>';
+                            }
                             if (data.success) {
                                 html = '<div class="alert alert-success">' + data.success + '</div>';
+                                $('#sample_form')[0].reset();
+                                $('select').selectpicker('refresh');
+                                $('#company-table').DataTable().ajax.reload();
                             }
-                            if (data.error) {
-                                html = '<div class="alert alert-danger">' + data.error + '</div>';
-                            }
-                            table.ajax.reload();
-                            table.rows('.selected').deselect();
-                            if (data.errors) {
-                                html = '<div class="alert alert-danger">' + data.error + '</div>';
-                            }
-                            $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
                         }
+                    })
+                }
 
+                if ($('#action').val() == '{{trans('file.Edit')}}') {
+                    $.ajax({
+                        url: "{{ route('companies.update') }}",
+                        method: "POST",
+                        data: new FormData(this),
+                        contentType: false,
+                        cache: false,
+                        processData: false,
+                        dataType: "json",
+                        success: function (data) {
+                            var html = '';
+                            if (data.errors) {
+                                html = '<div class="alert alert-danger">';
+                                for (var count = 0; count < data.errors.length; count++) {
+                                    html += '<p>' + data.errors[count] + '</p>';
+                                }
+                                html += '</div>';
+                            }
+                            if (data.success) {
+                                html = '<div class="alert alert-success">' + data.success + '</div>';
+                                $('#sample_form')[0].reset();
+                                $('select').selectpicker('refresh');
+                                $('#company-table').DataTable().ajax.reload();
+                            }
+                            $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                        }
                     });
                 }
-            } else {
-
-            }
-
-        });
+            });
 
 
-        $('.close').on('click', function () {
-            $('#sample_form')[0].reset();
-            $('#store_logo').html('');
-            $('#logo_id').html('');
-            $('#company-table').DataTable().ajax.reload();
-            $('select').selectpicker('refresh');
+            $(document).on('click', '.edit', function () {
+                var id = $(this).attr('id');
+                $('#form_result').html('');
 
+                var target = "{{ url('/organization/companies/edit')}}/" + id;
 
-        });
-
-        $('#ok_button').on('click', function () {
-            var target = "{{ url('/organization/companies/delete')}}/" + lid;
-            $.ajax({
-                url: target,
-                beforeSend: function () {
-                    $('#ok_button').text('{{trans('file.Deleting...')}}');
-                },
-                success: function (data) {
-                    console.log(data);
-                    
-                    let html = '';
-                    if (data.success) {
-                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                $.ajax({
+                    url: target,
+                    dataType: "json",
+                    success: function (html) {
+                        $('#company_name').val(html.data.company_name);
+                        $('#company_type').selectpicker('val', html.data.company_type);
+                        $('#trading_name').val(html.data.trading_name);
+                        $('#registration_no').val(html.data.registration_no);
+                        $('#contact_no').val(html.data.contact_no);
+                        $('#email').val(html.data.email);
+                        $('#website').val(html.data.website);
+                        $('#tax_no').val(html.data.tax_no);
+                        $('#location_id').selectpicker('val', html.data.location_id);
+                        if (html.data.company_logo) {
+                            $('#store_logo').html("<img src={{ URL::to('/public') }}/uploads/company_logo/" + html.data.company_logo + " width='70'  class='img-thumbnail' />");
+                            $('#store_logo').append("<input type='hidden' name='hidden_image' value='" + html.data.company_logo + "'  />");
+                        }
+                        $('#hidden_id').val(html.data.id);
+                        $('.modal-title').text('{{trans('file.Edit')}}');
+                        $('#action_button').val('{{trans('file.Edit')}}');
+                        $('#action').val('{{trans('file.Edit')}}');
+                        $('#formModal').modal('show');
                     }
-                    if (data.error) {
-                        html = '<div class="alert alert-danger">' + data.error + '</div>';
+                })
+            });
+
+
+            $(document).on('click', '.show_new', function () {
+                var id = $(this).attr('id');
+                $('#form_result').html('');
+                var target = "{{ url('/organization/companies')}}/" + id;
+                $.ajax({
+                    url: target,
+                    dataType: "json",
+                    success: function (result) {
+
+                        $('#company_name_id').html(result.data.company_name);
+                        $('#company_type_id').html(result.data.company_type);
+                        $('#trading_name_id').html(result.data.trading_name);
+                        $('#registration_no_id').html(result.data.registration_no);
+                        $('#contact_no_id').html(result.data.contact_no);
+                        $('#email_id').html(result.data.email);
+                        $('#website_id').html(result.data.website);
+                        $('#tax_no_id').html(result.data.tax_no);
+                        $('#address1_id').html(result.data.location.address1);
+                        $('#address2_id').html(result.data.location.address2);
+                        $('#city_id').html(result.data.location.city);
+                        $('#state_id').html(result.data.location.state);
+                        $('#country_id').html(result.data.location.country.name);
+                        $('#zip_id').html(result.data.location.zip);
+                        if (result.data.company_logo) {
+                            $('#logo_id').html("<img src={{ URL::to('/public') }}/uploads/company_logo/" + result.data.company_logo + " width='70'  class='img-thumbnail' />");
+                            $('#logo_id').append("<input type='hidden'  name='hidden_image' value='" + result.data.company_logo + "'  />");
+                        }
+                        $('#company_modal').modal('show');
+                        $('.modal-title').text('{{__('Company Info')}}');
                     }
-                    setTimeout(function () {
-                        $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                        $('#confirmModal').modal('hide');
-                        $('#company-table').DataTable().ajax.reload();
-                    }, 2000);
+                });
+            });
+
+            let lid;
+
+            $(document).on('click', '.delete', function () {
+                lid = $(this).attr('id');
+                $('#confirmModal').modal('show');
+                $('.modal-title').text('{{__('DELETE Record')}}');
+                $('#ok_button').text('{{trans('file.OK')}}');
+
+            });
+
+
+            $(document).on('click', '#bulk_delete', function () {
+                let table = $('#company-table').DataTable();
+                let id = [];
+                id = table.rows({selected: true}).ids().toArray();
+                if (id.length > 0) {
+                    if (confirm("Are you sure you want to delete the selected company?")) {
+                        $.ajax({
+                            url: '{{route('mass_delete_companies')}}',
+                            method: 'POST',
+                            data: {
+                                companyIdArray: id
+                            },
+                            success: function (data) {
+                                let html = '';
+                                if (data.success) {
+                                    html = '<div class="alert alert-success">' + data.success + '</div>';
+                                }
+                                if (data.error) {
+                                    html = '<div class="alert alert-danger">' + data.error + '</div>';
+                                }
+                                table.ajax.reload();
+                                table.rows('.selected').deselect();
+                                if (data.errors) {
+                                    html = '<div class="alert alert-danger">' + data.error + '</div>';
+                                }
+                                $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                            }
+
+                        });
+                    }
+                } else {
+
                 }
-            })
-        });
 
-    })(jQuery);
-</script>
+            });
+
+
+            $('.close').on('click', function () {
+                $('#sample_form')[0].reset();
+                $('#store_logo').html('');
+                $('#logo_id').html('');
+                $('#company-table').DataTable().ajax.reload();
+                $('select').selectpicker('refresh');
+            });
+
+            $('#ok_button').on('click', function () {
+                var target = "{{ url('/organization/companies/delete')}}/" + lid;
+                $.ajax({
+                    url: target,
+                    beforeSend: function () {
+                        $('#ok_button').text('{{trans('file.Deleting...')}}');
+                    },
+                    success: function (data) {
+                        console.log(data);
+
+                        let html = '';
+                        if (data.success) {
+                            html = '<div class="alert alert-success">' + data.success + '</div>';
+                        }
+                        if (data.error) {
+                            html = '<div class="alert alert-danger">' + data.error + '</div>';
+                        }
+                        setTimeout(function () {
+                            $('#general_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                            $('#confirmModal').modal('hide');
+                            $('#company-table').DataTable().ajax.reload();
+                        }, 2000);
+                    }
+                })
+            });
+
+        })(jQuery);
+    </script>
 @endpush

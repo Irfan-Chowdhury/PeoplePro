@@ -1,10 +1,11 @@
 @extends('layout.main')
 @section('content')
 
-
+@push('css')
     <link rel="stylesheet" href="<?php echo asset('css/kendo.default.v2.min.css') ?>" type="text/css">
+@endpush
 
-    <script type="text/javascript" src="<?php echo asset('js/kendo.all.min.js') ?>"></script>
+
 
     <section>
         <div class="container-fluid">
@@ -49,7 +50,9 @@
 
 @endsection
 
-@push('scripts')
+@push('scripts').
+<script type="text/javascript" src="<?php echo asset('js/kendo.all.min.js') ?>"></script>
+
 <script type="text/javascript">
     (function($) {
         "use strict";

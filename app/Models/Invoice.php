@@ -19,6 +19,10 @@ class Invoice extends Model
 		return $this->hasOne('App\Models\Client','id','client_id');
 	}
 
+	public function invoiceItems()
+    {
+		return $this->hasMany(InvoiceItem::class);
+    }
 
 	public function setInvoiceDateAttribute($value)
 	{

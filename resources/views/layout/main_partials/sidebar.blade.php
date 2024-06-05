@@ -3,14 +3,7 @@
         <!-- Sidebar Header    -->
         <!-- Sidebar Navigation Menus-->
         <div class="main-menu">
-            <ul id="side-main-menu" class="side-menu list-unstyled">
-
-                {{-- Addons --}}
-                <li class="{{ (request()->is('addons*')) ? 'active' : '' }}">
-                    <a href="{{route('addons')}}"> <i class="dripicons-ticket"></i><span>{{__('Addons')}}</span>
-                    </a>
-                </li>
-
+            <ul id="side-main-menu" class="side-menu list-unstyled mb-5">
 
                 @if(auth()->user()->role_users_id ==1)
                     <li class="{{ (request()->is('admin/dashboard*')) ? 'active' : '' }}"><a
@@ -23,6 +16,9 @@
                                     class="dripicons-meter"></i><span>{{trans('file.Dashboard')}}</span></a>
                     </li>
                 @endif
+
+
+
 
                 @can('user')
                     <li class="has-dropdown @if(request()->is('user*')){{ (request()->is('user*')) ? 'active' : '' }}@elseif(request()->is('add-user*')){{ (request()->is('add-user*')) ? 'active' : '' }}@endif">
@@ -122,61 +118,15 @@
                     </li>
                 @endcan
 
-                @can('core_hr')
-                    <li class="has-dropdown {{ (request()->is('core_hr*')) ? 'active' : '' }}">
-
-                        @if(auth()->user()->can('view-promotion')||auth()->user()->can('view-award') || auth()->user()->can('view-travel')||auth()->user()->can('view-transfer')||auth()->user()->can('view-resignation')||auth()->user()->can('view-complaint')||auth()->user()->can('view-warning')||auth()->user()->can('view-termination'))
-                            <a href="#Core_hr" aria-expanded="false" data-toggle="collapse">
-                                <i class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span>
-                            </a>
-                        @endcan
-
-                        <ul id="Core_hr" class="collapse list-unstyled">
-
-                            @can('view-promotion')
-                                <li id="promotion"><a
-                                            href="{{route('promotions.index')}}">{{trans('file.Promotion')}}</a>
-                                </li>
-                            @endcan
-                            @can('view-award')
-                                <li id="award"><a href="{{route('awards.index')}}">{{trans('file.Award')}}</a></li>
-                            @endcan
-                            @can('view-travel')
-                                <li id="travel"><a href="{{route('travels.index')}}">{{trans('file.Travel')}}</a></li>
-                            @endcan
-                            @can('view-transfer')
-                                <li id="transfer"><a href="{{route('transfers.index')}}">{{trans('file.Transfer')}}</a>
-                                </li>
-                            @endcan
-                            @can('view-resignation')
-                                <li id="resignation"><a
-                                            href="{{route('resignations.index')}}">{{trans('file.Resignations')}}</a>
-                                </li>
-                            @endcan
-                            @can('view-complaint')
-                                <li id="complaint"><a
-                                            href="{{route('complaints.index')}}">{{trans('file.Complaints')}}</a>
-                                </li>
-                            @endcan
-                            @can('view-warning')
-                                <li id="warning"><a href="{{route('warnings.index')}}">{{trans('file.Warnings')}}</a>
-                                </li>
-                            @endcan
-                            @can('view-termination')
-                                <li id="termination"><a
-                                            href="{{route('terminations.index')}}">{{trans('file.Terminations')}}</a>
-                                </li>
-                            @endcan
-
-                        </ul>
-                    </li>
-                @endcan
 
 
                 <li class="has-dropdown {{ (request()->is('organization*')) ? 'active' : '' }}"><a href="#Organization" aria-expanded="false" data-toggle="collapse">
                         <i
                                 class="dripicons-view-thumb"></i><span>{{trans('file.Organization')}}</span></a>
                     <ul id="Organization" class="collapse list-unstyled ">
+                        @can('view-location')
+                            <li id="location"><a href="{{route('locations.index')}}">{{trans('file.Location')}}</a></li>
+                        @endcan
                         @can('view-company')
                             <li id="company"><a href="{{route('companies.index')}}">{{trans('file.Company')}}</a></li>
                         @endcan
@@ -186,9 +136,6 @@
                             </li>
                         @endcan
 
-                        @can('view-location')
-                            <li id="location"><a href="{{route('locations.index')}}">{{trans('file.Location')}}</a></li>
-                        @endcan
                         @can('view-designation')
                             <li id="designation"><a
                                         href="{{route('designations.index')}}">{{trans('file.Designation')}}</a>
@@ -205,25 +152,63 @@
                     </ul>
                 </li>
 
+                @can('core_hr')
+                <li class="has-dropdown {{ (request()->is('core_hr*')) ? 'active' : '' }}">
+
+                    @if(auth()->user()->can('view-promotion')||auth()->user()->can('view-award') || auth()->user()->can('view-travel')||auth()->user()->can('view-transfer')||auth()->user()->can('view-resignation')||auth()->user()->can('view-complaint')||auth()->user()->can('view-warning')||auth()->user()->can('view-termination'))
+                        <a href="#Core_hr" aria-expanded="false" data-toggle="collapse">
+                            <i class="dripicons-briefcase"></i><span>{{__('Core HR')}}</span>
+                        </a>
+                    @endcan
+
+                    <ul id="Core_hr" class="collapse list-unstyled">
+
+                        @can('view-promotion')
+                            <li id="promotion"><a
+                                        href="{{route('promotions.index')}}">{{trans('file.Promotion')}}</a>
+                            </li>
+                        @endcan
+                        @can('view-award')
+                            <li id="award"><a href="{{route('awards.index')}}">{{trans('file.Award')}}</a></li>
+                        @endcan
+                        @can('view-travel')
+                            <li id="travel"><a href="{{route('travels.index')}}">{{trans('file.Travel')}}</a></li>
+                        @endcan
+                        @can('view-transfer')
+                            <li id="transfer"><a href="{{route('transfers.index')}}">{{trans('file.Transfer')}}</a>
+                            </li>
+                        @endcan
+                        @can('view-resignation')
+                            <li id="resignation"><a
+                                        href="{{route('resignations.index')}}">{{trans('file.Resignations')}}</a>
+                            </li>
+                        @endcan
+                        @can('view-complaint')
+                            <li id="complaint"><a
+                                        href="{{route('complaints.index')}}">{{trans('file.Complaints')}}</a>
+                            </li>
+                        @endcan
+                        @can('view-warning')
+                            <li id="warning"><a href="{{route('warnings.index')}}">{{trans('file.Warnings')}}</a>
+                            </li>
+                        @endcan
+                        @can('view-termination')
+                            <li id="termination"><a
+                                        href="{{route('terminations.index')}}">{{trans('file.Terminations')}}</a>
+                            </li>
+                        @endcan
+
+                    </ul>
+                </li>
+            @endcan
+
+
                 @can('timesheet')
                     <li class="has-dropdown {{ (request()->is('timesheet*')) ? 'active' : '' }}"><a href="#Timesheets"
                                                                                                     aria-expanded="false"
                                                                                                     data-toggle="collapse">
                             <i class="dripicons-clock"></i><span>{{trans('file.Timesheets')}}</span></a>
                         <ul id="Timesheets" class="collapse list-unstyled ">
-                        {{-- @can('view-attendance') --}}
-                                {{-- <li id="attendance"><a
-                                            href="{{route('attendances.index')}}">{{trans('file.Attendances')}}</a>
-                                </li>
-                                <li id="date_wise_attendance"><a
-                                            href="{{route('date_wise_attendances.index')}}"> {{__('Date wise Attendances')}}</a>
-                                </li>
-
-
-                                <li id="monthly_attendance"><a
-                                            href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a>
-                                </li> --}}
-                        {{-- @endcan  --}}
 
                             @can('edit-attendance')
                                 <li id="update_attendance"><a
@@ -305,30 +290,17 @@
                     </li>
                 @endcan
 
-                {{-- @can('hr_report') --}}
                     <li class="has-dropdown {{ (request()->is('report*')) ? 'active' : '' }}"><a href="#HR_Reports"
                                                                                                  aria-expanded="false"
                                                                                                  data-toggle="collapse">
                             <i class="dripicons-document"></i><span>{{__('HR Reports')}}</span></a>
                         <ul id="HR_Reports" class="collapse list-unstyled ">
 
-                            {{-- @can('report-payslip')
-                                <li id="payslip_report"><a
-                                            href="{{route('report.payslip')}}">{{__('Payslip Report')}}</a>
-                                </li>
-                            @endcan --}}
-
                             <!--New added-->
                             <li id="attendance"><a href="{{route('attendances.index')}}">{{__('Daily Attendances')}}</a></li>
                             <li id="date_wise_attendance"><a href="{{route('date_wise_attendances.index')}}"> {{__('Date wise Attendances')}}</a></li>
                             <li id="monthly_attendance"><a href="{{route('monthly_attendances.index')}}"> {{__('Monthly Attendances')}}</a></li>
                             <!--New added End-->
-
-                            {{-- @can('report-attendance')
-                                <li id="attendance_report"><a
-                                            href="{{route('report.attendance')}}">{{__('Attendance Report')}}</a>
-                                </li>
-                            @endcan --}}
 
                             @can('report-training')
                                 <li id="training_report"><a
@@ -370,13 +342,11 @@
                                 </li>
                             @endcan
 
-                            {{-- New --}}
                             @can('report-pension')
                                 <li id="pension_report"><a href="{{route('report.pension')}}">{{__('Pension Report')}}</a></li>
                             @endcan
                         </ul>
                     </li>
-                {{-- @endcan --}}
 
                 @can('recruitment')
                     <li class="has-dropdown {{ (request()->is('recruitment*')) ? 'active' : '' }}">
@@ -485,6 +455,7 @@
                                                 href="{{route('clients.index')}}">{{trans(('file.Client'))}}</a>
                                     </li>
                                 @endcan
+
                                 @can('view-invoice')
                                     <li id="invoices"><a
                                                 href="{{route('invoices.index')}}">{{trans(('file.Invoice'))}}</a>
@@ -620,6 +591,17 @@
                             </ul>
                         </li>
                     @endcan
+
+                    @if (Auth::user()->role_users_id===1)
+                        <li>
+                            <a href="{{url('/documentation')}}"> <i class="dripicons-information"></i><span>{{__('file.Documentation')}}</span></a>
+                        </li>
+                        <li class="{{ (request()->is('addons*')) ? 'active' : '' }}">
+                            <a href="{{route('addons')}}"> <i class="dripicons-flag"></i><span>{{__('Addons')}}</span>
+                            </a>
+                        </li>
+                    @endif
+
             </ul>
         </div>
     </div>

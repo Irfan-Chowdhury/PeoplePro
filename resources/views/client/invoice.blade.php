@@ -22,10 +22,12 @@
             </table>
         </div>
     </section>
+@endsection
 
+@push('scripts')
     <script type="text/javascript">
-        (function($) {  
-         
+        (function($) {
+
             "use strict";
 
             $(document).ready(function () {
@@ -186,5 +188,5 @@
 
         })(jQuery);
     </script>
+@endpush
 
-@endsection

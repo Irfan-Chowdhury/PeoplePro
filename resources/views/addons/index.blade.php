@@ -44,6 +44,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <img class="card-img-top" src="{{ asset('logo/peopleprocrm.png') }}" style="height:250px" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">Peplepro CRM</h5>
+                    <p class="card-text">Take care of all your products, sales, purchases, stores related tasks from an easy-to-use platform, from anywhere you want, anytime you want.
+
+                    </p>
+                    <a href="https://peopleprohrm.com/demo-crm/" class="btn btn-danger p-2" target="_blank">Demo</a>
+                    <a href="https://codecanyon.net/item/crm-addon-for-peoplepro-hrm-payroll-project-management/52202056" class="btn btn-info p-2" target="_blank">Buy Now</a>
+                    <a href="https://peopleprohrm.com/demo-crm/documentation-crm" class="btn btn-warning p-2" target="_blank">Documentation</a>
+                    @if (!$isCrmModuleExist && env('PRODUCT_MODE')!=='DEMO')
+                        <a href="{{ route('crm-install-step-1') }}" class="btn btn-primary p-2">Go to Install</a>
+                    @endif
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 

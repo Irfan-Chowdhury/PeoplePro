@@ -324,7 +324,6 @@
 
 @push('scripts')
 <script type="text/javascript">
-
     $(document).ready(function () {
 
         if (window.location.href.indexOf('#formModal') != -1) {
@@ -509,8 +508,6 @@
 
     $('#filterSubmit').on("click",function(e){
         $('#employee-table').DataTable().draw(true);
-        //$('#filter_form')[0].reset();
-        //$('select').selectpicker('refresh');
     });
     //--------------/ Filter ----------------------
 
@@ -574,7 +571,6 @@
 
 
     $(document).on('click', '#bulk_delete', function () {
-
         var id = [];
         let table = $('#employee-table').DataTable();
         id = table.rows({selected: true}).ids().toArray();
@@ -636,8 +632,6 @@
             }
         })
     });
-
-
 
 
     $('#confirm_pass').on('input', function () {

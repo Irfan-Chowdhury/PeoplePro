@@ -16,6 +16,7 @@ class Employee extends Model
 		'twitter_id','linkedIn_id','blogger_id','basic_salary','payslip_type','leave_id','attendance_id','performance_id','award_id','transfer_id','resignation_id',
 		'travel_id','promotion_id','complain_id','warning_id','termination_id','attendance_type','total_leave','remaining_leave','pension_type','pension_amount'];
 
+
 	public function getFullNameAttribute() {
 		return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
 	}
@@ -123,10 +124,10 @@ class Employee extends Model
 		}
 	}
 
-	public function setExitDateAttribute($value)
-	{
-		$this->attributes['exit_date'] = Carbon::createFromFormat(env('Date_Format'), $value)->format('Y-m-d');
-	}
+	// public function setExitDateAttribute($value)
+	// {
+    //     $this->attributes['exit_date'] = Carbon::createFromFormat(env('Date_Format'), $value)->format('Y-m-d');
+	// }
 
 	public function getExitDateAttribute($value)
 	{
