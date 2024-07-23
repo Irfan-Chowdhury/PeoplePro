@@ -156,31 +156,21 @@ class GeneralSettingController extends Controller
 
 	public function mailSettingStore(Request $request)
 	{
-		if(!env('USER_VERIFIED'))
-		{
+
+		if(!env('USER_VERIFIED')) {
 			return redirect()->back()->with('msg', 'This feature is disable for demo!');
 		}
 
-		if (auth()->user()->can('view-mail-setting'))
-		{
-
+		if (auth()->user()->can('view-mail-setting')) {
+            
+            $this->dataWriteInENVFile('MAIL_FROM_NAME',$request->mail_name);
             $this->dataWriteInENVFile('MAIL_HOST',$request->mail_host);
             $this->dataWriteInENVFile('MAIL_PORT',$request->port);
             $this->dataWriteInENVFile('MAIL_FROM_ADDRESS',$request->mail_address);
             $this->dataWriteInENVFile('MAIL_PASSWORD',$request->password);
-            $this->dataWriteInENVFile('MAIL_FROM_NAME',".'$request->mail_name'.");
             $this->dataWriteInENVFile('MAIL_ENCRYPTION',$request->encryption);
+
 			return redirect()->back()->with('message', 'Data updated successfully');
-
-
-			//writting mail info in .env file
-            // $data = $request->all();
-			// $path = '.env';
-			// $searchArray = array('MAIL_HOST="' . env('MAIL_HOST') . '"', 'MAIL_PORT=' . env('MAIL_PORT'), 'MAIL_FROM_ADDRESS="' . env('MAIL_FROM_ADDRESS') . '"', 'MAIL_FROM_NAME="' . env('MAIL_FROM_NAME') . '"', 'MAIL_USERNAME="' . env('MAIL_USERNAME') . '"', 'MAIL_PASSWORD="' . env('MAIL_PASSWORD') . '"', 'MAIL_ENCRYPTION="' . env('MAIL_ENCRYPTION') . '"');
-			// // $searchArray = array('MAIL_HOST=' . env('MAIL_HOST'),'MAIL_PORT=' . env('MAIL_PORT'),'MAIL_FROM_ADDRESS=' . env('MAIL_FROM_ADDRESS'),'MAIL_FROM_NAME=' . env('MAIL_FROM_NAME'),'MAIL_USERNAME=' . env('MAIL_USERNAME'),'MAIL_PASSWORD=' . env('MAIL_PASSWORD'),'MAIL_ENCRYPTION=' . env('MAIL_ENCRYPTION'));
-			// $replaceArray = array('MAIL_HOST="' . $data['mail_host'] . '"', 'MAIL_PORT=' . $data['port'], 'MAIL_FROM_ADDRESS="' . $data['mail_address'] . '"', 'MAIL_FROM_NAME="' . $data['mail_name'] . '"', 'MAIL_USERNAME="' . $data['mail_address'] . '"', 'MAIL_PASSWORD="' . $data['password'] . '"', 'MAIL_ENCRYPTION="' . $data['encryption'] . '"');
-			// file_put_contents($path, str_replace($searchArray, $replaceArray, file_get_contents($path)));
-			// return redirect()->back()->with('message', 'Data updated successfully');
 		}
 		return abort('403', __('You are not authorized'));
 	}

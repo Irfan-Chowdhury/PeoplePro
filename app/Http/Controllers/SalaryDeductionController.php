@@ -23,6 +23,10 @@ class SalaryDeductionController extends Controller
 					{
 						return $deduction->id;
 					})
+					->addColumn('deduction_type', function ($data)
+					{
+						return $data->deductionType->type_name ?? " ";
+					})
 					->addColumn('action', function ($data)
 					{
 						if (auth()->user()->can('modify-details-employee'))
@@ -51,12 +55,12 @@ class SalaryDeductionController extends Controller
 		if (auth()->user()->can('store-details-employee'))
 		{
 			$validator = Validator::make($request->only('month_year','deduction_title', 'deduction_amount',
-				'deduction_type'),
+				'deduction_type_id'),
 				[
 					'month_year' => 'required',
 					'deduction_title' => 'required',
 					'deduction_amount' => 'required|numeric',
-					'deduction_type' => 'required',
+					'deduction_type_id' => 'required',
 				]
 			);
 
@@ -73,7 +77,7 @@ class SalaryDeductionController extends Controller
 			$data['deduction_title'] = $request->deduction_title;
 			$data['employee_id'] = $employee->id;
 			$data['deduction_amount'] = $request->deduction_amount;
-			$data ['deduction_type'] = $request->deduction_type;
+			$data['deduction_type_id'] = $request->deduction_type_id;
 
 
 			SalaryDeduction::create($data);
@@ -85,11 +89,11 @@ class SalaryDeductionController extends Controller
 	}
 
 
-		public function edit($id)
+	public function edit($id)
 	{
-		if(request()->ajax())
-		{
+		if(request()->ajax()) {
 			$data = SalaryDeduction::findOrFail($id);
+
 			return response()->json(['data' => $data]);
 		}
 	}
@@ -101,17 +105,16 @@ class SalaryDeductionController extends Controller
 			$id = $request->hidden_id;
 
 			$validator = Validator::make($request->only('month_year', 'deduction_title','deduction_amount',
-				'deduction_type'),
+				'deduction_type_id'),
 				[
 					'month_year' => 'required',
 					'deduction_title' => 'required',
 					'deduction_amount' => 'required|numeric',
-					'deduction_type' =>'required',
+					'deduction_type_id' =>'required',
 				]
 			);
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()) {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
@@ -122,7 +125,7 @@ class SalaryDeductionController extends Controller
 			$data['first_date'] = $first_date;
 			$data['deduction_title'] =  $request->deduction_title;
 			$data['deduction_amount'] = $request->deduction_amount;
-			$data ['deduction_type'] = $request->deduction_type;
+			$data['deduction_type_id'] = $request->deduction_type_id;
 
 			SalaryDeduction::whereId($id)->update($data);
 

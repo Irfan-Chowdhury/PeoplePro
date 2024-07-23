@@ -188,8 +188,7 @@
                 $('.month_year').val(html.data.month_year);
                 $('#deduction_amount').val(html.data.deduction_amount);
                 $('#deduction_title').val(html.data.deduction_title);
-                $('#deduction_type').selectpicker('val', html.data.deduction_type);
-
+                $('#deduction_type_id').selectpicker('val', html.data.deduction_type_id);
                 $('#deduction_hidden_id').val(html.data.id);
                 $('.modal-title').text('{{trans('file.Edit')}}');
                 $('#deduction_action_button').val('{{trans('file.Edit')}}');

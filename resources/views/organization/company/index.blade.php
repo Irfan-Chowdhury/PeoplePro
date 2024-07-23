@@ -57,16 +57,12 @@
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Company Type')}} *</label>
-                                <select name="company_type" id="company_type" class="form-control selectpicker"
+                                <select name="company_type_id" id="company_type_id" class="form-control selectpicker"
                                         data-live-search="true" data-live-search-style="contains"
-                                        title='{{__('Selecting',['key'=>__('Company Type')])}}...'>
-                                    <option value="" disabled selected>{{__('Company Type')}}</option>
-                                    <option value="corporation">{{trans('file.Corporation')}}</option>
-                                    <option value="exempt organization">{{__('Exempt Organization')}}</option>
-                                    <option value="partnership">{{trans('file.Partnership')}}</option>
-                                    <option value="private foundation">{{__('Private Foundation')}}</option>
-                                    <option value="limited liability company">{{__('Limited Liability Company')}}</option>
-
+                                        title='{{__('Selecting',['key'=>trans('file.Company Type')])}}...'>
+                                    @foreach($companyTypes as $item)
+                                        <option value="{{$item->id}}">{{$item->type_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -106,7 +102,6 @@
                                     @foreach($locations as $location)
                                         <option value="{{$location->id}}">{{$location->location_name}}</option>
                                     @endforeach
-
                                 </select>
                             </div>
 
@@ -164,7 +159,7 @@
 
                                     <tr>
                                         <th>{{__('Company Type')}}</th>
-                                        <td id="company_type_id"></td>
+                                        <td id="company_type"></td>
                                     </tr>
 
                                     <tr>
@@ -416,6 +411,7 @@
                         processData: false,
                         dataType: "json",
                         success: function (data) {
+                            console.log(data);
                             var html = '';
                             if (data.errors) {
                                 html = '<div class="alert alert-danger">';
@@ -477,7 +473,7 @@
                     dataType: "json",
                     success: function (html) {
                         $('#company_name').val(html.data.company_name);
-                        $('#company_type').selectpicker('val', html.data.company_type);
+                        $('#company_type_id').selectpicker('val', html.data.company_type_id);
                         $('#trading_name').val(html.data.trading_name);
                         $('#registration_no').val(html.data.registration_no);
                         $('#contact_no').val(html.data.contact_no);
@@ -507,9 +503,8 @@
                     url: target,
                     dataType: "json",
                     success: function (result) {
-
                         $('#company_name_id').html(result.data.company_name);
-                        $('#company_type_id').html(result.data.company_type);
+                        $('#company_type').html(result.data.company_type.type_name);
                         $('#trading_name_id').html(result.data.trading_name);
                         $('#registration_no_id').html(result.data.registration_no);
                         $('#contact_no_id').html(result.data.contact_no);

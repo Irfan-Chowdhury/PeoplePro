@@ -117,7 +117,6 @@
     $('#loan_sample_form').on('submit', function (event) {
         event.preventDefault();
         if ($('#loan_action').val() == '{{trans('file.Add')}}') {
-
             $.ajax({
                 url: "{{ route('salary_loan.store',$employee) }}",
                 method: "POST",
@@ -127,6 +126,8 @@
                 processData: false,
                 dataType: "json",
                 success: function (data) {
+                    console.log(data);
+
                     var html = '';
                     if (data.errors) {html = '<div class="alert alert-danger">';
                         for (var count = 0; count < data.errors.length; count++) {
@@ -207,7 +208,7 @@
                 $('#amount_remaining').val(html.data.amount_remaining);
                 $('#time_remaining').val(html.data.time_remaining);
                 $('#loan_reason').val(html.data.reason);
-                $('#loan_type').selectpicker('val', html.data.loan_type);
+                $('#loan_type_id').selectpicker('val', html.data.loan_type_id);
                 $('#loan_amount').val(html.data.loan_amount);
     $( "#loan_amount" ).prop( "disabled", true );
 

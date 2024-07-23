@@ -61,7 +61,10 @@
     </div>
 @endif
 
+@push('scripts')
 <script type="text/javascript">
+    (function($) {
+        "use strict";
 
     $(document).ready(function () {
         $(".alert").slideDown(300).delay(5000).slideUp(300);
@@ -94,4 +97,6 @@
         });
     });
 
+})(jQuery);
 </script>
+@endpush

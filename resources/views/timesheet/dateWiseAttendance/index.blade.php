@@ -134,6 +134,10 @@
     {{-- https://stackoverflow.com/questions/27997269/addition-of-hours-in-hhmm-using-jquery --}}
     {{-- first_date = 29.03.2021 && 30.03.2021 --}}
 
+@endsection
+
+
+@push('scripts')
     <script type="text/javascript">
         (function($) {
             "use strict";
@@ -418,6 +422,7 @@
 
         })(jQuery);
     </script>
+@endpush
 
-@endsection
+
 

@@ -2,6 +2,8 @@
 
 return array (
   'a' => 'a',
+  'Loan Option' => 'Loan Option',
+  'Company Type' => 'Company Type',
   'Total Amount' => 'Total Amount',
   'Payment Methods' => 'Payment Methods',
   'Available Quantity' => 'Available Quantity',

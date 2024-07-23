@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\company;
+use App\Models\CompanyType;
 use App\Models\location;
 use Exception;
 use Illuminate\Http\Request;
@@ -15,6 +16,8 @@ class CompanyController extends Controller {
 	public function index()
 	{
 		$locations = location::all('id','location_name');
+		$companyTypes = CompanyType::all('id','type_name');
+
 		if (request()->ajax())
 		{
 			return datatables()->of(company::with('Location.Country')->latest()->get())
@@ -49,26 +52,19 @@ class CompanyController extends Controller {
 				->make(true);
 		}
 
-		return view('organization.company.index',compact('locations'));
+		return view('organization.company.index',compact('locations','companyTypes'));
 	}
 
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @return \Illuminate\Http\Response
-	 */
 
 	public function store(Request $request)
 	{
 		if(auth()->user()->can('store-company'))
 		{
-			$validator = Validator::make($request->only('company_name', 'company_type', 'trading_name', 'registration_no', 'contact_no', 'email', 'website', 'tax_no',
+			$validator = Validator::make($request->only('company_name', 'company_type_id', 'trading_name', 'registration_no', 'contact_no', 'email', 'website', 'tax_no',
 				'location_id', 'company_logo'),
 				[
 					'company_name' => 'required|unique:companies,company_name,',
-					'company_type' => 'required',
+					'company_type_id' => 'required',
 					'email' => 'email',
 					'contact_no' => 'nullable|numeric',
 					'location_id' => 'required',
@@ -77,31 +73,26 @@ class CompanyController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()) {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
 
 			$data = [];
-
 			$data['company_name'] = $request->company_name;
-			$data['company_type'] = $request->company_type;
-			$data ['trading_name'] = $request->trading_name;
-			$data ['registration_no'] = $request->registration_no;
-			$data ['contact_no'] = $request->contact_no;
-			$data ['email'] = $request->email;
-			$data ['website'] = $request->website;
-			$data ['tax_no'] = $request->tax_no;
-			$data ['location_id'] = $request->location_id;
+			$data['company_type_id'] = $request->company_type_id;
+			$data['trading_name'] = $request->trading_name;
+			$data['registration_no'] = $request->registration_no;
+			$data['contact_no'] = $request->contact_no;
+			$data['email'] = $request->email;
+			$data['website'] = $request->website;
+			$data['tax_no'] = $request->tax_no;
+			$data['location_id'] = $request->location_id;
 
 			$company_logo = $request->company_logo;
 
-			if (isset($company_logo))
-			{
-
-				if ($company_logo->isValid())
-				{
+			if (isset($company_logo)) {
+				if ($company_logo->isValid()) {
 					$file_name = preg_replace('/\s+/', '', rand()) . '_' . time() . '.' . $company_logo->getClientOriginalExtension();
 					$company_logo->storeAs('company_logo', $file_name);
 					$data['company_logo'] = $file_name;
@@ -117,18 +108,10 @@ class CompanyController extends Controller {
 		return response()->json(['success' => __('You are not authorized')]);
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
 	public function show($id)
 	{
-		if (request()->ajax())
-		{
-			$data = company::with('location.country')->findOrFail($id);
+		if (request()->ajax()) {
+			$data = company::with(['location.country','companyType:id,type_name'])->findOrFail($id);
 
 			return response()->json(['data' => $data]);
 		}
@@ -145,19 +128,12 @@ class CompanyController extends Controller {
 
 		if (request()->ajax())
 		{
-			$data = company::findOrFail($id);
+            $data = company::with(['location.country','companyType:id,type_name'])->findOrFail($id);
 
 			return response()->json(['data' => $data]);
 		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
 	public function update(Request $request)
 	{
 
@@ -167,7 +143,7 @@ class CompanyController extends Controller {
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only('company_name', 'company_type', 'trading_name', 'registration_no', 'contact_no', 'email', 'website', 'tax_no',
+			$validator = Validator::make($request->only('company_name', 'trading_name', 'registration_no', 'contact_no', 'email', 'website', 'tax_no',
 				'location_id', 'company_logo'),
 				[
 					'company_name' => 'required|unique:companies,company_name,' . $id,
@@ -179,25 +155,23 @@ class CompanyController extends Controller {
 			);
 
 
-			if ($validator->fails())
-			{
+			if ($validator->fails()) {
 				return response()->json(['errors' => $validator->errors()->all()]);
 			}
 
 
 			$data = [];
-
 			$data['company_name'] = $request->company_name;
-			$data ['trading_name'] = $request->trading_name;
-			$data ['registration_no'] = $request->registration_no;
-			$data ['contact_no'] = $request->contact_no;
-			$data ['email'] = $request->email;
-			$data ['website'] = $request->website;
-			$data ['tax_no'] = $request->tax_no;
-			$data ['location_id'] = $request->location_id;
+			$data['company_type_id'] = $request->company_type_id;
+			$data['trading_name'] = $request->trading_name;
+			$data['registration_no'] = $request->registration_no;
+			$data['contact_no'] = $request->contact_no;
+			$data['email'] = $request->email;
+			$data['website'] = $request->website;
+			$data['tax_no'] = $request->tax_no;
+			$data['location_id'] = $request->location_id;
 
-			if ($request->company_type)
-			{
+			if ($request->company_type) {
 				$data ['company_type'] = $request->company_type;
 			}
 

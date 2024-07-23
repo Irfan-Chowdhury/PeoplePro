@@ -54,12 +54,13 @@
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Loan Option')}} *</label>
-                                <select name="loan_type" id="loan_type" required class="form-control selectpicker"
-                                        {{-- data-live-search="true" data-live-search-style="contains" --}}
-                                        title='{{__('Loan Option')}}'>
-                                    <option value="Social Security System Loan">{{__('Social Security System Loan')}}</option>
-                                    <option value="Home Development Mutual Fund Loan">{{__('Home Development Mutual Fund Loan')}}</option>
-                                    <option value="Other Loan">{{__('Other Loan')}}</option>
+                                <select name="loan_type_id" required id="loan_type_id"
+                                        class="form-control selectpicker"
+                                        data-live-search="true" data-live-search-style="contains"
+                                        title='{{__('Selecting',['key'=>trans('file.Loan Option')])}}...'>
+                                    @foreach($loanTypes as $item)
+                                        <option value="{{$item->id}}">{{$item->type_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

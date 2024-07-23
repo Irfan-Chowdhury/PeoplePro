@@ -32,6 +32,10 @@ class EmployeeContactController extends Controller
 					{
 						return $contact->id;
 					})
+                    ->addColumn('relation',function ($row)
+                    {
+                        return $row->relationType->type_name;
+                    })
 					->addColumn('action', function ($data) use ($logged_user,$employee_id)
 					{
 						if ($logged_user->can('modify-details-employee')||$logged_user->id==$employee_id)
@@ -64,31 +68,17 @@ class EmployeeContactController extends Controller
 		$logged_user = auth()->user();
 		if ($logged_user->can('store-details-employee')||$logged_user->id==$employee)
 		{
-			$validator = Validator::make($request->only( 'work_email','relation','personal_email','contact_name',
+			$validator = Validator::make($request->only('work_email','relation_type_id','personal_email','contact_name',
 				'work_phone','home_phone','personal_phone','document_file','country'),
 				[
 					'personal_email' => 'required|email',
-					'relation' => 'required',
+					'relation_type_id' => 'required',
 					'work_email' => 'email|nullable',
 					'contact_name' => 'required',
 					'personal_phone' => 'required|numeric',
 					'home_phone' => 'nullable|numeric',
 					'work_phone' => 'nullable|numeric',
 				]
-//				,
-//				[
-//					'personal_email.required' => 'Personal Email is required',
-//					'personal_email.email' => 'Incorrect Email format',
-//					'relation.required' => 'Please select document Type',
-//					'work_email.email' => 'Incorrect Email format',
-//					'name.required' => 'Name is required',
-//					'personal_phone.required' => 'Personal Phone is required',
-//					'personal_phone.numeric' => 'Personal Phone is required',
-//					'home_phone.required' => 'Home Phone is required',
-//					'home_phone.numeric' => 'Home Phone is required',
-//					'work_phone.required' => 'Work Phone is required',
-//					'work_phone.numeric' => 'Work Phone is required',
-//				]
 			);
 
 
@@ -99,8 +89,7 @@ class EmployeeContactController extends Controller
 
 
 			$data = [];
-
-			$data['relation'] =  $request->relation;
+			$data['relation_type_id'] =  $request->relation_type_id;
 			$data['employee_id'] =  $employee;
 			$data['is_primary'] = $request->is_primary;
 			$data['is_dependent'] = $request->is_dependent;
@@ -143,11 +132,11 @@ class EmployeeContactController extends Controller
 		$logged_user = auth()->user();
 		if ($logged_user->can('modify-details-employee')||$logged_user->id==$id)
 		{
-			$validator = Validator::make($request->only( 'work_email','relation','personal_email','contact_name',
+			$validator = Validator::make($request->only( 'work_email','relation_type_id','personal_email','contact_name',
 				'work_phone','home_phone','personal_phone','document_file','country'),
 				[
 					'personal_email' => 'required|email',
-					'relation' => 'required',
+					'relation_type_id' => 'required',
 					'work_email' => 'email',
 					'contact_name' => 'required',
 					'personal_phone' => 'required|numeric',
@@ -178,7 +167,7 @@ class EmployeeContactController extends Controller
 
 			$data = [];
 
-			$data['relation'] =  $request->relation;
+			$data['relation_type_id'] =  $request->relation_type_id;
 			$data['is_primary'] = $request->is_primary;
 			$data['is_dependent'] = $request->is_dependent;
 			$data['contact_name'] = $request->contact_name;

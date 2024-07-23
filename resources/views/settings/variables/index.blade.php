@@ -25,6 +25,18 @@
                     <li class="nav-item">
                         <a class="nav-link " href="{{route('document_type.index')}}" id="Document_type-tab" data-toggle="tab" data-table= "document" data-target="#Document_type" role="tab" aria-controls="Document_type" aria-selected="false">{{__('Document Type')}}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="Company_type-tab" data-toggle="tab" data-table="company_type" data-target="#Company_type" role="tab" aria-controls="Company_type" aria-selected="false">{{__('Company Type')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="Relation_type-tab" data-toggle="tab" data-table="relation_type" data-target="#Relation_type" role="tab" aria-controls="Relation_type" aria-selected="false">{{__('Relation Type')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="Loan_type-tab" data-toggle="tab" data-table="loan_type" data-target="#Loan_type" role="tab" aria-controls="Loan_type" aria-selected="false">{{__('Loan Type')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="Deduction_type-tab" data-toggle="tab" data-table="deduction_type" data-target="#Deduction_type" role="tab" aria-controls="Deduction_type" aria-selected="false">{{__('Deduction Type')}}</a>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -55,6 +67,22 @@
 
             <div class="pt-0 tab-pane fade " id="Document_type" role="tab"  aria-labelledby="Document_type-tab">
                 @include('settings.variables.partials.document_type')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="Company_type" role="tab"  aria-labelledby="Company_type-tab">
+                @include('settings.variables.partials.company_type')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="Relation_type" role="tab"  aria-labelledby="Relation_type-tab">
+                @include('settings.variables.partials.relation_type')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="Loan_type" role="tab"  aria-labelledby="Loan_type-tab">
+                @include('settings.variables.partials.loan_type')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="Deduction_type" role="tab"  aria-labelledby="Deduction_type-tab">
+                @include('settings.variables.partials.deduction_type')
             </div>
         </div>
     </section>
@@ -99,6 +127,24 @@
         $('[data-table="document"]').on('click', function (e) {
             @include('settings.variables.JS_DT.document_type_js')
         });
+
+        $('[data-table="company_type"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.company_type_js')
+        });
+
+        $('[data-table="relation_type"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.relation_type_js')
+        });
+
+        $('[data-table="loan_type"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.loan_type_js')
+        });
+
+        $('[data-table="deduction_type"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.deduction_type_js')
+        });
+
+
     })(jQuery);
 </script>
 @endpush

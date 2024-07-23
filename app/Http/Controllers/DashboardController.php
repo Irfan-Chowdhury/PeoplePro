@@ -223,6 +223,7 @@ class DashboardController extends Controller {
 
 	public function profile()
 	{
+
 		$user = auth()->user();
 
 		$employee = Employee::find($user->id);

@@ -11,4 +11,8 @@ class EmployeeContact extends Model
 	public function employee(){
 		return $this->hasOne('App\Models\Employee','id','employee_id');
 	}
+
+    public function relationType(){
+		return $this->belongsTo(RelationType::class,'relation_type_id');
+	}
 }

@@ -203,7 +203,7 @@
                     $('#contact_is_dependent').prop('checked', false);
                 }
 
-                $('#contact_relation').selectpicker('val', html.data.relation);
+                $('#contact_relation').selectpicker('val', html.data.relation_type_id);
                 $('#contact_country').selectpicker('val', html.data.country_id);
 
 

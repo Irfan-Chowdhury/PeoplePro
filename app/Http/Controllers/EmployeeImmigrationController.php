@@ -13,7 +13,6 @@ class EmployeeImmigrationController extends Controller {
 
 	public function show(Employee $employee)
 	{
-
 		$logged_user = auth()->user();
 		$employee_id = $employee->id;
 

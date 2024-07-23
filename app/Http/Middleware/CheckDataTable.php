@@ -49,7 +49,7 @@ class CheckDataTable
             url('sales/store/chekout'),
             url('client/store/chekout'),
             url('sales/orders/details/'.$this->getParameter()),
-            url('profile'),
+            // url('profile'),
             url('addons/'),
             url('employee/dashboard'),
             url('client/dashboard'),

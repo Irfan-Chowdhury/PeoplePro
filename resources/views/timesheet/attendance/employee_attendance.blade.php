@@ -109,27 +109,26 @@
         </div>
         <!-- Widget: user widget style 1 -->
     </div>
-
-    <script type="text/javascript">
-        (function($) {  
-            "use strict";
-
-            $(document).ready(function() {
-
-                $('#clock_in_btn').on('click',function () {
-                    $('#in_out').val('1');
-                });
-
-                $('#clock_out_btn').on('click',function () {
-                    $('#in_out').val('0');
-                });
-
-            });
-        })(jQuery);
-    </script>
 </section>
-
-
-
-
 @endsection
+
+    @push('scripts')
+        <script type="text/javascript">
+            (function($) {
+                "use strict";
+
+                $(document).ready(function() {
+
+                    $('#clock_in_btn').on('click',function () {
+                        $('#in_out').val('1');
+                    });
+
+                    $('#clock_out_btn').on('click',function () {
+                        $('#in_out').val('0');
+                    });
+
+                });
+            })(jQuery);
+        </script>
+    @endpush
+

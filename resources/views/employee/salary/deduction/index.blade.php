@@ -54,17 +54,16 @@
 
                             <div class="col-md-6 form-group">
                                 <label>{{__('Deduction Option')}} *</label>
-                                <select name="deduction_type" id="deduction_type" required
+                                <select name="deduction_type_id" required id="deduction_type_id"
                                         class="form-control selectpicker"
-                                        data-live-search="false" data-live-search-style="contains"
-                                        title='{{__('Deduction Option')}}'>
-                                    <option value="Social Security System">{{__('Social Security System')}}</option>
-                                    <option value="Health Insurance Corporation">{{__('Health Insurance Corporation')}}</option>
-                                    <option value="Home Development Mutual Fund">{{__('Home Development Mutual Fund')}}</option>
-                                    <option value="Withholding Tax On Wages">{{__('Withholding Tax On Wages')}}</option>
-                                    <option value="Other Statutory Deduction">{{__('Other Statutory Deduction')}}</option>
+                                        data-live-search="true" data-live-search-style="contains"
+                                        title='{{__('Select Deduction Option')}}'>
+                                    @foreach($deductionTypes as $item)
+                                        <option value="{{$item->id}}">{{$item->type_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
+
                             <div class="col-md-6 form-group">
                                 <label>{{__('Deduction Title')}} *</label>
                                 <input type="text" name="deduction_title" id="deduction_title"

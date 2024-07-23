@@ -13,4 +13,8 @@ class SalaryDeduction extends Model
 		return $this->hasOne('App\Models\Employee','id','employee_id');
 	}
 
+    public function deductionType(){
+		return $this->belongsTo(DeductionType::class,'deduction_type_id');
+	}
+
 }

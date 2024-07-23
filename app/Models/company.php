@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class company extends Model
 {
 	protected $fillable = [
-		'company_name', 'company_type','trading_name', 'registration_no','contact_no','email','website','tax_no','location_id','company_logo',
+		'company_name', 'company_type_id','trading_name', 'registration_no','contact_no','email','website','tax_no','location_id','company_logo',
 	];
 
 	public function companyHolidays(){
@@ -18,5 +18,9 @@ class company extends Model
 
 	public function Location(){
 		return $this->hasOne('App\Models\location','id','location_id');
+	}
+
+	public function companyType(){
+		return $this->belongsTo(CompanyType::class,'company_type_id');
 	}
 }

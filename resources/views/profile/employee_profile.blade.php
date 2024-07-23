@@ -1,6 +1,5 @@
 @extends('layout.main')
 @section('content')
-
     <section>
         <div class="container-fluid">
             <div class="card">
@@ -381,192 +380,198 @@
 
     </section>
 
-    <script type="text/javascript">
-        (function($) {
-          "use strict";
-
-          $('select[name="gender"]').val($('input[name="gender_hidden"]').val());
-          $('#role_users_id').selectpicker('val', $('input[name="role_user_hidden"]').val());
-          $('#marital_status').selectpicker('val', $('input[name="marital_status_hidden"]').val());
-
-
-          $(document).ready(function () {
-
-              let date = $('.date');
-              date.datepicker({
-                  format: '{{ env('Date_Format_JS')}}',
-                  autoclose: true,
-                  todayHighlight: true
-              });
-          });
-
-          $('[data-table="immigration"]').one('click', function (e) {
-              @include('employee.immigration.index_js')
-          });
-
-          $('[data-table="emergency"]').one('click', function (e) {
-              @include('employee.emergency_contacts.index_js')
-          });
-
-          $('[data-table="document"]').one('click', function (e) {
-              @include('employee.documents.index_js')
-          });
-
-          $('[data-table="qualification"]').one('click', function (e) {
-              @include('employee.qualifications.index_js')
-          });
-
-          $('[data-table="work_experience"]').one('click', function (e) {
-              @include('employee.work_experience.index_js')
-          });
-
-          $('[data-table="bank_account"]').one('click', function (e) {
-              @include('employee.bank_account.index_js')
-          });
-
-
-
-          $('#profile-tab').one('click', function (e) {
-              @include('employee.profile_picture.index_js')
-          });
-
-          $('#set_salary-tab').one('click', function (e) {
-            @include('employee.salary.basic.index_js')
-          });
-
-          $('#salary_allowance-tab').one('click', function (e) {
-              @include('employee.salary.allowance.index_js')
-          });
-
-          $('#salary_commission-tab').one('click', function (e) {
-              @include('employee.salary.commission.index_js')
-          });
-
-          $('#salary_loan-tab').one('click', function (e) {
-              @include('employee.salary.loan.index_js')
-          });
-
-          $('#salary_deduction-tab').one('click', function (e) {
-              @include('employee.salary.deduction.index_js')
-          });
-
-          $('#other_payment-tab').one('click', function (e) {
-              @include('employee.salary.other_payment.index_js')
-          });
-
-          $('#salary_overtime-tab').one('click', function (e) {
-              @include('employee.salary.overtime.index_js')
-          });
-
-          $('#leave-tab').one('click', function (e) {
-              @include('employee.leave.index_js')
-          });
-
-          $('#employee_core_hr-tab').one('click', function (e) {
-              @include('employee.core_hr.award.index_js')
-          });
-
-          $('#employee_travel-tab').one('click', function (e) {
-              @include('employee.core_hr.travel.index_js')
-          });
-
-          $('#employee_training-tab').one('click', function (e) {
-              @include('employee.core_hr.training.index_js')
-          });
-
-          $('#employee_ticket-tab').one('click', function (e) {
-              @include('employee.core_hr.ticket.index_js')
-          });
-
-          $('#employee_transfer-tab').one('click', function (e) {
-              @include('employee.core_hr.transfer.index_js')
-          });
-
-          $('#employee_promotion-tab').one('click', function (e) {
-              @include('employee.core_hr.promotion.index_js')
-          });
-
-          $('#employee_complaint-tab').one('click', function (e) {
-              @include('employee.core_hr.complaint.index_js')
-          });
-
-          $('#employee_warning-tab').one('click', function (e) {
-              @include('employee.core_hr.warning.index_js')
-          });
-
-          $('#employee_project_task-tab').one('click', function (e) {
-              @include('employee.project_task.project.index_js')
-          });
-
-          $('#employee_task-tab').one('click', function (e) {
-              @include('employee.project_task.task.index_js')
-          });
-
-          $('#employee_payslip-tab').one('click', function (e) {
-              @include('employee.payslip.index_js')
-          });
-
-
-          $('#basic_sample_form').on('submit', function (event) {
-              event.preventDefault();
-              $.ajax({
-                  url: "{{ route('employee_profile_update',$employee->id) }}",
-                  method: "POST",
-                  data: new FormData(this),
-                  contentType: false,
-                  cache: false,
-                  processData: false,
-                  dataType: "json",
-                  success: function (data) {
-                      var html = '';
-                      if (data.errors) {
-                          html = '<div class="alert alert-danger">';
-                          for (var count = 0; count < data.errors.length; count++) {
-                              html += '<p>' + data.errors[count] + '</p>';
-                          }
-                          html += '</div>';
-                      }
-                      if (data.success) {
-                          html = '<div class="alert alert-success">' + data.success + '</div>';
-                          html = '<div class="alert alert-success">' + data.success + '</div>';
-                      }
-                      $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
-                  }
-              });
-          });
-
-          $(function(){
-
-              var hash = window.location.hash;
-
-
-              if (hash == '#Employee_travel' || hash == '#Employee_ticket') {
-                  let a = "#Employee_Core_hr";
-                  a && $('ul.nav a[href="' + a + '"]').tab('show');
-              }
-              else {
-                  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
-              }
-
-              var tab = hash.toLowerCase() + '-tab';
-
-              $( tab ).trigger( "click" );
-
-              $('.nav-tabs a').on('click', function(e) {
-                  $(this).tab('show');
-
-                  var scrollmem = $('body').scrollTop();
-                  window.location.hash = this.hash;
-                  $('html,body').scrollTop(scrollmem);
-              });
-
-              // Change tab on hashchange
-              window.addEventListener('hashchange', function() {
-                  var changedHash = window.location.hash;
-                  changedHash && $('ul.nav a[href="' + changedHash + '"]').tab('show');
-              }, false);
-          });
-        })(jQuery);
-    </script>
-
 @endsection
+
+
+
+@push('scripts')
+<script type="text/javascript">
+    (function($) {
+        "use strict";
+
+        $('select[name="gender"]').val($('input[name="gender_hidden"]').val());
+        $('#role_users_id').selectpicker('val', $('input[name="role_user_hidden"]').val());
+        $('#marital_status').selectpicker('val', $('input[name="marital_status_hidden"]').val());
+
+
+        $(document).ready(function () {
+            let date = $('.date');
+            date.datepicker({
+                format: '{{ env('Date_Format_JS')}}',
+                autoclose: true,
+                todayHighlight: true
+            });
+        });
+
+        $('[data-table="immigration"]').one('click', function (e) {
+            @include('employee.immigration.index_js')
+        });
+
+        $('[data-table="emergency"]').one('click', function (e) {
+            @include('employee.emergency_contacts.index_js')
+        });
+
+        $('[data-table="document"]').one('click', function (e) {
+            @include('employee.documents.index_js')
+        });
+
+        $('[data-table="qualification"]').one('click', function (e) {
+            @include('employee.qualifications.index_js')
+        });
+
+        $('[data-table="work_experience"]').one('click', function (e) {
+            @include('employee.work_experience.index_js')
+        });
+
+        $('[data-table="bank_account"]').one('click', function (e) {
+            @include('employee.bank_account.index_js')
+        });
+
+
+
+        $('#profile-tab').one('click', function (e) {
+            @include('employee.profile_picture.index_js')
+        });
+
+        $('#set_salary-tab').one('click', function (e) {
+        @include('employee.salary.basic.index_js')
+        });
+
+        $('#salary_allowance-tab').one('click', function (e) {
+            @include('employee.salary.allowance.index_js')
+        });
+
+        $('#salary_commission-tab').one('click', function (e) {
+            @include('employee.salary.commission.index_js')
+        });
+
+        $('#salary_loan-tab').one('click', function (e) {
+            @include('employee.salary.loan.index_js')
+        });
+
+        $('#salary_deduction-tab').one('click', function (e) {
+            @include('employee.salary.deduction.index_js')
+        });
+
+        $('#other_payment-tab').one('click', function (e) {
+            @include('employee.salary.other_payment.index_js')
+        });
+
+        $('#salary_overtime-tab').one('click', function (e) {
+            @include('employee.salary.overtime.index_js')
+        });
+
+        $('#leave-tab').one('click', function (e) {
+            @include('employee.leave.index_js')
+        });
+
+        $('#employee_core_hr-tab').one('click', function (e) {
+            @include('employee.core_hr.award.index_js')
+        });
+
+        $('#employee_travel-tab').one('click', function (e) {
+            @include('employee.core_hr.travel.index_js')
+        });
+
+        $('#employee_training-tab').one('click', function (e) {
+            @include('employee.core_hr.training.index_js')
+        });
+
+        $('#employee_ticket-tab').one('click', function (e) {
+            @include('employee.core_hr.ticket.index_js')
+        });
+
+        $('#employee_transfer-tab').one('click', function (e) {
+            @include('employee.core_hr.transfer.index_js')
+        });
+
+        $('#employee_promotion-tab').one('click', function (e) {
+            @include('employee.core_hr.promotion.index_js')
+        });
+
+        $('#employee_complaint-tab').one('click', function (e) {
+            @include('employee.core_hr.complaint.index_js')
+        });
+
+        $('#employee_warning-tab').one('click', function (e) {
+            @include('employee.core_hr.warning.index_js')
+        });
+
+        $('#employee_project_task-tab').one('click', function (e) {
+            @include('employee.project_task.project.index_js')
+        });
+
+        $('#employee_task-tab').one('click', function (e) {
+            @include('employee.project_task.task.index_js')
+        });
+
+        $('#employee_payslip-tab').one('click', function (e) {
+            @include('employee.payslip.index_js')
+        });
+
+
+        $('#basic_sample_form').on('submit', function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "{{ route('employee_profile_update',$employee->id) }}",
+                method: "POST",
+                data: new FormData(this),
+                contentType: false,
+                cache: false,
+                processData: false,
+                dataType: "json",
+                success: function (data) {
+                    var html = '';
+                    if (data.errors) {
+                        html = '<div class="alert alert-danger">';
+                        for (var count = 0; count < data.errors.length; count++) {
+                            html += '<p>' + data.errors[count] + '</p>';
+                        }
+                        html += '</div>';
+                    }
+                    if (data.success) {
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                        html = '<div class="alert alert-success">' + data.success + '</div>';
+                    }
+                    $('#form_result').html(html).slideDown(300).delay(5000).slideUp(300);
+                }
+            });
+        });
+
+        $(function(){
+
+            var hash = window.location.hash;
+
+
+            if (hash == '#Employee_travel' || hash == '#Employee_ticket') {
+                let a = "#Employee_Core_hr";
+                a && $('ul.nav a[href="' + a + '"]').tab('show');
+            }
+            else {
+                hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+            }
+
+            var tab = hash.toLowerCase() + '-tab';
+
+            $( tab ).trigger( "click" );
+
+            $('.nav-tabs a').on('click', function(e) {
+                $(this).tab('show');
+
+                var scrollmem = $('body').scrollTop();
+                window.location.hash = this.hash;
+                $('html,body').scrollTop(scrollmem);
+            });
+
+            // Change tab on hashchange
+            window.addEventListener('hashchange', function() {
+                var changedHash = window.location.hash;
+                changedHash && $('ul.nav a[href="' + changedHash + '"]').tab('show');
+            }, false);
+        });
+    })(jQuery);
+</script>
+@endpush
+
+
+

@@ -22,7 +22,6 @@
                 <th class="not-exported">{{trans('file.action')}}</th>
             </tr>
             </thead>
-
         </table>
     </div>
 
@@ -39,20 +38,17 @@
                 <div class="modal-body">
                     <span id="contact_form_result"></span>
                     <form method="post" id="contact_sample_form" class="form-horizontal" autocomplete="off">
-
                         @csrf
                         <div class="row">
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.Relation')}} *</label>
-                                <select name="relation" id="contact_relation" required class="form-control selectpicker"
+                                <select name="relation_type_id" required id="contact_relation"
+                                        class="form-control selectpicker"
                                         data-live-search="true" data-live-search-style="contains"
-                                        title='{{__('Selecting',['key'=>trans('Relation')])}}...'>
-                                    <option value="self">{{trans('file.Self')}}</option>
-                                    <option value="parent">{{trans('file.parent')}}</option>
-                                    <option value="spouse">{{trans('file.Spouse')}}</option>
-                                    <option value="child">{{trans('file.Child')}}</option>
-                                    <option value="sibling">{{trans('file.Sibling')}}</option>
-                                    <option value="in laws">{{__('In Laws')}}</option>
+                                        title='{{__('Selecting',['key'=>trans('file.Relation')])}}...'>
+                                    @foreach($relationTypes as $item)
+                                        <option value="{{$item->id}}">{{$item->type_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 

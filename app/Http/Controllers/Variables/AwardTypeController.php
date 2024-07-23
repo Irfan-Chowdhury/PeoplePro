@@ -74,20 +74,6 @@ class AwardTypeController extends Controller {
 	}
 
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
 	public function edit($id)
 	{
 		if(request()->ajax())
@@ -98,13 +84,6 @@ class AwardTypeController extends Controller {
 		}
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param \Illuminate\Http\Request $request
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
 	public function update(Request $request)
 	{
 		$logged_user = auth()->user();
@@ -142,12 +121,7 @@ class AwardTypeController extends Controller {
 		}
 	}
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param int $id
-	 * @return \Illuminate\Http\Response
-	 */
+
 	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED'))

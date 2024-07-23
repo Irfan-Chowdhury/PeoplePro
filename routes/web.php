@@ -3,7 +3,7 @@
 use App\Http\Controllers\AccountListController;
 use App\Http\Controllers\AllUserController;
 use App\Http\Controllers\AnnouncementController;
-// use App\Http\Controllers\EmployeeSocialProfileController;
+use App\Http\Controllers\EmployeeSocialProfileController;
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\AssignRoleController;
 use App\Http\Controllers\AttendanceController;
@@ -105,6 +105,8 @@ use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TravelController;
 use App\Http\Controllers\Variables\AssetCategoryController;
 use App\Http\Controllers\Variables\AwardTypeController;
+use App\Http\Controllers\Variables\CompanyTypeController;
+use App\Http\Controllers\Variables\RelationTypeController;
 use App\Http\Controllers\Variables\DocumentTypeController;
 use App\Http\Controllers\Variables\ExpenseTypeController;
 use App\Http\Controllers\Variables\FileManagerSettingController;
@@ -128,6 +130,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Addon\BiometricAddonController;
 use App\Http\Controllers\Addon\CRMController;
 use App\Http\Controllers\Addon\SaasController;
+use App\Http\Controllers\Variables\DeductionTypeController;
+use App\Http\Controllers\Variables\LoanTypeController;
 use Illuminate\Support\Facades\File;
 
 
@@ -486,7 +490,6 @@ Route::group(['middleware' => ['XSS','checkDataTable']], function () use ($isCrm
         Route::get('terminations/{id}/delete', [TerminationController::class, 'destroy'])->name('terminations.destroy');
         Route::post('terminations/delete/selected', [TerminationController::class, 'delete_by_selection'])->name('mass_delete_terminations');
         Route::get('terminations/{termination}/restore', [TerminationController::class, 'restore'])->name('terminations.restore');
-
     });
 
     Route::prefix('report')->group(function () {
@@ -874,6 +877,22 @@ Route::group(['middleware' => ['XSS','checkDataTable']], function () use ($isCrm
         Route::post('document_type/update', [DocumentTypeController::class, 'update'])->name('document_type.update');
         Route::get('document_type/{id}/delete', [DocumentTypeController::class, 'destroy'])->name('document_type.destroy');
         Route::resource('document_type', DocumentTypeController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('company_type/update', [CompanyTypeController::class, 'update'])->name('company_type.update');
+        Route::get('company_type/{id}/delete', [CompanyTypeController::class, 'destroy'])->name('company_type.destroy');
+        Route::resource('company_type', CompanyTypeController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('relation_type/update', [RelationTypeController::class, 'update'])->name('relation_type.update');
+        Route::get('relation_type/{id}/delete', [RelationTypeController::class, 'destroy'])->name('relation_type.destroy');
+        Route::resource('relation_type', RelationTypeController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('loan_type/update', [LoanTypeController::class, 'update'])->name('loan_type.update');
+        Route::get('loan_type/{id}/delete', [LoanTypeController::class, 'destroy'])->name('loan_type.destroy');
+        Route::resource('loan_type', LoanTypeController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('deduction_type/update', [DeductionTypeController::class, 'update'])->name('deduction_type.update');
+        Route::get('deduction_type/{id}/delete', [DeductionTypeController::class, 'destroy'])->name('deduction_type.destroy');
+        Route::resource('deduction_type', DeductionTypeController::class)->except(['create', 'update', 'destroy', 'show']);
     });
 
     Route::prefix('dynamic_variable_method')->group(function () {

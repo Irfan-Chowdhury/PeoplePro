@@ -630,6 +630,271 @@ class AttendanceController extends Controller {
     }
 
 
+	// public function dateWiseAttendance(Request $request)
+	// {
+	// 	$logged_user = auth()->user();
+
+    //     $companies = Company::all('id', 'company_name');
+    //     $start_date = Carbon::parse($request->filter_start_date)->format('Y-m-d') ?? '';
+    //     $end_date = Carbon::parse($request->filter_end_date)->format('Y-m-d') ?? '';
+
+    //     if (request()->ajax())
+    //     {
+    //         if (!$request->company_id && !$request->department_id && !$request->employee_id) {
+    //             $emp_attendance_date_range = [];
+    //         }
+    //         else
+    //         {
+    //             $employee = Employee::with(['officeShift', 'employeeAttendance' => function ($query) use ($start_date, $end_date)
+    //             {
+    //                 $query->whereBetween('attendance_date', [$start_date, $end_date]);
+    //             },
+    //                 'employeeLeave',
+    //                 'company:id,company_name',
+    //                 'company.companyHolidays'
+    //             ])
+    //             ->select('id', 'company_id', 'first_name', 'last_name', 'office_shift_id', 'joining_date')
+    //             ->where('is_active', '=', 1);
+
+    //             if ($request->employee_id) {
+    //                 $employee = $employee->where('id', '=', $request->employee_id)->get();
+    //             }
+    //             elseif ($request->department_id) {
+    //                 $employee = $employee->where('department_id', '=', $request->department_id)->get();
+    //             }
+    //             elseif ($request->company_id) {
+    //                 $employee = $employee->where('company_id', '=', $request->company_id)->get();
+    //             }
+
+    //             $begin = new DateTime($start_date);
+    //             $end = new DateTime($end_date);
+    //             $end->modify('+1 day');
+    //             $interval = DateInterval::createFromDateString('1 day');
+    //             $period   = new DatePeriod($begin, $interval, $end);
+    //             $date_range = [];
+    //             foreach ($period as $dt) {
+    //                 $date_range[] = $dt->format(env('Date_Format'));
+    //             }
+    //             $emp_attendance_date_range = [];
+
+    //             foreach ($employee as $key1 => $emp) {
+    //                 $all_attendances_array = $emp->employeeAttendance->groupBy('attendance_date')->toArray();
+    //                 $leaves = $emp->employeeLeave;
+    //                 $shift = $emp->officeShift->toArray();
+    //                 $holidays = $emp->company->companyHolidays;
+    //                 $joining_date = Carbon::parse($emp->joining_date)->format(env('Date_Format'));
+    //                 foreach ($date_range as $key2 => $dt_r) {
+    //                     $emp_attendance_date_range[$key1*count($date_range)+$key2]['id'] = $emp->id;
+    //                     $emp_attendance_date_range[$key1*count($date_range)+$key2]['employee_name'] = ($key2==0) ? '<strong>'.$emp->full_name.'</strong>' : $emp->full_name;
+    //                     $emp_attendance_date_range[$key1*count($date_range)+$key2]['company'] = $emp->company->company_name;
+    //                     $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_date'] = Carbon::parse($dt_r)->format(env('Date_Format'));
+
+    //                     //attendance status
+    //                     $day = strtolower(Carbon::parse($dt_r)->format('l')) . '_in';
+    //                     if (strtotime($dt_r) < strtotime($joining_date))
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('Not Join');
+    //                     }
+    //                     elseif (empty($shift[$day]))
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('Off Day');
+    //                     }
+    //                     elseif (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = trans('file.present');
+    //                     }
+    //                     else
+    //                     {
+    //                         foreach ($leaves as $leave)
+    //                         {
+    //                             if ($leave->start_date <= $dt_r && $leave->end_date >= $dt_r)
+    //                             {
+    //                                 $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('On Leave');
+    //                             }
+    //                         }
+    //                         foreach ($holidays as $holiday)
+    //                         {
+    //                             if ($holiday->start_date <= $dt_r && $holiday->end_date >= $dt_r)
+    //                             {
+    //                                 $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = __('On Holiday');
+    //                             }
+    //                         }
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['attendance_status'] = trans('Absent');
+    //                     }
+    //                     //attendance status
+
+    //                     //clock in
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $first = current($all_attendances_array[$dt_r])['clock_in'];
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_in'] = $first;
+    //                     }
+    //                     else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_in'] = '---';
+    //                     }
+    //                     //clock in
+
+    //                     //clock out
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $last = end($all_attendances_array[$dt_r])['clock_out'];
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_out'] = $last;
+    //                     }
+    //                     else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['clock_out'] = '---';
+    //                     }
+    //                     //clock out
+
+    //                     //time late
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $first = current($all_attendances_array[$dt_r])['time_late'];
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['time_late'] = $first;
+    //                     } else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['time_late'] = '---';
+    //                     }
+    //                     //time late
+
+    //                     //early_leaving
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $last = end($all_attendances_array[$dt_r])['early_leaving'];
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['early_leaving'] = $last;
+    //                     } else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['early_leaving'] = '---';
+    //                     }
+    //                     //early_leaving
+
+    //                     //overtime
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $total = 0;
+    //                         foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+    //                         {
+    //                             sscanf($all_attendance_item['overtime'], '%d:%d', $hour, $min);
+    //                             $total += $hour * 60 + $min;
+    //                         }
+    //                         if ($h = floor($total / 60))
+    //                         {
+    //                             $total %= 60;
+    //                         }
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['overtime'] = sprintf('%02d:%02d', $h, $total);
+    //                     } else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['overtime'] = '---';
+    //                     }
+    //                     //overtime
+
+    //                     //total_work
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $total = 0;
+    //                         foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+    //                         {
+    //                             sscanf($all_attendance_item['total_work'], '%d:%d', $hour, $min);
+    //                             $total += $hour * 60 + $min;
+    //                         }
+    //                         if ($h = floor($total / 60))
+    //                         {
+    //                             $total %= 60;
+    //                         }
+    //                         $sum_total = 0 + $total;
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_work'] = sprintf('%02d:%02d', $h, $total);
+    //                     }
+    //                     else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_work'] = '---';
+    //                     }
+    //                     //total_work
+
+    //                     //total_rest
+    //                     if (array_key_exists($dt_r, $all_attendances_array))
+    //                     {
+    //                         $total = 0;
+    //                         foreach ($all_attendances_array[$dt_r] as $all_attendance_item)
+    //                         {
+    //                             //formatting in hour:min and separating them
+    //                             sscanf($all_attendance_item['total_rest'], '%d:%d', $hour, $min);
+    //                             //converting in minute
+    //                             $total += $hour * 60 + $min;
+    //                         }
+    //                         // if minute is greater than hour then $h= hour
+    //                         if ($h = floor($total / 60))
+    //                         {
+    //                             //$total = minute (after excluding hour)
+    //                             $total %= 60;
+    //                         }
+    //                         //returning back to hour:minute format
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_rest'] = sprintf('%02d:%02d', $h, $total);
+    //                     } else
+    //                     {
+    //                         $emp_attendance_date_range[$key1*count($date_range)+$key2]['total_rest'] = '---';
+    //                     }
+    //                     //total_rest
+    //                 }
+    //             }
+    //         }
+
+    //         return datatables()->of($emp_attendance_date_range)
+    //             ->setRowId(function ($row)
+    //             {
+    //                 return $row['id'];
+    //             })
+    //             ->addColumn('employee_name', function ($row)
+    //             {
+    //                 return $row['employee_name'];
+    //             })
+    //             ->addColumn('company', function ($row)
+    //             {
+    //                 return $row['company'];
+    //             })
+    //             ->addColumn('attendance_date', function ($row)
+    //             {
+    //                 return $row['attendance_date'];
+    //             })
+    //             ->addColumn('attendance_status', function ($row)
+    //             {
+    //                 return $row['attendance_status'];
+    //             })
+    //             ->addColumn('clock_in', function ($row)
+    //             {
+    //                 return $row['clock_in'];
+    //             })
+    //             ->addColumn('clock_out', function ($row)
+    //             {
+    //                 return $row['clock_out'];
+    //             })
+    //             ->addColumn('time_late', function ($row)
+    //             {
+    //                 return $row['time_late'];
+    //             })
+    //             ->addColumn('early_leaving', function ($row)
+    //             {
+    //                 return $row['early_leaving'];
+    //             })
+    //             ->addColumn('overtime', function ($row)
+    //             {
+    //                 return $row['overtime'];
+    //             })
+    //             ->addColumn('total_work', function ($row)
+    //             {
+    //                 return $row['total_work'];
+    //             })
+    //             ->addColumn('total_rest', function ($row)
+    //             {
+    //                 return $row['total_rest'];
+    //             })
+    //             ->rawColumns(['action','employee_name'])
+    //             ->make(true);
+    //     }
+
+    //     return view('timesheet.dateWiseAttendance.index', compact('companies'));
+	// }
+
 	public function dateWiseAttendance(Request $request)
 	{
 		$logged_user = auth()->user();
@@ -901,6 +1166,7 @@ class AttendanceController extends Controller {
         }
 
         return view('timesheet.dateWiseAttendance.index', compact('companies'));
+
 	}
 
 

@@ -1,11 +1,11 @@
 
-    $('#immigration-table').DataTable().clear().destroy();
-    var date = $('.date');
-    date.datepicker({
-        format: '{{ env('Date_Format_JS')}}',
-        autoclose: true,
-        todayHighlight: true
-    });
+$('#immigration-table').DataTable().clear().destroy();
+var date = $('.date');
+date.datepicker({
+    format: '{{ env('Date_Format_JS')}}',
+    autoclose: true,
+    todayHighlight: true
+});
 
 
     var table_table = $('#immigration-table').DataTable({
@@ -212,7 +212,7 @@
                 $('#immigration_action').val('{{trans('file.Edit')}}');
                 $('#ImmigrationformModal').modal('show');
             }
-        })
+        });
     });
 
 
@@ -249,4 +249,6 @@
             }
         })
     });
+
+
 

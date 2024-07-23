@@ -28,26 +28,26 @@ class DemoAutoUpdateController extends Controller
     private $version_upgrade_base_url;
     private $bug_update_base_url;
 
-    public function __construct()
-    {
-        $general = $this->readJSONData('track/general.json');
-        $control = $this->readJSONData('track/control.json');
+    // public function __construct()
+    // {
+    //     $general = $this->readJSONData('track/general.json');
+    //     $control = $this->readJSONData('track/control.json');
 
-        $this->product_mode = env('PRODUCT_MODE');
-        $this->demo_version = env('VERSION');
-        $this->demo_bug_no  = intval(env('BUG_NO'));
-        $this->minimum_required_version = $general->minimum_required_version;
+    //     $this->product_mode = env('PRODUCT_MODE');
+    //     $this->demo_version = env('VERSION');
+    //     $this->demo_bug_no  = intval(env('BUG_NO'));
+    //     $this->minimum_required_version = $general->minimum_required_version;
 
-        // Set During New Release Announce
-        $this->latest_version_upgrade_enable   = $control->version_upgrade->latest_version_upgrade_enable;
-        $this->latest_version_db_migrate_enable= $control->version_upgrade->latest_version_db_migrate_enable;
-        $this->version_upgrade_base_url        = $control->version_upgrade->version_upgrade_base_url; // Fixed | Connect with server
+    //     // Set During New Release Announce
+    //     $this->latest_version_upgrade_enable   = $control->version_upgrade->latest_version_upgrade_enable;
+    //     $this->latest_version_db_migrate_enable= $control->version_upgrade->latest_version_db_migrate_enable;
+    //     $this->version_upgrade_base_url        = $control->version_upgrade->version_upgrade_base_url; // Fixed | Connect with server
 
-        // Set During Bug Update
-        $this->bug_update_enable     = $control->bug_update->bug_update_enable;
-        $this->bug_db_migrate_enable = $control->bug_update->bug_db_migrate_enable;
-        $this->bug_update_base_url   = $control->bug_update->bug_update_base_url;  // Fixed | Connect with server
-    }
+    //     // Set During Bug Update
+    //     $this->bug_update_enable     = $control->bug_update->bug_update_enable;
+    //     $this->bug_db_migrate_enable = $control->bug_update->bug_db_migrate_enable;
+    //     $this->bug_update_base_url   = $control->bug_update->bug_update_base_url;  // Fixed | Connect with server
+    // }
 
 
 
