@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DepositCategory;
 use App\Models\FinanceBankCash;
 use App\Models\FinanceDeposit;
 use App\Models\FinancePayers;
@@ -23,7 +24,7 @@ class FinanceDepositController extends Controller {
 		$accounts = FinanceBankCash::select('id', 'account_name')->get();
 		$payment_methods = PaymentMethod::select('id', 'method_name')->get();
 		$payers = FinancePayers::select('id', 'payer_name')->get();
-
+        $depositCategories = DepositCategory::select('id','name')->get();
 
 		if ($logged_user->can('view-deposit'))
 		{
@@ -41,6 +42,10 @@ class FinanceDepositController extends Controller {
 					->addColumn('payment_method', function ($row)
 					{
 						return empty($row->PaymentMethod->method_name) ? '' : $row->PaymentMethod->method_name;
+					})
+					->addColumn('category', function ($row)
+					{
+						return $row->depositCategory->name ?? '';
 					})
 					->addColumn('payer', function ($row)
 					{
@@ -67,7 +72,7 @@ class FinanceDepositController extends Controller {
 					->make(true);
 			}
 
-			return view('finance.deposit.index', compact('accounts', 'payment_methods', 'payers'));
+			return view('finance.deposit.index', compact('accounts', 'payment_methods', 'payers','depositCategories'));
 		}
 
 		return abort('403', __('You are not authorized'));
@@ -83,16 +88,15 @@ class FinanceDepositController extends Controller {
 	{
 		$logged_user = auth()->user();
 
-
 		if ($logged_user->can('add-deposit'))
 		{
-			$validator = Validator::make($request->only('account_id', 'amount', 'category', 'description', 'payment_method_id', 'payer_id',
+			$validator = Validator::make($request->only('account_id', 'amount', 'deposit_category_id', 'description', 'payment_method_id', 'payer_id',
 				'deposit_reference', 'deposit_date', 'deposit_file'
 			),
 				[
 					'account_id' => 'required',
 					'amount' => 'required|numeric',
-					'category' => 'required',
+					'deposit_category_id' => 'required',
 					'deposit_reference' => 'required',
 					'deposit_date' => 'required',
 					'deposit_file' => 'nullable|file|max:10240|mimes:jpeg,png,jpg,zip,pdf,ppt, pptx, xlx, xlsx,docx,doc,gif',
@@ -106,6 +110,7 @@ class FinanceDepositController extends Controller {
 			}
 
 
+
 			DB::beginTransaction();
 				try
 				{
@@ -113,22 +118,19 @@ class FinanceDepositController extends Controller {
 
 					$data['account_id'] = $request->account_id;
 					$data['amount'] = $request->amount;
-					$data['category'] = $request->category;
-					$data ['description'] = $request->description;
-					$data ['payment_method_id'] = $request->payment_method_id;
-					$data ['payer_id'] = empty($request->payer_id) ? null : $request->payer_id;
-					$data ['deposit_date'] = $request->deposit_date;
-					$data ['deposit_reference'] = $request->deposit_reference;
+					$data['deposit_category_id'] = $request->deposit_category_id;
+					$data['description'] = $request->description;
+					$data['payment_method_id'] = $request->payment_method_id;
+					$data['payer_id'] = empty($request->payer_id) ? null : $request->payer_id;
+					$data['deposit_date'] = $request->deposit_date;
+					$data['deposit_reference'] = $request->deposit_reference;
 
 					$file = $request->deposit_file;
 					$file_name = null;
 
-
-					if (isset($file))
-					{
+					if (isset($file)) {
 						$file_name = $request->deposit_reference;
-						if ($file->isValid())
-						{
+						if ($file->isValid()) {
 							$file_name = preg_replace('/\s+/', '', $file_name) . '_' . time() . '.' . $file->getClientOriginalExtension();
 							$file->storeAs('deposit_file', $file_name);
 							$data['deposit_file'] = $file_name;
@@ -174,15 +176,16 @@ class FinanceDepositController extends Controller {
 	{
 		if (request()->ajax())
 		{
-			$data = FinanceDeposit::findOrFail($id);
+			$data = FinanceDeposit::with('depositCategory')->findOrFail($id);
+
 			$account_name = $data->Account->account_name ?? '';
 			$payment_method_name = $data->PaymentMethod->method_name ?? '';
 			$payer_name = $data->Payer->payer_name ?? '';
-
 			$deposit_date_name = $data->deposit_date;
+            $deposit_category = $data->depositCategory;
 
 			return response()->json(['data' => $data, 'account_name' => $account_name, 'payment_name' => $payment_method_name,
-				'payer_name' => $payer_name, 'deposit_date_name' => $deposit_date_name]);
+				'payer_name' => $payer_name, 'deposit_date_name' => $deposit_date_name, 'deposit_category'=>$deposit_category]);
 		}
 	}
 
@@ -217,13 +220,13 @@ class FinanceDepositController extends Controller {
 		{
 			$id = $request->hidden_id;
 
-			$validator = Validator::make($request->only('account_id', 'hidden_account_id', 'amount', 'hidden_amount', 'category', 'description', 'payment_method_id', 'payer_id',
+			$validator = Validator::make($request->only('account_id', 'hidden_account_id', 'amount', 'hidden_amount', 'deposit_category_id', 'description', 'payment_method_id', 'payer_id',
 				'deposit_reference', 'deposit_date'
 			),
 				[
 					'account_id' => 'required',
 					'amount' => 'required|numeric',
-					'category' => 'required',
+					'deposit_category_id' => 'required',
 					'deposit_reference' => 'required',
 					'deposit_date' => 'required',
 					'deposit_file' => 'nullable|file|max:10240|mimes:jpeg,png,jpg,zip,pdf,ppt, pptx, xlx, xlsx,docx,doc,gif',
@@ -243,16 +246,12 @@ class FinanceDepositController extends Controller {
 
 
 					$data['amount'] = $request->amount;
-					$data ['description'] = $request->description;
-					$data ['deposit_date'] = $request->deposit_date;
-					$data ['deposit_reference'] = $request->deposit_reference;
-
-
-					$data['category'] = $request->category;
-
-					$data ['payment_method_id'] = $request->payment_method_id;
-
-					$data ['payer_id'] = $request->payer_id;
+					$data['description'] = $request->description;
+					$data['deposit_date'] = $request->deposit_date;
+					$data['deposit_reference'] = $request->deposit_reference;
+					$data['deposit_category_id'] = $request->deposit_category_id;
+					$data['payment_method_id'] = $request->payment_method_id;
+					$data['payer_id'] = $request->payer_id;
 
 					$file = $request->deposit_file;
 					$file_name = null;
@@ -284,9 +283,8 @@ class FinanceDepositController extends Controller {
 						FinanceBankCash::whereId($request->account_id)->update(['account_balance' => $new_balance]);
 
 						FinanceBankCash::whereId($request->hidden_account_id)->update(['account_balance' => $old_balance]);
-					} else
-					{
-
+					}
+                    else {
 						$data['account_id'] = $request->hidden_account_id;
 
 						$account_balance = DB::table('finance_bank_cashes')->where('id', $request->hidden_account_id)->pluck('account_balance')->first();
@@ -294,7 +292,6 @@ class FinanceDepositController extends Controller {
 						$new_balance = (int)$account_balance + (int)$request->amount - (int)$request->hidden_amount;
 
 						FinanceBankCash::whereId($request->hidden_account_id)->update(['account_balance' => $new_balance]);
-
 					}
 
 					FinanceTransaction::find($id)->update($data);

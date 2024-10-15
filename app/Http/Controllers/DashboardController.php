@@ -58,9 +58,8 @@ class DashboardController extends Controller {
 
 	public function index()
 	{
-        // $autoUpdateData = $this->general();
-        // $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
-        // $alertBugEnable =  $autoUpdateData['alertBugEnable'];
+        $autoUpdateData = $this->general();
+        $alertVersionUpgradeEnable = $autoUpdateData['alertVersionUpgradeEnable'];
 
 		$employees = Employee::with('department:id,department_name', 'designation:id,designation_name')
 			->select('id', 'department_id', 'designation_id', 'is_active')
@@ -208,17 +207,9 @@ class DashboardController extends Controller {
 			'payslips', 'companies', 'leave_types',
 			'training_types', 'trainers', 'travel_types', 'clients', 'projects',
 			'project_count_array', 'project_name_array', 'completed_projects',
-			'announcements', 'ticket_count', 'per_month', 'per_month_payment', 'months', 'this_month_payment', 'last_six_month_payment'
+			'announcements', 'ticket_count', 'per_month', 'per_month_payment', 'months', 'this_month_payment', 'last_six_month_payment',
+            'alertVersionUpgradeEnable'
         ));
-		// return view('dashboard.admin_dashboard', compact('employees', 'attendance_count', 'leave_count', 'total_expense_raw', 'total_deposit_raw', 'total_expense', 'total_deposit', 'total_salaries_paid',
-		// 	'dept_count_array', 'dept_name_array', 'dept_bgcolor_array', 'dept_hover_bgcolor_array',
-		// 	'desig_count_array', 'desig_name_array', 'desig_bgcolor_array', 'desig_hover_bgcolor_array',
-		// 	'payslips', 'companies', 'leave_types',
-		// 	'training_types', 'trainers', 'travel_types', 'clients', 'projects',
-		// 	'project_count_array', 'project_name_array', 'completed_projects',
-		// 	'announcements', 'ticket_count', 'per_month', 'per_month_payment', 'months', 'this_month_payment', 'last_six_month_payment',
-        //     'alertBugEnable','alertVersionUpgradeEnable'
-        // ));
 	}
 
 	public function profile()

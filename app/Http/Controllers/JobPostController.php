@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\company;
 use App\Models\JobCategory;
+use App\Models\JobExperience;
 use App\Models\JobPost;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,6 +22,8 @@ class JobPostController extends Controller {
 		$companies = company::all('id','company_name');
 
 		$job_categories = JobCategory::select('id', 'job_category')->get();
+
+        $jobExperiences = JobExperience::select('id','title')->get();
 
 		if ($logged_user->can('view-job_post'))
 		{
@@ -69,7 +72,7 @@ class JobPostController extends Controller {
 					->make(true);
 			}
 
-			return view('recruitment.job_post.index', compact('job_categories', 'companies'));
+			return view('recruitment.job_post.index', compact('job_categories', 'companies','jobExperiences'));
 		}
 		return abort('403', __('You are not authorized'));
 	}
@@ -81,7 +84,7 @@ class JobPostController extends Controller {
 		if ($logged_user->can('store-job_post'))
 		{
 			$validator = Validator::make($request->only('company_id', 'job_type', 'job_category_id',
-				'no_of_vacancy', 'job_title', 'closing_date', 'gender', 'min_experience',
+				'no_of_vacancy', 'job_title', 'closing_date', 'gender', 'job_experience_id',
 				'is_featured', 'status', 'short_description', 'long_description'),
 				[
 					'company_id' => 'required',
@@ -93,7 +96,8 @@ class JobPostController extends Controller {
 					'is_featured' => 'required',
 					'short_description' => 'required',
 					'long_description' => 'required',
-					'closing_date' => 'required'
+					'closing_date' => 'required',
+					'job_experience_id' => 'required'
 				]
 			);
 
@@ -112,7 +116,7 @@ class JobPostController extends Controller {
 			$data['no_of_vacancy'] = $request->no_of_vacancy;
 			$data['closing_date'] = $request->closing_date;
 			$data['gender'] = $request->gender;
-			$data['min_experience'] = $request->min_experience;
+			$data['job_experience_id'] = $request->job_experience_id;
 			$data['status'] = $request->status;
 			$data['is_featured'] = $request->is_featured;
 			$data['short_description'] = $request->short_description;
@@ -166,7 +170,7 @@ class JobPostController extends Controller {
 			$id = $request->hidden_id;
 
 			$validator = Validator::make($request->only('company_id', 'job_type', 'job_category_id',
-				'no_of_vacancy', 'job_title', 'closing_date', 'gender', 'min_experience',
+				'no_of_vacancy', 'job_title', 'closing_date', 'gender', 'job_experience_id',
 				'is_featured', 'status', 'short_description', 'long_description'),
 				[
 					'company_id' => 'required',
@@ -177,6 +181,7 @@ class JobPostController extends Controller {
 					'status' => 'required',
 					'is_featured' => 'required',
 					'short_description' => 'required',
+					'job_experience_id' => 'required',
 					'closing_date' => 'required|date'
 				]
 			);
@@ -196,7 +201,7 @@ class JobPostController extends Controller {
 			$data['no_of_vacancy'] = $request->no_of_vacancy;
 			$data['closing_date'] = $request->closing_date;
 			$data['gender'] = $request->gender;
-			$data['min_experience'] = $request->min_experience;
+			$data['job_experience_id'] = $request->job_experience_id;
 			$data['status'] = $request->status;
 			$data['is_featured'] = $request->is_featured;
 			$data['short_description'] = $request->short_description;

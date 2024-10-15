@@ -130,22 +130,13 @@
 
                             <div class="col-md-6 form-group">
                                 <label for="min_experience">{{__('Minimum Experience')}} *</label>
-                                <select name="min_experience" id="min_experience" required
+                                <select name="job_experience_id" id="job_experience_id" required
                                         class="selectpicker form-control"
                                         data-live-search="true" data-live-search-style="contains"
                                         title="Select Option...">
-                                    <option value="Fresh">{{trans('file.Fresh')}}</option>
-                                    <option value="1 Years">1 {{trans('file.Years')}}</option>
-                                    <option value="2 Years">2 {{trans('file.Years')}}</option>
-                                    <option value="3 Years">3 {{trans('file.Years')}}</option>
-                                    <option value="4 Years">4 {{trans('file.Years')}}</option>
-                                    <option value="5 Years">5 {{trans('file.Years')}}</option>
-                                    <option value="6 Years">6 {{trans('file.Years')}}</option>
-                                    <option value="7 Years">7 {{trans('file.Years')}}</option>
-                                    <option value="8 Years">8 {{trans('file.Years')}}</option>
-                                    <option value="9 Years">9 {{trans('file.Years')}}</option>
-                                    <option value="10 Years">10 {{trans('file.Years')}}</option>
-                                    <option value="+10 Years">+10 {{trans('file.Years')}}</option>
+                                    @foreach($jobExperiences as $item)
+                                        <option value="{{$item->id}}">{{$item->title}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -558,7 +549,7 @@
                     $('#job_category_id').selectpicker('val', html.data.job_category_id);
                     $('#job_type').selectpicker('val', html.data.job_type);
                     $('#gender').selectpicker('val', html.data.gender);
-                    $('#min_experience').selectpicker('val', html.data.min_experience);
+                    $('#job_experience_id').selectpicker('val', html.data.job_experience_id);
                     $('#is_featured').selectpicker('val', html.data.is_featured);
                     $('#status').selectpicker('val', html.data.status);
                     $('#job_title').val(html.data.job_title);

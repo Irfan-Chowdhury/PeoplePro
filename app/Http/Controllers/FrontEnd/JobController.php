@@ -32,7 +32,7 @@ class JobController {
 	}
 
 	public function details(JobPost $job_post){
-		$job_post->load('PostJobCategory:id,job_category,url','Company:id,company_name');
+		$job_post->load('PostJobCategory:id,job_category,url','Company:id,company_name','jobExperience:id,title');
 		return view('frontend.jobs.details',compact('job_post'));
 	}
 

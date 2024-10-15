@@ -70,15 +70,12 @@
 
                             <div class="col-md-6 form-group">
                                 <label>{{trans('file.category')}} *</label>
-                                <select name="category" id="category" class="form-control selectpicker "
+                                <select name="deposit_category_id" id="deposit_category_id" class="form-control selectpicker"
                                         data-live-search="true" data-live-search-style="contains"
                                         title='{{__('Selecting',['key'=>trans('file.Category')])}}...'>
-                                    <option value="Envato">{{trans('file.Envato')}}</option>
-                                    <option value="salary">{{trans('file.Salary')}}</option>
-                                    <option value="interest income">{{__('Interest Income')}}</option>
-                                    <option value="regular income">{{__('Regular Income')}}</option>
-                                    <option value="part time work">{{__('Part Time Work')}}</option>
-                                    <option value="other income">{{__('Other Income')}}</option>
+                                    @foreach($depositCategories as $item)
+                                        <option value="{{$item->id}}">{{$item->name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
 
@@ -470,6 +467,8 @@
                     processData: false,
                     dataType: "json",
                     success: function (data) {
+                        console.log(data);
+
                         var html = '';
                         if (data.errors) {
                             html = '<div class="alert alert-danger">';
@@ -543,15 +542,13 @@
                 dataType: "json",
                 success: function (result) {
                     let id = result.data.id;
-
-
                     $('#description_show').html(result.data.description);
                     $('#account_id_show').html(result.account_name);
                     $('#payer_id_show').html(result.payer_name);
                     $('#payment_method_id_show').html(result.payment_name);
                     $('#deposit_date_show').html(result.deposit_date_name);
                     $('#amount_show').html(result.data.amount);
-                    $('#category_show').html(result.data.category);
+                    $('#category_show').html(result.deposit_category.name);
                     $('#deposit_reference_show').html(result.data.deposit_reference);
                     if (result.data.deposit_file) {
                         let d_link = '{{ route('deposit.download')}}/' + id;
@@ -583,7 +580,7 @@
                     $('#description').val(html.data.description);
                     $('#deposit_date').val(html.data.deposit_date);
                     $('#amount').val(html.data.amount);
-                    $('#category').selectpicker('val', html.data.category);
+                    $('#deposit_category_id').selectpicker('val', html.data.deposit_category_id);
                     $('#account_id').selectpicker('val', html.data.account_id);
                     $('#payer_id').selectpicker('val', html.data.payer_id);
                     $('#payment_method_id').selectpicker('val', html.data.payment_method_id);

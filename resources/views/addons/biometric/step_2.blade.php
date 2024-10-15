@@ -53,10 +53,32 @@
                     $ltext .= '<i class="fa fa-close"></i>php-curl extension is not enabled on your server.' . '<br/>';
                     $passed .= '0';
                 }
+                if (extension_loaded('fileinfo')) {
+                    $ltext .= '<i class="fa fa-check"></i>php fileinfo extension is installed on your server.' . '<br/>';
+                    $passed .= '1';
+                } else {
+                    $ltext = '<i class="fa fa-close"></i>php fileinfo extension is not installed on your server.' . '<br/>';
+                    $passed .= '0';
+                }
 
+                if (extension_loaded('gd')) {
+                    $ltext .= '<i class="fa fa-check"></i>gd extension is installed on your server.' . '<br/>';
+                    $passed .= '1';
+                } else {
+                    $ltext = '<i class="fa fa-close"></i>gd extension is not installed on your server.' . '<br/>';
+                    $passed .= '0';
+                }
+
+                if (extension_loaded('zip')) {
+                    $ltext .= '<i class="fa fa-check"></i>zip extension is installed on your server.' . '<br/>';
+                    $passed .= '1';
+                } else {
+                    $ltext = '<i class="fa fa-close"></i>zip extension is not installed on your server.' . '<br/>';
+                    $passed .= '0';
+                }
                 ?>
 
-                <?php if ($passed == '1111'): ?>
+                <?php if ($passed == '1111111'): ?>
                     <br/><?php echo $ltext; ?><br/>
                     <h4>Great! System Test Completed. You can run PeopleProSaaS on your server. Click Continue For Next Step.</h4>
                     <a href="{{ route('biometric-install-step-3') }}" class="btn btn-primary">Continue</a>

@@ -105,8 +105,6 @@ class DeductionTypeController extends Controller
 			return abort('403', __('You are not authorized'));
 		}
 	}
-
-
 	public function destroy($id)
 	{
 		if(!env('USER_VERIFIED')) {

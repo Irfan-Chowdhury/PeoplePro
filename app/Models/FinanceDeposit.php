@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class FinanceDeposit extends Model
 {
 	protected $fillable = [
-		'id','company_id','account_id','amount','category','description','payment_method_id','payer_id',
+		'id','company_id','account_id','amount','deposit_category_id','description','payment_method_id','payer_id',
 		'deposit_reference','deposit_date','deposit_file'
 	];
 
@@ -39,4 +39,9 @@ class FinanceDeposit extends Model
 	}
 
 
+	public function depositCategory(){
+		return $this->belongsTo(DepositCategory::class,'deposit_category_id');
+	}
+
 }
+

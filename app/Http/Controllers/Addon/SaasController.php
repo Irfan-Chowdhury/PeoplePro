@@ -118,8 +118,8 @@ class SaasController extends Controller
             self::baseFileDelete();
 
             $zip = new ZipArchive;
-            self::unzipAndDeleteProcessing($zip, 'vendorSAAS.zip');
             self::unzipAndDeleteProcessing($zip, $data['remoteFileName']);
+            self::unzipAndDeleteProcessing($zip, 'saasinapp.zip');
        }
     }
 
@@ -137,7 +137,7 @@ class SaasController extends Controller
             'storage',
             'tests',
             'track',
-            'vendor',
+            'vendor'
         ];
 
         foreach ($baseDirectories as $value) {
@@ -163,6 +163,9 @@ class SaasController extends Controller
             '.gitattributes',
             '.gitignore',
             '.styleci.yml',
+            'tsconfig.json',
+            'modules_statuses.json',
+            'vite-module-loader.js'
         ];
 
         foreach ($baseFiles as $file) {

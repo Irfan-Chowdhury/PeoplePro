@@ -5,7 +5,7 @@
             <div class="card">
                 <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
                     <li class="nav-item">
-                        <a class="nav-link active" href="{{route('leave_type.index')}}" id="Leave_type-tab" data-toggle="tab" data-table= "leave" data-target="#Leave_type" role="tab" aria-controls="Leave_type" aria-selected="true">{{__('Leave Type')}}</a>
+                        <a class="nav-link " href="{{route('leave_type.index')}}" id="Leave_type-tab" data-toggle="tab" data-table= "leave" data-target="#Leave_type" role="tab" aria-controls="Leave_type" aria-selected="true">{{__('Leave Type')}}</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="{{route('award_type.index')}}" id="Award_type-tab" data-toggle="tab" data-table= "award" data-target="#Award_type" role="tab" aria-controls="Award_type" aria-selected="false">{{__('Award Type')}}</a>
@@ -22,6 +22,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{{route('status_type.index')}}" id="Status_type-tab" data-toggle="tab" data-table= "status" data-target="#Status_type" role="tab" aria-controls="Status_type" aria-selected="false">{{__('Employee Status')}}</a>
                     </li>
+                </ul>
+                <ul class="nav nav-tabs d-flex justify-content-between" id="myTab" role="tablist">
                     <li class="nav-item">
                         <a class="nav-link " href="{{route('document_type.index')}}" id="Document_type-tab" data-toggle="tab" data-table= "document" data-target="#Document_type" role="tab" aria-controls="Document_type" aria-selected="false">{{__('Document Type')}}</a>
                     </li>
@@ -36,6 +38,12 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link " href="#" id="Deduction_type-tab" data-toggle="tab" data-table="deduction_type" data-target="#Deduction_type" role="tab" aria-controls="Deduction_type" aria-selected="false">{{__('Deduction Type')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="depositCategory-tab" data-toggle="tab" data-table="deposit_category" data-target="#depositCategory" role="tab" aria-controls="depositCategory" aria-selected="false">{{__('Deposit Category')}}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link " href="#" id="jobExperience-tab" data-toggle="tab" data-table="job_experience" data-target="#jobExperience" role="tab" aria-controls="jobExperience" aria-selected="false">{{__('Job Experience Type')}}</a>
                     </li>
                 </ul>
             </div>
@@ -83,6 +91,14 @@
 
             <div class="pt-0 tab-pane fade " id="Deduction_type" role="tab"  aria-labelledby="Deduction_type-tab">
                 @include('settings.variables.partials.deduction_type')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="depositCategory" role="tab"  aria-labelledby="depositCategory-tab">
+                @include('settings.variables.partials.deposit_category')
+            </div>
+
+            <div class="pt-0 tab-pane fade " id="jobExperience" role="tab"  aria-labelledby="jobExperience-tab">
+                @include('settings.variables.partials.job_experience')
             </div>
         </div>
     </section>
@@ -142,6 +158,14 @@
 
         $('[data-table="deduction_type"]').on('click', function (e) {
             @include('settings.variables.JS_DT.deduction_type_js')
+        });
+
+        $('[data-table="deposit_category"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.deposit_category_js')
+        });
+
+        $('[data-table="job_experience"]').on('click', function (e) {
+            @include('settings.variables.JS_DT.job_experience_js')
         });
 
 

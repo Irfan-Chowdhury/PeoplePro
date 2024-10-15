@@ -67,7 +67,6 @@
                                         @foreach($accounts as $account)
                                             <option value="{{$account->id}}">{{$account->account_name}}</option>
                                         @endforeach
-
                                     </select>
                                 </div>
                             </div>

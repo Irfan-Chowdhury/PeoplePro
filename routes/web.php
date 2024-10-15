@@ -103,9 +103,11 @@ use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\TrainingListController;
 use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TravelController;
+use App\Http\Controllers\Variables\AllowanceTypeController;
 use App\Http\Controllers\Variables\AssetCategoryController;
 use App\Http\Controllers\Variables\AwardTypeController;
 use App\Http\Controllers\Variables\CompanyTypeController;
+use App\Http\Controllers\Variables\JobExperienceTypeController;
 use App\Http\Controllers\Variables\RelationTypeController;
 use App\Http\Controllers\Variables\DocumentTypeController;
 use App\Http\Controllers\Variables\ExpenseTypeController;
@@ -131,6 +133,7 @@ use App\Http\Controllers\Addon\BiometricAddonController;
 use App\Http\Controllers\Addon\CRMController;
 use App\Http\Controllers\Addon\SaasController;
 use App\Http\Controllers\Variables\DeductionTypeController;
+use App\Http\Controllers\Variables\DepositCategoryController;
 use App\Http\Controllers\Variables\LoanTypeController;
 use Illuminate\Support\Facades\File;
 
@@ -893,6 +896,14 @@ Route::group(['middleware' => ['XSS','checkDataTable']], function () use ($isCrm
         Route::post('deduction_type/update', [DeductionTypeController::class, 'update'])->name('deduction_type.update');
         Route::get('deduction_type/{id}/delete', [DeductionTypeController::class, 'destroy'])->name('deduction_type.destroy');
         Route::resource('deduction_type', DeductionTypeController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('deposit_category/update', [DepositCategoryController::class, 'update'])->name('deposit_category.update');
+        Route::get('deposit_category/{id}/delete', [DepositCategoryController::class, 'destroy'])->name('deposit_category.destroy');
+        Route::resource('deposit_category', DepositCategoryController::class)->except(['create', 'update', 'destroy', 'show']);
+
+        Route::post('job_experience/update', [JobExperienceTypeController::class, 'update'])->name('job_experience.update');
+        Route::get('job_experience/{id}/delete', [JobExperienceTypeController::class, 'destroy'])->name('job_experience.destroy');
+        Route::resource('job_experience', JobExperienceTypeController::class)->except(['create', 'update', 'destroy', 'show']);
     });
 
     Route::prefix('dynamic_variable_method')->group(function () {

@@ -2,12 +2,14 @@
 @section('content')
 
         <!-- Alert Section for version upgrade-->
-        {{-- <div id="alertSection" class="{{ $alertVersionUpgradeEnable==true ? null : 'd-none' }} alert alert-primary alert-dismissible fade show" role="alert">
-            <p id="announce" class="{{ $alertVersionUpgradeEnable==true ? null : 'd-none' }}"><strong>Announce !!!</strong> A new version {{config('auto_update.VERSION')}} <span id="newVersionNo"></span> has been released. Please <i><b><a href="{{route('new-release')}}">Click here</a></b></i> to check upgrade details.</p>
-            <button type="button" id="closeButtonUpgrade" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div> --}}
+        @if (env('PRODUCT_MODE')==='CLIENT')
+            <div id="alertSection" class="{{ $alertVersionUpgradeEnable==true ? null : 'd-none' }} alert alert-primary alert-dismissible fade show" role="alert">
+                <p id="announce" class="{{ $alertVersionUpgradeEnable==true ? null : 'd-none' }}"><strong>Announce !!!</strong> A new version {{config('auto_update.VERSION')}} <span id="newVersionNo"></span> has been released. Please <i><b><a href="{{route('new-release')}}">Click here</a></b></i> to check upgrade details.</p>
+                <button type="button" id="closeButtonUpgrade" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
 
         <!-- Alert Section for Bug update-->
         {{-- <div id="alertBugSection" class=" {{ $alertBugEnable==true ? null : 'd-none' }} alert alert-primary alert-dismissible fade show" style="background-color: rgb(248,215,218)" role="alert">

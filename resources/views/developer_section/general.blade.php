@@ -71,10 +71,10 @@
 
                                 <!----------------------------------- Bug Update ------------------------------------------>
 
-                                <hr>
+                                {{-- <hr>
                                 <h5><b>@lang('file.Bug Update')</b></h5>
-                                <hr>
-                                <div class="form-group row">
+                                <hr> --}}
+                                {{-- <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">@lang('file.Bug Update')</label>
                                     <div class="col-sm-8">
                                         <div class="form-check">
@@ -82,9 +82,9 @@
                                             <label class="form-check-label" for="exampleCheck1">Enable</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">@lang('file.Bug DB Migrate')</label>
                                     <div class="col-sm-8">
                                         <div class="form-check">
@@ -92,14 +92,14 @@
                                             <label class="form-check-label" for="exampleCheck1">Enable</label>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label class="col-sm-4 col-form-label">@lang('file.Bug Update URL') <span class="text-danger">*</span></label>
                                     <div class="col-sm-8">
                                         <input type="text" required name="bug_update_base_url" class="form-control" value="{{$control->bug_update->bug_update_base_url}}" placeholder="Ex: https://cartproshop.com/bug_update_files/">
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group row">
                                     <button type="submit" class="btn btn-primary btn-lg btn-block">@lang('file.Submit')</button>

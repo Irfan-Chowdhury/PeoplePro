@@ -17,6 +17,10 @@ class JobPost extends Model
 		return $this->hasOne('App\Models\JobCategory','id','job_category_id');
 	}
 
+	public function jobExperience(){
+		return $this->hasOne('App\Models\JobExperience','id','job_experience_id');
+	}
+
 
 
 	public function getRouteKeyName()
