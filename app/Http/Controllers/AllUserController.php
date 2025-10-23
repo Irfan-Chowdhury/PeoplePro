@@ -18,7 +18,7 @@ class AllUserController extends Controller {
         $logged_user = auth()->user();
 
         //$users = User::with('RoleUser')->orderByDesc('is_active');
-        $users = User::orderBy('is_active','desc')->get();
+        $users = User::with('RoleUser')->orderBy('is_active','desc')->get();
 
         	if ($logged_user->can('view-user')){
                 if (request()->ajax()){
