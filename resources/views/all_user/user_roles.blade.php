@@ -7,20 +7,7 @@
         <div class="container-fluid"><span id="general_result"></span></div>
 
         <div class="container-fluid mb-3">
-            {{-- @can('set-permission')
-                <a href="{{route('roles.index')}}" class="btn btn-info mr-1"><i
-                            class="fa fa-puzzle-piece"></i> {{trans('file.Role')}} </a>
-            @endcan --}}
-            {{-- @can('assign-role')
-                <form id="mass_role_assign" class="d-inline">
-                    <select id="mass_select" class="selectpicker" data-style="btn-primary" name="mass_role"
-                            title="{{__('Selecting',['key'=>trans('file.Role')])}}...">
-                        @foreach($roles as $role)
-                            <option value="{{$role->id}}">{{$role->name}}</option>
-                        @endforeach
-                    </select>
-                </form>
-            @endcan --}}
+
             @can('view-role')
                 <a href="{{route('roles.index')}}" class="btn btn-info mr-1"><i
                             class="fa fa-puzzle-piece"></i> {{trans('file.Role')}} </a>
@@ -169,7 +156,6 @@
 
                 ],
 
-
                 "order": [],
                 'language': {
                     'lengthMenu': '_MENU_ {{__('records per page')}}',
@@ -200,7 +186,6 @@
                         'targets': [0]
                     }
                 ],
-
                 'select': {style: 'multi', selector: 'td:first-child'},
                 'lengthMenu': [[10, 25, 50, -1], [10, 25, 50, "All"]],
                 dom: '<"row"lfB>rtip',
