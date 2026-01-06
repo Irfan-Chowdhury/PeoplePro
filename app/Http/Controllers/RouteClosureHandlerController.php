@@ -7,10 +7,10 @@ use function auth;
 class RouteClosureHandlerController extends Controller {
 
 	//
-	public function redirectToLogin()
-	{
-		return redirect('login');
-	}
+	// public function redirectToLogin()
+	// {
+	// 	return redirect('login');
+	// }
 
 	public function markAsReadNotification()
 	{

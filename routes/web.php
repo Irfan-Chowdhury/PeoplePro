@@ -185,9 +185,10 @@ Route::group(['middleware' => ['XSS','checkDataTable']], function () use ($isCrm
         return view('pdf');
     });
 
-    Route::get('/', [RouteClosureHandlerController::class, 'redirectToLogin'])->name('redirectToLogin');
+    // Route::get('/', [RouteClosureHandlerController::class, 'redirectToLogin'])->name('redirectToLogin');
 
-    Route::get('/home', [HomeController::class, 'index'])->name('home.front');
+    // Route::get('/home', [HomeController::class, 'index'])->name('home.front');
+    Route::get('/', [HomeController::class, 'index'])->name('home.front');
     Route::get('/about', [AboutController::class, 'index'])->name('about.front');
     Route::get('/contact', [ContactController::class, 'index'])->name('contact.front');
 

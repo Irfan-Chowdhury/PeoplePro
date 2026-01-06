@@ -6,8 +6,8 @@ namespace App\Http\Controllers\FrontEnd;
 
 use App\Models\CMS;
 
-class HomeController {
-
+class HomeController
+{
 	public function index()
 	{
 		$cms = CMS::find(1);
